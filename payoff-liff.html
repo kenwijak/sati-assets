@@ -10,8 +10,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
 <style>
   *{box-sizing:border-box;margin:0;padding:0}
-  body{background:#d0d0d0;font-family:'Nunito',sans-serif}
-  #root{display:flex;flex-direction:column;align-items:center;padding:16px 0;min-height:100vh}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body,html{width:100%;height:100%;overflow-x:hidden}
+  body{font-family:'Nunito',sans-serif}
+  #root{display:flex;flex-direction:column;min-height:100vh;width:100%}
   ::-webkit-scrollbar{width:0}
   @keyframes spin{to{transform:rotate(360deg)}}
 </style>
@@ -3096,7 +3098,7 @@ function App() {
       transition: "background .3s",
       position: "relative"
     }
-  }, /*#__PURE__*/React.createElement("style", null, "@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap');*{box-sizing:border-box;margin:0;padding:0}::-webkit-scrollbar{width:0}"), /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("style", null, "@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap');::-webkit-scrollbar{width:0}"), /*#__PURE__*/React.createElement("div", {
     style: {
       background: headerBg,
       height: 10,
