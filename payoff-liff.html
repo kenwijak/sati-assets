@@ -1750,24 +1750,27 @@ function Debt(_ref19) {
   var total = debts.reduce(function (s, d) {
     return s + d.bal;
   }, 0);
-  var timeline = [{
-    name: "บัตรเครดิต KBank",
-    months: 14,
-    freeDate: "ส.ค. 2027",
-    color: "#FF6B6B"
-  }, {
-    name: "สินเชื่อส่วนบุคคล",
-    months: 28,
-    freeDate: "ต.ค. 2028",
-    color: GOLD
-  }, {
-    name: "ผ่อนมือถือ 0%",
-    months: 12,
-    freeDate: "มิ.ย. 2027",
-    color: "#4ECDC4"
-  }];
-  var freeDate = "ต.ค. 2028",
-    monthsLeft = 28;
+  // Calculate Avalanche timeline from real debts
+  var THAI_MONTHS = ["ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","มิ.ย.","ก.ค.","ส.ค.","ก.ย.","ต.ค.","พ.ย.","ธ.ค."];
+  function calcMonths(bal, rateAnnual, minPay) {
+    if (bal <= 0) return 0;
+    if (minPay <= 0) return 999;
+    if (rateAnnual <= 0) return Math.ceil(bal / minPay);
+    var r = rateAnnual / 100 / 12;
+    if (minPay <= bal * r) return 999;
+    return Math.ceil(-Math.log(1 - (bal * r) / minPay) / Math.log(1 + r));
+  }
+  function addMonths(months) {
+    var d = new Date();
+    d.setMonth(d.getMonth() + Math.min(months, 600));
+    return THAI_MONTHS[d.getMonth()] + " " + (d.getFullYear() + 543);
+  }
+  var timeline = debts.length > 0 ? debts.map(function(d) {
+    var m = calcMonths(d.bal, d.rate, d.min);
+    return { name: d.name, months: m, freeDate: addMonths(m), color: d.color };
+  }) : [{name:"กำลังโหลด...",months:0,freeDate:"—",color:"#ccc"}];
+  var monthsLeft = timeline.length > 0 ? Math.max.apply(null, timeline.map(function(t){return t.months;})) : 0;
+  var freeDate = monthsLeft > 0 ? addMonths(monthsLeft) : "—";
   var _useState47 = useState(false),
     _useState48 = _slicedToArray(_useState47, 2),
     payLoading = _useState48[0],
