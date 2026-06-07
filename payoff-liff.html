@@ -1831,39 +1831,24 @@ function Debt(_ref19) {
     setDebtMinPay = _useStateDebtMinPay2[1];
 
   function submitAddDebt() {
-    return _submitAddDebt.apply(this, arguments);
-  }
-  function _submitAddDebt() {
-    _submitAddDebt = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee99(){ 
-      var res;
-      return _regenerator().w(function(_ctx99){
-        while(1) switch(_ctx99.n){
-          case 0:
-            if(!userId||!debtName||!debtAmt||Number(debtAmt)<=0){ _ctx99.n=3; break; }
-            setAddDebtLoading(true); setAddDebtErr("");
-            _ctx99.n=1;
-            return apiPost("/liff/add-debt",{
-              creditor_name: debtName,
-              debt_type: debtType,
-              principal_thb: Number(debtAmt),
-              interest_rate: debtRate ? Number(debtRate) : null,
-              monthly_payment_thb: debtMinPay ? Number(debtMinPay) : null,
-            });
-          case 1:
-            res = _ctx99.v;
-            setAddDebtDone({ name: debtName, amt: Number(debtAmt) });
-            setDebtName(""); setDebtType("credit_card"); setDebtAmt(""); setDebtRate(""); setDebtMinPay("");
-            setDebtRefresh(function(n){ return n+1; });
-            _ctx99.n=3; break;
-          case 2:
-            _ctx99.p=2; setAddDebtErr(_ctx99.v.message);
-          case 3:
-            _ctx99.p=3; setAddDebtLoading(false); return _ctx99.f(3);
-          case 4:
-        }
-      }, _callee99, null, [[0,2,3,4]]);
-    }));
-    return _submitAddDebt.apply(this, arguments);
+    if (!userId || !debtName || !debtAmt || Number(debtAmt) <= 0) return;
+    setAddDebtLoading(true);
+    setAddDebtErr("");
+    apiPost("/liff/add-debt", {
+      creditor_name: debtName,
+      debt_type: debtType,
+      principal_thb: Number(debtAmt),
+      interest_rate: debtRate ? Number(debtRate) : null,
+      monthly_payment_thb: debtMinPay ? Number(debtMinPay) : null,
+    }).then(function() {
+      setAddDebtDone({ name: debtName, amt: Number(debtAmt) });
+      setDebtName(""); setDebtType("credit_card"); setDebtAmt(""); setDebtRate(""); setDebtMinPay("");
+      setDebtRefresh(function(n) { return n + 1; });
+    }).catch(function(e) {
+      setAddDebtErr(e.message);
+    }).finally(function() {
+      setAddDebtLoading(false);
+    });
   }
 
   function confirmPay(_x) {
@@ -2299,7 +2284,7 @@ function Debt(_ref19) {
         cursor: "pointer"
       }
     }, paidDone[d.name] ? "✓ ชำระแล้วเดือนนี้" : "💸 ชำระหนี้งวดนี้"));
-  })), /*#__PURE__*/React.createElement("button", {
+  }), /*#__PURE__*/React.createElement("button", {
     onClick: function() { setAddDebtSheet(true); },
     style: { position: "fixed", bottom: 80, right: 20, width: 52, height: 52, borderRadius: "50%", background: spicy ? G : DARK, color: spicy ? DARK : "#fff", border: "2.5px solid " + DARK, boxShadow: "3px 3px 0 " + DARK, fontSize: 22, cursor: "pointer", zIndex: 50 }
   }, "+"));
