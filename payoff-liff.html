@@ -2885,6 +2885,30 @@ function More(_ref21) {
   })));
 }
 
+// ── Error Boundary ──────────────────────────────────────────────────────────
+var ErrorBoundary = /*#__PURE__*/function (_React$Component) {
+  function ErrorBoundary(props) {
+    _React$Component.call(this, props);
+    this.state = { hasError: false, error: null };
+  }
+  ErrorBoundary.prototype = Object.create(_React$Component.prototype);
+  ErrorBoundary.getDerivedStateFromError = function(error) {
+    return { hasError: true, error: error };
+  };
+  ErrorBoundary.prototype.componentDidCatch = function(error, info) {
+    console.error('LIFF Error:', error, info);
+  };
+  ErrorBoundary.prototype.render = function() {
+    if (this.state.hasError) {
+      return React.createElement("div", {
+        style: { padding: 20, color: "red", fontSize: 12, background: "#fff", margin: 16, borderRadius: 8 }
+      }, "ERR: " + (this.state.error && this.state.error.message));
+    }
+    return this.props.children;
+  };
+  return ErrorBoundary;
+}(React.Component);
+
 // ══════════════════════════════════════════════════════════════════════════════
 // ROOT
 // ══════════════════════════════════════════════════════════════════════════════
@@ -3252,7 +3276,7 @@ function App() {
       padding: "10px 14px 14px",
       overflowY: "auto"
     }
-  }, screens[tab]), /*#__PURE__*/React.createElement("div", {
+  }, React.createElement(ErrorBoundary, null, screens[tab])), /*#__PURE__*/React.createElement("div", {
     style: {
       background: spicy ? "#1a1a1a" : "#fff",
       borderTop: "2.5px solid ".concat(DARK),
