@@ -1226,6 +1226,24 @@ function Save(_ref16) {
     _useState34 = _slicedToArray(_useState33, 2),
     investToast = _useState34[0],
     setInvestToast = _useState34[1];
+  var _useStateSaveSummary = useState({ emergency_thb: 0, general_thb: 0, total_thb: 0, this_month_thb: 0, emergency_pct: 0, emergency_target_thb: 100000 }),
+    _useStateSaveSummary2 = _slicedToArray(_useStateSaveSummary, 2),
+    saveSummary = _useStateSaveSummary2[0],
+    setSaveSummary = _useStateSaveSummary2[1];
+  var _useStateSaveLoading = useState(true),
+    _useStateSaveLoading2 = _slicedToArray(_useStateSaveLoading, 2),
+    saveLoading = _useStateSaveLoading2[0],
+    setSaveLoading = _useStateSaveLoading2[1];
+  useEffect(function() {
+    if (!userId) return;
+    fetch("https://sati-bot.kenwijak2.workers.dev/liff/savings-summary?userId=" + userId)
+      .then(function(r){ return r.json(); })
+      .then(function(d){
+        if (d.ok) setSaveSummary(d);
+        setSaveLoading(false);
+      })
+      .catch(function(){ setSaveLoading(false); });
+  }, [userId]);
   var _useState35 = useState(false),
     _useState36 = _slicedToArray(_useState35, 2),
     loading = _useState36[0],
@@ -1479,7 +1497,7 @@ function Save(_ref16) {
       fontWeight: 900,
       color: spicy ? G : DARK
     }
-  }, "\u0E3F85,000"), /*#__PURE__*/React.createElement("div", {
+  }, saveLoading ? "..." : "\u0E3F" + (saveSummary.total_thb || 0).toLocaleString()), /*#__PURE__*/React.createElement("div", {
     style: {
       fontSize: 10,
       color: "#aaa",
@@ -1526,15 +1544,15 @@ function Save(_ref16) {
       fontWeight: 900,
       color: MID
     }
-  }, "\u0E3F42,000")), /*#__PURE__*/React.createElement(Bar, {
-    pct: 42
+  }, saveLoading ? "..." : "\u0E3F" + (saveSummary.emergency_thb || 0).toLocaleString())), /*#__PURE__*/React.createElement(Bar, {
+    pct: saveSummary.emergency_pct || 0
   }), /*#__PURE__*/React.createElement("div", {
     style: {
       fontSize: 10,
       color: "#888",
       marginTop: 4
     }
-  }, "42% \u0E02\u0E2D\u0E07\u0E40\u0E1B\u0E49\u0E32 3 \u0E40\u0E14\u0E37\u0E2D\u0E19 (\u0E3F100k)"), /*#__PURE__*/React.createElement("div", {
+  }, (saveSummary.emergency_pct || 0) + "% \u0E02\u0E2D\u0E07\u0E40\u0E1B\u0E49\u0E32 3 \u0E40\u0E14\u0E37\u0E2D\u0E19 (\u0E3F" + Math.round((saveSummary.emergency_target_thb || 100000)/1000) + "k)"), /*#__PURE__*/React.createElement("div", {
     style: {
       fontSize: 11,
       color: spicy ? "#FF9999" : "#888",
@@ -1546,7 +1564,7 @@ function Save(_ref16) {
       display: "flex",
       gap: 8
     }
-  }, [["เงินฝาก", "฿85,000"], ["ออมเดือนนี้", "฿8,000"]].map(function (_ref17) {
+  }, [["เงินออมทั้งหมด", saveLoading ? "..." : "\u0E3F" + (saveSummary.total_thb || 0).toLocaleString()], ["ออมเดือนนี้", saveLoading ? "..." : "\u0E3F" + (saveSummary.this_month_thb || 0).toLocaleString()]].map(function (_ref17) {
     var _ref18 = _slicedToArray(_ref17, 2),
       k = _ref18[0],
       v = _ref18[1];
