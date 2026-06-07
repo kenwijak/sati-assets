@@ -719,42 +719,6 @@ function CashFlow(_ref1) {
       position: "relative"
     }
   }, /*#__PURE__*/React.createElement(Sheet, {
-    open: addDebtSheet,
-    onClose: function() { setAddDebtSheet(false); setAddDebtDone(null); }
-  }, addDebtDone ? /*#__PURE__*/React.createElement(Success, {
-    icon: "🔓",
-    title: "จดหนี้ \"" + addDebtDone.name + "\" แล้ว",
-    sub: "Salung จะติดตามหนี้นี้ให้นะ — ถ้ายังไม่ได้ใส่ดอกเบี้ยค่อยเพิ่มทีหลังในแชทได้เลย 🪙",
-    onClose: function() { setAddDebtSheet(false); setAddDebtDone(null); }
-  }) : /*#__PURE__*/React.createElement(React.Fragment, null,
-    /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, fontWeight: 900, color: DARK, marginBottom: 14 } }, "+ จดหนี้ใหม่"),
-    /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 800, color: DARK, marginBottom: 6 } }, "ชื่อเจ้าหนี้ *"),
-    /*#__PURE__*/React.createElement(TextInput, { value: debtName, onChange: setDebtName, placeholder: "เช่น KBank, Toyota, SCB" }),
-    /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 800, color: DARK, marginBottom: 8 } }, "ประเภทหนี้ *"),
-    /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 6, marginBottom: 14 } },
-      [["credit_card","💳","บัตรเครดิต"],["auto_loan","🚗","ผ่อนรถ"],["personal_loan","💰","สินเชื่อ"],["nano_finance","⚡","นาโนฯ"],["student_loan","🎓","กยศ."],["other","📦","อื่นๆ"]].map(function(t) {
-        return /*#__PURE__*/React.createElement("button", {
-          key: t[0],
-          onClick: function() { setDebtType(t[0]); },
-          style: { padding: "8px 0", background: debtType === t[0] ? DARK : "#f5f5f5", color: debtType === t[0] ? "#fff" : DARK, border: "2px solid " + (debtType === t[0] ? DARK : "#ddd"), borderRadius: 10, cursor: "pointer", fontSize: 11, fontWeight: 800, boxShadow: debtType === t[0] ? "2px 2px 0 " + DARK : "none" }
-        }, /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, marginBottom: 2 } }, t[1]), t[2]);
-      })
-    ),
-    /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 800, color: DARK, marginBottom: 6 } }, "ยอดหนี้ปัจจุบัน (บาท) *"),
-    /*#__PURE__*/React.createElement(AmtInput, { value: debtAmt, onChange: setDebtAmt, placeholder: "0" }),
-    /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginBottom: 14 } },
-      /*#__PURE__*/React.createElement("div", null,
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 800, color: "#888", marginBottom: 6 } }, "ดอกเบี้ย %/ปี (ไม่บังคับ)"),
-        /*#__PURE__*/React.createElement("input", { type: "number", value: debtRate, onChange: function(e){ setDebtRate(e.target.value); }, placeholder: "เช่น 18", style: { width: "100%", padding: "10px 12px", fontSize: 13, fontWeight: 700, border: "2px solid " + (debtRate ? DARK : "#ddd"), borderRadius: 12, outline: "none", color: DARK } })
-      ),
-      /*#__PURE__*/React.createElement("div", null,
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 800, color: "#888", marginBottom: 6 } }, "ผ่อนต่อเดือน (ไม่บังคับ)"),
-        /*#__PURE__*/React.createElement("input", { type: "number", value: debtMinPay, onChange: function(e){ setDebtMinPay(e.target.value); }, placeholder: "฿", style: { width: "100%", padding: "10px 12px", fontSize: 13, fontWeight: 700, border: "2px solid " + (debtMinPay ? DARK : "#ddd"), borderRadius: 12, outline: "none", color: DARK } })
-      )
-    ),
-    addDebtErr && /*#__PURE__*/React.createElement("div", { style: { marginBottom: 10, padding: "8px 12px", background: "#FFF0F0", borderRadius: 10, fontSize: 11, fontWeight: 700, color: "#E53E3E" } }, addDebtErr),
-    /*#__PURE__*/React.createElement(ConfirmBtn, { label: addDebtLoading ? "กำลังบันทึก..." : "จดหนี้", disabled: addDebtLoading || !debtName || !debtAmt || Number(debtAmt) <= 0, onClick: submitAddDebt })
-  )), /*#__PURE__*/React.createElement(Sheet, {
     open: sheet,
     onClose: function onClose() {
       setSheet(false);
@@ -1912,6 +1876,42 @@ function Debt(_ref19) {
       position: "relative"
     }
   }, /*#__PURE__*/React.createElement(Sheet, {
+    open: addDebtSheet,
+    onClose: function() { setAddDebtSheet(false); setAddDebtDone(null); }
+  }, addDebtDone ? /*#__PURE__*/React.createElement(Success, {
+    icon: "🔓",
+    title: "จดหนี้ \"" + addDebtDone.name + "\" แล้ว",
+    sub: "Salung จะติดตามหนี้นี้ให้นะ — ถ้ายังไม่ได้ใส่ดอกเบี้ยค่อยเพิ่มทีหลังในแชทได้เลย 🪙",
+    onClose: function() { setAddDebtSheet(false); setAddDebtDone(null); }
+  }) : /*#__PURE__*/React.createElement(React.Fragment, null,
+    /*#__PURE__*/React.createElement("div", { style: { fontSize: 14, fontWeight: 900, color: DARK, marginBottom: 14 } }, "+ จดหนี้ใหม่"),
+    /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 800, color: DARK, marginBottom: 6 } }, "ชื่อเจ้าหนี้ *"),
+    /*#__PURE__*/React.createElement(TextInput, { value: debtName, onChange: setDebtName, placeholder: "เช่น KBank, Toyota, SCB" }),
+    /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 800, color: DARK, marginBottom: 8 } }, "ประเภทหนี้ *"),
+    /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 6, marginBottom: 14 } },
+      [["credit_card","💳","บัตรเครดิต"],["auto_loan","🚗","ผ่อนรถ"],["personal_loan","💰","สินเชื่อ"],["nano_finance","⚡","นาโนฯ"],["student_loan","🎓","กยศ."],["other","📦","อื่นๆ"]].map(function(t) {
+        return /*#__PURE__*/React.createElement("button", {
+          key: t[0],
+          onClick: function() { setDebtType(t[0]); },
+          style: { padding: "8px 0", background: debtType === t[0] ? DARK : "#f5f5f5", color: debtType === t[0] ? "#fff" : DARK, border: "2px solid " + (debtType === t[0] ? DARK : "#ddd"), borderRadius: 10, cursor: "pointer", fontSize: 11, fontWeight: 800, boxShadow: debtType === t[0] ? "2px 2px 0 " + DARK : "none" }
+        }, /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, marginBottom: 2 } }, t[1]), t[2]);
+      })
+    ),
+    /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 800, color: DARK, marginBottom: 6 } }, "ยอดหนี้ปัจจุบัน (บาท) *"),
+    /*#__PURE__*/React.createElement(AmtInput, { value: debtAmt, onChange: setDebtAmt, placeholder: "0" }),
+    /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginBottom: 14 } },
+      /*#__PURE__*/React.createElement("div", null,
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 800, color: "#888", marginBottom: 6 } }, "ดอกเบี้ย %/ปี (ไม่บังคับ)"),
+        /*#__PURE__*/React.createElement("input", { type: "number", value: debtRate, onChange: function(e){ setDebtRate(e.target.value); }, placeholder: "เช่น 18", style: { width: "100%", padding: "10px 12px", fontSize: 13, fontWeight: 700, border: "2px solid " + (debtRate ? DARK : "#ddd"), borderRadius: 12, outline: "none", color: DARK } })
+      ),
+      /*#__PURE__*/React.createElement("div", null,
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 800, color: "#888", marginBottom: 6 } }, "ผ่อนต่อเดือน (ไม่บังคับ)"),
+        /*#__PURE__*/React.createElement("input", { type: "number", value: debtMinPay, onChange: function(e){ setDebtMinPay(e.target.value); }, placeholder: "฿", style: { width: "100%", padding: "10px 12px", fontSize: 13, fontWeight: 700, border: "2px solid " + (debtMinPay ? DARK : "#ddd"), borderRadius: 12, outline: "none", color: DARK } })
+      )
+    ),
+    addDebtErr && /*#__PURE__*/React.createElement("div", { style: { marginBottom: 10, padding: "8px 12px", background: "#FFF0F0", borderRadius: 10, fontSize: 11, fontWeight: 700, color: "#E53E3E" } }, addDebtErr),
+    /*#__PURE__*/React.createElement(ConfirmBtn, { label: addDebtLoading ? "กำลังบันทึก..." : "จดหนี้", disabled: addDebtLoading || !debtName || !debtAmt || Number(debtAmt) <= 0, onClick: submitAddDebt })
+  )), /*#__PURE__*/React.createElement(Sheet, {
     open: !!payModal,
     onClose: function onClose() {
       setPayModal(null);
