@@ -27,12 +27,11 @@
 <script>
 "use strict";
 
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = App;
-var _react = require("react");
-function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
@@ -48,6 +47,9 @@ function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t =
 function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
 function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+var _React = React,
+  useState = _React.useState,
+  _useEffect = _React.useEffect;
 var G = "#3DDB5A",
   GOLD = "#FFD015",
   CREAM = "#F5F0E8",
@@ -386,7 +388,7 @@ function NBA(_ref0) {
     spicy = _ref0.spicy,
     _ref0$mood = _ref0.mood,
     mood = _ref0$mood === void 0 ? "tip" : _ref0$mood;
-  var _useState = (0, _react.useState)(false),
+  var _useState = useState(false),
     _useState2 = _slicedToArray(_useState, 2),
     done = _useState2[0],
     setDone = _useState2[1];
@@ -488,41 +490,41 @@ function NBA(_ref0) {
 // ══════════════════════════════════════════════════════════════════════════════
 function CashFlow(_ref1) {
   var spicy = _ref1.spicy;
-  var _useState3 = (0, _react.useState)("month"),
+  var _useState3 = useState("month"),
     _useState4 = _slicedToArray(_useState3, 2),
     period = _useState4[0],
     setPeriod = _useState4[1];
-  var _useState5 = (0, _react.useState)("summary"),
+  var _useState5 = useState("summary"),
     _useState6 = _slicedToArray(_useState5, 2),
     view = _useState6[0],
     setView = _useState6[1];
-  var _useState7 = (0, _react.useState)(0),
+  var _useState7 = useState(0),
     _useState8 = _slicedToArray(_useState7, 2),
     monthOffset = _useState8[0],
     setMonthOffset = _useState8[1];
-  var _useState9 = (0, _react.useState)(false),
+  var _useState9 = useState(false),
     _useState0 = _slicedToArray(_useState9, 2),
     sheet = _useState0[0],
     setSheet = _useState0[1];
-  var _useState1 = (0, _react.useState)(null),
+  var _useState1 = useState(null),
     _useState10 = _slicedToArray(_useState1, 2),
     done = _useState10[0],
     setDone = _useState10[1]; // {amt,cat,note}
 
   // form state
-  var _useState11 = (0, _react.useState)(""),
+  var _useState11 = useState(""),
     _useState12 = _slicedToArray(_useState11, 2),
     amt = _useState12[0],
     setAmt = _useState12[1];
-  var _useState13 = (0, _react.useState)("food"),
+  var _useState13 = useState("food"),
     _useState14 = _slicedToArray(_useState13, 2),
     cat = _useState14[0],
     setCat = _useState14[1];
-  var _useState15 = (0, _react.useState)(""),
+  var _useState15 = useState(""),
     _useState16 = _slicedToArray(_useState15, 2),
     note = _useState16[0],
     setNote = _useState16[1];
-  var _useState17 = (0, _react.useState)("expense"),
+  var _useState17 = useState("expense"),
     _useState18 = _slicedToArray(_useState17, 2),
     type = _useState18[0],
     setType = _useState18[1]; // expense | income
@@ -534,15 +536,15 @@ function CashFlow(_ref1) {
   var isCurrent = monthOffset === 0;
 
   // ── Real data state ──
-  var _useState19 = (0, _react.useState)([]),
+  var _useState19 = useState([]),
     _useState20 = _slicedToArray(_useState19, 2),
     alloc = _useState20[0],
     setAlloc = _useState20[1];
-  var _useState21 = (0, _react.useState)(false),
+  var _useState21 = useState(false),
     _useState22 = _slicedToArray(_useState21, 2),
     allocLoading = _useState22[0],
     setAllocLoading = _useState22[1];
-  var _useState23 = (0, _react.useState)({
+  var _useState23 = useState({
       exp: 0,
       inc: 0,
       net: 0,
@@ -553,10 +555,7 @@ function CashFlow(_ref1) {
     setCashSummary = _useState24[1];
 
   // ── Fetch cashflow summary from worker ──
-  var _React = React,
-    _u = _React.useState,
-    useEffect = _React.useEffect;
-  useEffect(function () {
+  _useEffect(function () {
     if (period !== "month" || monthOffset !== 0) return;
     var uid = new URLSearchParams(window.location.search).get("userId");
     if (!uid) return;
@@ -1231,27 +1230,27 @@ function CashFlow(_ref1) {
 // ══════════════════════════════════════════════════════════════════════════════
 function Save(_ref16) {
   var spicy = _ref16.spicy;
-  var _useState25 = (0, _react.useState)(false),
+  var _useState25 = useState(false),
     _useState26 = _slicedToArray(_useState25, 2),
     sheet = _useState26[0],
     setSheet = _useState26[1];
-  var _useState27 = (0, _react.useState)(null),
+  var _useState27 = useState(null),
     _useState28 = _slicedToArray(_useState27, 2),
     done = _useState28[0],
     setDone = _useState28[1];
-  var _useState29 = (0, _react.useState)(""),
+  var _useState29 = useState(""),
     _useState30 = _slicedToArray(_useState29, 2),
     amt = _useState30[0],
     setAmt = _useState30[1];
-  var _useState31 = (0, _react.useState)("emergency"),
+  var _useState31 = useState("emergency"),
     _useState32 = _slicedToArray(_useState31, 2),
     dest = _useState32[0],
     setDest = _useState32[1];
-  var _useState33 = (0, _react.useState)(""),
+  var _useState33 = useState(""),
     _useState34 = _slicedToArray(_useState33, 2),
     saveNote = _useState34[0],
     setSaveNote = _useState34[1];
-  var _useState35 = (0, _react.useState)(false),
+  var _useState35 = useState(false),
     _useState36 = _slicedToArray(_useState35, 2),
     investToast = _useState36[0],
     setInvestToast = _useState36[1];
@@ -1662,19 +1661,19 @@ function Save(_ref16) {
 // ══════════════════════════════════════════════════════════════════════════════
 function Debt(_ref19) {
   var spicy = _ref19.spicy;
-  var _useState37 = (0, _react.useState)(false),
+  var _useState37 = useState(false),
     _useState38 = _slicedToArray(_useState37, 2),
     showPlan = _useState38[0],
     setShowPlan = _useState38[1];
-  var _useState39 = (0, _react.useState)(null),
+  var _useState39 = useState(null),
     _useState40 = _slicedToArray(_useState39, 2),
     payModal = _useState40[0],
     setPayModal = _useState40[1];
-  var _useState41 = (0, _react.useState)(""),
+  var _useState41 = useState(""),
     _useState42 = _slicedToArray(_useState41, 2),
     payAmt = _useState42[0],
     setPayAmt = _useState42[1];
-  var _useState43 = (0, _react.useState)({}),
+  var _useState43 = useState({}),
     _useState44 = _slicedToArray(_useState43, 2),
     paidDone = _useState44[0],
     setPaidDone = _useState44[1];
@@ -2103,43 +2102,43 @@ function Debt(_ref19) {
 // ══════════════════════════════════════════════════════════════════════════════
 function Goal(_ref20) {
   var spicy = _ref20.spicy;
-  var _useState45 = (0, _react.useState)(false),
+  var _useState45 = useState(false),
     _useState46 = _slicedToArray(_useState45, 2),
     addSheet = _useState46[0],
     setAddSheet = _useState46[1];
-  var _useState47 = (0, _react.useState)(null),
+  var _useState47 = useState(null),
     _useState48 = _slicedToArray(_useState47, 2),
     fundSheet = _useState48[0],
     setFundSheet = _useState48[1]; // goal object
-  var _useState49 = (0, _react.useState)(null),
+  var _useState49 = useState(null),
     _useState50 = _slicedToArray(_useState49, 2),
     addDone = _useState50[0],
     setAddDone = _useState50[1];
-  var _useState51 = (0, _react.useState)(null),
+  var _useState51 = useState(null),
     _useState52 = _slicedToArray(_useState51, 2),
     fundDone = _useState52[0],
     setFundDone = _useState52[1];
 
   // add goal form
-  var _useState53 = (0, _react.useState)(""),
+  var _useState53 = useState(""),
     _useState54 = _slicedToArray(_useState53, 2),
     gName = _useState54[0],
     setGName = _useState54[1];
-  var _useState55 = (0, _react.useState)(""),
+  var _useState55 = useState(""),
     _useState56 = _slicedToArray(_useState55, 2),
     gTarget = _useState56[0],
     setGTarget = _useState56[1];
-  var _useState57 = (0, _react.useState)(""),
+  var _useState57 = useState(""),
     _useState58 = _slicedToArray(_useState57, 2),
     gDeadline = _useState58[0],
     setGDeadline = _useState58[1];
 
   // fund form
-  var _useState59 = (0, _react.useState)(""),
+  var _useState59 = useState(""),
     _useState60 = _slicedToArray(_useState59, 2),
     fAmt = _useState60[0],
     setFAmt = _useState60[1];
-  var _useState61 = (0, _react.useState)([{
+  var _useState61 = useState([{
       id: 1,
       name: "อิสระทางการเงิน (FI)",
       icon: "✨",
@@ -2566,15 +2565,15 @@ function More(_ref21) {
 // ══════════════════════════════════════════════════════════════════════════════
 function App() {
   var _TABS$find, _TABS$find2;
-  var _useState63 = (0, _react.useState)("cashflow"),
+  var _useState63 = useState("cashflow"),
     _useState64 = _slicedToArray(_useState63, 2),
     tab = _useState64[0],
     setTab = _useState64[1];
-  var _useState65 = (0, _react.useState)(false),
+  var _useState65 = useState(false),
     _useState66 = _slicedToArray(_useState65, 2),
     spicy = _useState66[0],
     setSpicy = _useState66[1];
-  var _useState67 = (0, _react.useState)(false),
+  var _useState67 = useState(false),
     _useState68 = _slicedToArray(_useState67, 2),
     spicyConfirm = _useState68[0],
     setSpicyConfirm = _useState68[1];
@@ -2840,7 +2839,6 @@ function App() {
   }))));
 }
 
-// Mount app
 const _root = ReactDOM.createRoot(document.getElementById('root'));
 _root.render(React.createElement(App));
 </script>
