@@ -2251,7 +2251,7 @@ function Goal(_ref20) {
       setGoals(function (gs) {
         return gs.map(function (g) {
           return g.id === fundSheet.id ? _objectSpread(_objectSpread({}, g), {}, {
-            pct: Math.min(100, Math.round((d.goal.saved_satang || 0) / (d.goal.target_satang || 1) * 100))
+            pct: Math.min(100, d.pct || 0)
           }) : g;
         });
       });
@@ -2362,15 +2362,20 @@ function Goal(_ref20) {
     label: "\u0E40\u0E1E\u0E34\u0E48\u0E21 \u0E3F".concat(fAmt ? Number(fAmt).toLocaleString() : "—", " \u0E40\u0E02\u0E49\u0E32\u0E40\u0E1B\u0E49\u0E32\u0E2B\u0E21\u0E32\u0E22"),
     disabled: !fAmt || Number(fAmt) <= 0,
     onClick: submitFund
-  }))), /*#__PURE__*/React.createElement(NBA, {
-    mood: "cheer",
-    spicy: spicy,
-    text: "\u0E40\u0E1B\u0E49\u0E32\u0E14\u0E32\u0E27\u0E19\u0E4C\u0E23\u0E16\u0E0A\u0E49\u0E32\u0E01\u0E27\u0E48\u0E32\u0E41\u0E1C\u0E19 2 \u0E40\u0E14\u0E37\u0E2D\u0E19 \u2014 \u0E40\u0E1E\u0E34\u0E48\u0E21\u0E40\u0E07\u0E34\u0E19\u0E2D\u0E2D\u0E21\u0E40\u0E14\u0E37\u0E2D\u0E19\u0E25\u0E30 \u0E3F1,200 \u0E08\u0E30\u0E01\u0E25\u0E31\u0E1A\u0E21\u0E32\u0E17\u0E31\u0E19\u0E41\u0E1C\u0E19\u0E44\u0E14\u0E49",
-    actionLabel: "\u0E40\u0E1E\u0E34\u0E48\u0E21\u0E40\u0E07\u0E34\u0E19\u0E40\u0E02\u0E49\u0E32\u0E40\u0E1B\u0E49\u0E32",
-    onAction: function onAction() {
-      return setFundSheet(goals[2]);
-    }
-  }), /*#__PURE__*/React.createElement("button", {
+  }))), function () {
+    var firstGoal = goals.find(function (g) {
+      return !g.fi;
+    });
+    return /*#__PURE__*/React.createElement(NBA, {
+      mood: "cheer",
+      spicy: spicy,
+      text: firstGoal ? "\u0E40\u0E1B\u0E49\u0E32 \"".concat(firstGoal.name, "\" \u0E44\u0E1B\u0E41\u0E25\u0E49\u0E27 ").concat(firstGoal.pct, "% \u2014 \u0E40\u0E1E\u0E34\u0E48\u0E21\u0E40\u0E07\u0E34\u0E19\u0E2D\u0E35\u0E01\u0E19\u0E34\u0E14\u0E43\u0E2B\u0E49\u0E16\u0E36\u0E07\u0E40\u0E1B\u0E49\u0E32\u0E40\u0E23\u0E47\u0E27\u0E02\u0E36\u0E49\u0E19") : "ตั้งเป้าหมายแรกของเธอเลย แล้ว Salung จะช่วยติดตามให้",
+      actionLabel: firstGoal ? "เพิ่มเงินเข้าเป้า" : "+ เพิ่มเป้าหมาย",
+      onAction: function onAction() {
+        return firstGoal ? setFundSheet(firstGoal) : setAddSheet(true);
+      }
+    });
+  }(), /*#__PURE__*/React.createElement("button", {
     onClick: function onClick() {
       return setAddSheet(true);
     },
