@@ -25,37 +25,16 @@
   </div>
 </div>
 <script>
-"use strict";
-
-function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports["default"] = App;
-function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
-function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(r); }
-function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
-function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
-function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
-function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
-function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
-function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
-function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
-function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
-function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-var _React = React,
-  useState = _React.useState,
-  _useEffect = _React.useEffect;
-var G = "#3DDB5A",
+const {
+  useState,
+  useEffect: _useEffect
+} = React;
+const G = "#3DDB5A",
   GOLD = "#FFD015",
   CREAM = "#F5F0E8",
   DARK = "#1A3D1F",
   MID = "#2D5A35";
-var TABS = [{
+const TABS = [{
   id: "cashflow",
   icon: "💸",
   label: "Cash Flow",
@@ -81,7 +60,7 @@ var TABS = [{
   label: "More",
   thai: "เพิ่มเติม"
 }];
-var CATS = [{
+const CATS = [{
   id: "food",
   icon: "🍚",
   label: "อาหาร"
@@ -116,23 +95,22 @@ var CATS = [{
 }];
 
 // ── primitives ────────────────────────────────────────────────────────────────
-function Face(_ref) {
-  var _ref$size = _ref.size,
-    size = _ref$size === void 0 ? 40 : _ref$size,
-    _ref$mood = _ref.mood,
-    mood = _ref$mood === void 0 ? "happy" : _ref$mood;
+function Face({
+  size = 40,
+  mood = "happy"
+}) {
   return /*#__PURE__*/React.createElement("div", {
     style: {
       width: size,
       height: size,
       background: G,
       borderRadius: "50%",
-      border: "2.5px solid ".concat(DARK),
+      border: `2.5px solid ${DARK}`,
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
       fontSize: size * .44,
-      boxShadow: "2px 2px 0 ".concat(DARK),
+      boxShadow: `2px 2px 0 ${DARK}`,
       flexShrink: 0
     }
   }, {
@@ -144,28 +122,29 @@ function Face(_ref) {
     tip: "💡"
   }[mood]);
 }
-function Card(_ref2) {
-  var children = _ref2.children,
-    _ref2$style = _ref2.style,
-    style = _ref2$style === void 0 ? {} : _ref2$style,
-    onClick = _ref2.onClick;
+function Card({
+  children,
+  style = {},
+  onClick
+}) {
   return /*#__PURE__*/React.createElement("div", {
     onClick: onClick,
-    style: _objectSpread({
+    style: {
       background: "#fff",
       borderRadius: 16,
-      border: "2px solid ".concat(DARK),
+      border: `2px solid ${DARK}`,
       padding: 14,
-      boxShadow: "3px 3px 0 ".concat(DARK),
+      boxShadow: `3px 3px 0 ${DARK}`,
       marginBottom: 10,
-      cursor: onClick ? "pointer" : "default"
-    }, style)
+      cursor: onClick ? "pointer" : "default",
+      ...style
+    }
   }, children);
 }
-function Tag(_ref3) {
-  var children = _ref3.children,
-    _ref3$color = _ref3.color,
-    color = _ref3$color === void 0 ? GOLD : _ref3$color;
+function Tag({
+  children,
+  color = GOLD
+}) {
   return /*#__PURE__*/React.createElement("span", {
     style: {
       background: color,
@@ -174,27 +153,26 @@ function Tag(_ref3) {
       fontWeight: 800,
       padding: "2px 8px",
       borderRadius: 99,
-      border: "1.5px solid ".concat(DARK)
+      border: `1.5px solid ${DARK}`
     }
   }, children);
 }
-function Bar(_ref4) {
-  var pct = _ref4.pct,
-    _ref4$color = _ref4.color,
-    color = _ref4$color === void 0 ? G : _ref4$color,
-    _ref4$height = _ref4.height,
-    height = _ref4$height === void 0 ? 8 : _ref4$height;
+function Bar({
+  pct,
+  color = G,
+  height = 8
+}) {
   return /*#__PURE__*/React.createElement("div", {
     style: {
-      height: height,
+      height,
       background: "#eee",
       borderRadius: 99,
-      border: "1.5px solid ".concat(DARK),
+      border: `1.5px solid ${DARK}`,
       overflow: "hidden"
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      width: "".concat(Math.min(100, pct), "%"),
+      width: `${Math.min(100, pct)}%`,
       height: "100%",
       background: pct > 100 ? "#FF6B6B" : color,
       transition: "width .7s"
@@ -203,10 +181,11 @@ function Bar(_ref4) {
 }
 
 // ── Bottom Sheet Modal ────────────────────────────────────────────────────────
-function Sheet(_ref5) {
-  var open = _ref5.open,
-    onClose = _ref5.onClose,
-    children = _ref5.children;
+function Sheet({
+  open,
+  onClose,
+  children
+}) {
   if (!open) return null;
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
     onClick: onClose,
@@ -224,7 +203,7 @@ function Sheet(_ref5) {
       right: 0,
       background: "#fff",
       borderRadius: "20px 20px 0 0",
-      border: "2.5px solid ".concat(DARK),
+      border: `2.5px solid ${DARK}`,
       padding: "20px 18px 32px",
       zIndex: 99,
       maxHeight: "80%",
@@ -234,12 +213,13 @@ function Sheet(_ref5) {
 }
 
 // ── Success flash ─────────────────────────────────────────────────────────────
-function Success(_ref6) {
-  var icon = _ref6.icon,
-    title = _ref6.title,
-    sub = _ref6.sub,
-    onClose = _ref6.onClose,
-    spicy = _ref6.spicy;
+function Success({
+  icon,
+  title,
+  sub,
+  onClose,
+  spicy
+}) {
   return /*#__PURE__*/React.createElement("div", {
     style: {
       textAlign: "center",
@@ -274,20 +254,20 @@ function Success(_ref6) {
       fontWeight: 900,
       background: DARK,
       color: "#fff",
-      border: "2px solid ".concat(DARK),
+      border: `2px solid ${DARK}`,
       borderRadius: 12,
-      boxShadow: "2px 2px 0 ".concat(DARK),
+      boxShadow: `2px 2px 0 ${DARK}`,
       cursor: "pointer"
     }
   }, "\u0E40\u0E22\u0E35\u0E48\u0E22\u0E21 \u0E1B\u0E34\u0E14\u0E44\u0E14\u0E49\u0E40\u0E25\u0E22"));
 }
 
 // ── Input helpers ─────────────────────────────────────────────────────────────
-function AmtInput(_ref7) {
-  var value = _ref7.value,
-    _onChange = _ref7.onChange,
-    _ref7$placeholder = _ref7.placeholder,
-    placeholder = _ref7$placeholder === void 0 ? "0" : _ref7$placeholder;
+function AmtInput({
+  value,
+  onChange,
+  placeholder = "0"
+}) {
   return /*#__PURE__*/React.createElement("div", {
     style: {
       position: "relative",
@@ -306,28 +286,27 @@ function AmtInput(_ref7) {
   }, "\u0E3F"), /*#__PURE__*/React.createElement("input", {
     type: "number",
     value: value,
-    onChange: function onChange(e) {
-      return _onChange(e.target.value);
-    },
+    onChange: e => onChange(e.target.value),
     placeholder: placeholder,
     style: {
       width: "100%",
       padding: "11px 12px 11px 28px",
       fontSize: 18,
       fontWeight: 800,
-      border: "2px solid ".concat(value ? DARK : "#ddd"),
+      border: `2px solid ${value ? DARK : "#ddd"}`,
       borderRadius: 12,
       outline: "none",
       color: DARK,
-      boxShadow: value ? "2px 2px 0 ".concat(DARK) : "none"
+      boxShadow: value ? `2px 2px 0 ${DARK}` : "none"
     }
   }));
 }
-function TextInput(_ref8) {
-  var value = _ref8.value,
-    _onChange2 = _ref8.onChange,
-    placeholder = _ref8.placeholder,
-    label = _ref8.label;
+function TextInput({
+  value,
+  onChange,
+  placeholder,
+  label
+}) {
   return /*#__PURE__*/React.createElement("div", {
     style: {
       marginBottom: 12
@@ -342,26 +321,25 @@ function TextInput(_ref8) {
   }, label), /*#__PURE__*/React.createElement("input", {
     type: "text",
     value: value,
-    onChange: function onChange(e) {
-      return _onChange2(e.target.value);
-    },
+    onChange: e => onChange(e.target.value),
     placeholder: placeholder,
     style: {
       width: "100%",
       padding: "10px 12px",
       fontSize: 13,
       fontWeight: 700,
-      border: "2px solid ".concat(value ? DARK : "#ddd"),
+      border: `2px solid ${value ? DARK : "#ddd"}`,
       borderRadius: 12,
       outline: "none",
       color: DARK
     }
   }));
 }
-function ConfirmBtn(_ref9) {
-  var label = _ref9.label,
-    disabled = _ref9.disabled,
-    onClick = _ref9.onClick;
+function ConfirmBtn({
+  label,
+  disabled,
+  onClick
+}) {
   return /*#__PURE__*/React.createElement("button", {
     onClick: onClick,
     disabled: disabled,
@@ -372,29 +350,26 @@ function ConfirmBtn(_ref9) {
       fontWeight: 900,
       background: disabled ? "#eee" : DARK,
       color: disabled ? "#aaa" : "#fff",
-      border: "2px solid ".concat(disabled ? "#ddd" : DARK),
+      border: `2px solid ${disabled ? "#ddd" : DARK}`,
       borderRadius: 12,
-      boxShadow: disabled ? "none" : "2px 2px 0 ".concat(DARK),
+      boxShadow: disabled ? "none" : `2px 2px 0 ${DARK}`,
       cursor: disabled ? "default" : "pointer"
     }
   }, label);
 }
 
 // ── NBA card ──────────────────────────────────────────────────────────────────
-function NBA(_ref0) {
-  var text = _ref0.text,
-    actionLabel = _ref0.actionLabel,
-    onAction = _ref0.onAction,
-    spicy = _ref0.spicy,
-    _ref0$mood = _ref0.mood,
-    mood = _ref0$mood === void 0 ? "tip" : _ref0$mood;
-  var _useState = useState(false),
-    _useState2 = _slicedToArray(_useState, 2),
-    done = _useState2[0],
-    setDone = _useState2[1];
+function NBA({
+  text,
+  actionLabel,
+  onAction,
+  spicy,
+  mood = "tip"
+}) {
+  const [done, setDone] = useState(false);
   if (done) return /*#__PURE__*/React.createElement(Card, {
     style: {
-      background: spicy ? "#1a3a1a" : "".concat(G, "18"),
+      background: spicy ? "#1a3a1a" : `${G}18`,
       marginBottom: 10
     }
   }, /*#__PURE__*/React.createElement("div", {
@@ -416,8 +391,8 @@ function NBA(_ref0) {
   }, "\u0E23\u0E31\u0E1A\u0E17\u0E23\u0E32\u0E1A\u0E41\u0E25\u0E49\u0E27! Salung \u0E08\u0E30\u0E15\u0E34\u0E14\u0E15\u0E32\u0E21\u0E43\u0E2B\u0E49\u0E19\u0E30 \uD83E\uDE99")));
   return /*#__PURE__*/React.createElement(Card, {
     style: {
-      background: spicy ? "#0d2a10" : "".concat(G, "12"),
-      border: "2px solid ".concat(spicy ? G : MID),
+      background: spicy ? "#0d2a10" : `${G}12`,
+      border: `2px solid ${spicy ? G : MID}`,
       marginBottom: 10
     }
   }, /*#__PURE__*/React.createElement("div", {
@@ -463,21 +438,19 @@ function NBA(_ref0) {
       color: spicy ? DARK : "#fff",
       fontWeight: 900,
       fontSize: 12,
-      border: "2px solid ".concat(DARK),
+      border: `2px solid ${DARK}`,
       borderRadius: 10,
       cursor: "pointer",
-      boxShadow: "2px 2px 0 ".concat(DARK)
+      boxShadow: `2px 2px 0 ${DARK}`
     }
   }, actionLabel), /*#__PURE__*/React.createElement("button", {
-    onClick: function onClick() {
-      return setDone(true);
-    },
+    onClick: () => setDone(true),
     style: {
       padding: "8px 14px",
       background: "transparent",
       fontWeight: 700,
       fontSize: 11,
-      border: "2px solid #ccc",
+      border: `2px solid #ccc`,
       borderRadius: 10,
       cursor: "pointer",
       color: "#aaa"
@@ -488,83 +461,46 @@ function NBA(_ref0) {
 // ══════════════════════════════════════════════════════════════════════════════
 // CASH FLOW
 // ══════════════════════════════════════════════════════════════════════════════
-function CashFlow(_ref1) {
-  var spicy = _ref1.spicy;
-  var _useState3 = useState("month"),
-    _useState4 = _slicedToArray(_useState3, 2),
-    period = _useState4[0],
-    setPeriod = _useState4[1];
-  var _useState5 = useState("summary"),
-    _useState6 = _slicedToArray(_useState5, 2),
-    view = _useState6[0],
-    setView = _useState6[1];
-  var _useState7 = useState(0),
-    _useState8 = _slicedToArray(_useState7, 2),
-    monthOffset = _useState8[0],
-    setMonthOffset = _useState8[1];
-  var _useState9 = useState(false),
-    _useState0 = _slicedToArray(_useState9, 2),
-    sheet = _useState0[0],
-    setSheet = _useState0[1];
-  var _useState1 = useState(null),
-    _useState10 = _slicedToArray(_useState1, 2),
-    done = _useState10[0],
-    setDone = _useState10[1]; // {amt,cat,note}
+function CashFlow({
+  spicy
+}) {
+  const [period, setPeriod] = useState("month");
+  const [view, setView] = useState("summary");
+  const [monthOffset, setMonthOffset] = useState(0);
+  const [sheet, setSheet] = useState(false);
+  const [done, setDone] = useState(null); // {amt,cat,note}
 
   // form state
-  var _useState11 = useState(""),
-    _useState12 = _slicedToArray(_useState11, 2),
-    amt = _useState12[0],
-    setAmt = _useState12[1];
-  var _useState13 = useState("food"),
-    _useState14 = _slicedToArray(_useState13, 2),
-    cat = _useState14[0],
-    setCat = _useState14[1];
-  var _useState15 = useState(""),
-    _useState16 = _slicedToArray(_useState15, 2),
-    note = _useState16[0],
-    setNote = _useState16[1];
-  var _useState17 = useState("expense"),
-    _useState18 = _slicedToArray(_useState17, 2),
-    type = _useState18[0],
-    setType = _useState18[1]; // expense | income
+  const [amt, setAmt] = useState("");
+  const [cat, setCat] = useState("food");
+  const [note, setNote] = useState("");
+  const [type, setType] = useState("expense"); // expense | income
 
-  var MONTHS = ["ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค.", "ส.ค.", "ก.ย.", "ต.ค.", "พ.ย.", "ธ.ค."];
-  var now = new Date();
-  var disp = new Date(now.getFullYear(), now.getMonth() + monthOffset, 1);
-  var monthLabel = "".concat(MONTHS[disp.getMonth()], " ").concat(disp.getFullYear() + 543);
-  var isCurrent = monthOffset === 0;
+  const MONTHS = ["ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค.", "ส.ค.", "ก.ย.", "ต.ค.", "พ.ย.", "ธ.ค."];
+  const now = new Date();
+  const disp = new Date(now.getFullYear(), now.getMonth() + monthOffset, 1);
+  const monthLabel = `${MONTHS[disp.getMonth()]} ${disp.getFullYear() + 543}`;
+  const isCurrent = monthOffset === 0;
 
   // ── Real data state ──
-  var _useState19 = useState([]),
-    _useState20 = _slicedToArray(_useState19, 2),
-    alloc = _useState20[0],
-    setAlloc = _useState20[1];
-  var _useState21 = useState(false),
-    _useState22 = _slicedToArray(_useState21, 2),
-    allocLoading = _useState22[0],
-    setAllocLoading = _useState22[1];
-  var _useState23 = useState({
-      exp: 0,
-      inc: 0,
-      net: 0,
-      netLabel: "ใช้จ่ายได้จริง"
-    }),
-    _useState24 = _slicedToArray(_useState23, 2),
-    cashSummary = _useState24[0],
-    setCashSummary = _useState24[1];
+  const [alloc, setAlloc] = useState([]);
+  const [allocLoading, setAllocLoading] = useState(false);
+  const [cashSummary, setCashSummary] = useState({
+    exp: 0,
+    inc: 0,
+    net: 0,
+    netLabel: "ใช้จ่ายได้จริง"
+  });
 
   // ── Fetch cashflow summary from worker ──
-  _useEffect(function () {
+  _useEffect(() => {
     if (period !== "month" || monthOffset !== 0) return;
-    var uid = new URLSearchParams(window.location.search).get("userId");
+    const uid = new URLSearchParams(window.location.search).get("userId");
     if (!uid) return;
     setAllocLoading(true);
-    fetch("/liff/cashflow-summary?userId=".concat(uid, "&period=this_month")).then(function (r) {
-      return r.json();
-    }).then(function (d) {
+    fetch(`/liff/cashflow-summary?userId=${uid}&period=this_month`).then(r => r.json()).then(d => {
       if (!d.ok) return;
-      var inc = d.income_thb || 0;
+      const inc = d.income_thb || 0;
       setAlloc([{
         label: "รายรับ",
         amt: inc,
@@ -590,22 +526,18 @@ function CashFlow(_ref1) {
         amt: -d.expense_thb,
         color: "#aaa",
         icon: "🛒"
-      }].filter(function (r) {
-        return r.amt !== 0;
-      }));
+      }].filter(r => r.amt !== 0));
       setCashSummary({
         exp: Math.round(d.expense_thb + d.debt_payment_thb + d.savings_thb + d.fixed_thb),
         inc: Math.round(inc),
         net: Math.round(d.net_thb),
         netLabel: "ใช้จ่ายได้จริง"
       });
-    })["catch"](function () {})["finally"](function () {
-      return setAllocLoading(false);
-    });
+    }).catch(() => {}).finally(() => setAllocLoading(false));
   }, [period, monthOffset]);
 
   // PDATA สำหรับ day/week (ยังใช้ estimated เพราะ real-time เร็วเกินจำเป็น)
-  var PDATA = {
+  const PDATA = {
     day: {
       exp: 680,
       inc: 0,
@@ -620,8 +552,8 @@ function CashFlow(_ref1) {
     },
     month: cashSummary
   };
-  var d = PDATA[period];
-  var cats = [{
+  const d = PDATA[period];
+  const cats = [{
     label: "อาหาร",
     val: {
       day: 420,
@@ -673,10 +605,8 @@ function CashFlow(_ref1) {
       week: 467,
       month: 2000
     }[period]
-  }].filter(function (c) {
-    return c.val > 0;
-  });
-  var txns = [{
+  }].filter(c => c.val > 0);
+  const txns = [{
     cat: "🍚",
     note: "ข้าวกลางวัน",
     amt: -120,
@@ -702,7 +632,7 @@ function CashFlow(_ref1) {
     amt: -1290,
     time: "28 พ.ค."
   }];
-  var nba = {
+  const nba = {
     day: "วันนี้เหลืองบ ฿253 อีก 1 มื้อเย็น = รอด ไม่ต้องสั่ง delivery นะ",
     week: spicy ? "สัปดาห์นี้ช้อปปิ้ง ฿650 เกินงบ Salung เห็นหมดนะ 👀" : "สัปดาห์นี้ช้อปปิ้งเกินงบ ฿650 ลองพักก่อน 1 อาทิตย์ได้ไหม?",
     month: spicy ? "฿3,800 ในช้อปปิ้ง Salung เห็นหมดนะ 👀" : "เดือนนี้ช้อปปิ้งเกินงบ ฿800 ถ้าโยนเข้าหนี้บัตรได้จะปิดเร็วขึ้น 1 เดือนนะ"
@@ -710,8 +640,8 @@ function CashFlow(_ref1) {
   function submit() {
     setDone({
       amt: Number(amt),
-      cat: cat,
-      note: note
+      cat,
+      note
     });
     setAmt("");
     setNote("");
@@ -724,15 +654,15 @@ function CashFlow(_ref1) {
     }
   }, /*#__PURE__*/React.createElement(Sheet, {
     open: sheet,
-    onClose: function onClose() {
+    onClose: () => {
       setSheet(false);
       setDone(null);
     }
   }, done ? /*#__PURE__*/React.createElement(Success, {
     icon: done.cat === "income" ? "💰" : "✅",
-    title: "\u0E1A\u0E31\u0E19\u0E17\u0E36\u0E01\u0E41\u0E25\u0E49\u0E27 ".concat(done.type === "income" ? "+" : "-", "\u0E3F").concat(done.amt.toLocaleString()),
+    title: `บันทึกแล้ว ${done.type === "income" ? "+" : "-"}฿${done.amt.toLocaleString()}`,
     sub: spicy ? "Salung บันทึกไว้ให้แล้วนะ — ข้อมูลอัปเดตแล้ว" : "บันทึกเรียบร้อย ข้อมูลอัปเดตทันทีนะ 🌱",
-    onClose: function onClose() {
+    onClose: () => {
       setSheet(false);
       setDone(null);
     }
@@ -746,32 +676,25 @@ function CashFlow(_ref1) {
   }, "+ \u0E1A\u0E31\u0E19\u0E17\u0E36\u0E01\u0E23\u0E32\u0E22\u0E01\u0E32\u0E23"), /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
-      border: "2px solid ".concat(DARK),
+      border: `2px solid ${DARK}`,
       borderRadius: 12,
       overflow: "hidden",
       marginBottom: 14
     }
-  }, [["expense", "รายจ่าย"], ["income", "รายรับ"]].map(function (_ref10) {
-    var _ref11 = _slicedToArray(_ref10, 2),
-      id = _ref11[0],
-      lbl = _ref11[1];
-    return /*#__PURE__*/React.createElement("button", {
-      key: id,
-      onClick: function onClick() {
-        return setType(id);
-      },
-      style: {
-        flex: 1,
-        padding: "9px 0",
-        fontSize: 12,
-        fontWeight: 800,
-        border: "none",
-        cursor: "pointer",
-        background: type === id ? DARK : "#fff",
-        color: type === id ? "#fff" : "#888"
-      }
-    }, lbl);
-  })), /*#__PURE__*/React.createElement("div", {
+  }, [["expense", "รายจ่าย"], ["income", "รายรับ"]].map(([id, lbl]) => /*#__PURE__*/React.createElement("button", {
+    key: id,
+    onClick: () => setType(id),
+    style: {
+      flex: 1,
+      padding: "9px 0",
+      fontSize: 12,
+      fontWeight: 800,
+      border: "none",
+      cursor: "pointer",
+      background: type === id ? DARK : "#fff",
+      color: type === id ? "#fff" : "#888"
+    }
+  }, lbl))), /*#__PURE__*/React.createElement("div", {
     style: {
       fontSize: 11,
       fontWeight: 800,
@@ -795,46 +718,38 @@ function CashFlow(_ref1) {
       gap: 6,
       marginBottom: 14
     }
-  }, CATS.filter(function (c) {
-    return c.id !== "income";
-  }).map(function (c) {
-    return /*#__PURE__*/React.createElement("button", {
-      key: c.id,
-      onClick: function onClick() {
-        return setCat(c.id);
-      },
-      style: {
-        padding: "8px 0",
-        background: cat === c.id ? DARK : "#f5f5f5",
-        color: cat === c.id ? "#fff" : DARK,
-        border: "2px solid ".concat(cat === c.id ? DARK : "#ddd"),
-        borderRadius: 10,
-        cursor: "pointer",
-        fontSize: 11,
-        fontWeight: 800,
-        boxShadow: cat === c.id ? "2px 2px 0 ".concat(DARK) : "none"
-      }
-    }, /*#__PURE__*/React.createElement("div", {
-      style: {
-        fontSize: 16,
-        marginBottom: 2
-      }
-    }, c.icon), c.label);
-  }))), /*#__PURE__*/React.createElement(TextInput, {
+  }, CATS.filter(c => c.id !== "income").map(c => /*#__PURE__*/React.createElement("button", {
+    key: c.id,
+    onClick: () => setCat(c.id),
+    style: {
+      padding: "8px 0",
+      background: cat === c.id ? DARK : "#f5f5f5",
+      color: cat === c.id ? "#fff" : DARK,
+      border: `2px solid ${cat === c.id ? DARK : "#ddd"}`,
+      borderRadius: 10,
+      cursor: "pointer",
+      fontSize: 11,
+      fontWeight: 800,
+      boxShadow: cat === c.id ? `2px 2px 0 ${DARK}` : "none"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 16,
+      marginBottom: 2
+    }
+  }, c.icon), c.label)))), /*#__PURE__*/React.createElement(TextInput, {
     value: note,
     onChange: setNote,
     label: "\u0E42\u0E19\u0E49\u0E15 (\u0E44\u0E21\u0E48\u0E1A\u0E31\u0E07\u0E04\u0E31\u0E1A)",
     placeholder: "\u0E40\u0E0A\u0E48\u0E19 \u0E01\u0E32\u0E41\u0E1F, Grab, \u0E40\u0E07\u0E34\u0E19\u0E40\u0E14\u0E37\u0E2D\u0E19"
   }), /*#__PURE__*/React.createElement(ConfirmBtn, {
-    label: "\u0E1A\u0E31\u0E19\u0E17\u0E36\u0E01".concat(type === "income" ? "รายรับ" : "รายจ่าย"),
+    label: `บันทึก${type === "income" ? "รายรับ" : "รายจ่าย"}`,
     disabled: !amt || Number(amt) <= 0,
     onClick: submit
   }))), /*#__PURE__*/React.createElement(NBA, {
     text: nba[period],
     actionLabel: "+ \u0E1A\u0E31\u0E19\u0E17\u0E36\u0E01\u0E23\u0E32\u0E22\u0E01\u0E32\u0E23",
-    onAction: function onAction() {
-      return setSheet(true);
-    },
+    onAction: () => setSheet(true),
     spicy: spicy,
     mood: period === "month" ? "thinking" : "tip"
   }), /*#__PURE__*/React.createElement("div", {
@@ -843,30 +758,23 @@ function CashFlow(_ref1) {
       gap: 6,
       marginBottom: 10
     }
-  }, [["day", "วันนี้"], ["week", "7 วัน"], ["month", "เดือน"]].map(function (_ref12) {
-    var _ref13 = _slicedToArray(_ref12, 2),
-      id = _ref13[0],
-      lbl = _ref13[1];
-    return /*#__PURE__*/React.createElement("button", {
-      key: id,
-      onClick: function onClick() {
-        return setPeriod(id);
-      },
-      style: {
-        flex: 1,
-        padding: "8px 0",
-        fontSize: 12,
-        fontWeight: 800,
-        cursor: "pointer",
-        borderRadius: 10,
-        border: "2px solid ".concat(DARK),
-        transition: "all .15s",
-        background: period === id ? spicy ? G : DARK : spicy ? "#222" : "#fff",
-        color: period === id ? spicy ? DARK : "#fff" : spicy ? "#aaa" : DARK,
-        boxShadow: period === id ? "2px 2px 0 ".concat(DARK) : "none"
-      }
-    }, lbl);
-  })), period === "month" && /*#__PURE__*/React.createElement("div", {
+  }, [["day", "วันนี้"], ["week", "7 วัน"], ["month", "เดือน"]].map(([id, lbl]) => /*#__PURE__*/React.createElement("button", {
+    key: id,
+    onClick: () => setPeriod(id),
+    style: {
+      flex: 1,
+      padding: "8px 0",
+      fontSize: 12,
+      fontWeight: 800,
+      cursor: "pointer",
+      borderRadius: 10,
+      border: `2px solid ${DARK}`,
+      transition: "all .15s",
+      background: period === id ? spicy ? G : DARK : spicy ? "#222" : "#fff",
+      color: period === id ? spicy ? DARK : "#fff" : spicy ? "#aaa" : DARK,
+      boxShadow: period === id ? `2px 2px 0 ${DARK}` : "none"
+    }
+  }, lbl))), period === "month" && /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
       alignItems: "center",
@@ -874,20 +782,16 @@ function CashFlow(_ref1) {
       marginBottom: 10
     }
   }, /*#__PURE__*/React.createElement("button", {
-    onClick: function onClick() {
-      return setMonthOffset(function (o) {
-        return o - 1;
-      });
-    },
+    onClick: () => setMonthOffset(o => o - 1),
     style: {
       width: 32,
       height: 32,
       borderRadius: 10,
-      border: "2px solid ".concat(DARK),
+      border: `2px solid ${DARK}`,
       background: spicy ? "#222" : "#fff",
       cursor: "pointer",
       fontSize: 14,
-      boxShadow: "2px 2px 0 ".concat(DARK),
+      boxShadow: `2px 2px 0 ${DARK}`,
       fontWeight: 900,
       color: DARK
     }
@@ -904,21 +808,17 @@ function CashFlow(_ref1) {
       fontWeight: 600
     }
   }, "(\u0E1B\u0E31\u0E08\u0E08\u0E38\u0E1A\u0E31\u0E19)")), /*#__PURE__*/React.createElement("button", {
-    onClick: function onClick() {
-      return setMonthOffset(function (o) {
-        return Math.min(0, o + 1);
-      });
-    },
+    onClick: () => setMonthOffset(o => Math.min(0, o + 1)),
     disabled: isCurrent,
     style: {
       width: 32,
       height: 32,
       borderRadius: 10,
-      border: "2px solid ".concat(isCurrent ? "#ddd" : DARK),
+      border: `2px solid ${isCurrent ? "#ddd" : DARK}`,
       background: isCurrent ? "#f5f5f5" : spicy ? "#222" : "#fff",
       cursor: isCurrent ? "default" : "pointer",
       fontSize: 14,
-      boxShadow: isCurrent ? "none" : "2px 2px 0 ".concat(DARK),
+      boxShadow: isCurrent ? "none" : `2px 2px 0 ${DARK}`,
       fontWeight: 900,
       color: isCurrent ? "#ccc" : DARK
     }
@@ -949,50 +849,45 @@ function CashFlow(_ref1) {
       fontSize: 10,
       color: "#aaa"
     }
-  }, "\u0E02\u0E49\u0E2D\u0E21\u0E39\u0E25 hardcode")), alloc.map(function (row, i) {
-    var _alloc$find;
-    return /*#__PURE__*/React.createElement("div", {
-      key: i,
-      style: {
-        marginBottom: 8
-      }
-    }, /*#__PURE__*/React.createElement("div", {
-      style: {
-        display: "flex",
-        justifyContent: "space-between",
-        marginBottom: 3
-      }
-    }, /*#__PURE__*/React.createElement("div", {
-      style: {
-        display: "flex",
-        gap: 6,
-        alignItems: "center"
-      }
-    }, /*#__PURE__*/React.createElement("span", {
-      style: {
-        fontSize: 13
-      }
-    }, row.icon), /*#__PURE__*/React.createElement("span", {
-      style: {
-        fontSize: 12,
-        fontWeight: 700,
-        color: spicy ? "#ccc" : DARK
-      }
-    }, row.label)), /*#__PURE__*/React.createElement("span", {
-      style: {
-        fontSize: 12,
-        fontWeight: 900,
-        color: row.amt > 0 ? G : spicy ? "#FF9999" : "#E53E3E"
-      }
-    }, row.amt > 0 ? "+" : "-", "\u0E3F", Math.abs(row.amt).toLocaleString())), /*#__PURE__*/React.createElement(Bar, {
-      pct: alloc.length ? Math.abs(row.amt) / Math.max(1, ((_alloc$find = alloc.find(function (r) {
-        return r.label === "รายรับ";
-      })) === null || _alloc$find === void 0 ? void 0 : _alloc$find.amt) || 1) * 100 : 0,
-      color: row.color
-    }));
-  }), /*#__PURE__*/React.createElement("div", {
+  }, "\u0E02\u0E49\u0E2D\u0E21\u0E39\u0E25 hardcode")), alloc.map((row, i) => /*#__PURE__*/React.createElement("div", {
+    key: i,
     style: {
-      borderTop: "2px dashed ".concat(spicy ? "#444" : "#ccc"),
+      marginBottom: 8
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      justifyContent: "space-between",
+      marginBottom: 3
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: 6,
+      alignItems: "center"
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 13
+    }
+  }, row.icon), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 12,
+      fontWeight: 700,
+      color: spicy ? "#ccc" : DARK
+    }
+  }, row.label)), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 12,
+      fontWeight: 900,
+      color: row.amt > 0 ? G : spicy ? "#FF9999" : "#E53E3E"
+    }
+  }, row.amt > 0 ? "+" : "-", "\u0E3F", Math.abs(row.amt).toLocaleString())), /*#__PURE__*/React.createElement(Bar, {
+    pct: alloc.length ? Math.abs(row.amt) / Math.max(1, alloc.find(r => r.label === "รายรับ")?.amt || 1) * 100 : 0,
+    color: row.color
+  }))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      borderTop: `2px dashed ${spicy ? "#444" : "#ccc"}`,
       marginTop: 10,
       paddingTop: 10,
       display: "flex",
@@ -1034,7 +929,7 @@ function CashFlow(_ref1) {
       flex: 1,
       background: spicy ? "#222" : "#fff",
       borderRadius: 12,
-      border: "2px solid ".concat(DARK),
+      border: `2px solid ${DARK}`,
       padding: "10px 12px"
     }
   }, /*#__PURE__*/React.createElement("div", {
@@ -1052,9 +947,9 @@ function CashFlow(_ref1) {
   }, "-\u0E3F", d.exp.toLocaleString())), /*#__PURE__*/React.createElement("div", {
     style: {
       flex: 1,
-      background: d.net >= 0 ? spicy ? "#1a3a1a" : "".concat(G, "22") : "#FFF0F0",
+      background: d.net >= 0 ? spicy ? "#1a3a1a" : `${G}22` : "#FFF0F0",
       borderRadius: 12,
-      border: "2px solid ".concat(DARK),
+      border: `2px solid ${DARK}`,
       padding: "10px 12px"
     }
   }, /*#__PURE__*/React.createElement("div", {
@@ -1072,81 +967,72 @@ function CashFlow(_ref1) {
   }, d.net >= 0 ? "+" : "", "\u0E3F", d.net.toLocaleString())))), /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
-      border: "2px solid ".concat(DARK),
+      border: `2px solid ${DARK}`,
       borderRadius: 12,
       overflow: "hidden",
       marginBottom: 10
     }
-  }, [["summary", "📊 สรุป"], ["transactions", "📋 รายการ"]].map(function (_ref14) {
-    var _ref15 = _slicedToArray(_ref14, 2),
-      id = _ref15[0],
-      lbl = _ref15[1];
-    return /*#__PURE__*/React.createElement("button", {
-      key: id,
-      onClick: function onClick() {
-        return setView(id);
-      },
-      style: {
-        flex: 1,
-        padding: "9px 0",
-        fontSize: 12,
-        fontWeight: 800,
-        border: "none",
-        cursor: "pointer",
-        transition: "all .15s",
-        background: view === id ? spicy ? G : DARK : spicy ? "#222" : "#fff",
-        color: view === id ? spicy ? DARK : "#fff" : spicy ? "#aaa" : "#888"
-      }
-    }, lbl);
-  })), view === "summary" ? /*#__PURE__*/React.createElement(Card, null, /*#__PURE__*/React.createElement("div", {
+  }, [["summary", "📊 สรุป"], ["transactions", "📋 รายการ"]].map(([id, lbl]) => /*#__PURE__*/React.createElement("button", {
+    key: id,
+    onClick: () => setView(id),
+    style: {
+      flex: 1,
+      padding: "9px 0",
+      fontSize: 12,
+      fontWeight: 800,
+      border: "none",
+      cursor: "pointer",
+      transition: "all .15s",
+      background: view === id ? spicy ? G : DARK : spicy ? "#222" : "#fff",
+      color: view === id ? spicy ? DARK : "#fff" : spicy ? "#aaa" : "#888"
+    }
+  }, lbl))), view === "summary" ? /*#__PURE__*/React.createElement(Card, null, /*#__PURE__*/React.createElement("div", {
     style: {
       fontSize: 12,
       fontWeight: 800,
       color: DARK,
       marginBottom: 10
     }
-  }, "\u0E23\u0E32\u0E22\u0E08\u0E48\u0E32\u0E22\u0E41\u0E22\u0E01\u0E2B\u0E21\u0E27\u0E14"), cats.map(function (c) {
-    return /*#__PURE__*/React.createElement("div", {
-      key: c.label,
-      style: {
-        marginBottom: 8
-      }
-    }, /*#__PURE__*/React.createElement("div", {
-      style: {
-        display: "flex",
-        justifyContent: "space-between",
-        marginBottom: 3
-      }
-    }, /*#__PURE__*/React.createElement("span", {
-      style: {
-        fontSize: 12,
-        fontWeight: 700
-      }
-    }, c.label), /*#__PURE__*/React.createElement("div", {
-      style: {
-        display: "flex",
-        gap: 6,
-        alignItems: "center"
-      }
-    }, c.val / c.max > 1 && /*#__PURE__*/React.createElement(Tag, {
-      color: "#FF6B6B"
-    }, "\u0E40\u0E01\u0E34\u0E19\u0E07\u0E1A"), /*#__PURE__*/React.createElement("span", {
-      style: {
-        fontSize: 12,
-        fontWeight: 800
-      }
-    }, "\u0E3F", c.val.toLocaleString()))), /*#__PURE__*/React.createElement(Bar, {
-      pct: c.val / c.max * 100,
-      color: c.color
-    }), c.val / c.max > 1 && /*#__PURE__*/React.createElement("div", {
-      style: {
-        fontSize: 10,
-        color: "#FF6B6B",
-        fontWeight: 700,
-        marginTop: 2
-      }
-    }, spicy ? "งบแตกแล้วจ้า ของในบ้านน่าจะพอใช้ได้อีกสักพัก" : "เกินงบแล้วนะ เดือนหน้าตั้งต้นใหม่ได้เลย"));
-  })) : /*#__PURE__*/React.createElement(Card, {
+  }, "\u0E23\u0E32\u0E22\u0E08\u0E48\u0E32\u0E22\u0E41\u0E22\u0E01\u0E2B\u0E21\u0E27\u0E14"), cats.map(c => /*#__PURE__*/React.createElement("div", {
+    key: c.label,
+    style: {
+      marginBottom: 8
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      justifyContent: "space-between",
+      marginBottom: 3
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 12,
+      fontWeight: 700
+    }
+  }, c.label), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: 6,
+      alignItems: "center"
+    }
+  }, c.val / c.max > 1 && /*#__PURE__*/React.createElement(Tag, {
+    color: "#FF6B6B"
+  }, "\u0E40\u0E01\u0E34\u0E19\u0E07\u0E1A"), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 12,
+      fontWeight: 800
+    }
+  }, "\u0E3F", c.val.toLocaleString()))), /*#__PURE__*/React.createElement(Bar, {
+    pct: c.val / c.max * 100,
+    color: c.color
+  }), c.val / c.max > 1 && /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 10,
+      color: "#FF6B6B",
+      fontWeight: 700,
+      marginTop: 2
+    }
+  }, spicy ? "งบแตกแล้วจ้า ของในบ้านน่าจะพอใช้ได้อีกสักพัก" : "เกินงบแล้วนะ เดือนหน้าตั้งต้นใหม่ได้เลย")))) : /*#__PURE__*/React.createElement(Card, {
     style: {
       padding: "12px 12px 6px"
     }
@@ -1167,46 +1053,42 @@ function CashFlow(_ref1) {
       fontSize: 10,
       color: "#aaa"
     }
-  }, "\u2190 \u0E40\u0E25\u0E37\u0E48\u0E2D\u0E19\u0E0B\u0E49\u0E32\u0E22\u0E40\u0E1E\u0E37\u0E48\u0E2D\u0E25\u0E1A")), txns.map(function (t, i) {
-    return /*#__PURE__*/React.createElement("div", {
-      key: i,
-      style: {
-        display: "flex",
-        alignItems: "center",
-        gap: 10,
-        padding: "9px 0",
-        borderBottom: i < txns.length - 1 ? "1px solid #f0f0f0" : "none"
-      }
-    }, /*#__PURE__*/React.createElement("span", {
-      style: {
-        fontSize: 16
-      }
-    }, t.cat), /*#__PURE__*/React.createElement("div", {
-      style: {
-        flex: 1
-      }
-    }, /*#__PURE__*/React.createElement("div", {
-      style: {
-        fontSize: 12,
-        fontWeight: 700,
-        color: DARK
-      }
-    }, t.note), /*#__PURE__*/React.createElement("div", {
-      style: {
-        fontSize: 10,
-        color: "#aaa"
-      }
-    }, t.time)), /*#__PURE__*/React.createElement("span", {
-      style: {
-        fontSize: 13,
-        fontWeight: 900,
-        color: t.amt > 0 ? G : "#E53E3E"
-      }
-    }, t.amt > 0 ? "+" : "", "\u0E3F", Math.abs(t.amt).toLocaleString()));
-  })), /*#__PURE__*/React.createElement("button", {
-    onClick: function onClick() {
-      return setSheet(true);
-    },
+  }, "\u2190 \u0E40\u0E25\u0E37\u0E48\u0E2D\u0E19\u0E0B\u0E49\u0E32\u0E22\u0E40\u0E1E\u0E37\u0E48\u0E2D\u0E25\u0E1A")), txns.map((t, i) => /*#__PURE__*/React.createElement("div", {
+    key: i,
+    style: {
+      display: "flex",
+      alignItems: "center",
+      gap: 10,
+      padding: "9px 0",
+      borderBottom: i < txns.length - 1 ? "1px solid #f0f0f0" : "none"
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 16
+    }
+  }, t.cat), /*#__PURE__*/React.createElement("div", {
+    style: {
+      flex: 1
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 12,
+      fontWeight: 700,
+      color: DARK
+    }
+  }, t.note), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 10,
+      color: "#aaa"
+    }
+  }, t.time)), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 13,
+      fontWeight: 900,
+      color: t.amt > 0 ? G : "#E53E3E"
+    }
+  }, t.amt > 0 ? "+" : "", "\u0E3F", Math.abs(t.amt).toLocaleString())))), /*#__PURE__*/React.createElement("button", {
+    onClick: () => setSheet(true),
     style: {
       position: "fixed",
       bottom: 80,
@@ -1216,8 +1098,8 @@ function CashFlow(_ref1) {
       borderRadius: "50%",
       background: spicy ? G : DARK,
       color: spicy ? DARK : "#fff",
-      border: "2.5px solid ".concat(DARK),
-      boxShadow: "3px 3px 0 ".concat(DARK),
+      border: `2.5px solid ${DARK}`,
+      boxShadow: `3px 3px 0 ${DARK}`,
       fontSize: 22,
       cursor: "pointer",
       zIndex: 50
@@ -1228,42 +1110,25 @@ function CashFlow(_ref1) {
 // ══════════════════════════════════════════════════════════════════════════════
 // SAVE
 // ══════════════════════════════════════════════════════════════════════════════
-function Save(_ref16) {
-  var spicy = _ref16.spicy;
-  var _useState25 = useState(false),
-    _useState26 = _slicedToArray(_useState25, 2),
-    sheet = _useState26[0],
-    setSheet = _useState26[1];
-  var _useState27 = useState(null),
-    _useState28 = _slicedToArray(_useState27, 2),
-    done = _useState28[0],
-    setDone = _useState28[1];
-  var _useState29 = useState(""),
-    _useState30 = _slicedToArray(_useState29, 2),
-    amt = _useState30[0],
-    setAmt = _useState30[1];
-  var _useState31 = useState("emergency"),
-    _useState32 = _slicedToArray(_useState31, 2),
-    dest = _useState32[0],
-    setDest = _useState32[1];
-  var _useState33 = useState(""),
-    _useState34 = _slicedToArray(_useState33, 2),
-    saveNote = _useState34[0],
-    setSaveNote = _useState34[1];
-  var _useState35 = useState(false),
-    _useState36 = _slicedToArray(_useState35, 2),
-    investToast = _useState36[0],
-    setInvestToast = _useState36[1];
+function Save({
+  spicy
+}) {
+  const [sheet, setSheet] = useState(false);
+  const [done, setDone] = useState(null);
+  const [amt, setAmt] = useState("");
+  const [dest, setDest] = useState("emergency");
+  const [saveNote, setSaveNote] = useState("");
+  const [investToast, setInvestToast] = useState(false);
   function submit() {
     setDone({
       amt: Number(amt),
-      dest: dest
+      dest
     });
     setAmt("");
     setDest("emergency");
     setSaveNote("");
   }
-  var destOpts = [{
+  const destOpts = [{
     id: "emergency",
     label: "กองทุนฉุกเฉิน",
     icon: "🛡️"
@@ -1281,9 +1146,7 @@ function Save(_ref16) {
       position: "relative"
     }
   }, investToast && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
-    onClick: function onClick() {
-      return setInvestToast(false);
-    },
+    onClick: () => setInvestToast(false),
     style: {
       position: "fixed",
       inset: 0,
@@ -1299,7 +1162,7 @@ function Save(_ref16) {
       background: DARK,
       color: "#fff",
       borderRadius: 16,
-      border: "2px solid ".concat(GOLD),
+      border: `2px solid ${GOLD}`,
       padding: "20px 18px",
       zIndex: 999,
       width: 260,
@@ -1325,13 +1188,11 @@ function Save(_ref16) {
       marginBottom: 14
     }
   }, "\u0E01\u0E32\u0E23\u0E14\u0E36\u0E07\u0E02\u0E49\u0E2D\u0E21\u0E39\u0E25\u0E1E\u0E2D\u0E23\u0E4C\u0E15\u0E25\u0E07\u0E17\u0E38\u0E19 real-time \u0E2D\u0E22\u0E39\u0E48\u0E43\u0E19 roadmap \u2014 \u0E15\u0E2D\u0E19\u0E19\u0E35\u0E49\u0E1A\u0E31\u0E19\u0E17\u0E36\u0E01\u0E15\u0E31\u0E27\u0E40\u0E25\u0E02\u0E40\u0E2D\u0E07\u0E1C\u0E48\u0E32\u0E19\u0E41\u0E0A\u0E17\u0E44\u0E14\u0E49\u0E40\u0E25\u0E22"), /*#__PURE__*/React.createElement("button", {
-    onClick: function onClick() {
-      return setInvestToast(false);
-    },
+    onClick: () => setInvestToast(false),
     style: {
       background: GOLD,
       color: DARK,
-      border: "2px solid ".concat(DARK),
+      border: `2px solid ${DARK}`,
       borderRadius: 10,
       padding: "8px 24px",
       fontWeight: 900,
@@ -1340,15 +1201,15 @@ function Save(_ref16) {
     }
   }, "\u0E42\u0E2D\u0E40\u0E04 \u0E23\u0E31\u0E1A\u0E17\u0E23\u0E32\u0E1A"))), /*#__PURE__*/React.createElement(Sheet, {
     open: sheet,
-    onClose: function onClose() {
+    onClose: () => {
       setSheet(false);
       setDone(null);
     }
   }, done ? /*#__PURE__*/React.createElement(Success, {
     icon: "\uD83C\uDF31",
-    title: "\u0E2D\u0E2D\u0E21\u0E44\u0E1B\u0E41\u0E25\u0E49\u0E27 \u0E3F".concat(done.amt.toLocaleString()),
+    title: `ออมไปแล้ว ฿${done.amt.toLocaleString()}`,
     sub: spicy ? "บันทึกแล้ว สลึงเล็กๆ กำลังรวมเป็นก้อนใหญ่" : "สลึงเล็กๆ กำลังรวมเป็นก้อนใหญ่เลย 🪙",
-    onClose: function onClose() {
+    onClose: () => {
       setSheet(false);
       setDone(null);
     }
@@ -1382,31 +1243,27 @@ function Save(_ref16) {
       gap: 8,
       marginBottom: 16
     }
-  }, destOpts.map(function (o) {
-    return /*#__PURE__*/React.createElement("button", {
-      key: o.id,
-      onClick: function onClick() {
-        return setDest(o.id);
-      },
-      style: {
-        flex: 1,
-        padding: "10px 0",
-        background: dest === o.id ? DARK : "#f5f5f5",
-        color: dest === o.id ? "#fff" : DARK,
-        border: "2px solid ".concat(dest === o.id ? DARK : "#ddd"),
-        borderRadius: 12,
-        cursor: "pointer",
-        fontSize: 11,
-        fontWeight: 800,
-        boxShadow: dest === o.id ? "2px 2px 0 ".concat(DARK) : "none"
-      }
-    }, /*#__PURE__*/React.createElement("div", {
-      style: {
-        fontSize: 18,
-        marginBottom: 3
-      }
-    }, o.icon), o.label);
-  })), /*#__PURE__*/React.createElement(TextInput, {
+  }, destOpts.map(o => /*#__PURE__*/React.createElement("button", {
+    key: o.id,
+    onClick: () => setDest(o.id),
+    style: {
+      flex: 1,
+      padding: "10px 0",
+      background: dest === o.id ? DARK : "#f5f5f5",
+      color: dest === o.id ? "#fff" : DARK,
+      border: `2px solid ${dest === o.id ? DARK : "#ddd"}`,
+      borderRadius: 12,
+      cursor: "pointer",
+      fontSize: 11,
+      fontWeight: 800,
+      boxShadow: dest === o.id ? `2px 2px 0 ${DARK}` : "none"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 18,
+      marginBottom: 3
+    }
+  }, o.icon), o.label))), /*#__PURE__*/React.createElement(TextInput, {
     value: saveNote,
     onChange: setSaveNote,
     label: "\u0E42\u0E19\u0E49\u0E15 (\u0E44\u0E21\u0E48\u0E1A\u0E31\u0E07\u0E04\u0E31\u0E1A)",
@@ -1420,12 +1277,10 @@ function Save(_ref16) {
     spicy: spicy,
     text: "\u0E40\u0E15\u0E34\u0E21\u0E01\u0E2D\u0E07\u0E17\u0E38\u0E19\u0E09\u0E38\u0E01\u0E40\u0E09\u0E34\u0E19\u0E2D\u0E35\u0E01 \u0E3F3,000 \u0E40\u0E14\u0E37\u0E2D\u0E19\u0E19\u0E35\u0E49 \u0E08\u0E30\u0E02\u0E36\u0E49\u0E19\u0E40\u0E1B\u0E47\u0E19 45% \u2014 \u0E40\u0E1B\u0E49\u0E32 3 \u0E40\u0E14\u0E37\u0E2D\u0E19\u0E43\u0E01\u0E25\u0E49\u0E41\u0E25\u0E49\u0E27!",
     actionLabel: "+ \u0E1A\u0E31\u0E19\u0E17\u0E36\u0E01\u0E40\u0E07\u0E34\u0E19\u0E2D\u0E2D\u0E21",
-    onAction: function onAction() {
-      return setSheet(true);
-    }
+    onAction: () => setSheet(true)
   }), /*#__PURE__*/React.createElement(Card, {
     style: {
-      background: spicy ? DARK : "".concat(G, "12")
+      background: spicy ? DARK : `${G}12`
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
@@ -1471,7 +1326,7 @@ function Save(_ref16) {
     }
   }, "\u0E01\u0E2D\u0E07\u0E17\u0E38\u0E19\u0E09\u0E38\u0E01\u0E40\u0E09\u0E34\u0E19"), /*#__PURE__*/React.createElement("div", {
     style: {
-      background: "".concat(G, "12"),
+      background: `${G}12`,
       borderRadius: 12,
       padding: 12,
       marginBottom: 8
@@ -1513,32 +1368,27 @@ function Save(_ref16) {
       display: "flex",
       gap: 8
     }
-  }, [["เงินฝาก", "฿85,000"], ["ออมเดือนนี้", "฿8,000"]].map(function (_ref17) {
-    var _ref18 = _slicedToArray(_ref17, 2),
-      k = _ref18[0],
-      v = _ref18[1];
-    return /*#__PURE__*/React.createElement("div", {
-      key: k,
-      style: {
-        flex: 1,
-        background: "#f7f7f7",
-        borderRadius: 10,
-        border: "1.5px solid #e0e0e0",
-        padding: "8px 10px"
-      }
-    }, /*#__PURE__*/React.createElement("div", {
-      style: {
-        fontSize: 10,
-        color: "#888"
-      }
-    }, k), /*#__PURE__*/React.createElement("div", {
-      style: {
-        fontSize: 13,
-        fontWeight: 800,
-        color: DARK
-      }
-    }, v));
-  }))), /*#__PURE__*/React.createElement(Card, {
+  }, [["เงินฝาก", "฿85,000"], ["ออมเดือนนี้", "฿8,000"]].map(([k, v]) => /*#__PURE__*/React.createElement("div", {
+    key: k,
+    style: {
+      flex: 1,
+      background: "#f7f7f7",
+      borderRadius: 10,
+      border: "1.5px solid #e0e0e0",
+      padding: "8px 10px"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 10,
+      color: "#888"
+    }
+  }, k), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 13,
+      fontWeight: 800,
+      color: DARK
+    }
+  }, v))))), /*#__PURE__*/React.createElement(Card, {
     style: {
       opacity: .85
     }
@@ -1575,42 +1425,38 @@ function Save(_ref16) {
       fontWeight: 800,
       color: "#999"
     }
-  }, "\u0E40\u0E23\u0E47\u0E27\u0E46 \u0E19\u0E35\u0E49"))), ["หุ้น / ETF", "กองทุนรวม", "คริปโต"].map(function (lbl, i) {
-    return /*#__PURE__*/React.createElement("div", {
-      key: i,
-      style: {
-        marginBottom: 8
-      }
-    }, /*#__PURE__*/React.createElement("div", {
-      style: {
-        display: "flex",
-        justifyContent: "space-between",
-        marginBottom: 3
-      }
-    }, /*#__PURE__*/React.createElement("span", {
-      style: {
-        fontSize: 12,
-        fontWeight: 700,
-        color: "#bbb"
-      }
-    }, lbl), /*#__PURE__*/React.createElement("span", {
-      style: {
-        fontSize: 12,
-        fontWeight: 800,
-        color: "#ccc"
-      }
-    }, "\u2014 \u2014 \u2014")), /*#__PURE__*/React.createElement("div", {
-      style: {
-        height: 7,
-        background: "#f0f0f0",
-        borderRadius: 99,
-        border: "1.5px solid #e8e8e8"
-      }
-    }));
-  }), /*#__PURE__*/React.createElement("button", {
-    onClick: function onClick() {
-      return setInvestToast(true);
-    },
+  }, "\u0E40\u0E23\u0E47\u0E27\u0E46 \u0E19\u0E35\u0E49"))), ["หุ้น / ETF", "กองทุนรวม", "คริปโต"].map((lbl, i) => /*#__PURE__*/React.createElement("div", {
+    key: i,
+    style: {
+      marginBottom: 8
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      justifyContent: "space-between",
+      marginBottom: 3
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 12,
+      fontWeight: 700,
+      color: "#bbb"
+    }
+  }, lbl), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 12,
+      fontWeight: 800,
+      color: "#ccc"
+    }
+  }, "\u2014 \u2014 \u2014")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      height: 7,
+      background: "#f0f0f0",
+      borderRadius: 99,
+      border: "1.5px solid #e8e8e8"
+    }
+  }))), /*#__PURE__*/React.createElement("button", {
+    onClick: () => setInvestToast(true),
     style: {
       width: "100%",
       marginTop: 4,
@@ -1635,9 +1481,7 @@ function Save(_ref16) {
       color: "#aaa"
     }
   }, "\u0E40\u0E0A\u0E37\u0E48\u0E2D\u0E21\u0E1E\u0E2D\u0E23\u0E4C\u0E15\u0E25\u0E07\u0E17\u0E38\u0E19 (\u0E01\u0E33\u0E25\u0E31\u0E07\u0E1E\u0E31\u0E12\u0E19\u0E32)"))), /*#__PURE__*/React.createElement("button", {
-    onClick: function onClick() {
-      return setSheet(true);
-    },
+    onClick: () => setSheet(true),
     style: {
       position: "fixed",
       bottom: 80,
@@ -1647,8 +1491,8 @@ function Save(_ref16) {
       borderRadius: "50%",
       background: spicy ? G : DARK,
       color: spicy ? DARK : "#fff",
-      border: "2.5px solid ".concat(DARK),
-      boxShadow: "3px 3px 0 ".concat(DARK),
+      border: `2.5px solid ${DARK}`,
+      boxShadow: `3px 3px 0 ${DARK}`,
       fontSize: 22,
       cursor: "pointer",
       zIndex: 50
@@ -1659,25 +1503,14 @@ function Save(_ref16) {
 // ══════════════════════════════════════════════════════════════════════════════
 // DEBT
 // ══════════════════════════════════════════════════════════════════════════════
-function Debt(_ref19) {
-  var spicy = _ref19.spicy;
-  var _useState37 = useState(false),
-    _useState38 = _slicedToArray(_useState37, 2),
-    showPlan = _useState38[0],
-    setShowPlan = _useState38[1];
-  var _useState39 = useState(null),
-    _useState40 = _slicedToArray(_useState39, 2),
-    payModal = _useState40[0],
-    setPayModal = _useState40[1];
-  var _useState41 = useState(""),
-    _useState42 = _slicedToArray(_useState41, 2),
-    payAmt = _useState42[0],
-    setPayAmt = _useState42[1];
-  var _useState43 = useState({}),
-    _useState44 = _slicedToArray(_useState43, 2),
-    paidDone = _useState44[0],
-    setPaidDone = _useState44[1];
-  var debts = [{
+function Debt({
+  spicy
+}) {
+  const [showPlan, setShowPlan] = useState(false);
+  const [payModal, setPayModal] = useState(null);
+  const [payAmt, setPayAmt] = useState("");
+  const [paidDone, setPaidDone] = useState({});
+  const debts = [{
     name: "บัตรเครดิต KBank",
     bal: 28000,
     rate: 18,
@@ -1699,10 +1532,8 @@ function Debt(_ref19) {
     color: "#4ECDC4",
     priority: false
   }];
-  var total = debts.reduce(function (s, d) {
-    return s + d.bal;
-  }, 0);
-  var timeline = [{
+  const total = debts.reduce((s, d) => s + d.bal, 0);
+  const timeline = [{
     name: "บัตรเครดิต KBank",
     months: 14,
     freeDate: "ส.ค. 2027",
@@ -1718,15 +1549,17 @@ function Debt(_ref19) {
     freeDate: "มิ.ย. 2027",
     color: "#4ECDC4"
   }];
-  var freeDate = "ต.ค. 2028",
+  const freeDate = "ต.ค. 2028",
     monthsLeft = 28;
   function confirmPay(debt) {
-    setPaidDone(function (p) {
-      return _objectSpread(_objectSpread({}, p), {}, _defineProperty({}, debt.name, Number(payAmt)));
-    });
-    setPayModal(_objectSpread(_objectSpread({}, debt), {}, {
-      justPaid: Number(payAmt)
+    setPaidDone(p => ({
+      ...p,
+      [debt.name]: Number(payAmt)
     }));
+    setPayModal({
+      ...debt,
+      justPaid: Number(payAmt)
+    });
     setPayAmt("");
   }
   return /*#__PURE__*/React.createElement("div", {
@@ -1735,17 +1568,15 @@ function Debt(_ref19) {
     }
   }, /*#__PURE__*/React.createElement(Sheet, {
     open: !!payModal,
-    onClose: function onClose() {
+    onClose: () => {
       setPayModal(null);
       setPayAmt("");
     }
-  }, payModal !== null && payModal !== void 0 && payModal.justPaid ? /*#__PURE__*/React.createElement(Success, {
+  }, payModal?.justPaid ? /*#__PURE__*/React.createElement(Success, {
     icon: "\uD83D\uDD13",
-    title: "\u0E08\u0E48\u0E32\u0E22\u0E44\u0E1B\u0E41\u0E25\u0E49\u0E27 \u0E3F".concat(payModal.justPaid.toLocaleString()),
-    sub: spicy ? "\u0E0A\u0E33\u0E23\u0E30\u0E41\u0E25\u0E49\u0E27 \u0E3F".concat(payModal.justPaid.toLocaleString(), " \u0E1A\u0E31\u0E15\u0E23\u0E22\u0E31\u0E07\u0E44\u0E21\u0E48\u0E15\u0E32\u0E22 \u0E41\u0E15\u0E48\u0E43\u0E01\u0E25\u0E49\u0E02\u0E36\u0E49\u0E19\u0E41\u0E25\u0E49\u0E27") : "โซ่หลุดไปอีกข้อนะ — ทุกบาทที่จ่ายคือก้าวที่เดินมา 🌱",
-    onClose: function onClose() {
-      return setPayModal(null);
-    }
+    title: `จ่ายไปแล้ว ฿${payModal.justPaid.toLocaleString()}`,
+    sub: spicy ? `ชำระแล้ว ฿${payModal.justPaid.toLocaleString()} บัตรยังไม่ตาย แต่ใกล้ขึ้นแล้ว` : "โซ่หลุดไปอีกข้อนะ — ทุกบาทที่จ่ายคือก้าวที่เดินมา 🌱",
+    onClose: () => setPayModal(null)
   }) : payModal && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
     style: {
       fontSize: 14,
@@ -1765,36 +1596,32 @@ function Debt(_ref19) {
       gap: 6,
       marginBottom: 12
     }
-  }, [payModal.min, payModal.min + 500, payModal.min + 1000].map(function (a) {
-    return /*#__PURE__*/React.createElement("button", {
-      key: a,
-      onClick: function onClick() {
-        return setPayAmt(String(a));
-      },
-      style: {
-        flex: 1,
-        padding: "8px 0",
-        fontSize: 11,
-        fontWeight: 800,
-        cursor: "pointer",
-        borderRadius: 10,
-        background: payAmt === String(a) ? DARK : "#f5f5f5",
-        color: payAmt === String(a) ? "#fff" : DARK,
-        border: "2px solid ".concat(payAmt === String(a) ? DARK : "#ddd"),
-        boxShadow: payAmt === String(a) ? "2px 2px 0 ".concat(DARK) : "none"
-      }
-    }, "\u0E3F", a.toLocaleString(), a === payModal.min && /*#__PURE__*/React.createElement("div", {
-      style: {
-        fontSize: 9,
-        opacity: .7
-      }
-    }, "\u0E02\u0E31\u0E49\u0E19\u0E15\u0E48\u0E33"), a > payModal.min && /*#__PURE__*/React.createElement("div", {
-      style: {
-        fontSize: 9,
-        color: G
-      }
-    }, "+\u0E3F", (a - payModal.min).toLocaleString()));
-  })), /*#__PURE__*/React.createElement(AmtInput, {
+  }, [payModal.min, payModal.min + 500, payModal.min + 1000].map(a => /*#__PURE__*/React.createElement("button", {
+    key: a,
+    onClick: () => setPayAmt(String(a)),
+    style: {
+      flex: 1,
+      padding: "8px 0",
+      fontSize: 11,
+      fontWeight: 800,
+      cursor: "pointer",
+      borderRadius: 10,
+      background: payAmt === String(a) ? DARK : "#f5f5f5",
+      color: payAmt === String(a) ? "#fff" : DARK,
+      border: `2px solid ${payAmt === String(a) ? DARK : "#ddd"}`,
+      boxShadow: payAmt === String(a) ? `2px 2px 0 ${DARK}` : "none"
+    }
+  }, "\u0E3F", a.toLocaleString(), a === payModal.min && /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 9,
+      opacity: .7
+    }
+  }, "\u0E02\u0E31\u0E49\u0E19\u0E15\u0E48\u0E33"), a > payModal.min && /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 9,
+      color: G
+    }
+  }, "+\u0E3F", (a - payModal.min).toLocaleString())))), /*#__PURE__*/React.createElement(AmtInput, {
     value: payAmt,
     onChange: setPayAmt,
     placeholder: "\u0E43\u0E2A\u0E48\u0E08\u0E33\u0E19\u0E27\u0E19\u0E2D\u0E37\u0E48\u0E19"
@@ -1802,26 +1629,22 @@ function Debt(_ref19) {
     style: {
       marginBottom: 12,
       padding: "8px 12px",
-      background: "".concat(G, "15"),
+      background: `${G}15`,
       borderRadius: 10,
       fontSize: 11,
       fontWeight: 700,
       color: MID
     }
   }, "\u0E08\u0E48\u0E32\u0E22\u0E40\u0E1E\u0E34\u0E48\u0E21\u0E08\u0E32\u0E01\u0E02\u0E31\u0E49\u0E19\u0E15\u0E48\u0E33 \u0E3F", (Number(payAmt) - payModal.min).toLocaleString(), " \u2192 \u0E1B\u0E34\u0E14\u0E2B\u0E19\u0E35\u0E49\u0E40\u0E23\u0E47\u0E27\u0E02\u0E36\u0E49\u0E19 \uD83C\uDFAF"), /*#__PURE__*/React.createElement(ConfirmBtn, {
-    label: "\u0E22\u0E37\u0E19\u0E22\u0E31\u0E19 \u0E3F".concat(payAmt ? Number(payAmt).toLocaleString() : "—"),
+    label: `ยืนยัน ฿${payAmt ? Number(payAmt).toLocaleString() : "—"}`,
     disabled: !payAmt || Number(payAmt) <= 0,
-    onClick: function onClick() {
-      return confirmPay(payModal);
-    }
+    onClick: () => confirmPay(payModal)
   }))), /*#__PURE__*/React.createElement(NBA, {
     mood: "thinking",
     spicy: spicy,
-    text: "\u0E08\u0E48\u0E32\u0E22\u0E1A\u0E31\u0E15\u0E23\u0E40\u0E04\u0E23\u0E14\u0E34\u0E15\u0E40\u0E1E\u0E34\u0E48\u0E21 \u0E3F500/\u0E40\u0E14\u0E37\u0E2D\u0E19 \u0E08\u0E30\u0E1B\u0E34\u0E14\u0E2B\u0E19\u0E35\u0E49\u0E40\u0E23\u0E47\u0E27\u0E02\u0E36\u0E49\u0E19 8 \u0E40\u0E14\u0E37\u0E2D\u0E19\n\u0E14\u0E2D\u0E01\u0E40\u0E1A\u0E35\u0E49\u0E22\u0E17\u0E35\u0E48\u0E1B\u0E23\u0E30\u0E2B\u0E22\u0E31\u0E14\u0E44\u0E14\u0E49 \u2248 \u0E3F3,200",
+    text: `จ่ายบัตรเครดิตเพิ่ม ฿500/เดือน จะปิดหนี้เร็วขึ้น 8 เดือน\nดอกเบี้ยที่ประหยัดได้ ≈ ฿3,200`,
     actionLabel: "\u0E0A\u0E33\u0E23\u0E30\u0E2B\u0E19\u0E35\u0E49\u0E40\u0E25\u0E22",
-    onAction: function onAction() {
-      return setPayModal(debts[0]);
-    }
+    onAction: () => setPayModal(debts[0])
   }), /*#__PURE__*/React.createElement(Card, {
     style: {
       background: spicy ? DARK : "#FFF5F5"
@@ -1856,8 +1679,8 @@ function Debt(_ref19) {
     mood: "thinking"
   }))), /*#__PURE__*/React.createElement(Card, {
     style: {
-      background: spicy ? "#0d1a0d" : "".concat(G, "10"),
-      border: "2px solid ".concat(spicy ? G : MID)
+      background: spicy ? "#0d1a0d" : `${G}10`,
+      border: `2px solid ${spicy ? G : MID}`
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
@@ -1896,10 +1719,10 @@ function Debt(_ref19) {
   }, spicy ? "28 เดือน แค่นั้นเอง เธอทำได้แน่นอน" : "วันที่เงินเดือนออกมาแล้วไม่ต้องแบ่งให้ใครเลย")), /*#__PURE__*/React.createElement("div", {
     style: {
       textAlign: "center",
-      background: spicy ? "#1a3a1a" : "".concat(G, "25"),
+      background: spicy ? "#1a3a1a" : `${G}25`,
       borderRadius: 12,
       padding: "8px 12px",
-      border: "1.5px solid ".concat(MID)
+      border: `1.5px solid ${MID}`
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
@@ -1919,49 +1742,45 @@ function Debt(_ref19) {
       color: G,
       fontWeight: 700
     }
-  }, "\u0E40\u0E23\u0E47\u0E27\u0E02\u0E36\u0E49\u0E19 8 \u0E40\u0E14\u0E37\u0E2D\u0E19"))), timeline.map(function (t, i) {
-    return /*#__PURE__*/React.createElement("div", {
-      key: i,
-      style: {
-        marginBottom: 6
-      }
-    }, /*#__PURE__*/React.createElement("div", {
-      style: {
-        display: "flex",
-        justifyContent: "space-between",
-        marginBottom: 3
-      }
-    }, /*#__PURE__*/React.createElement("span", {
-      style: {
-        fontSize: 10,
-        fontWeight: 700,
-        color: spicy ? "#ccc" : DARK
-      }
-    }, t.name), /*#__PURE__*/React.createElement("span", {
-      style: {
-        fontSize: 10,
-        fontWeight: 800,
-        color: t.color
-      }
-    }, "\u0E1B\u0E34\u0E14 ", t.freeDate)), /*#__PURE__*/React.createElement("div", {
-      style: {
-        height: 7,
-        background: spicy ? "#333" : "#e8e8e8",
-        borderRadius: 99,
-        overflow: "hidden"
-      }
-    }, /*#__PURE__*/React.createElement("div", {
-      style: {
-        width: "".concat(t.months / monthsLeft * 100, "%"),
-        height: "100%",
-        background: t.color,
-        borderRadius: 99
-      }
-    })));
-  }), /*#__PURE__*/React.createElement("button", {
-    onClick: function onClick() {
-      return setShowPlan(!showPlan);
-    },
+  }, "\u0E40\u0E23\u0E47\u0E27\u0E02\u0E36\u0E49\u0E19 8 \u0E40\u0E14\u0E37\u0E2D\u0E19"))), timeline.map((t, i) => /*#__PURE__*/React.createElement("div", {
+    key: i,
+    style: {
+      marginBottom: 6
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      justifyContent: "space-between",
+      marginBottom: 3
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 10,
+      fontWeight: 700,
+      color: spicy ? "#ccc" : DARK
+    }
+  }, t.name), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 10,
+      fontWeight: 800,
+      color: t.color
+    }
+  }, "\u0E1B\u0E34\u0E14 ", t.freeDate)), /*#__PURE__*/React.createElement("div", {
+    style: {
+      height: 7,
+      background: spicy ? "#333" : "#e8e8e8",
+      borderRadius: 99,
+      overflow: "hidden"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      width: `${t.months / monthsLeft * 100}%`,
+      height: "100%",
+      background: t.color,
+      borderRadius: 99
+    }
+  })))), /*#__PURE__*/React.createElement("button", {
+    onClick: () => setShowPlan(!showPlan),
     style: {
       width: "100%",
       padding: "9px 0",
@@ -1969,9 +1788,9 @@ function Debt(_ref19) {
       fontWeight: 800,
       background: spicy ? G : DARK,
       color: spicy ? DARK : "#fff",
-      border: "2px solid ".concat(DARK),
+      border: `2px solid ${DARK}`,
       borderRadius: 11,
-      boxShadow: "2px 2px 0 ".concat(DARK),
+      boxShadow: `2px 2px 0 ${DARK}`,
       cursor: "pointer",
       marginTop: 8
     }
@@ -1995,182 +1814,152 @@ function Debt(_ref19) {
     label: "จ่ายเพิ่ม ฿1,000/เดือน",
     date: "ส.ค. 2027",
     color: G
-  }].map(function (row, i) {
-    return /*#__PURE__*/React.createElement("div", {
-      key: i,
-      style: {
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-        padding: "8px 0",
-        borderBottom: i < 2 ? "1px solid #f0f0f0" : "none"
-      }
-    }, /*#__PURE__*/React.createElement("div", {
-      style: {
-        fontSize: 11,
-        fontWeight: 700,
-        color: DARK
-      }
-    }, row.label), /*#__PURE__*/React.createElement("div", {
-      style: {
-        fontSize: 13,
-        fontWeight: 900,
-        color: row.color
-      }
-    }, row.date));
-  }), /*#__PURE__*/React.createElement("div", {
+  }].map((row, i) => /*#__PURE__*/React.createElement("div", {
+    key: i,
+    style: {
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "center",
+      padding: "8px 0",
+      borderBottom: i < 2 ? "1px solid #f0f0f0" : "none"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11,
+      fontWeight: 700,
+      color: DARK
+    }
+  }, row.label), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 13,
+      fontWeight: 900,
+      color: row.color
+    }
+  }, row.date))), /*#__PURE__*/React.createElement("div", {
     style: {
       marginTop: 8,
       padding: "8px 10px",
-      background: "".concat(G, "15"),
+      background: `${G}15`,
       borderRadius: 10,
       fontSize: 11,
       fontWeight: 700,
       color: MID
     }
-  }, "\uD83D\uDCA1 Avalanche = \u0E08\u0E48\u0E32\u0E22\u0E14\u0E2D\u0E01\u0E40\u0E1A\u0E35\u0E49\u0E22\u0E2A\u0E39\u0E07\u0E01\u0E48\u0E2D\u0E19 \u0E1B\u0E23\u0E30\u0E2B\u0E22\u0E31\u0E14\u0E01\u0E27\u0E48\u0E32 Snowball"))), debts.map(function (d, i) {
-    return /*#__PURE__*/React.createElement(Card, {
-      key: i,
-      style: {
-        opacity: paidDone[d.name] ? .7 : 1
-      }
-    }, /*#__PURE__*/React.createElement("div", {
-      style: {
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "flex-start",
-        marginBottom: 8
-      }
-    }, /*#__PURE__*/React.createElement("div", {
-      style: {
-        flex: 1
-      }
-    }, /*#__PURE__*/React.createElement("div", {
-      style: {
-        display: "flex",
-        alignItems: "center",
-        gap: 6,
-        marginBottom: 2
-      }
-    }, /*#__PURE__*/React.createElement("div", {
-      style: {
-        fontSize: 12,
-        fontWeight: 800,
-        color: DARK
-      }
-    }, d.name), d.priority && /*#__PURE__*/React.createElement(Tag, {
-      color: "#FF6B6B"
-    }, "\u26A1 \u0E08\u0E48\u0E32\u0E22\u0E01\u0E48\u0E2D\u0E19"), paidDone[d.name] && /*#__PURE__*/React.createElement(Tag, {
-      color: G
-    }, "\u2713 \u0E3F", paidDone[d.name].toLocaleString())), /*#__PURE__*/React.createElement("div", {
-      style: {
-        fontSize: 10,
-        color: "#888"
-      }
-    }, "\u0E14\u0E2D\u0E01\u0E40\u0E1A\u0E35\u0E49\u0E22 ", d.rate, "% \xB7 \u0E02\u0E31\u0E49\u0E19\u0E15\u0E48\u0E33 \u0E3F", d.min.toLocaleString(), "/\u0E40\u0E14\u0E37\u0E2D\u0E19")), /*#__PURE__*/React.createElement("div", {
-      style: {
-        fontSize: 15,
-        fontWeight: 900,
-        color: DARK
-      }
-    }, "\u0E3F", d.bal.toLocaleString())), /*#__PURE__*/React.createElement(Bar, {
-      pct: d.bal / 50000 * 100,
-      color: d.color
-    }), /*#__PURE__*/React.createElement("button", {
-      onClick: function onClick() {
-        setPayModal(d);
-        setPayAmt(String(d.min));
-      },
-      style: {
-        width: "100%",
-        marginTop: 8,
-        padding: "8px 0",
-        fontSize: 12,
-        fontWeight: 800,
-        background: paidDone[d.name] ? "#f5f5f5" : "".concat(G, "22"),
-        color: paidDone[d.name] ? "#aaa" : MID,
-        border: "1.5px solid ".concat(paidDone[d.name] ? "#ddd" : G),
-        borderRadius: 10,
-        cursor: "pointer"
-      }
-    }, paidDone[d.name] ? "✓ ชำระแล้วเดือนนี้" : "💸 ชำระหนี้งวดนี้"));
-  }));
+  }, "\uD83D\uDCA1 Avalanche = \u0E08\u0E48\u0E32\u0E22\u0E14\u0E2D\u0E01\u0E40\u0E1A\u0E35\u0E49\u0E22\u0E2A\u0E39\u0E07\u0E01\u0E48\u0E2D\u0E19 \u0E1B\u0E23\u0E30\u0E2B\u0E22\u0E31\u0E14\u0E01\u0E27\u0E48\u0E32 Snowball"))), debts.map((d, i) => /*#__PURE__*/React.createElement(Card, {
+    key: i,
+    style: {
+      opacity: paidDone[d.name] ? .7 : 1
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "flex-start",
+      marginBottom: 8
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      flex: 1
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "center",
+      gap: 6,
+      marginBottom: 2
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 12,
+      fontWeight: 800,
+      color: DARK
+    }
+  }, d.name), d.priority && /*#__PURE__*/React.createElement(Tag, {
+    color: "#FF6B6B"
+  }, "\u26A1 \u0E08\u0E48\u0E32\u0E22\u0E01\u0E48\u0E2D\u0E19"), paidDone[d.name] && /*#__PURE__*/React.createElement(Tag, {
+    color: G
+  }, "\u2713 \u0E3F", paidDone[d.name].toLocaleString())), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 10,
+      color: "#888"
+    }
+  }, "\u0E14\u0E2D\u0E01\u0E40\u0E1A\u0E35\u0E49\u0E22 ", d.rate, "% \xB7 \u0E02\u0E31\u0E49\u0E19\u0E15\u0E48\u0E33 \u0E3F", d.min.toLocaleString(), "/\u0E40\u0E14\u0E37\u0E2D\u0E19")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 15,
+      fontWeight: 900,
+      color: DARK
+    }
+  }, "\u0E3F", d.bal.toLocaleString())), /*#__PURE__*/React.createElement(Bar, {
+    pct: d.bal / 50000 * 100,
+    color: d.color
+  }), /*#__PURE__*/React.createElement("button", {
+    onClick: () => {
+      setPayModal(d);
+      setPayAmt(String(d.min));
+    },
+    style: {
+      width: "100%",
+      marginTop: 8,
+      padding: "8px 0",
+      fontSize: 12,
+      fontWeight: 800,
+      background: paidDone[d.name] ? "#f5f5f5" : `${G}22`,
+      color: paidDone[d.name] ? "#aaa" : MID,
+      border: `1.5px solid ${paidDone[d.name] ? "#ddd" : G}`,
+      borderRadius: 10,
+      cursor: "pointer"
+    }
+  }, paidDone[d.name] ? "✓ ชำระแล้วเดือนนี้" : "💸 ชำระหนี้งวดนี้"))));
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
 // GOALS
 // ══════════════════════════════════════════════════════════════════════════════
-function Goal(_ref20) {
-  var spicy = _ref20.spicy;
-  var _useState45 = useState(false),
-    _useState46 = _slicedToArray(_useState45, 2),
-    addSheet = _useState46[0],
-    setAddSheet = _useState46[1];
-  var _useState47 = useState(null),
-    _useState48 = _slicedToArray(_useState47, 2),
-    fundSheet = _useState48[0],
-    setFundSheet = _useState48[1]; // goal object
-  var _useState49 = useState(null),
-    _useState50 = _slicedToArray(_useState49, 2),
-    addDone = _useState50[0],
-    setAddDone = _useState50[1];
-  var _useState51 = useState(null),
-    _useState52 = _slicedToArray(_useState51, 2),
-    fundDone = _useState52[0],
-    setFundDone = _useState52[1];
+function Goal({
+  spicy
+}) {
+  const [addSheet, setAddSheet] = useState(false);
+  const [fundSheet, setFundSheet] = useState(null); // goal object
+  const [addDone, setAddDone] = useState(null);
+  const [fundDone, setFundDone] = useState(null);
 
   // add goal form
-  var _useState53 = useState(""),
-    _useState54 = _slicedToArray(_useState53, 2),
-    gName = _useState54[0],
-    setGName = _useState54[1];
-  var _useState55 = useState(""),
-    _useState56 = _slicedToArray(_useState55, 2),
-    gTarget = _useState56[0],
-    setGTarget = _useState56[1];
-  var _useState57 = useState(""),
-    _useState58 = _slicedToArray(_useState57, 2),
-    gDeadline = _useState58[0],
-    setGDeadline = _useState58[1];
+  const [gName, setGName] = useState("");
+  const [gTarget, setGTarget] = useState("");
+  const [gDeadline, setGDeadline] = useState("");
 
   // fund form
-  var _useState59 = useState(""),
-    _useState60 = _slicedToArray(_useState59, 2),
-    fAmt = _useState60[0],
-    setFAmt = _useState60[1];
-  var _useState61 = useState([{
-      id: 1,
-      name: "อิสระทางการเงิน (FI)",
-      icon: "✨",
-      pct: 0.8,
-      target: "10,800,000",
-      deadline: "ระยะยาว",
-      color: GOLD,
-      fi: true
-    }, {
-      id: 2,
-      name: "กองทุนฉุกเฉิน 3 เดือน",
-      icon: "🛡️",
-      pct: 42,
-      target: "100,000",
-      deadline: "ธ.ค. 2026",
-      color: "#4ECDC4",
-      fi: false
-    }, {
-      id: 3,
-      name: "ดาวน์รถ",
-      icon: "🚗",
-      pct: 18,
-      target: "150,000",
-      deadline: "มิ.ย. 2027",
-      color: G,
-      fi: false
-    }]),
-    _useState62 = _slicedToArray(_useState61, 2),
-    goals = _useState62[0],
-    setGoals = _useState62[1];
+  const [fAmt, setFAmt] = useState("");
+  const [goals, setGoals] = useState([{
+    id: 1,
+    name: "อิสระทางการเงิน (FI)",
+    icon: "✨",
+    pct: 0.8,
+    target: "10,800,000",
+    deadline: "ระยะยาว",
+    color: GOLD,
+    fi: true
+  }, {
+    id: 2,
+    name: "กองทุนฉุกเฉิน 3 เดือน",
+    icon: "🛡️",
+    pct: 42,
+    target: "100,000",
+    deadline: "ธ.ค. 2026",
+    color: "#4ECDC4",
+    fi: false
+  }, {
+    id: 3,
+    name: "ดาวน์รถ",
+    icon: "🚗",
+    pct: 18,
+    target: "150,000",
+    deadline: "มิ.ย. 2027",
+    color: G,
+    fi: false
+  }]);
   function submitAdd() {
-    var newGoal = {
+    const newGoal = {
       id: Date.now(),
       name: gName,
       icon: "🎯",
@@ -2180,9 +1969,7 @@ function Goal(_ref20) {
       color: G,
       fi: false
     };
-    setGoals(function (gs) {
-      return [].concat(_toConsumableArray(gs), [newGoal]);
-    });
+    setGoals(gs => [...gs, newGoal]);
     setAddDone(newGoal);
     setGName("");
     setGTarget("");
@@ -2201,15 +1988,15 @@ function Goal(_ref20) {
     }
   }, /*#__PURE__*/React.createElement(Sheet, {
     open: addSheet,
-    onClose: function onClose() {
+    onClose: () => {
       setAddSheet(false);
       setAddDone(null);
     }
   }, addDone ? /*#__PURE__*/React.createElement(Success, {
     icon: "\uD83C\uDFAF",
-    title: "\u0E40\u0E1E\u0E34\u0E48\u0E21\u0E40\u0E1B\u0E49\u0E32\u0E2B\u0E21\u0E32\u0E22 \"".concat(addDone.name, "\" \u0E41\u0E25\u0E49\u0E27!"),
+    title: `เพิ่มเป้าหมาย "${addDone.name}" แล้ว!`,
     sub: spicy ? "โอเค Salung จะจับตาดูนะ" : "เริ่มต้นแล้ว ทุกก้าวเล็กๆ นำไปถึงเป้าหมายนะ 🌱",
-    onClose: function onClose() {
+    onClose: () => {
       setAddSheet(false);
       setAddDone(null);
     }
@@ -2247,16 +2034,16 @@ function Goal(_ref20) {
     onClick: submitAdd
   }))), /*#__PURE__*/React.createElement(Sheet, {
     open: !!fundSheet,
-    onClose: function onClose() {
+    onClose: () => {
       setFundSheet(null);
       setFundDone(null);
       setFAmt("");
     }
   }, fundDone ? /*#__PURE__*/React.createElement(Success, {
     icon: "\uD83D\uDCB0",
-    title: "\u0E40\u0E1E\u0E34\u0E48\u0E21 \u0E3F".concat(fundDone.amt.toLocaleString(), " \u0E40\u0E02\u0E49\u0E32 \"").concat(fundDone.goal.name, "\""),
+    title: `เพิ่ม ฿${fundDone.amt.toLocaleString()} เข้า "${fundDone.goal.name}"`,
     sub: spicy ? "บันทึกแล้ว ใกล้ขึ้นอีกนิด" : "เดินหน้าต่อ ทุกบาทนับ 🎯",
-    onClose: function onClose() {
+    onClose: () => {
       setFundSheet(null);
       setFundDone(null);
     }
@@ -2284,7 +2071,7 @@ function Goal(_ref20) {
     value: fAmt,
     onChange: setFAmt
   }), /*#__PURE__*/React.createElement(ConfirmBtn, {
-    label: "\u0E40\u0E1E\u0E34\u0E48\u0E21 \u0E3F".concat(fAmt ? Number(fAmt).toLocaleString() : "—", " \u0E40\u0E02\u0E49\u0E32\u0E40\u0E1B\u0E49\u0E32\u0E2B\u0E21\u0E32\u0E22"),
+    label: `เพิ่ม ฿${fAmt ? Number(fAmt).toLocaleString() : "—"} เข้าเป้าหมาย`,
     disabled: !fAmt || Number(fAmt) <= 0,
     onClick: submitFund
   }))), /*#__PURE__*/React.createElement(NBA, {
@@ -2292,13 +2079,11 @@ function Goal(_ref20) {
     spicy: spicy,
     text: "\u0E40\u0E1B\u0E49\u0E32\u0E14\u0E32\u0E27\u0E19\u0E4C\u0E23\u0E16\u0E0A\u0E49\u0E32\u0E01\u0E27\u0E48\u0E32\u0E41\u0E1C\u0E19 2 \u0E40\u0E14\u0E37\u0E2D\u0E19 \u2014 \u0E40\u0E1E\u0E34\u0E48\u0E21\u0E40\u0E07\u0E34\u0E19\u0E2D\u0E2D\u0E21\u0E40\u0E14\u0E37\u0E2D\u0E19\u0E25\u0E30 \u0E3F1,200 \u0E08\u0E30\u0E01\u0E25\u0E31\u0E1A\u0E21\u0E32\u0E17\u0E31\u0E19\u0E41\u0E1C\u0E19\u0E44\u0E14\u0E49",
     actionLabel: "\u0E40\u0E1E\u0E34\u0E48\u0E21\u0E40\u0E07\u0E34\u0E19\u0E40\u0E02\u0E49\u0E32\u0E40\u0E1B\u0E49\u0E32",
-    onAction: function onAction() {
-      return setFundSheet(goals[2]);
-    }
+    onAction: () => setFundSheet(goals[2])
   }), /*#__PURE__*/React.createElement(Card, {
     style: {
-      background: spicy ? DARK : "".concat(GOLD, "18"),
-      border: "2px solid ".concat(DARK)
+      background: spicy ? DARK : `${GOLD}18`,
+      border: `2px solid ${DARK}`
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
@@ -2345,77 +2130,69 @@ function Goal(_ref20) {
       fontWeight: 700,
       color: spicy ? G : MID
     }
-  }, spicy ? "ยังไกลมาก แต่เริ่มแล้ว เดินต่อ" : "วันที่เงินเดือนออกมาแล้วไม่ต้องแบ่งให้ใครเลย")), goals.filter(function (g) {
-    return !g.fi;
-  }).map(function (g) {
-    return /*#__PURE__*/React.createElement(Card, {
-      key: g.id
-    }, /*#__PURE__*/React.createElement("div", {
-      style: {
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-        marginBottom: 8
-      }
-    }, /*#__PURE__*/React.createElement("div", {
-      style: {
-        display: "flex",
-        alignItems: "center",
-        gap: 8
-      }
-    }, /*#__PURE__*/React.createElement("span", {
-      style: {
-        fontSize: 20
-      }
-    }, g.icon), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
-      style: {
-        fontSize: 12,
-        fontWeight: 800,
-        color: DARK
-      }
-    }, g.name), /*#__PURE__*/React.createElement("div", {
-      style: {
-        fontSize: 10,
-        color: "#888"
-      }
-    }, "\u0E3F", g.target, " \xB7 ", g.deadline))), /*#__PURE__*/React.createElement("div", {
-      style: {
-        width: 40,
-        height: 40,
-        borderRadius: "50%",
-        border: "3px solid ".concat(g.pct > 50 ? G : g.pct > 20 ? GOLD : "#ddd"),
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        fontSize: 11,
-        fontWeight: 900,
-        color: DARK,
-        flexShrink: 0
-      }
-    }, g.pct, "%")), /*#__PURE__*/React.createElement(Bar, {
-      pct: g.pct,
-      color: g.color
-    }), /*#__PURE__*/React.createElement("button", {
-      onClick: function onClick() {
-        return setFundSheet(g);
-      },
-      style: {
-        width: "100%",
-        marginTop: 8,
-        padding: "8px 0",
-        fontSize: 12,
-        fontWeight: 800,
-        background: "".concat(G, "22"),
-        color: MID,
-        border: "1.5px solid ".concat(G),
-        borderRadius: 10,
-        cursor: "pointer"
-      }
-    }, "+ \u0E40\u0E1E\u0E34\u0E48\u0E21\u0E40\u0E07\u0E34\u0E19\u0E40\u0E02\u0E49\u0E32\u0E40\u0E1B\u0E49\u0E32"));
+  }, spicy ? "ยังไกลมาก แต่เริ่มแล้ว เดินต่อ" : "วันที่เงินเดือนออกมาแล้วไม่ต้องแบ่งให้ใครเลย")), goals.filter(g => !g.fi).map(g => /*#__PURE__*/React.createElement(Card, {
+    key: g.id
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "center",
+      marginBottom: 8
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "center",
+      gap: 8
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 20
+    }
+  }, g.icon), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 12,
+      fontWeight: 800,
+      color: DARK
+    }
+  }, g.name), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 10,
+      color: "#888"
+    }
+  }, "\u0E3F", g.target, " \xB7 ", g.deadline))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      width: 40,
+      height: 40,
+      borderRadius: "50%",
+      border: `3px solid ${g.pct > 50 ? G : g.pct > 20 ? GOLD : "#ddd"}`,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      fontSize: 11,
+      fontWeight: 900,
+      color: DARK,
+      flexShrink: 0
+    }
+  }, g.pct, "%")), /*#__PURE__*/React.createElement(Bar, {
+    pct: g.pct,
+    color: g.color
   }), /*#__PURE__*/React.createElement("button", {
-    onClick: function onClick() {
-      return setAddSheet(true);
-    },
+    onClick: () => setFundSheet(g),
+    style: {
+      width: "100%",
+      marginTop: 8,
+      padding: "8px 0",
+      fontSize: 12,
+      fontWeight: 800,
+      background: `${G}22`,
+      color: MID,
+      border: `1.5px solid ${G}`,
+      borderRadius: 10,
+      cursor: "pointer"
+    }
+  }, "+ \u0E40\u0E1E\u0E34\u0E48\u0E21\u0E40\u0E07\u0E34\u0E19\u0E40\u0E02\u0E49\u0E32\u0E40\u0E1B\u0E49\u0E32"))), /*#__PURE__*/React.createElement("button", {
+    onClick: () => setAddSheet(true),
     style: {
       position: "fixed",
       bottom: 80,
@@ -2425,8 +2202,8 @@ function Goal(_ref20) {
       borderRadius: "50%",
       background: spicy ? G : DARK,
       color: spicy ? DARK : "#fff",
-      border: "2.5px solid ".concat(DARK),
-      boxShadow: "3px 3px 0 ".concat(DARK),
+      border: `2.5px solid ${DARK}`,
+      boxShadow: `3px 3px 0 ${DARK}`,
       fontSize: 22,
       cursor: "pointer",
       zIndex: 50
@@ -2437,10 +2214,11 @@ function Goal(_ref20) {
 // ══════════════════════════════════════════════════════════════════════════════
 // MORE
 // ══════════════════════════════════════════════════════════════════════════════
-function More(_ref21) {
-  var spicy = _ref21.spicy,
-    onSpicyConfirm = _ref21.onSpicyConfirm;
-  var items = [{
+function More({
+  spicy,
+  onSpicyConfirm
+}) {
+  const items = [{
     icon: "👤",
     label: "โปรไฟล์ & ความยินยอม"
   }, {
@@ -2497,89 +2275,77 @@ function More(_ref21) {
     style: {
       padding: "4px 14px"
     }
-  }, items.map(function (item, i) {
-    return /*#__PURE__*/React.createElement("div", {
-      key: i
-    }, /*#__PURE__*/React.createElement("div", {
-      onClick: item.action ? onSpicyConfirm : undefined,
-      style: {
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        padding: "12px 0",
-        cursor: item.action ? "pointer" : "default"
-      }
-    }, /*#__PURE__*/React.createElement("div", {
-      style: {
-        display: "flex",
-        alignItems: "center",
-        gap: 10
-      }
-    }, /*#__PURE__*/React.createElement("span", {
-      style: {
-        fontSize: 18
-      }
-    }, item.icon), /*#__PURE__*/React.createElement("span", {
-      style: {
-        fontSize: 13,
-        fontWeight: 700,
-        color: DARK
-      }
-    }, item.label)), item.action ? /*#__PURE__*/React.createElement("div", {
-      style: {
-        width: 44,
-        height: 24,
-        borderRadius: 99,
-        background: spicy ? G : "#ddd",
-        border: "2px solid ".concat(DARK),
-        position: "relative"
-      }
-    }, /*#__PURE__*/React.createElement("div", {
-      style: {
-        width: 18,
-        height: 18,
-        borderRadius: "50%",
-        background: "#fff",
-        border: "1.5px solid ".concat(DARK),
-        position: "absolute",
-        top: 1,
-        left: spicy ? 22 : 2,
-        transition: "left .2s"
-      }
-    })) : /*#__PURE__*/React.createElement("span", {
-      style: {
-        color: "#bbb",
-        fontSize: 16
-      }
-    }, "\u203A")), i < items.length - 1 && /*#__PURE__*/React.createElement("div", {
-      style: {
-        height: 1,
-        background: "#f0f0f0"
-      }
-    }));
-  })));
+  }, items.map((item, i) => /*#__PURE__*/React.createElement("div", {
+    key: i
+  }, /*#__PURE__*/React.createElement("div", {
+    onClick: item.action ? onSpicyConfirm : undefined,
+    style: {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between",
+      padding: "12px 0",
+      cursor: item.action ? "pointer" : "default"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "center",
+      gap: 10
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 18
+    }
+  }, item.icon), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 13,
+      fontWeight: 700,
+      color: DARK
+    }
+  }, item.label)), item.action ? /*#__PURE__*/React.createElement("div", {
+    style: {
+      width: 44,
+      height: 24,
+      borderRadius: 99,
+      background: spicy ? G : "#ddd",
+      border: `2px solid ${DARK}`,
+      position: "relative"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      width: 18,
+      height: 18,
+      borderRadius: "50%",
+      background: "#fff",
+      border: `1.5px solid ${DARK}`,
+      position: "absolute",
+      top: 1,
+      left: spicy ? 22 : 2,
+      transition: "left .2s"
+    }
+  })) : /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: "#bbb",
+      fontSize: 16
+    }
+  }, "\u203A")), i < items.length - 1 && /*#__PURE__*/React.createElement("div", {
+    style: {
+      height: 1,
+      background: "#f0f0f0"
+    }
+  })))));
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
 // ROOT
 // ══════════════════════════════════════════════════════════════════════════════
 function App() {
-  var _TABS$find, _TABS$find2;
-  var _useState63 = useState("cashflow"),
-    _useState64 = _slicedToArray(_useState63, 2),
-    tab = _useState64[0],
-    setTab = _useState64[1];
-  var _useState65 = useState(false),
-    _useState66 = _slicedToArray(_useState65, 2),
-    spicy = _useState66[0],
-    setSpicy = _useState66[1];
-  var _useState67 = useState(false),
-    _useState68 = _slicedToArray(_useState67, 2),
-    spicyConfirm = _useState68[0],
-    setSpicyConfirm = _useState68[1];
-  var bgColor = spicy ? "#111" : CREAM;
-  var headerBg = spicy ? DARK : G;
-  var screens = {
+  const [tab, setTab] = useState("cashflow");
+  const [spicy, setSpicy] = useState(false);
+  const [spicyConfirm, setSpicyConfirm] = useState(false);
+  const bgColor = spicy ? "#111" : CREAM;
+  const headerBg = spicy ? DARK : G;
+  const screens = {
     cashflow: /*#__PURE__*/React.createElement(CashFlow, {
       spicy: spicy
     }),
@@ -2594,9 +2360,7 @@ function App() {
     }),
     more: /*#__PURE__*/React.createElement(More, {
       spicy: spicy,
-      onSpicyConfirm: function onSpicyConfirm() {
-        return setSpicyConfirm(true);
-      }
+      onSpicyConfirm: () => setSpicyConfirm(true)
     })
   };
   return /*#__PURE__*/React.createElement("div", {
@@ -2609,7 +2373,7 @@ function App() {
       padding: "16px 0",
       fontFamily: "'Nunito','Prompt',sans-serif"
     }
-  }, /*#__PURE__*/React.createElement("style", null, "@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap');*{box-sizing:border-box;margin:0;padding:0}::-webkit-scrollbar{width:0}"), /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("style", null, `@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap');*{box-sizing:border-box;margin:0;padding:0}::-webkit-scrollbar{width:0}`), /*#__PURE__*/React.createElement("div", {
     style: {
       width: 375,
       background: bgColor,
@@ -2650,7 +2414,7 @@ function App() {
       height: 30,
       background: spicy ? G : DARK,
       borderRadius: "50%",
-      border: "2px solid ".concat(DARK),
+      border: `2px solid ${DARK}`,
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
@@ -2676,14 +2440,8 @@ function App() {
       fontWeight: 700,
       color: spicy ? "#aaa" : DARK
     }
-  }, (_TABS$find = TABS.find(function (t) {
-    return t.id === tab;
-  })) === null || _TABS$find === void 0 ? void 0 : _TABS$find.icon, " ", (_TABS$find2 = TABS.find(function (t) {
-    return t.id === tab;
-  })) === null || _TABS$find2 === void 0 ? void 0 : _TABS$find2.thai), /*#__PURE__*/React.createElement("button", {
-    onClick: function onClick() {
-      return setSpicyConfirm(true);
-    },
+  }, TABS.find(t => t.id === tab)?.icon, " ", TABS.find(t => t.id === tab)?.thai), /*#__PURE__*/React.createElement("button", {
+    onClick: () => setSpicyConfirm(true),
     style: {
       display: "flex",
       alignItems: "center",
@@ -2693,15 +2451,13 @@ function App() {
       fontWeight: 800,
       background: spicy ? "#FF6B6B" : DARK + "22",
       color: spicy ? "#fff" : DARK,
-      border: "1.5px solid ".concat(spicy ? "#FF6B6B" : DARK),
+      border: `1.5px solid ${spicy ? "#FF6B6B" : DARK}`,
       borderRadius: 99,
       cursor: "pointer",
       transition: "all .2s"
     }
   }, spicy ? "🌶️ Spicy" : "😊 Normal"))), spicyConfirm && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
-    onClick: function onClick() {
-      return setSpicyConfirm(false);
-    },
+    onClick: () => setSpicyConfirm(false),
     style: {
       position: "absolute",
       inset: 0,
@@ -2717,8 +2473,8 @@ function App() {
       right: 16,
       background: "#fff",
       borderRadius: 20,
-      border: "2.5px solid ".concat(DARK),
-      boxShadow: "4px 4px 0 ".concat(DARK),
+      border: `2.5px solid ${DARK}`,
+      boxShadow: `4px 4px 0 ${DARK}`,
       padding: "20px 18px",
       zIndex: 999
     }
@@ -2750,9 +2506,7 @@ function App() {
       gap: 8
     }
   }, /*#__PURE__*/React.createElement("button", {
-    onClick: function onClick() {
-      return setSpicyConfirm(false);
-    },
+    onClick: () => setSpicyConfirm(false),
     style: {
       flex: 1,
       padding: "11px 0",
@@ -2765,10 +2519,8 @@ function App() {
       cursor: "pointer"
     }
   }, "\u0E22\u0E01\u0E40\u0E25\u0E34\u0E01"), /*#__PURE__*/React.createElement("button", {
-    onClick: function onClick() {
-      setSpicy(function (s) {
-        return !s;
-      });
+    onClick: () => {
+      setSpicy(s => !s);
       setSpicyConfirm(false);
     },
     style: {
@@ -2778,9 +2530,9 @@ function App() {
       fontWeight: 900,
       background: spicy ? DARK : "#FF6B6B",
       color: "#fff",
-      border: "2px solid ".concat(DARK),
+      border: `2px solid ${DARK}`,
       borderRadius: 12,
-      boxShadow: "2px 2px 0 ".concat(DARK),
+      boxShadow: `2px 2px 0 ${DARK}`,
       cursor: "pointer"
     }
   }, spicy ? "ปิดเลย" : "เปิดเลย 🌶️")))), /*#__PURE__*/React.createElement("div", {
@@ -2792,55 +2544,50 @@ function App() {
   }, screens[tab]), /*#__PURE__*/React.createElement("div", {
     style: {
       background: spicy ? "#1a1a1a" : "#fff",
-      borderTop: "2.5px solid ".concat(DARK),
+      borderTop: `2.5px solid ${DARK}`,
       display: "grid",
       gridTemplateColumns: "repeat(5,1fr)",
       padding: "5px 0 9px",
       transition: "background .3s"
     }
-  }, TABS.map(function (t) {
-    return /*#__PURE__*/React.createElement("button", {
-      key: t.id,
-      onClick: function onClick() {
-        return setTab(t.id);
-      },
-      style: {
-        background: "none",
-        border: "none",
-        cursor: "pointer",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        gap: 2,
-        padding: "4px 2px"
-      }
-    }, /*#__PURE__*/React.createElement("div", {
-      style: {
-        width: 30,
-        height: 30,
-        borderRadius: 9,
-        background: tab === t.id ? spicy ? G : DARK : "transparent",
-        border: tab === t.id ? "2px solid ".concat(DARK) : "2px solid transparent",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        fontSize: 14,
-        transition: "all .15s",
-        boxShadow: tab === t.id ? "2px 2px 0 ".concat(DARK) : "none"
-      }
-    }, t.icon), /*#__PURE__*/React.createElement("span", {
-      style: {
-        fontSize: 8,
-        fontWeight: 800,
-        textAlign: "center",
-        color: tab === t.id ? spicy ? G : DARK : "#999"
-      }
-    }, t.label));
-  }))));
+  }, TABS.map(t => /*#__PURE__*/React.createElement("button", {
+    key: t.id,
+    onClick: () => setTab(t.id),
+    style: {
+      background: "none",
+      border: "none",
+      cursor: "pointer",
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      gap: 2,
+      padding: "4px 2px"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      width: 30,
+      height: 30,
+      borderRadius: 9,
+      background: tab === t.id ? spicy ? G : DARK : "transparent",
+      border: tab === t.id ? `2px solid ${DARK}` : "2px solid transparent",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      fontSize: 14,
+      transition: "all .15s",
+      boxShadow: tab === t.id ? `2px 2px 0 ${DARK}` : "none"
+    }
+  }, t.icon), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 8,
+      fontWeight: 800,
+      textAlign: "center",
+      color: tab === t.id ? spicy ? G : DARK : "#999"
+    }
+  }, t.label))))));
 }
 
-const _root = ReactDOM.createRoot(document.getElementById('root'));
-_root.render(React.createElement(App));
+ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(App));
 </script>
 </body>
 </html>
