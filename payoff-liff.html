@@ -2156,30 +2156,76 @@ function Goal(_ref20) {
     });
   }, []);
   function submitAdd() {
-    var newGoal = {
-      id: Date.now(),
+    var uid = new URLSearchParams(window.location.search).get("userId");
+    if (!uid) return;
+    var body = {
+      action: "add",
       name: gName,
-      icon: "🎯",
-      pct: 0,
-      target: gTarget,
-      deadline: gDeadline || "ไม่กำหนด",
-      color: G,
-      fi: false
+      target_thb: Number(gTarget),
+      deadline: gDeadline || ""
     };
-    setGoals(function (gs) {
-      return [].concat(_toConsumableArray(gs), [newGoal]);
-    });
-    setAddDone(newGoal);
-    setGName("");
-    setGTarget("");
-    setGDeadline("");
+    fetch("/liff/goal", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(_objectSpread({
+        userId: uid
+      }, body))
+    }).then(function (r) {
+      return r.json();
+    }).then(function (d) {
+      if (!d.ok) return;
+      var newGoal = {
+        id: d.goal.id,
+        name: d.goal.name,
+        icon: "🎯",
+        pct: 0,
+        target: Math.round((d.goal.target_satang || 0) / 100).toLocaleString(),
+        deadline: d.goal.deadline || "ไม่กำหนด",
+        color: G,
+        fi: false
+      };
+      setGoals(function (gs) {
+        return [].concat(_toConsumableArray(gs), [newGoal]);
+      });
+      setAddDone(newGoal);
+      setGName("");
+      setGTarget("");
+      setGDeadline("");
+    }).catch(function () {});
   }
   function submitFund() {
-    setFundDone({
-      goal: fundSheet,
-      amt: Number(fAmt)
-    });
-    setFAmt("");
+    var uid = new URLSearchParams(window.location.search).get("userId");
+    if (!uid || !fundSheet) return;
+    fetch("/liff/goal", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        userId: uid,
+        action: "fund",
+        goal_id: fundSheet.id,
+        amount_thb: Number(fAmt)
+      })
+    }).then(function (r) {
+      return r.json();
+    }).then(function (d) {
+      if (!d.ok) return;
+      setGoals(function (gs) {
+        return gs.map(function (g) {
+          return g.id === fundSheet.id ? _objectSpread(_objectSpread({}, g), {}, {
+            pct: Math.min(100, Math.round((d.goal.saved_satang || 0) / (d.goal.target_satang || 1) * 100))
+          }) : g;
+        });
+      });
+      setFundDone({
+        goal: fundSheet,
+        amt: Number(fAmt)
+      });
+      setFAmt("");
+    }).catch(function () {});
   }
   return /*#__PURE__*/React.createElement("div", {
     style: {
