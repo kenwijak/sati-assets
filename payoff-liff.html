@@ -551,21 +551,30 @@ function CashFlow(_ref1) {
   React.useEffect(function () {
     var uid = liffUid || getLiffUid();
     if (!uid) return;
-    var p = period === "month" ? "this_month" : period === "week" ? "this_week" : "today";
-    fetch("/liff/transactions?userId=".concat(uid, "&period=").concat(p)).then(function (r) {
+    var url;
+    if (period === "month") {
+      // คำนวณ year/month จริงจาก monthOffset
+      var _now = new Date();
+      var target = new Date(_now.getFullYear(), _now.getMonth() + monthOffset, 1);
+      var y = target.getFullYear();
+      var m = target.getMonth() + 1;
+      url = "/liff/transactions?userId=".concat(uid, "&year=").concat(y, "&month=").concat(m);
+    } else {
+      var p = period === "week" ? "this_week" : "today";
+      url = "/liff/transactions?userId=".concat(uid, "&period=").concat(p);
+    }
+    fetch(url).then(function (r) {
       return r.json();
     }).then(function (d) {
       if (!d.ok) return;
-      setTxns(d.transactions || []);
-      if (d.summary) {
-        setTxSummary({
-          exp: d.summary.expense_thb || 0,
-          inc: d.summary.income_thb || 0,
-          net: (d.summary.income_thb || 0) - (d.summary.expense_thb || 0)
-        });
-      }
+      setTxns(d.txns || []);
+      setTxSummary({
+        exp: d.expense_thb || 0,
+        inc: d.income_thb || 0,
+        net: d.net_thb || 0
+      });
     }).catch(function () {});
-  }, [liffUid, period]);
+  }, [liffUid, period, monthOffset]);
   var _useState1 = useState("summary"),
     _useState10 = _slicedToArray(_useState1, 2),
     view = _useState10[0],
@@ -628,11 +637,15 @@ function CashFlow(_ref1) {
 
   // ── Fetch cashflow summary from worker ──
   _useEffect(function () {
-    if (period !== "month" || monthOffset !== 0) return;
+    if (period !== "month") return;
     var uid = liffUid || getLiffUid();
     if (!uid) return;
     setAllocLoading(true);
-    fetch("/liff/cashflow-summary?userId=".concat(uid, "&period=this_month")).then(function (r) {
+    var now2 = new Date();
+    var target2 = new Date(now2.getFullYear(), now2.getMonth() + monthOffset, 1);
+    var y2 = target2.getFullYear(),
+      m2 = target2.getMonth() + 1;
+    fetch("/liff/cashflow-summary?userId=".concat(uid, "&year=").concat(y2, "&month=").concat(m2)).then(function (r) {
       return r.json();
     }).then(function (d) {
       if (!d.ok) return;
