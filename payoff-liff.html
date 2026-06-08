@@ -50,6 +50,24 @@ var G = "#3DDB5A",
   CREAM = "#F5F0E8",
   DARK = "#1A3D1F",
   MID = "#2D5A35";
+
+// ── LIFF userId helper ────────────────────────────────────────────────────────
+window.__LIFF_UID = new URLSearchParams(window.location.search).get("userId") || "";
+(function initLiff() {
+  if (typeof liff === "undefined") return;
+  liff.init({
+    liffId: "2010030839-xs1nAvDg"
+  }).then(function () {
+    try {
+      return liff.getProfile();
+    } catch (e) {}
+  }).then(function (p) {
+    if (p && p.userId) window.__LIFF_UID = p.userId;
+  }).catch(function () {});
+})();
+function getLiffUid() {
+  return window.__LIFF_UID || new URLSearchParams(window.location.search).get("userId") || "";
+}
 var TABS = [{
   id: "cashflow",
   icon: "💸",
@@ -562,7 +580,7 @@ function CashFlow(_ref1) {
   // ── Fetch cashflow summary from worker ──
   _useEffect(function () {
     if (period !== "month" || monthOffset !== 0) return;
-    var uid = new URLSearchParams(window.location.search).get("userId");
+    var uid = getLiffUid();
     if (!uid) return;
     setAllocLoading(true);
     fetch("/liff/cashflow-summary?userId=".concat(uid, "&period=this_month")).then(function (r) {
@@ -1251,7 +1269,7 @@ function Save(_ref16) {
     saveSummary = _useState38[0],
     setSaveSummary = _useState38[1];
   React.useEffect(function () {
-    var uid = new URLSearchParams(window.location.search).get("userId");
+    var uid = getLiffUid();
     if (!uid) return;
     fetch("/liff/savings-summary?userId=".concat(uid)).then(function (r) {
       return r.json();
@@ -2140,7 +2158,7 @@ function Goal(_ref20) {
     goalsLoaded = _useState66[0],
     setGoalsLoaded = _useState66[1];
   React.useEffect(function () {
-    var uid = new URLSearchParams(window.location.search).get("userId");
+    var uid = getLiffUid();
     if (!uid) return;
     fetch("/liff/goals?userId=".concat(uid)).then(function (r) {
       return r.json();
@@ -2166,8 +2184,11 @@ function Goal(_ref20) {
     });
   }, []);
   function submitAdd() {
-    var uid = new URLSearchParams(window.location.search).get("userId");
-    if (!uid) return;
+    var uid = getLiffUid();
+    if (!uid) {
+      alert("ไม่พบ userId — ลองปิดแล้วเปิด LIFF ใหม่");
+      return;
+    }
     var body = {
       action: "add",
       name: gName,
@@ -2206,8 +2227,12 @@ function Goal(_ref20) {
     }).catch(function () {});
   }
   function submitFund() {
-    var uid = new URLSearchParams(window.location.search).get("userId");
-    if (!uid || !fundSheet) return;
+    var uid = getLiffUid();
+    if (!uid) {
+      alert("ไม่พบ userId — ลองปิดแล้วเปิด LIFF ใหม่");
+      return;
+    }
+    if (!fundSheet) return;
     fetch("/liff/goal", {
       method: "POST",
       headers: {
