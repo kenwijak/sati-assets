@@ -74,20 +74,15 @@ var TABS = [{
   label: "Cash Flow",
   thai: "รายรับ-จ่าย"
 }, {
-  id: "save",
+  id: "savegoal",
   icon: "🌱",
-  label: "Save",
-  thai: "เงินออม"
+  label: "Save & Goal",
+  thai: "ออม & เป้า"
 }, {
   id: "debt",
   icon: "🔓",
   label: "Debt",
   thai: "หนี้"
-}, {
-  id: "goal",
-  icon: "🎯",
-  label: "Goals",
-  thai: "เป้าหมาย"
 }, {
   id: "more",
   icon: "⚙️",
@@ -2736,35 +2731,899 @@ function More(_ref21) {
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
+// ROOT// ══════════════════════════════════════════════════════════════════════════════
+// SAVE & GOAL (combined)
+// ══════════════════════════════════════════════════════════════════════════════
+function SaveGoal(_ref22) {
+  var spicy = _ref22.spicy;
+  // ── Save state ──
+  var _useState67 = useState(false),
+    _useState68 = _slicedToArray(_useState67, 2),
+    saveSheet = _useState68[0],
+    setSaveSheet = _useState68[1];
+  var _useState69 = useState(null),
+    _useState70 = _slicedToArray(_useState69, 2),
+    saveDone = _useState70[0],
+    setSaveDone = _useState70[1];
+  var _useState71 = useState(""),
+    _useState72 = _slicedToArray(_useState71, 2),
+    amt = _useState72[0],
+    setAmt = _useState72[1];
+  var _useState73 = useState("general"),
+    _useState74 = _slicedToArray(_useState73, 2),
+    dest = _useState74[0],
+    setDest = _useState74[1];
+  var _useState75 = useState(""),
+    _useState76 = _slicedToArray(_useState75, 2),
+    saveNote = _useState76[0],
+    setSaveNote = _useState76[1];
+  var _useState77 = useState(false),
+    _useState78 = _slicedToArray(_useState77, 2),
+    investToast = _useState78[0],
+    setInvestToast = _useState78[1];
+  var _useState79 = useState({
+      total: 0,
+      emergency: 0,
+      thisMonth: 0,
+      emergencyPct: 0,
+      emergencyTarget: 100000
+    }),
+    _useState80 = _slicedToArray(_useState79, 2),
+    saveSummary = _useState80[0],
+    setSaveSummary = _useState80[1];
+
+  // ── Goal state ──
+  var _useState81 = useState(false),
+    _useState82 = _slicedToArray(_useState81, 2),
+    addSheet = _useState82[0],
+    setAddSheet = _useState82[1];
+  var _useState83 = useState(null),
+    _useState84 = _slicedToArray(_useState83, 2),
+    fundSheet = _useState84[0],
+    setFundSheet = _useState84[1];
+  var _useState85 = useState(null),
+    _useState86 = _slicedToArray(_useState85, 2),
+    addDone = _useState86[0],
+    setAddDone = _useState86[1];
+  var _useState87 = useState(null),
+    _useState88 = _slicedToArray(_useState87, 2),
+    fundDone = _useState88[0],
+    setFundDone = _useState88[1];
+  var _useState89 = useState(""),
+    _useState90 = _slicedToArray(_useState89, 2),
+    gName = _useState90[0],
+    setGName = _useState90[1];
+  var _useState91 = useState(""),
+    _useState92 = _slicedToArray(_useState91, 2),
+    gTarget = _useState92[0],
+    setGTarget = _useState92[1];
+  var _useState93 = useState(""),
+    _useState94 = _slicedToArray(_useState93, 2),
+    gDeadline = _useState94[0],
+    setGDeadline = _useState94[1];
+  var _useState95 = useState(""),
+    _useState96 = _slicedToArray(_useState95, 2),
+    fAmt = _useState96[0],
+    setFAmt = _useState96[1];
+  var _useState97 = useState([]),
+    _useState98 = _slicedToArray(_useState97, 2),
+    goals = _useState98[0],
+    setGoals = _useState98[1];
+  var _useState99 = useState(false),
+    _useState100 = _slicedToArray(_useState99, 2),
+    goalsLoaded = _useState100[0],
+    setGoalsLoaded = _useState100[1];
+  var PURPOSE = [{
+    id: "emergency",
+    label: "กองทุนฉุกเฉิน",
+    icon: "🛡️"
+  }, {
+    id: "goal",
+    label: "เป้าหมาย",
+    icon: "🎯"
+  }, {
+    id: "travel",
+    label: "เที่ยว",
+    icon: "✈️"
+  }, {
+    id: "gift",
+    label: "ของขวัญ",
+    icon: "🎁"
+  }, {
+    id: "general",
+    label: "อื่น ๆ",
+    icon: "📦"
+  }];
+
+  // ── Fetch savings summary ──
+  React.useEffect(function () {
+    var uid = getLiffUid();
+    if (!uid) return;
+    fetch("/liff/savings-summary?userId=".concat(uid)).then(function (r) {
+      return r.json();
+    }).then(function (d) {
+      if (!d.ok) return;
+      setSaveSummary({
+        total: d.total_thb || 0,
+        emergency: d.emergency_thb || 0,
+        thisMonth: d.this_month_thb || 0,
+        emergencyPct: d.emergency_pct || 0,
+        emergencyTarget: d.emergency_target_thb || 100000
+      });
+    }).catch(function () {});
+  }, []);
+
+  // ── Fetch goals ──
+  React.useEffect(function () {
+    var uid = getLiffUid();
+    if (!uid) return;
+    fetch("/liff/goals?userId=".concat(uid)).then(function (r) {
+      return r.json();
+    }).then(function (d) {
+      if (!d.ok || !d.goals) return;
+      var COLORS = [GOLD, "#4ECDC4", G, "#FF6B6B", "#9B59B6"];
+      setGoals(d.goals.map(function (g, i) {
+        var _g$name3, _g$name4;
+        return {
+          id: g.id || i,
+          name: g.name || "เป้าหมาย",
+          icon: g.icon || "🎯",
+          pct: Math.min(100, Math.round((g.saved_satang || 0) / Math.max(1, g.target_satang || 1) * 100)),
+          target: Math.round((g.target_satang || 0) / 100).toLocaleString(),
+          deadline: g.deadline || "ไม่กำหนด",
+          color: COLORS[i % COLORS.length],
+          fi: !!((_g$name3 = g.name) !== null && _g$name3 !== void 0 && _g$name3.includes("FI") || (_g$name4 = g.name) !== null && _g$name4 !== void 0 && _g$name4.includes("อิสระ"))
+        };
+      }));
+      setGoalsLoaded(true);
+    }).catch(function () {
+      return setGoalsLoaded(true);
+    });
+  }, []);
+  function submitSave() {
+    var uid = getLiffUid();
+    if (!uid) {
+      alert("ไม่พบ userId — ลองปิดแล้วเปิด LIFF ใหม่");
+      return;
+    }
+    var chip = PURPOSE.find(function (p) {
+      return p.id === dest;
+    });
+    var destination = dest === "emergency" ? "emergency" : "general";
+    var note = (dest !== "emergency" && dest !== "general" && chip ? chip.label + " " : "") + saveNote;
+    fetch("/liff/saving", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        userId: uid,
+        amount_thb: Number(amt),
+        destination: destination,
+        note: note
+      })
+    }).then(function (r) {
+      return r.json();
+    }).then(function (d) {
+      if (!d.ok) {
+        alert("บันทึกไม่สำเร็จ: " + (d.error || ""));
+        return;
+      }
+      setSaveDone({
+        amt: Number(amt),
+        dest: dest
+      });
+      setSaveSummary(function (s) {
+        return _objectSpread(_objectSpread({}, s), {}, {
+          total: s.total + Number(amt),
+          emergency: destination === "emergency" ? s.emergency + Number(amt) : s.emergency,
+          thisMonth: s.thisMonth + Number(amt),
+          emergencyPct: destination === "emergency" ? Math.round((s.emergency + Number(amt)) / s.emergencyTarget * 100) : s.emergencyPct
+        });
+      });
+      setAmt("");
+      setDest("general");
+      setSaveNote("");
+    }).catch(function () {
+      return alert("เชื่อมต่อไม่ได้ ลองใหม่อีกครั้ง");
+    });
+  }
+  function submitAdd() {
+    var uid = getLiffUid();
+    if (!uid) {
+      alert("ไม่พบ userId — ลองปิดแล้วเปิด LIFF ใหม่");
+      return;
+    }
+    fetch("/liff/goal", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        userId: uid,
+        action: "add",
+        name: gName,
+        target_thb: Number(gTarget),
+        deadline: gDeadline || ""
+      })
+    }).then(function (r) {
+      return r.json();
+    }).then(function (d) {
+      if (!d.ok) return;
+      var newGoal = {
+        id: d.goal.id,
+        name: d.goal.name,
+        icon: "🎯",
+        pct: 0,
+        target: Math.round((d.goal.target_satang || 0) / 100).toLocaleString(),
+        deadline: d.goal.deadline || "ไม่กำหนด",
+        color: G,
+        fi: false
+      };
+      setGoals(function (gs) {
+        return [].concat(_toConsumableArray(gs), [newGoal]);
+      });
+      setAddDone(newGoal);
+      setGName("");
+      setGTarget("");
+      setGDeadline("");
+    }).catch(function () {});
+  }
+  function submitFund() {
+    var uid = getLiffUid();
+    if (!uid) {
+      alert("ไม่พบ userId — ลองปิดแล้วเปิด LIFF ใหม่");
+      return;
+    }
+    if (!fundSheet) return;
+    fetch("/liff/goal", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        userId: uid,
+        action: "fund",
+        goal_id: fundSheet.id,
+        amount_thb: Number(fAmt)
+      })
+    }).then(function (r) {
+      return r.json();
+    }).then(function (d) {
+      if (!d.ok) return;
+      setGoals(function (gs) {
+        return gs.map(function (g) {
+          return g.id === fundSheet.id ? _objectSpread(_objectSpread({}, g), {}, {
+            pct: Math.min(100, d.pct || 0)
+          }) : g;
+        });
+      });
+      setFundDone({
+        goal: fundSheet,
+        amt: Number(fAmt)
+      });
+      setFAmt("");
+    }).catch(function () {});
+  }
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: "relative"
+    }
+  }, investToast && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
+    onClick: function onClick() {
+      return setInvestToast(false);
+    },
+    style: {
+      position: "fixed",
+      inset: 0,
+      background: "rgba(0,0,0,.5)",
+      zIndex: 998
+    }
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: "fixed",
+      top: "50%",
+      left: "50%",
+      transform: "translate(-50%,-50%)",
+      background: DARK,
+      color: "#fff",
+      borderRadius: 16,
+      border: "2px solid ".concat(GOLD),
+      padding: "20px 18px",
+      zIndex: 999,
+      width: 260,
+      textAlign: "center"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 28,
+      marginBottom: 8
+    }
+  }, "\u26D3\uFE0F"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 14,
+      fontWeight: 900,
+      color: GOLD,
+      marginBottom: 6
+    }
+  }, "\u0E1F\u0E35\u0E40\u0E08\u0E2D\u0E23\u0E4C\u0E19\u0E35\u0E49\u0E01\u0E33\u0E25\u0E31\u0E07\u0E21\u0E32"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 12,
+      color: "#ccc",
+      lineHeight: 1.6,
+      marginBottom: 14
+    }
+  }, "\u0E01\u0E32\u0E23\u0E14\u0E36\u0E07\u0E02\u0E49\u0E2D\u0E21\u0E39\u0E25\u0E1E\u0E2D\u0E23\u0E4C\u0E15\u0E25\u0E07\u0E17\u0E38\u0E19 real-time \u0E2D\u0E22\u0E39\u0E48\u0E43\u0E19 roadmap"), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return setInvestToast(false);
+    },
+    style: {
+      background: GOLD,
+      color: DARK,
+      border: "2px solid ".concat(DARK),
+      borderRadius: 10,
+      padding: "8px 24px",
+      fontWeight: 900,
+      fontSize: 13,
+      cursor: "pointer"
+    }
+  }, "\u0E42\u0E2D\u0E40\u0E04"))), /*#__PURE__*/React.createElement(Sheet, {
+    open: saveSheet,
+    onClose: function onClose() {
+      setSaveSheet(false);
+      setSaveDone(null);
+    }
+  }, saveDone ? /*#__PURE__*/React.createElement(Success, {
+    icon: "\uD83C\uDF31",
+    title: "\u0E2D\u0E2D\u0E21\u0E44\u0E1B\u0E41\u0E25\u0E49\u0E27 \u0E3F".concat(saveDone.amt.toLocaleString()),
+    sub: spicy ? "สลึงเล็กๆ กำลังรวมเป็นก้อนใหญ่" : "สลึงเล็กๆ กำลังรวมเป็นก้อนใหญ่เลย 🪙",
+    onClose: function onClose() {
+      setSaveSheet(false);
+      setSaveDone(null);
+    }
+  }) : /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 14,
+      fontWeight: 900,
+      color: DARK,
+      marginBottom: 14
+    }
+  }, "+ \u0E1A\u0E31\u0E19\u0E17\u0E36\u0E01\u0E40\u0E07\u0E34\u0E19\u0E2D\u0E2D\u0E21"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11,
+      fontWeight: 800,
+      color: DARK,
+      marginBottom: 6
+    }
+  }, "\u0E08\u0E33\u0E19\u0E27\u0E19\u0E17\u0E35\u0E48\u0E2D\u0E2D\u0E21"), /*#__PURE__*/React.createElement(AmtInput, {
+    value: amt,
+    onChange: setAmt
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11,
+      fontWeight: 800,
+      color: DARK,
+      marginBottom: 8
+    }
+  }, "\u0E2D\u0E2D\u0E21\u0E40\u0E1E\u0E37\u0E48\u0E2D\u0E2D\u0E30\u0E44\u0E23 ", /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: "#aaa",
+      fontWeight: 600
+    }
+  }, "(\u0E40\u0E25\u0E37\u0E2D\u0E01\u0E2B\u0E23\u0E37\u0E2D\u0E44\u0E21\u0E48\u0E01\u0E47\u0E44\u0E14\u0E49)")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      flexWrap: "wrap",
+      gap: 7,
+      marginBottom: 16
+    }
+  }, PURPOSE.map(function (o) {
+    return /*#__PURE__*/React.createElement("button", {
+      key: o.id,
+      onClick: function onClick() {
+        return setDest(o.id);
+      },
+      style: {
+        padding: "7px 12px",
+        background: dest === o.id ? DARK : "#f5f5f5",
+        color: dest === o.id ? "#fff" : DARK,
+        border: "2px solid ".concat(dest === o.id ? DARK : "#ddd"),
+        borderRadius: 99,
+        cursor: "pointer",
+        fontSize: 12,
+        fontWeight: 800,
+        display: "flex",
+        alignItems: "center",
+        gap: 5,
+        boxShadow: dest === o.id ? "2px 2px 0 ".concat(DARK) : "none"
+      }
+    }, /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 14
+      }
+    }, o.icon), o.label);
+  })), /*#__PURE__*/React.createElement(TextInput, {
+    value: saveNote,
+    onChange: setSaveNote,
+    label: "\u0E42\u0E19\u0E49\u0E15 (\u0E44\u0E21\u0E48\u0E1A\u0E31\u0E07\u0E04\u0E31\u0E1A)",
+    placeholder: "\u0E40\u0E0A\u0E48\u0E19 \u0E42\u0E1A\u0E19\u0E31\u0E2A, \u0E40\u0E07\u0E34\u0E19\u0E40\u0E2B\u0E25\u0E37\u0E2D\u0E40\u0E14\u0E37\u0E2D\u0E19\u0E19\u0E35\u0E49"
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      height: 8
+    }
+  }), /*#__PURE__*/React.createElement(ConfirmBtn, {
+    label: "\u0E1A\u0E31\u0E19\u0E17\u0E36\u0E01\u0E40\u0E07\u0E34\u0E19\u0E2D\u0E2D\u0E21",
+    disabled: !amt || Number(amt) <= 0,
+    onClick: submitSave
+  }))), /*#__PURE__*/React.createElement(Sheet, {
+    open: addSheet,
+    onClose: function onClose() {
+      setAddSheet(false);
+      setAddDone(null);
+    }
+  }, addDone ? /*#__PURE__*/React.createElement(Success, {
+    icon: "\uD83C\uDFAF",
+    title: "\u0E40\u0E1E\u0E34\u0E48\u0E21\u0E40\u0E1B\u0E49\u0E32\u0E2B\u0E21\u0E32\u0E22 \"".concat(addDone.name, "\" \u0E41\u0E25\u0E49\u0E27!"),
+    sub: spicy ? "โอเค Salung จะจับตาดูนะ" : "เริ่มต้นแล้ว ทุกก้าวเล็กๆ นำไปถึงเป้าหมายนะ 🌱",
+    onClose: function onClose() {
+      setAddSheet(false);
+      setAddDone(null);
+    }
+  }) : /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 14,
+      fontWeight: 900,
+      color: DARK,
+      marginBottom: 14
+    }
+  }, "+ \u0E40\u0E1E\u0E34\u0E48\u0E21\u0E40\u0E1B\u0E49\u0E32\u0E2B\u0E21\u0E32\u0E22"), /*#__PURE__*/React.createElement(TextInput, {
+    value: gName,
+    onChange: setGName,
+    label: "\u0E0A\u0E37\u0E48\u0E2D\u0E40\u0E1B\u0E49\u0E32\u0E2B\u0E21\u0E32\u0E22",
+    placeholder: "\u0E40\u0E0A\u0E48\u0E19 \u0E14\u0E32\u0E27\u0E19\u0E4C\u0E1A\u0E49\u0E32\u0E19, \u0E40\u0E17\u0E35\u0E48\u0E22\u0E27\u0E0D\u0E35\u0E48\u0E1B\u0E38\u0E48\u0E19, \u0E40\u0E01\u0E29\u0E35\u0E22\u0E13"
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11,
+      fontWeight: 800,
+      color: DARK,
+      marginBottom: 6
+    }
+  }, "\u0E08\u0E33\u0E19\u0E27\u0E19\u0E40\u0E07\u0E34\u0E19\u0E40\u0E1B\u0E49\u0E32\u0E2B\u0E21\u0E32\u0E22"), /*#__PURE__*/React.createElement(AmtInput, {
+    value: gTarget,
+    onChange: setGTarget,
+    placeholder: "100,000"
+  }), /*#__PURE__*/React.createElement(TextInput, {
+    value: gDeadline,
+    onChange: setGDeadline,
+    label: "\u0E01\u0E33\u0E2B\u0E19\u0E14\u0E40\u0E27\u0E25\u0E32 (\u0E44\u0E21\u0E48\u0E1A\u0E31\u0E07\u0E04\u0E31\u0E1A)",
+    placeholder: "\u0E40\u0E0A\u0E48\u0E19 \u0E18.\u0E04. 2027"
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      height: 16
+    }
+  }), /*#__PURE__*/React.createElement(ConfirmBtn, {
+    label: "\u0E2A\u0E23\u0E49\u0E32\u0E07\u0E40\u0E1B\u0E49\u0E32\u0E2B\u0E21\u0E32\u0E22 \u2713",
+    disabled: !gName || !gTarget,
+    onClick: submitAdd
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      height: 20
+    }
+  }))), /*#__PURE__*/React.createElement(Sheet, {
+    open: !!fundSheet,
+    onClose: function onClose() {
+      setFundSheet(null);
+      setFundDone(null);
+      setFAmt("");
+    }
+  }, fundDone ? /*#__PURE__*/React.createElement(Success, {
+    icon: "\uD83D\uDCB0",
+    title: "\u0E40\u0E1E\u0E34\u0E48\u0E21 \u0E3F".concat(fundDone.amt.toLocaleString(), " \u0E40\u0E02\u0E49\u0E32 \"").concat(fundDone.goal.name, "\""),
+    sub: spicy ? "บันทึกแล้ว ใกล้ขึ้นอีกนิด" : "เดินหน้าต่อ ทุกบาทนับ 🎯",
+    onClose: function onClose() {
+      setFundSheet(null);
+      setFundDone(null);
+    }
+  }) : fundSheet && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 14,
+      fontWeight: 900,
+      color: DARK,
+      marginBottom: 2
+    }
+  }, "\u0E40\u0E1E\u0E34\u0E48\u0E21\u0E40\u0E07\u0E34\u0E19\u0E40\u0E02\u0E49\u0E32\u0E40\u0E1B\u0E49\u0E32\u0E2B\u0E21\u0E32\u0E22"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 12,
+      color: "#888",
+      marginBottom: 14
+    }
+  }, fundSheet.icon, " ", fundSheet.name, " \xB7 \u0E44\u0E1B\u0E41\u0E25\u0E49\u0E27 ", fundSheet.pct, "%"), /*#__PURE__*/React.createElement(AmtInput, {
+    value: fAmt,
+    onChange: setFAmt
+  }), /*#__PURE__*/React.createElement(ConfirmBtn, {
+    label: "\u0E40\u0E1E\u0E34\u0E48\u0E21 \u0E3F".concat(fAmt ? Number(fAmt).toLocaleString() : "—", " \u0E40\u0E02\u0E49\u0E32\u0E40\u0E1B\u0E49\u0E32\u0E2B\u0E21\u0E32\u0E22"),
+    disabled: !fAmt || Number(fAmt) <= 0,
+    onClick: submitFund
+  }))), /*#__PURE__*/React.createElement(NBA, {
+    mood: "tip",
+    spicy: spicy,
+    text: saveSummary.emergencyPct < 100 ? "เติมกองทุนฉุกเฉินให้ครบ 3 เดือนก่อนเลย — ตอนนี้อยู่ที่ " + saveSummary.emergencyPct + "%" : "กองทุนฉุกเฉินครบแล้ว! ถัดไปโฟกัสเป้าหมายระยะยาวได้เลย 🎯",
+    actionLabel: "+ \u0E2D\u0E2D\u0E21\u0E40\u0E07\u0E34\u0E19",
+    onAction: function onAction() {
+      return setSaveSheet(true);
+    }
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: 8,
+      marginBottom: 10
+    }
+  }, /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return setSaveSheet(true);
+    },
+    style: {
+      flex: 1,
+      padding: "11px 0",
+      fontSize: 12,
+      fontWeight: 900,
+      background: spicy ? G : DARK,
+      color: spicy ? DARK : "#fff",
+      border: "2px solid ".concat(DARK),
+      borderRadius: 12,
+      boxShadow: "2px 2px 0 ".concat(DARK),
+      cursor: "pointer"
+    }
+  }, "\uD83C\uDF31 \u0E2D\u0E2D\u0E21\u0E40\u0E07\u0E34\u0E19"), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return setAddSheet(true);
+    },
+    style: {
+      flex: 1,
+      padding: "11px 0",
+      fontSize: 12,
+      fontWeight: 900,
+      background: "#fff",
+      color: DARK,
+      border: "2px solid ".concat(DARK),
+      borderRadius: 12,
+      boxShadow: "2px 2px 0 ".concat(DARK),
+      cursor: "pointer"
+    }
+  }, "\uD83C\uDFAF \u0E40\u0E1E\u0E34\u0E48\u0E21\u0E40\u0E1B\u0E49\u0E32\u0E2B\u0E21\u0E32\u0E22")), /*#__PURE__*/React.createElement(Card, {
+    style: {
+      background: spicy ? DARK : "".concat(G, "12")
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "flex-start"
+    }
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11,
+      color: "#888",
+      fontWeight: 600,
+      marginBottom: 2
+    }
+  }, "Net Worth \u0E17\u0E31\u0E49\u0E07\u0E2B\u0E21\u0E14"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 26,
+      fontWeight: 900,
+      color: spicy ? G : DARK
+    }
+  }, "\u0E3F", saveSummary.total.toLocaleString()), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 10,
+      color: "#aaa",
+      fontWeight: 600
+    }
+  }, "\u0E40\u0E07\u0E34\u0E19\u0E2D\u0E2D\u0E21 + \u0E40\u0E07\u0E34\u0E19\u0E1D\u0E32\u0E01 \xB7 \u0E44\u0E21\u0E48\u0E23\u0E27\u0E21\u0E25\u0E07\u0E17\u0E38\u0E19"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11,
+      color: spicy ? G : MID,
+      fontWeight: 700,
+      marginTop: 4
+    }
+  }, spicy ? "\u0E3F".concat(saveSummary.total.toLocaleString(), " \u0E22\u0E31\u0E07\u0E44\u0E21\u0E48\u0E23\u0E27\u0E22\u0E41\u0E15\u0E48\u0E14\u0E35\u0E01\u0E27\u0E48\u0E32\u0E40\u0E21\u0E37\u0E48\u0E2D\u0E1B\u0E35\u0E17\u0E35\u0E48\u0E41\u0E25\u0E49\u0E27\u0E41\u0E19\u0E48\u0E19\u0E2D\u0E19") : "\u0E2D\u0E2D\u0E21\u0E44\u0E1B\u0E41\u0E25\u0E49\u0E27 \u0E3F".concat(saveSummary.thisMonth.toLocaleString(), " \u0E40\u0E14\u0E37\u0E2D\u0E19\u0E19\u0E35\u0E49 \uD83C\uDF31"))), /*#__PURE__*/React.createElement(Face, {
+    size: 44,
+    mood: "proud"
+  }))), /*#__PURE__*/React.createElement(Card, null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 12,
+      fontWeight: 800,
+      color: DARK,
+      marginBottom: 10
+    }
+  }, "\uD83D\uDEE1\uFE0F \u0E01\u0E2D\u0E07\u0E17\u0E38\u0E19\u0E09\u0E38\u0E01\u0E40\u0E09\u0E34\u0E19"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: "".concat(G, "12"),
+      borderRadius: 12,
+      padding: 12,
+      marginBottom: 8
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      justifyContent: "space-between",
+      marginBottom: 4
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 12,
+      fontWeight: 700
+    }
+  }, "\u0E21\u0E35\u0E2D\u0E22\u0E39\u0E48"), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 13,
+      fontWeight: 900,
+      color: MID
+    }
+  }, "\u0E3F", saveSummary.emergency.toLocaleString())), /*#__PURE__*/React.createElement(Bar, {
+    pct: saveSummary.emergencyPct
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 10,
+      color: "#888",
+      marginTop: 4
+    }
+  }, saveSummary.emergencyPct, "% \u0E02\u0E2D\u0E07\u0E40\u0E1B\u0E49\u0E32 3 \u0E40\u0E14\u0E37\u0E2D\u0E19 (\u0E3F", saveSummary.emergencyTarget.toLocaleString(), ")"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11,
+      color: spicy ? "#FF9999" : "#888",
+      fontWeight: 700,
+      marginTop: 4
+    }
+  }, spicy ? "\u0E23\u0E2D\u0E07\u0E23\u0E31\u0E1A\u0E09\u0E38\u0E01\u0E40\u0E09\u0E34\u0E19\u0E44\u0E14\u0E49 ".concat((saveSummary.emergencyPct / 100 * 3).toFixed(1), " \u0E40\u0E14\u0E37\u0E2D\u0E19 \u0E2B\u0E25\u0E31\u0E07\u0E08\u0E32\u0E01\u0E19\u0E31\u0E49\u0E19\u0E15\u0E49\u0E2D\u0E07\u0E02\u0E2D\u0E22\u0E37\u0E21") : "\u0E23\u0E2D\u0E07\u0E23\u0E31\u0E1A\u0E09\u0E38\u0E01\u0E40\u0E09\u0E34\u0E19\u0E44\u0E14\u0E49\u0E1B\u0E23\u0E30\u0E21\u0E32\u0E13 ".concat((saveSummary.emergencyPct / 100 * 3).toFixed(1), " \u0E40\u0E14\u0E37\u0E2D\u0E19"))), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      setDest("emergency");
+      setSaveSheet(true);
+    },
+    style: {
+      width: "100%",
+      padding: "9px 0",
+      fontSize: 12,
+      fontWeight: 800,
+      background: "".concat(G, "22"),
+      color: MID,
+      border: "1.5px solid ".concat(G),
+      borderRadius: 10,
+      cursor: "pointer"
+    }
+  }, "+ \u0E40\u0E15\u0E34\u0E21\u0E01\u0E2D\u0E07\u0E17\u0E38\u0E19\u0E09\u0E38\u0E01\u0E40\u0E09\u0E34\u0E19")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 12,
+      fontWeight: 900,
+      color: spicy ? G : DARK,
+      marginBottom: 8,
+      marginTop: 4
+    }
+  }, "\uD83C\uDFAF \u0E40\u0E1B\u0E49\u0E32\u0E2B\u0E21\u0E32\u0E22"), !goalsLoaded && /*#__PURE__*/React.createElement(Card, null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      textAlign: "center",
+      color: "#aaa",
+      fontSize: 12,
+      padding: 8
+    }
+  }, "\u0E01\u0E33\u0E25\u0E31\u0E07\u0E42\u0E2B\u0E25\u0E14\u0E40\u0E1B\u0E49\u0E32\u0E2B\u0E21\u0E32\u0E22...")), goalsLoaded && goals.length === 0 && /*#__PURE__*/React.createElement(Card, {
+    style: {
+      textAlign: "center",
+      padding: "16px 14px"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 24,
+      marginBottom: 6
+    }
+  }, "\uD83C\uDFAF"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 12,
+      fontWeight: 800,
+      color: DARK,
+      marginBottom: 4
+    }
+  }, "\u0E22\u0E31\u0E07\u0E44\u0E21\u0E48\u0E21\u0E35\u0E40\u0E1B\u0E49\u0E32\u0E2B\u0E21\u0E32\u0E22"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11,
+      color: "#888",
+      marginBottom: 12
+    }
+  }, "\u0E40\u0E1E\u0E34\u0E48\u0E21\u0E40\u0E1B\u0E49\u0E32\u0E2B\u0E21\u0E32\u0E22\u0E41\u0E23\u0E01\u0E44\u0E14\u0E49\u0E40\u0E25\u0E22"), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return setAddSheet(true);
+    },
+    style: {
+      width: "100%",
+      padding: "10px 0",
+      fontSize: 12,
+      fontWeight: 900,
+      background: DARK,
+      color: "#fff",
+      border: "2px solid ".concat(DARK),
+      borderRadius: 10,
+      boxShadow: "2px 2px 0 ".concat(DARK),
+      cursor: "pointer"
+    }
+  }, "+ \u0E40\u0E1E\u0E34\u0E48\u0E21\u0E40\u0E1B\u0E49\u0E32\u0E2B\u0E21\u0E32\u0E22\u0E41\u0E23\u0E01")), goals.map(function (g) {
+    return /*#__PURE__*/React.createElement(Card, {
+      key: g.id,
+      style: {
+        background: g.fi ? "".concat(GOLD, "18") : "#fff"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        marginBottom: 8
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        alignItems: "center",
+        gap: 8
+      }
+    }, /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 20
+      }
+    }, g.icon), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 12,
+        fontWeight: 800,
+        color: DARK
+      }
+    }, g.name), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 10,
+        color: "#888"
+      }
+    }, "\u0E3F", g.target, " \xB7 ", g.deadline))), /*#__PURE__*/React.createElement("div", {
+      style: {
+        width: 40,
+        height: 40,
+        borderRadius: "50%",
+        border: "3px solid ".concat(g.pct >= 100 ? G : g.pct > 20 ? GOLD : "#ddd"),
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        fontSize: 11,
+        fontWeight: 900,
+        color: DARK,
+        flexShrink: 0
+      }
+    }, g.pct, "%")), /*#__PURE__*/React.createElement(Bar, {
+      pct: g.pct,
+      color: g.color
+    }), /*#__PURE__*/React.createElement("button", {
+      onClick: function onClick() {
+        return setFundSheet(g);
+      },
+      style: {
+        width: "100%",
+        marginTop: 8,
+        padding: "8px 0",
+        fontSize: 12,
+        fontWeight: 800,
+        background: "".concat(G, "22"),
+        color: MID,
+        border: "1.5px solid ".concat(G),
+        borderRadius: 10,
+        cursor: "pointer"
+      }
+    }, "+ \u0E40\u0E1E\u0E34\u0E48\u0E21\u0E40\u0E07\u0E34\u0E19\u0E40\u0E02\u0E49\u0E32\u0E40\u0E1B\u0E49\u0E32"));
+  }), /*#__PURE__*/React.createElement(Card, {
+    style: {
+      opacity: .85,
+      marginTop: 4
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "center",
+      marginBottom: 10
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 12,
+      fontWeight: 800,
+      color: DARK
+    }
+  }, "\u0E1E\u0E2D\u0E23\u0E4C\u0E15\u0E25\u0E07\u0E17\u0E38\u0E19"), /*#__PURE__*/React.createElement(Tag, {
+    color: "#f0f0f0"
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: "#999"
+    }
+  }, "\u26D3\uFE0F \u0E40\u0E23\u0E47\u0E27\u0E46 \u0E19\u0E35\u0E49"))), ["หุ้น / ETF", "กองทุนรวม", "คริปโต"].map(function (lbl, i) {
+    return /*#__PURE__*/React.createElement("div", {
+      key: i,
+      style: {
+        marginBottom: 8
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        justifyContent: "space-between",
+        marginBottom: 3
+      }
+    }, /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 12,
+        fontWeight: 700,
+        color: "#bbb"
+      }
+    }, lbl), /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 12,
+        color: "#ccc"
+      }
+    }, "\u2014 \u2014 \u2014")), /*#__PURE__*/React.createElement("div", {
+      style: {
+        height: 7,
+        background: "#f0f0f0",
+        borderRadius: 99
+      }
+    }));
+  }), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return setInvestToast(true);
+    },
+    style: {
+      width: "100%",
+      marginTop: 4,
+      padding: "10px 0",
+      background: "#f7f7f7",
+      border: "2px dashed #ccc",
+      borderRadius: 12,
+      cursor: "pointer",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      gap: 8
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 14
+    }
+  }, "\u26D3\uFE0F"), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 12,
+      fontWeight: 800,
+      color: "#aaa"
+    }
+  }, "\u0E40\u0E0A\u0E37\u0E48\u0E2D\u0E21\u0E1E\u0E2D\u0E23\u0E4C\u0E15\u0E25\u0E07\u0E17\u0E38\u0E19 (\u0E01\u0E33\u0E25\u0E31\u0E07\u0E1E\u0E31\u0E12\u0E19\u0E32)"))));
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
 // ROOT
 // ══════════════════════════════════════════════════════════════════════════════
 function App() {
   var _TABS$find, _TABS$find2;
-  var _useState67 = useState("cashflow"),
-    _useState68 = _slicedToArray(_useState67, 2),
-    tab = _useState68[0],
-    setTab = _useState68[1];
-  var _useState69 = useState(false),
-    _useState70 = _slicedToArray(_useState69, 2),
-    spicy = _useState70[0],
-    setSpicy = _useState70[1];
-  var _useState71 = useState(false),
-    _useState72 = _slicedToArray(_useState71, 2),
-    spicyConfirm = _useState72[0],
-    setSpicyConfirm = _useState72[1];
+  var _useState101 = useState("cashflow"),
+    _useState102 = _slicedToArray(_useState101, 2),
+    tab = _useState102[0],
+    setTab = _useState102[1];
+  var _useState103 = useState(false),
+    _useState104 = _slicedToArray(_useState103, 2),
+    spicy = _useState104[0],
+    setSpicy = _useState104[1];
+  var _useState105 = useState(false),
+    _useState106 = _slicedToArray(_useState105, 2),
+    spicyConfirm = _useState106[0],
+    setSpicyConfirm = _useState106[1];
   var bgColor = spicy ? "#111" : CREAM;
   var headerBg = spicy ? DARK : G;
   var screens = {
     cashflow: /*#__PURE__*/React.createElement(CashFlow, {
       spicy: spicy
     }),
-    save: /*#__PURE__*/React.createElement(Save, {
+    savegoal: /*#__PURE__*/React.createElement(SaveGoal, {
       spicy: spicy
     }),
     debt: /*#__PURE__*/React.createElement(Debt, {
-      spicy: spicy
-    }),
-    goal: /*#__PURE__*/React.createElement(Goal, {
       spicy: spicy
     }),
     more: /*#__PURE__*/React.createElement(More, {
