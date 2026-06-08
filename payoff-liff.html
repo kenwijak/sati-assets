@@ -206,26 +206,36 @@ function Sheet(_ref5) {
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
     onClick: onClose,
     style: {
-      position: "absolute",
+      position: "fixed",
       inset: 0,
       background: "rgba(0,0,0,.45)",
       zIndex: 98
     }
   }), /*#__PURE__*/React.createElement("div", {
     style: {
-      position: "absolute",
-      bottom: 0,
+      position: "fixed",
+      top: "5%",
       left: 0,
       right: 0,
+      bottom: 0,
       background: "#fff",
       borderRadius: "20px 20px 0 0",
       border: "2.5px solid ".concat(DARK),
-      padding: "20px 18px 48px",
+      padding: "20px 18px 40px",
       zIndex: 99,
-      maxHeight: "90%",
-      overflowY: "auto"
+      overflowY: "auto",
+      maxWidth: 375,
+      margin: "0 auto"
     }
-  }, children));
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      width: 40,
+      height: 4,
+      background: "#ddd",
+      borderRadius: 99,
+      margin: "0 auto 16px"
+    }
+  }), children));
 }
 
 // ── Success flash ─────────────────────────────────────────────────────────────
