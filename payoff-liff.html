@@ -756,11 +756,26 @@ function CashFlow(_ref1) {
 
   // txns มาจาก state ด้านบน
 
-  var nba = {
-    day: "วันนี้เหลืองบ ฿253 อีก 1 มื้อเย็น = รอด ไม่ต้องสั่ง delivery นะ",
-    week: spicy ? "สัปดาห์นี้ช้อปปิ้ง ฿650 เกินงบ Salung เห็นหมดนะ 👀" : "สัปดาห์นี้ช้อปปิ้งเกินงบ ฿650 ลองพักก่อน 1 อาทิตย์ได้ไหม?",
-    month: spicy ? "฿3,800 ในช้อปปิ้ง Salung เห็นหมดนะ 👀" : "เดือนนี้ช้อปปิ้งเกินงบ ฿800 ถ้าโยนเข้าหนี้บัตรได้จะปิดเร็วขึ้น 1 เดือนนะ"
-  };
+  // NBA CashFlow — คำนวณจากข้อมูลจริง
+  var nbaText = function () {
+    var net = txSummary.net;
+    var exp = txSummary.exp;
+    var inc = txSummary.inc;
+    if (period === "day") {
+      if (net >= 0) return spicy ? "\u0E27\u0E31\u0E19\u0E19\u0E35\u0E49\u0E22\u0E31\u0E07\u0E40\u0E2B\u0E25\u0E37\u0E2D\u0E07\u0E1A \u0E3F".concat(Math.round(net).toLocaleString(), " \u0E2D\u0E22\u0E48\u0E32\u0E44\u0E1B\u0E40\u0E2A\u0E35\u0E22\u0E01\u0E48\u0E2D\u0E19\u0E19\u0E30") : "\u0E27\u0E31\u0E19\u0E19\u0E35\u0E49\u0E40\u0E2B\u0E25\u0E37\u0E2D\u0E07\u0E1A \u0E3F".concat(Math.round(net).toLocaleString(), " \u2014 \u0E22\u0E31\u0E07\u0E42\u0E2D\u0E40\u0E04\u0E2D\u0E22\u0E39\u0E48 \uD83D\uDC4D");
+      return spicy ? "\u0E27\u0E31\u0E19\u0E19\u0E35\u0E49\u0E40\u0E01\u0E34\u0E19\u0E07\u0E1A\u0E44\u0E1B\u0E41\u0E25\u0E49\u0E27 \u0E3F".concat(Math.round(-net).toLocaleString(), " \u0E08\u0E23\u0E34\u0E07\u0E46 \u0E19\u0E30") : "\u0E27\u0E31\u0E19\u0E19\u0E35\u0E49\u0E43\u0E0A\u0E49\u0E40\u0E01\u0E34\u0E19\u0E21\u0E32 \u0E3F".concat(Math.round(-net).toLocaleString(), " \u2014 \u0E1E\u0E23\u0E38\u0E48\u0E07\u0E19\u0E35\u0E49\u0E40\u0E23\u0E34\u0E48\u0E21\u0E43\u0E2B\u0E21\u0E48\u0E44\u0E14\u0E49\u0E40\u0E25\u0E22");
+    }
+    if (period === "week") {
+      if (exp === 0) return "ยังไม่มีรายจ่ายสัปดาห์นี้ — บันทึกรายการแรกได้เลย";
+      return spicy ? "\u0E2A\u0E31\u0E1B\u0E14\u0E32\u0E2B\u0E4C\u0E19\u0E35\u0E49\u0E43\u0E0A\u0E49\u0E44\u0E1B\u0E41\u0E25\u0E49\u0E27 \u0E3F".concat(Math.round(exp).toLocaleString(), " Salung \u0E40\u0E2B\u0E47\u0E19\u0E2B\u0E21\u0E14\u0E19\u0E30 \uD83D\uDC40") : "\u0E2A\u0E31\u0E1B\u0E14\u0E32\u0E2B\u0E4C\u0E19\u0E35\u0E49\u0E43\u0E0A\u0E49\u0E44\u0E1B \u0E3F".concat(Math.round(exp).toLocaleString(), " \u2014 \u0E22\u0E31\u0E07\u0E21\u0E35\u0E40\u0E27\u0E25\u0E32\u0E1B\u0E23\u0E31\u0E1A\u0E2D\u0E35\u0E01");
+    }
+    // month
+    if (inc === 0) return "ยังไม่มีรายรับเดือนนี้ — บันทึกเงินเดือนก่อนเลย 💰";
+    var pct = Math.round(exp / inc * 100);
+    if (net < 0) return spicy ? "\u0E43\u0E0A\u0E49\u0E40\u0E01\u0E34\u0E19\u0E23\u0E32\u0E22\u0E23\u0E31\u0E1A\u0E44\u0E1B\u0E41\u0E25\u0E49\u0E27 ".concat(pct, "% Salung \u0E40\u0E1B\u0E47\u0E19\u0E2B\u0E48\u0E27\u0E07\u0E08\u0E23\u0E34\u0E07\u0E46 \uD83D\uDE2C") : "\u0E40\u0E14\u0E37\u0E2D\u0E19\u0E19\u0E35\u0E49\u0E43\u0E0A\u0E49\u0E40\u0E01\u0E34\u0E19\u0E23\u0E32\u0E22\u0E23\u0E31\u0E1A ".concat(pct, "% \u2014 \u0E40\u0E14\u0E37\u0E2D\u0E19\u0E2B\u0E19\u0E49\u0E32\u0E27\u0E32\u0E07\u0E41\u0E1C\u0E19\u0E43\u0E2B\u0E21\u0E48\u0E44\u0E14\u0E49\u0E40\u0E25\u0E22");
+    if (pct > 80) return spicy ? "\u0E43\u0E0A\u0E49\u0E44\u0E1B\u0E41\u0E25\u0E49\u0E27 ".concat(pct, "% \u0E02\u0E2D\u0E07\u0E23\u0E32\u0E22\u0E23\u0E31\u0E1A \u0E40\u0E2B\u0E25\u0E37\u0E2D\u0E07\u0E1A\u0E19\u0E34\u0E14\u0E40\u0E14\u0E35\u0E22\u0E27") : "\u0E43\u0E0A\u0E49\u0E44\u0E1B\u0E41\u0E25\u0E49\u0E27 ".concat(pct, "% \u0E02\u0E2D\u0E07\u0E23\u0E32\u0E22\u0E23\u0E31\u0E1A \u2014 \u0E23\u0E30\u0E27\u0E31\u0E07\u0E0A\u0E48\u0E27\u0E07\u0E17\u0E49\u0E32\u0E22\u0E40\u0E14\u0E37\u0E2D\u0E19\u0E14\u0E49\u0E27\u0E22\u0E19\u0E30");
+    return spicy ? "\u0E40\u0E14\u0E37\u0E2D\u0E19\u0E19\u0E35\u0E49\u0E14\u0E35\u0E19\u0E30 \u0E43\u0E0A\u0E49\u0E41\u0E04\u0E48 ".concat(pct, "% \u0E17\u0E35\u0E48\u0E40\u0E2B\u0E25\u0E37\u0E2D\u0E40\u0E2D\u0E32\u0E44\u0E1B\u0E2D\u0E2D\u0E21\u0E44\u0E14\u0E49\u0E40\u0E25\u0E22") : "\u0E40\u0E14\u0E37\u0E2D\u0E19\u0E19\u0E35\u0E49\u0E43\u0E0A\u0E49\u0E44\u0E1B ".concat(pct, "% \u0E40\u0E2B\u0E25\u0E37\u0E2D \u0E3F").concat(Math.round(net).toLocaleString(), " \u2014 \u0E42\u0E22\u0E19\u0E40\u0E02\u0E49\u0E32\u0E2D\u0E2D\u0E21\u0E2B\u0E23\u0E37\u0E2D\u0E2B\u0E19\u0E35\u0E49\u0E44\u0E14\u0E49\u0E40\u0E25\u0E22 \uD83C\uDF31");
+  }();
   function submit() {
     var uid = liffUid || getLiffUid();
     if (!uid) {
@@ -941,7 +956,7 @@ function CashFlow(_ref1) {
     disabled: !amt || Number(amt) <= 0,
     onClick: submit
   }))), /*#__PURE__*/React.createElement(NBA, {
-    text: nba[period],
+    text: nbaText,
     actionLabel: "+ \u0E1A\u0E31\u0E19\u0E17\u0E36\u0E01\u0E23\u0E32\u0E22\u0E01\u0E32\u0E23",
     onAction: function onAction() {
       return setSheet(true);
@@ -1582,7 +1597,15 @@ function Save(_ref16) {
   }))), /*#__PURE__*/React.createElement(NBA, {
     mood: "tip",
     spicy: spicy,
-    text: "\u0E40\u0E15\u0E34\u0E21\u0E01\u0E2D\u0E07\u0E17\u0E38\u0E19\u0E09\u0E38\u0E01\u0E40\u0E09\u0E34\u0E19\u0E2D\u0E35\u0E01 \u0E3F3,000 \u0E40\u0E14\u0E37\u0E2D\u0E19\u0E19\u0E35\u0E49 \u0E08\u0E30\u0E02\u0E36\u0E49\u0E19\u0E40\u0E1B\u0E47\u0E19 45% \u2014 \u0E40\u0E1B\u0E49\u0E32 3 \u0E40\u0E14\u0E37\u0E2D\u0E19\u0E43\u0E01\u0E25\u0E49\u0E41\u0E25\u0E49\u0E27!",
+    text: function () {
+      var pct = saveSummary.emergencyPct;
+      var target = saveSummary.emergencyTarget;
+      var have = saveSummary.emergency;
+      var need = Math.max(0, Math.round(target - have));
+      if (pct >= 100) return spicy ? "กองทุนฉุกเฉินครบแล้ว ตอนนี้ถ้าเจ็บป่วยหรือตกงาน 3 เดือนรอดแน่นอน" : "กองทุนฉุกเฉินครบ 3 เดือนแล้ว! ต่อไปโฟกัสเป้าหมายระยะยาวได้เลย 🎯";
+      if (pct >= 50) return spicy ? "\u0E44\u0E1B\u0E41\u0E25\u0E49\u0E27 ".concat(pct, "% \u0E2D\u0E35\u0E01 \u0E3F").concat(need.toLocaleString(), " \u0E16\u0E36\u0E07\u0E40\u0E1B\u0E49\u0E32 \u0E40\u0E23\u0E48\u0E07\u0E2B\u0E19\u0E48\u0E2D\u0E22\u0E44\u0E14\u0E49") : "\u0E01\u0E2D\u0E07\u0E17\u0E38\u0E19\u0E09\u0E38\u0E01\u0E40\u0E09\u0E34\u0E19 ".concat(pct, "% \u0E41\u0E25\u0E49\u0E27 \u0E40\u0E15\u0E34\u0E21\u0E2D\u0E35\u0E01 \u0E3F").concat(need.toLocaleString(), " \u0E01\u0E47\u0E04\u0E23\u0E1A 3 \u0E40\u0E14\u0E37\u0E2D\u0E19");
+      return spicy ? "".concat(pct, "% \u0E40\u0E17\u0E48\u0E32\u0E19\u0E31\u0E49\u0E19 \u0E16\u0E49\u0E32\u0E40\u0E01\u0E34\u0E14\u0E40\u0E23\u0E37\u0E48\u0E2D\u0E07\u0E09\u0E38\u0E01\u0E40\u0E09\u0E34\u0E19\u0E15\u0E2D\u0E19\u0E19\u0E35\u0E49\u0E2D\u0E32\u0E08\u0E25\u0E33\u0E1A\u0E32\u0E01 \u0E40\u0E15\u0E34\u0E21\u0E01\u0E48\u0E2D\u0E19\u0E40\u0E25\u0E22") : "\u0E01\u0E2D\u0E07\u0E17\u0E38\u0E19\u0E09\u0E38\u0E01\u0E40\u0E09\u0E34\u0E19\u0E22\u0E31\u0E07\u0E2D\u0E22\u0E39\u0E48\u0E17\u0E35\u0E48 ".concat(pct, "% \u2014 \u0E40\u0E15\u0E34\u0E21\u0E17\u0E35\u0E25\u0E30\u0E19\u0E34\u0E14\u0E01\u0E47\u0E44\u0E14\u0E49 \u0E44\u0E21\u0E48\u0E15\u0E49\u0E2D\u0E07\u0E23\u0E2D\u0E01\u0E49\u0E2D\u0E19\u0E43\u0E2B\u0E0D\u0E48");
+    }(),
     actionLabel: "+ \u0E1A\u0E31\u0E19\u0E17\u0E36\u0E01\u0E40\u0E07\u0E34\u0E19\u0E2D\u0E2D\u0E21",
     onAction: function onAction() {
       return setSheet(true);
@@ -2263,7 +2286,17 @@ function Debt(_ref19) {
   }, "+ \u0E08\u0E14\u0E2B\u0E19\u0E35\u0E49\u0E43\u0E2B\u0E21\u0E48"), /*#__PURE__*/React.createElement(NBA, {
     mood: "thinking",
     spicy: spicy,
-    text: "\u0E08\u0E48\u0E32\u0E22\u0E1A\u0E31\u0E15\u0E23\u0E40\u0E04\u0E23\u0E14\u0E34\u0E15\u0E40\u0E1E\u0E34\u0E48\u0E21 \u0E3F500/\u0E40\u0E14\u0E37\u0E2D\u0E19 \u0E08\u0E30\u0E1B\u0E34\u0E14\u0E2B\u0E19\u0E35\u0E49\u0E40\u0E23\u0E47\u0E27\u0E02\u0E36\u0E49\u0E19 8 \u0E40\u0E14\u0E37\u0E2D\u0E19\n\u0E14\u0E2D\u0E01\u0E40\u0E1A\u0E35\u0E49\u0E22\u0E17\u0E35\u0E48\u0E1B\u0E23\u0E30\u0E2B\u0E22\u0E31\u0E14\u0E44\u0E14\u0E49 \u2248 \u0E3F3,200",
+    text: function () {
+      if (!debtsLoaded || debts.length === 0) return "จดหนี้ทั้งหมดก่อนเลย Salung จะช่วยวางแผนให้";
+      var top = debts.find(function (d) {
+        return d.priority;
+      }) || debts[0];
+      var extra = 500;
+      var savedMonths = top && top.rate > 0 ? Math.round(top.bal * top.rate / 100 / 12 / (top.min + extra) * 2) : 0;
+      var interest = top && top.rate > 0 ? Math.round(top.bal * (top.rate / 100) / 12 * savedMonths) : 0;
+      if (top && top.rate > 15) return spicy ? "".concat(top.name, " \u0E14\u0E2D\u0E01\u0E40\u0E1A\u0E35\u0E49\u0E22 ").concat(top.rate, "% \u0E41\u0E1E\u0E07\u0E21\u0E32\u0E01 \u0E08\u0E48\u0E32\u0E22\u0E40\u0E1E\u0E34\u0E48\u0E21 \u0E3F").concat(extra.toLocaleString(), " \u0E40\u0E14\u0E37\u0E2D\u0E19\u0E25\u0E30\u0E04\u0E23\u0E31\u0E49\u0E07\u0E1B\u0E34\u0E14\u0E40\u0E23\u0E47\u0E27\u0E02\u0E36\u0E49\u0E19 ").concat(savedMonths, " \u0E40\u0E14\u0E37\u0E2D\u0E19 Salung \u0E40\u0E2B\u0E47\u0E19\u0E2B\u0E21\u0E14\u0E19\u0E30") : "\u0E08\u0E48\u0E32\u0E22 ".concat(top.name, " \u0E40\u0E1E\u0E34\u0E48\u0E21 \u0E3F").concat(extra.toLocaleString(), "/\u0E40\u0E14\u0E37\u0E2D\u0E19 \u0E1B\u0E34\u0E14\u0E40\u0E23\u0E47\u0E27\u0E02\u0E36\u0E49\u0E19 ~").concat(savedMonths, " \u0E40\u0E14\u0E37\u0E2D\u0E19 \u0E1B\u0E23\u0E30\u0E2B\u0E22\u0E31\u0E14\u0E14\u0E2D\u0E01\u0E2F \u0E3F").concat(interest.toLocaleString());
+      return spicy ? "\u0E2B\u0E19\u0E35\u0E49\u0E23\u0E27\u0E21 \u0E3F".concat(Math.round(totalDebt).toLocaleString(), " \u0E17\u0E38\u0E01\u0E1A\u0E32\u0E17\u0E17\u0E35\u0E48\u0E08\u0E48\u0E32\u0E22\u0E40\u0E01\u0E34\u0E19\u0E02\u0E31\u0E49\u0E19\u0E15\u0E48\u0E33\u0E04\u0E37\u0E2D\u0E40\u0E07\u0E34\u0E19\u0E17\u0E35\u0E48\u0E44\u0E14\u0E49\u0E04\u0E37\u0E19\u0E21\u0E32") : "\u0E08\u0E48\u0E32\u0E22\u0E40\u0E01\u0E34\u0E19\u0E02\u0E31\u0E49\u0E19\u0E15\u0E48\u0E33\u0E17\u0E38\u0E01\u0E40\u0E14\u0E37\u0E2D\u0E19 \u0E41\u0E21\u0E49\u0E41\u0E04\u0E48 \u0E3F500 \u0E01\u0E47\u0E1B\u0E34\u0E14\u0E2B\u0E19\u0E35\u0E49\u0E40\u0E23\u0E47\u0E27\u0E02\u0E36\u0E49\u0E19\u0E44\u0E14\u0E49\u0E2B\u0E25\u0E32\u0E22\u0E40\u0E14\u0E37\u0E2D\u0E19\u0E19\u0E30";
+    }(),
     actionLabel: "\u0E0A\u0E33\u0E23\u0E30\u0E2B\u0E19\u0E35\u0E49\u0E40\u0E25\u0E22",
     onAction: function onAction() {
       return setPayModal(debts[0]);
