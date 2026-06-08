@@ -31,17 +31,17 @@ function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArra
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
 function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(r); }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
 function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t.return && (u = t.return(), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
 function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
-function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
-function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
-function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
-function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
-function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 var _React = React,
   useState = _React.useState,
   _useEffect = _React.useEffect;
@@ -53,6 +53,7 @@ var G = "#3DDB5A",
 
 // ── LIFF userId helper ────────────────────────────────────────────────────────
 window.__LIFF_UID = new URLSearchParams(window.location.search).get("userId") || "";
+window.__LIFF_READY = false;
 (function initLiff() {
   if (typeof liff === "undefined") return;
   liff.init({
@@ -63,10 +64,32 @@ window.__LIFF_UID = new URLSearchParams(window.location.search).get("userId") ||
     } catch (e) {}
   }).then(function (p) {
     if (p && p.userId) window.__LIFF_UID = p.userId;
-  }).catch(function () {});
+    window.__LIFF_READY = true;
+    window.dispatchEvent(new Event("liff-ready"));
+  }).catch(function () {
+    window.__LIFF_READY = true;
+    window.dispatchEvent(new Event("liff-ready"));
+  });
 })();
 function getLiffUid() {
   return window.__LIFF_UID || new URLSearchParams(window.location.search).get("userId") || "";
+}
+function useLiffUid() {
+  var _useState = useState(getLiffUid()),
+    _useState2 = _slicedToArray(_useState, 2),
+    uid = _useState2[0],
+    setUid = _useState2[1];
+  React.useEffect(function () {
+    if (uid) return;
+    var h = function h() {
+      return setUid(getLiffUid());
+    };
+    window.addEventListener("liff-ready", h);
+    return function () {
+      return window.removeEventListener("liff-ready", h);
+    };
+  }, [uid]);
+  return uid;
 }
 var TABS = [{
   id: "cashflow",
@@ -406,10 +429,10 @@ function NBA(_ref0) {
     spicy = _ref0.spicy,
     _ref0$mood = _ref0.mood,
     mood = _ref0$mood === void 0 ? "tip" : _ref0$mood;
-  var _useState = useState(false),
-    _useState2 = _slicedToArray(_useState, 2),
-    done = _useState2[0],
-    setDone = _useState2[1];
+  var _useState3 = useState(false),
+    _useState4 = _slicedToArray(_useState3, 2),
+    done = _useState4[0],
+    setDone = _useState4[1];
   if (done) return /*#__PURE__*/React.createElement(Card, {
     style: {
       background: spicy ? "#1a3a1a" : "".concat(G, "18"),
@@ -508,44 +531,45 @@ function NBA(_ref0) {
 // ══════════════════════════════════════════════════════════════════════════════
 function CashFlow(_ref1) {
   var spicy = _ref1.spicy;
-  var _useState3 = useState("month"),
-    _useState4 = _slicedToArray(_useState3, 2),
-    period = _useState4[0],
-    setPeriod = _useState4[1];
-  var _useState5 = useState("summary"),
+  var liffUid = useLiffUid();
+  var _useState5 = useState("month"),
     _useState6 = _slicedToArray(_useState5, 2),
-    view = _useState6[0],
-    setView = _useState6[1];
-  var _useState7 = useState(0),
+    period = _useState6[0],
+    setPeriod = _useState6[1];
+  var _useState7 = useState("summary"),
     _useState8 = _slicedToArray(_useState7, 2),
-    monthOffset = _useState8[0],
-    setMonthOffset = _useState8[1];
-  var _useState9 = useState(false),
+    view = _useState8[0],
+    setView = _useState8[1];
+  var _useState9 = useState(0),
     _useState0 = _slicedToArray(_useState9, 2),
-    sheet = _useState0[0],
-    setSheet = _useState0[1];
-  var _useState1 = useState(null),
+    monthOffset = _useState0[0],
+    setMonthOffset = _useState0[1];
+  var _useState1 = useState(false),
     _useState10 = _slicedToArray(_useState1, 2),
-    done = _useState10[0],
-    setDone = _useState10[1]; // {amt,cat,note}
+    sheet = _useState10[0],
+    setSheet = _useState10[1];
+  var _useState11 = useState(null),
+    _useState12 = _slicedToArray(_useState11, 2),
+    done = _useState12[0],
+    setDone = _useState12[1]; // {amt,cat,note}
 
   // form state
-  var _useState11 = useState(""),
-    _useState12 = _slicedToArray(_useState11, 2),
-    amt = _useState12[0],
-    setAmt = _useState12[1];
-  var _useState13 = useState("food"),
+  var _useState13 = useState(""),
     _useState14 = _slicedToArray(_useState13, 2),
-    cat = _useState14[0],
-    setCat = _useState14[1];
-  var _useState15 = useState(""),
+    amt = _useState14[0],
+    setAmt = _useState14[1];
+  var _useState15 = useState("food"),
     _useState16 = _slicedToArray(_useState15, 2),
-    note = _useState16[0],
-    setNote = _useState16[1];
-  var _useState17 = useState("expense"),
+    cat = _useState16[0],
+    setCat = _useState16[1];
+  var _useState17 = useState(""),
     _useState18 = _slicedToArray(_useState17, 2),
-    type = _useState18[0],
-    setType = _useState18[1]; // expense | income
+    note = _useState18[0],
+    setNote = _useState18[1];
+  var _useState19 = useState("expense"),
+    _useState20 = _slicedToArray(_useState19, 2),
+    type = _useState20[0],
+    setType = _useState20[1]; // expense | income
 
   var MONTHS = ["ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค.", "ส.ค.", "ก.ย.", "ต.ค.", "พ.ย.", "ธ.ค."];
   var now = new Date();
@@ -554,28 +578,28 @@ function CashFlow(_ref1) {
   var isCurrent = monthOffset === 0;
 
   // ── Real data state ──
-  var _useState19 = useState([]),
-    _useState20 = _slicedToArray(_useState19, 2),
-    alloc = _useState20[0],
-    setAlloc = _useState20[1];
-  var _useState21 = useState(false),
+  var _useState21 = useState([]),
     _useState22 = _slicedToArray(_useState21, 2),
-    allocLoading = _useState22[0],
-    setAllocLoading = _useState22[1];
-  var _useState23 = useState({
+    alloc = _useState22[0],
+    setAlloc = _useState22[1];
+  var _useState23 = useState(false),
+    _useState24 = _slicedToArray(_useState23, 2),
+    allocLoading = _useState24[0],
+    setAllocLoading = _useState24[1];
+  var _useState25 = useState({
       exp: 0,
       inc: 0,
       net: 0,
       netLabel: "ใช้จ่ายได้จริง"
     }),
-    _useState24 = _slicedToArray(_useState23, 2),
-    cashSummary = _useState24[0],
-    setCashSummary = _useState24[1];
+    _useState26 = _slicedToArray(_useState25, 2),
+    cashSummary = _useState26[0],
+    setCashSummary = _useState26[1];
 
   // ── Fetch cashflow summary from worker ──
   _useEffect(function () {
     if (period !== "month" || monthOffset !== 0) return;
-    var uid = getLiffUid();
+    var uid = liffUid || getLiffUid();
     if (!uid) return;
     setAllocLoading(true);
     fetch("/liff/cashflow-summary?userId=".concat(uid, "&period=this_month")).then(function (r) {
@@ -620,7 +644,7 @@ function CashFlow(_ref1) {
     }).catch(function () {}).finally(function () {
       return setAllocLoading(false);
     });
-  }, [period, monthOffset]);
+  }, [period, monthOffset, liffUid]);
 
   // PDATA สำหรับ day/week (ยังใช้ estimated เพราะ real-time เร็วเกินจำเป็น)
   var PDATA = {
@@ -1229,42 +1253,42 @@ function CashFlow(_ref1) {
 // ══════════════════════════════════════════════════════════════════════════════
 function Save(_ref16) {
   var spicy = _ref16.spicy;
-  var _useState25 = useState(false),
-    _useState26 = _slicedToArray(_useState25, 2),
-    sheet = _useState26[0],
-    setSheet = _useState26[1];
-  var _useState27 = useState(null),
+  var _useState27 = useState(false),
     _useState28 = _slicedToArray(_useState27, 2),
-    done = _useState28[0],
-    setDone = _useState28[1];
-  var _useState29 = useState(""),
+    sheet = _useState28[0],
+    setSheet = _useState28[1];
+  var _useState29 = useState(null),
     _useState30 = _slicedToArray(_useState29, 2),
-    amt = _useState30[0],
-    setAmt = _useState30[1];
-  var _useState31 = useState("general"),
+    done = _useState30[0],
+    setDone = _useState30[1];
+  var _useState31 = useState(""),
     _useState32 = _slicedToArray(_useState31, 2),
-    dest = _useState32[0],
-    setDest = _useState32[1];
-  var _useState33 = useState(""),
+    amt = _useState32[0],
+    setAmt = _useState32[1];
+  var _useState33 = useState("general"),
     _useState34 = _slicedToArray(_useState33, 2),
-    saveNote = _useState34[0],
-    setSaveNote = _useState34[1];
-  var _useState35 = useState(false),
+    dest = _useState34[0],
+    setDest = _useState34[1];
+  var _useState35 = useState(""),
     _useState36 = _slicedToArray(_useState35, 2),
-    investToast = _useState36[0],
-    setInvestToast = _useState36[1];
-  var _useState37 = useState({
+    saveNote = _useState36[0],
+    setSaveNote = _useState36[1];
+  var _useState37 = useState(false),
+    _useState38 = _slicedToArray(_useState37, 2),
+    investToast = _useState38[0],
+    setInvestToast = _useState38[1];
+  var _useState39 = useState({
       total: 0,
       emergency: 0,
       thisMonth: 0,
       emergencyPct: 0,
       emergencyTarget: 100000
     }),
-    _useState38 = _slicedToArray(_useState37, 2),
-    saveSummary = _useState38[0],
-    setSaveSummary = _useState38[1];
+    _useState40 = _slicedToArray(_useState39, 2),
+    saveSummary = _useState40[0],
+    setSaveSummary = _useState40[1];
   React.useEffect(function () {
-    var uid = getLiffUid();
+    var uid = liffUid || getLiffUid();
     if (!uid) return;
     fetch("/liff/savings-summary?userId=".concat(uid)).then(function (r) {
       return r.json();
@@ -1713,50 +1737,51 @@ function Save(_ref16) {
 // ══════════════════════════════════════════════════════════════════════════════
 function Debt(_ref19) {
   var spicy = _ref19.spicy;
-  var _useState39 = useState(false),
-    _useState40 = _slicedToArray(_useState39, 2),
-    showPlan = _useState40[0],
-    setShowPlan = _useState40[1];
-  var _useState41 = useState(null),
+  var liffUid = useLiffUid();
+  var _useState41 = useState(false),
     _useState42 = _slicedToArray(_useState41, 2),
-    payModal = _useState42[0],
-    setPayModal = _useState42[1];
-  var _useState43 = useState(""),
+    showPlan = _useState42[0],
+    setShowPlan = _useState42[1];
+  var _useState43 = useState(null),
     _useState44 = _slicedToArray(_useState43, 2),
-    payAmt = _useState44[0],
-    setPayAmt = _useState44[1];
-  var _useState45 = useState({}),
+    payModal = _useState44[0],
+    setPayModal = _useState44[1];
+  var _useState45 = useState(""),
     _useState46 = _slicedToArray(_useState45, 2),
-    paidDone = _useState46[0],
-    setPaidDone = _useState46[1];
-  var _useState47 = useState(false),
+    payAmt = _useState46[0],
+    setPayAmt = _useState46[1];
+  var _useState47 = useState({}),
     _useState48 = _slicedToArray(_useState47, 2),
-    addDebtSheet = _useState48[0],
-    setAddDebtSheet = _useState48[1];
+    paidDone = _useState48[0],
+    setPaidDone = _useState48[1];
   var _useState49 = useState(false),
     _useState50 = _slicedToArray(_useState49, 2),
-    addDebtDone = _useState50[0],
-    setAddDebtDone = _useState50[1];
-  var _useState51 = useState(""),
+    addDebtSheet = _useState50[0],
+    setAddDebtSheet = _useState50[1];
+  var _useState51 = useState(false),
     _useState52 = _slicedToArray(_useState51, 2),
-    dCreditor = _useState52[0],
-    setDCreditor = _useState52[1];
-  var _useState53 = useState("credit_card"),
+    addDebtDone = _useState52[0],
+    setAddDebtDone = _useState52[1];
+  var _useState53 = useState(""),
     _useState54 = _slicedToArray(_useState53, 2),
-    dType = _useState54[0],
-    setDType = _useState54[1];
-  var _useState55 = useState(""),
+    dCreditor = _useState54[0],
+    setDCreditor = _useState54[1];
+  var _useState55 = useState("credit_card"),
     _useState56 = _slicedToArray(_useState55, 2),
-    dPrincipal = _useState56[0],
-    setDPrincipal = _useState56[1];
+    dType = _useState56[0],
+    setDType = _useState56[1];
   var _useState57 = useState(""),
     _useState58 = _slicedToArray(_useState57, 2),
-    dRate = _useState58[0],
-    setDRate = _useState58[1];
+    dPrincipal = _useState58[0],
+    setDPrincipal = _useState58[1];
   var _useState59 = useState(""),
     _useState60 = _slicedToArray(_useState59, 2),
-    dPayment = _useState60[0],
-    setDPayment = _useState60[1];
+    dRate = _useState60[0],
+    setDRate = _useState60[1];
+  var _useState61 = useState(""),
+    _useState62 = _slicedToArray(_useState61, 2),
+    dPayment = _useState62[0],
+    setDPayment = _useState62[1];
   var DEBT_TYPES = [{
     id: "credit_card",
     label: "บัตรเครดิต",
@@ -2368,52 +2393,52 @@ function Debt(_ref19) {
 // ══════════════════════════════════════════════════════════════════════════════
 function Goal(_ref20) {
   var spicy = _ref20.spicy;
-  var _useState61 = useState(false),
-    _useState62 = _slicedToArray(_useState61, 2),
-    addSheet = _useState62[0],
-    setAddSheet = _useState62[1];
-  var _useState63 = useState(null),
+  var _useState63 = useState(false),
     _useState64 = _slicedToArray(_useState63, 2),
-    fundSheet = _useState64[0],
-    setFundSheet = _useState64[1]; // goal object
+    addSheet = _useState64[0],
+    setAddSheet = _useState64[1];
   var _useState65 = useState(null),
     _useState66 = _slicedToArray(_useState65, 2),
-    addDone = _useState66[0],
-    setAddDone = _useState66[1];
+    fundSheet = _useState66[0],
+    setFundSheet = _useState66[1]; // goal object
   var _useState67 = useState(null),
     _useState68 = _slicedToArray(_useState67, 2),
-    fundDone = _useState68[0],
-    setFundDone = _useState68[1];
+    addDone = _useState68[0],
+    setAddDone = _useState68[1];
+  var _useState69 = useState(null),
+    _useState70 = _slicedToArray(_useState69, 2),
+    fundDone = _useState70[0],
+    setFundDone = _useState70[1];
 
   // add goal form
-  var _useState69 = useState(""),
-    _useState70 = _slicedToArray(_useState69, 2),
-    gName = _useState70[0],
-    setGName = _useState70[1];
   var _useState71 = useState(""),
     _useState72 = _slicedToArray(_useState71, 2),
-    gTarget = _useState72[0],
-    setGTarget = _useState72[1];
+    gName = _useState72[0],
+    setGName = _useState72[1];
   var _useState73 = useState(""),
     _useState74 = _slicedToArray(_useState73, 2),
-    gDeadline = _useState74[0],
-    setGDeadline = _useState74[1];
-
-  // fund form
+    gTarget = _useState74[0],
+    setGTarget = _useState74[1];
   var _useState75 = useState(""),
     _useState76 = _slicedToArray(_useState75, 2),
-    fAmt = _useState76[0],
-    setFAmt = _useState76[1];
-  var _useState77 = useState([]),
+    gDeadline = _useState76[0],
+    setGDeadline = _useState76[1];
+
+  // fund form
+  var _useState77 = useState(""),
     _useState78 = _slicedToArray(_useState77, 2),
-    goals = _useState78[0],
-    setGoals = _useState78[1];
-  var _useState79 = useState(false),
+    fAmt = _useState78[0],
+    setFAmt = _useState78[1];
+  var _useState79 = useState([]),
     _useState80 = _slicedToArray(_useState79, 2),
-    goalsLoaded = _useState80[0],
-    setGoalsLoaded = _useState80[1];
+    goals = _useState80[0],
+    setGoals = _useState80[1];
+  var _useState81 = useState(false),
+    _useState82 = _slicedToArray(_useState81, 2),
+    goalsLoaded = _useState82[0],
+    setGoalsLoaded = _useState82[1];
   React.useEffect(function () {
-    var uid = getLiffUid();
+    var uid = liffUid || getLiffUid();
     if (!uid) return;
     fetch("/liff/goals?userId=".concat(uid)).then(function (r) {
       return r.json();
@@ -2951,82 +2976,83 @@ function More(_ref21) {
 function SaveGoal(_ref22) {
   var spicy = _ref22.spicy;
   // ── Save state ──
-  var _useState81 = useState(false),
-    _useState82 = _slicedToArray(_useState81, 2),
-    saveSheet = _useState82[0],
-    setSaveSheet = _useState82[1];
-  var _useState83 = useState(null),
+  var liffUid = useLiffUid();
+  var _useState83 = useState(false),
     _useState84 = _slicedToArray(_useState83, 2),
-    saveDone = _useState84[0],
-    setSaveDone = _useState84[1];
-  var _useState85 = useState(""),
+    saveSheet = _useState84[0],
+    setSaveSheet = _useState84[1];
+  var _useState85 = useState(null),
     _useState86 = _slicedToArray(_useState85, 2),
-    amt = _useState86[0],
-    setAmt = _useState86[1];
-  var _useState87 = useState("general"),
+    saveDone = _useState86[0],
+    setSaveDone = _useState86[1];
+  var _useState87 = useState(""),
     _useState88 = _slicedToArray(_useState87, 2),
-    dest = _useState88[0],
-    setDest = _useState88[1];
-  var _useState89 = useState(""),
+    amt = _useState88[0],
+    setAmt = _useState88[1];
+  var _useState89 = useState("general"),
     _useState90 = _slicedToArray(_useState89, 2),
-    saveNote = _useState90[0],
-    setSaveNote = _useState90[1];
-  var _useState91 = useState(false),
+    dest = _useState90[0],
+    setDest = _useState90[1];
+  var _useState91 = useState(""),
     _useState92 = _slicedToArray(_useState91, 2),
-    investToast = _useState92[0],
-    setInvestToast = _useState92[1];
-  var _useState93 = useState({
+    saveNote = _useState92[0],
+    setSaveNote = _useState92[1];
+  var _useState93 = useState(false),
+    _useState94 = _slicedToArray(_useState93, 2),
+    investToast = _useState94[0],
+    setInvestToast = _useState94[1];
+  var _useState95 = useState({
       total: 0,
       emergency: 0,
       thisMonth: 0,
       emergencyPct: 0,
       emergencyTarget: 100000
     }),
-    _useState94 = _slicedToArray(_useState93, 2),
-    saveSummary = _useState94[0],
-    setSaveSummary = _useState94[1];
+    _useState96 = _slicedToArray(_useState95, 2),
+    saveSummary = _useState96[0],
+    setSaveSummary = _useState96[1];
 
   // ── Goal state ──
-  var _useState95 = useState(false),
-    _useState96 = _slicedToArray(_useState95, 2),
-    addSheet = _useState96[0],
-    setAddSheet = _useState96[1];
-  var _useState97 = useState(null),
+  var _useState97 = useState(false),
     _useState98 = _slicedToArray(_useState97, 2),
-    fundSheet = _useState98[0],
-    setFundSheet = _useState98[1];
+    addSheet = _useState98[0],
+    setAddSheet = _useState98[1];
   var _useState99 = useState(null),
     _useState100 = _slicedToArray(_useState99, 2),
-    addDone = _useState100[0],
-    setAddDone = _useState100[1];
+    fundSheet = _useState100[0],
+    setFundSheet = _useState100[1];
   var _useState101 = useState(null),
     _useState102 = _slicedToArray(_useState101, 2),
-    fundDone = _useState102[0],
-    setFundDone = _useState102[1];
-  var _useState103 = useState(""),
+    addDone = _useState102[0],
+    setAddDone = _useState102[1];
+  var _useState103 = useState(null),
     _useState104 = _slicedToArray(_useState103, 2),
-    gName = _useState104[0],
-    setGName = _useState104[1];
+    fundDone = _useState104[0],
+    setFundDone = _useState104[1];
   var _useState105 = useState(""),
     _useState106 = _slicedToArray(_useState105, 2),
-    gTarget = _useState106[0],
-    setGTarget = _useState106[1];
+    gName = _useState106[0],
+    setGName = _useState106[1];
   var _useState107 = useState(""),
     _useState108 = _slicedToArray(_useState107, 2),
-    gDeadline = _useState108[0],
-    setGDeadline = _useState108[1];
+    gTarget = _useState108[0],
+    setGTarget = _useState108[1];
   var _useState109 = useState(""),
     _useState110 = _slicedToArray(_useState109, 2),
-    fAmt = _useState110[0],
-    setFAmt = _useState110[1];
-  var _useState111 = useState([]),
+    gDeadline = _useState110[0],
+    setGDeadline = _useState110[1];
+  var _useState111 = useState(""),
     _useState112 = _slicedToArray(_useState111, 2),
-    goals = _useState112[0],
-    setGoals = _useState112[1];
-  var _useState113 = useState(false),
+    fAmt = _useState112[0],
+    setFAmt = _useState112[1];
+  var _useState113 = useState([]),
     _useState114 = _slicedToArray(_useState113, 2),
-    goalsLoaded = _useState114[0],
-    setGoalsLoaded = _useState114[1];
+    goals = _useState114[0],
+    setGoals = _useState114[1];
+  var _useState115 = useState(false),
+    _useState116 = _slicedToArray(_useState115, 2),
+    goalsLoaded = _useState116[0],
+    setGoalsLoaded = _useState116[1];
   var PURPOSE = [{
     id: "emergency",
     label: "กองทุนฉุกเฉิน",
@@ -3065,7 +3091,7 @@ function SaveGoal(_ref22) {
         emergencyTarget: d.emergency_target_thb || 100000
       });
     }).catch(function () {});
-  }, []);
+  }, [liffUid]);
 
   // ── Fetch goals ──
   React.useEffect(function () {
@@ -3093,7 +3119,7 @@ function SaveGoal(_ref22) {
     }).catch(function () {
       return setGoalsLoaded(true);
     });
-  }, []);
+  }, [liffUid]);
   function submitSave() {
     var uid = getLiffUid();
     if (!uid) {
@@ -3816,10 +3842,10 @@ function SaveGoal(_ref22) {
 // ══════════════════════════════════════════════════════════════════════════════
 function App() {
   var _TABS$find, _TABS$find2;
-  var _useState115 = useState("cashflow"),
-    _useState116 = _slicedToArray(_useState115, 2),
-    tab = _useState116[0],
-    setTab = _useState116[1];
+  var _useState117 = useState("cashflow"),
+    _useState118 = _slicedToArray(_useState117, 2),
+    tab = _useState118[0],
+    setTab = _useState118[1];
   function switchTab(t) {
     setTab(t);
     setTimeout(function () {
@@ -3827,14 +3853,14 @@ function App() {
       if (el) el.scrollTop = 0;
     }, 0);
   }
-  var _useState117 = useState(false),
-    _useState118 = _slicedToArray(_useState117, 2),
-    spicy = _useState118[0],
-    setSpicy = _useState118[1];
   var _useState119 = useState(false),
     _useState120 = _slicedToArray(_useState119, 2),
-    spicyConfirm = _useState120[0],
-    setSpicyConfirm = _useState120[1];
+    spicy = _useState120[0],
+    setSpicy = _useState120[1];
+  var _useState121 = useState(false),
+    _useState122 = _slicedToArray(_useState121, 2),
+    spicyConfirm = _useState122[0],
+    setSpicyConfirm = _useState122[1];
   var bgColor = spicy ? "#111" : CREAM;
   var headerBg = spicy ? DARK : G;
   var screens = {
@@ -3958,19 +3984,19 @@ function App() {
       return setSpicyConfirm(false);
     },
     style: {
-      position: "absolute",
+      position: "fixed",
       inset: 0,
       background: "rgba(0,0,0,.5)",
-      zIndex: 998,
-      borderRadius: 34
+      zIndex: 998
     }
   }), /*#__PURE__*/React.createElement("div", {
     style: {
-      position: "absolute",
-      bottom: 80,
-      left: 16,
-      right: 16,
+      position: "fixed",
+      top: "50%",
+      left: "50%",
+      transform: "translate(-50%,-50%)",
       background: "#fff",
+      width: 300,
       borderRadius: 20,
       border: "2.5px solid ".concat(DARK),
       boxShadow: "4px 4px 0 ".concat(DARK),
