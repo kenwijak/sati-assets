@@ -2141,11 +2141,11 @@ function Goal(_ref20) {
         var _g$name, _g$name2;
         return {
           id: g.id || i,
-          name: g.name || g.goal_name || "เป้าหมาย",
+          name: g.name || "เป้าหมาย",
           icon: g.icon || "🎯",
-          pct: g.pct || Math.round((g.current_amount_thb || 0) / (g.target_amount_thb || 1) * 100),
-          target: (g.target_amount_thb || 0).toLocaleString(),
-          deadline: g.deadline || g.target_date || "ไม่กำหนด",
+          pct: Math.min(100, Math.round((g.saved_satang || 0) / Math.max(1, g.target_satang || 1) * 100)),
+          target: Math.round((g.target_satang || 0) / 100).toLocaleString(),
+          deadline: g.deadline || "ไม่กำหนด",
           color: COLORS[i % COLORS.length],
           fi: !!(g.is_fi || (_g$name = g.name) !== null && _g$name !== void 0 && _g$name.includes("FI") || (_g$name2 = g.name) !== null && _g$name2 !== void 0 && _g$name2.includes("อิสระ"))
         };
