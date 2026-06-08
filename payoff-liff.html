@@ -1246,7 +1246,7 @@ function Save(_ref16) {
     _useState30 = _slicedToArray(_useState29, 2),
     amt = _useState30[0],
     setAmt = _useState30[1];
-  var _useState31 = useState("emergency"),
+  var _useState31 = useState("general"),
     _useState32 = _slicedToArray(_useState31, 2),
     dest = _useState32[0],
     setDest = _useState32[1];
@@ -1285,26 +1285,65 @@ function Save(_ref16) {
     }).catch(function () {});
   }, []);
   function submit() {
-    setDone({
-      amt: Number(amt),
-      dest: dest
+    var uid = getLiffUid();
+    if (!uid) {
+      alert("ไม่พบ userId — ลองปิดแล้วเปิด LIFF ใหม่");
+      return;
+    }
+    var chip = PURPOSE.find(function (p) {
+      return p.id === dest;
     });
-    setAmt("");
-    setDest("emergency");
-    setSaveNote("");
+    var destination = dest === "emergency" ? "emergency" : "general";
+    var note = (dest !== "emergency" && dest !== "general" && chip ? chip.label + " " : "") + saveNote;
+    fetch("/liff/saving", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        userId: uid,
+        amount_thb: Number(amt),
+        destination: destination,
+        note: note
+      })
+    }).then(function (r) {
+      return r.json();
+    }).then(function (d) {
+      if (!d.ok) {
+        alert("บันทึกไม่สำเร็จ: " + (d.error || ""));
+        return;
+      }
+      setDone({
+        amt: Number(amt),
+        dest: dest
+      });
+      setAmt("");
+      setDest("general");
+      setSaveNote("");
+    }).catch(function () {
+      return alert("เชื่อมต่อไม่ได้ ลองใหม่อีกครั้ง");
+    });
   }
-  var destOpts = [{
+  var PURPOSE = [{
     id: "emergency",
     label: "กองทุนฉุกเฉิน",
     icon: "🛡️"
   }, {
-    id: "general",
-    label: "ออมทั่วไป",
-    icon: "🌱"
-  }, {
     id: "goal",
     label: "เป้าหมาย",
     icon: "🎯"
+  }, {
+    id: "travel",
+    label: "เที่ยว",
+    icon: "✈️"
+  }, {
+    id: "gift",
+    label: "ของขวัญ",
+    icon: "🎁"
+  }, {
+    id: "general",
+    label: "อื่น ๆ",
+    icon: "📦"
   }];
   return /*#__PURE__*/React.createElement("div", {
     style: {
@@ -1406,34 +1445,41 @@ function Save(_ref16) {
       color: DARK,
       marginBottom: 8
     }
-  }, "\u0E2D\u0E2D\u0E21\u0E44\u0E1B\u0E17\u0E35\u0E48\u0E44\u0E2B\u0E19"), /*#__PURE__*/React.createElement("div", {
+  }, "\u0E2D\u0E2D\u0E21\u0E40\u0E1E\u0E37\u0E48\u0E2D\u0E2D\u0E30\u0E44\u0E23 ", /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: "#aaa",
+      fontWeight: 600
+    }
+  }, "(\u0E40\u0E25\u0E37\u0E2D\u0E01\u0E2B\u0E23\u0E37\u0E2D\u0E44\u0E21\u0E48\u0E01\u0E47\u0E44\u0E14\u0E49)")), /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
-      gap: 8,
+      flexWrap: "wrap",
+      gap: 7,
       marginBottom: 16
     }
-  }, destOpts.map(function (o) {
+  }, PURPOSE.map(function (o) {
     return /*#__PURE__*/React.createElement("button", {
       key: o.id,
       onClick: function onClick() {
         return setDest(o.id);
       },
       style: {
-        flex: 1,
-        padding: "10px 0",
+        padding: "7px 12px",
         background: dest === o.id ? DARK : "#f5f5f5",
         color: dest === o.id ? "#fff" : DARK,
         border: "2px solid ".concat(dest === o.id ? DARK : "#ddd"),
-        borderRadius: 12,
+        borderRadius: 99,
         cursor: "pointer",
-        fontSize: 11,
+        fontSize: 12,
         fontWeight: 800,
+        display: "flex",
+        alignItems: "center",
+        gap: 5,
         boxShadow: dest === o.id ? "2px 2px 0 ".concat(DARK) : "none"
       }
-    }, /*#__PURE__*/React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("span", {
       style: {
-        fontSize: 18,
-        marginBottom: 3
+        fontSize: 14
       }
     }, o.icon), o.label);
   })), /*#__PURE__*/React.createElement(TextInput, {
