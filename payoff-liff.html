@@ -1729,6 +1729,95 @@ function Debt(_ref19) {
     _useState46 = _slicedToArray(_useState45, 2),
     paidDone = _useState46[0],
     setPaidDone = _useState46[1];
+  var _useState47 = useState(false),
+    _useState48 = _slicedToArray(_useState47, 2),
+    addDebtSheet = _useState48[0],
+    setAddDebtSheet = _useState48[1];
+  var _useState49 = useState(false),
+    _useState50 = _slicedToArray(_useState49, 2),
+    addDebtDone = _useState50[0],
+    setAddDebtDone = _useState50[1];
+  var _useState51 = useState(""),
+    _useState52 = _slicedToArray(_useState51, 2),
+    dCreditor = _useState52[0],
+    setDCreditor = _useState52[1];
+  var _useState53 = useState("credit_card"),
+    _useState54 = _slicedToArray(_useState53, 2),
+    dType = _useState54[0],
+    setDType = _useState54[1];
+  var _useState55 = useState(""),
+    _useState56 = _slicedToArray(_useState55, 2),
+    dPrincipal = _useState56[0],
+    setDPrincipal = _useState56[1];
+  var _useState57 = useState(""),
+    _useState58 = _slicedToArray(_useState57, 2),
+    dRate = _useState58[0],
+    setDRate = _useState58[1];
+  var _useState59 = useState(""),
+    _useState60 = _slicedToArray(_useState59, 2),
+    dPayment = _useState60[0],
+    setDPayment = _useState60[1];
+  var DEBT_TYPES = [{
+    id: "credit_card",
+    label: "บัตรเครดิต",
+    icon: "💳"
+  }, {
+    id: "personal_loan",
+    label: "สินเชื่อส่วนบุคคล",
+    icon: "🏦"
+  }, {
+    id: "auto",
+    label: "ผ่อนรถ",
+    icon: "🚗"
+  }, {
+    id: "mortgage",
+    label: "ผ่อนบ้าน",
+    icon: "🏠"
+  }, {
+    id: "informal",
+    label: "หนี้นอกระบบ",
+    icon: "🤝"
+  }, {
+    id: "other",
+    label: "อื่น ๆ",
+    icon: "📦"
+  }];
+  function submitAddDebt() {
+    var uid = getLiffUid();
+    if (!uid) {
+      alert("ไม่พบ userId");
+      return;
+    }
+    fetch("/liff/add-debt", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        userId: uid,
+        creditor_name: dCreditor,
+        debt_type: dType,
+        principal_thb: Number(dPrincipal),
+        interest_rate: dRate ? Number(dRate) : undefined,
+        monthly_payment_thb: dPayment ? Number(dPayment) : undefined
+      })
+    }).then(function (r) {
+      return r.json();
+    }).then(function (d) {
+      if (!d.ok) {
+        alert("บันทึกไม่สำเร็จ: " + (d.error || ""));
+        return;
+      }
+      setAddDebtDone(true);
+      setDCreditor("");
+      setDType("credit_card");
+      setDPrincipal("");
+      setDRate("");
+      setDPayment("");
+    }).catch(function () {
+      return alert("เชื่อมต่อไม่ได้ ลองใหม่");
+    });
+  }
   var debts = [{
     name: "บัตรเครดิต KBank",
     bal: 28000,
@@ -1786,6 +1875,114 @@ function Debt(_ref19) {
       position: "relative"
     }
   }, /*#__PURE__*/React.createElement(Sheet, {
+    open: addDebtSheet,
+    onClose: function onClose() {
+      setAddDebtSheet(false);
+      setAddDebtDone(false);
+    }
+  }, addDebtDone ? /*#__PURE__*/React.createElement(Success, {
+    icon: "\uD83D\uDD13",
+    title: "\u0E40\u0E1E\u0E34\u0E48\u0E21\u0E2B\u0E19\u0E35\u0E49\u0E41\u0E25\u0E49\u0E27!",
+    sub: spicy ? "บันทึกแล้ว ไม่ได้ทำให้หนี้หายไปนะ แต่รู้แล้วดีกว่า" : "บันทึกแล้ว รู้จักศัตรูก่อนถึงจะชนะได้ 🌱",
+    onClose: function onClose() {
+      setAddDebtSheet(false);
+      setAddDebtDone(false);
+    }
+  }) : /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 14,
+      fontWeight: 900,
+      color: DARK,
+      marginBottom: 14
+    }
+  }, "+ \u0E08\u0E14\u0E2B\u0E19\u0E35\u0E49\u0E43\u0E2B\u0E21\u0E48"), /*#__PURE__*/React.createElement(TextInput, {
+    value: dCreditor,
+    onChange: setDCreditor,
+    label: "\u0E0A\u0E37\u0E48\u0E2D\u0E40\u0E08\u0E49\u0E32\u0E2B\u0E19\u0E35\u0E49 / \u0E2B\u0E19\u0E35\u0E49\u0E2D\u0E30\u0E44\u0E23",
+    placeholder: "\u0E40\u0E0A\u0E48\u0E19 KBank, \u0E1C\u0E48\u0E2D\u0E19\u0E23\u0E16 Toyota"
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11,
+      fontWeight: 800,
+      color: DARK,
+      marginBottom: 8
+    }
+  }, "\u0E1B\u0E23\u0E30\u0E40\u0E20\u0E17\u0E2B\u0E19\u0E35\u0E49"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      flexWrap: "wrap",
+      gap: 6,
+      marginBottom: 14
+    }
+  }, DEBT_TYPES.map(function (t) {
+    return /*#__PURE__*/React.createElement("button", {
+      key: t.id,
+      onClick: function onClick() {
+        return setDType(t.id);
+      },
+      style: {
+        padding: "7px 12px",
+        background: dType === t.id ? DARK : "#f5f5f5",
+        color: dType === t.id ? "#fff" : DARK,
+        border: "2px solid ".concat(dType === t.id ? DARK : "#ddd"),
+        borderRadius: 99,
+        fontSize: 12,
+        fontWeight: 800,
+        cursor: "pointer",
+        display: "flex",
+        alignItems: "center",
+        gap: 5,
+        boxShadow: dType === t.id ? "2px 2px 0 ".concat(DARK) : "none"
+      }
+    }, /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 14
+      }
+    }, t.icon), t.label);
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11,
+      fontWeight: 800,
+      color: DARK,
+      marginBottom: 6
+    }
+  }, "\u0E22\u0E2D\u0E14\u0E2B\u0E19\u0E35\u0E49\u0E04\u0E07\u0E40\u0E2B\u0E25\u0E37\u0E2D"), /*#__PURE__*/React.createElement(AmtInput, {
+    value: dPrincipal,
+    onChange: setDPrincipal,
+    placeholder: "50,000"
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: 8,
+      marginBottom: 14
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      flex: 1
+    }
+  }, /*#__PURE__*/React.createElement(TextInput, {
+    value: dRate,
+    onChange: setDRate,
+    label: "\u0E14\u0E2D\u0E01\u0E40\u0E1A\u0E35\u0E49\u0E22 % \u0E15\u0E48\u0E2D\u0E1B\u0E35 (\u0E16\u0E49\u0E32\u0E23\u0E39\u0E49)",
+    placeholder: "18"
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      flex: 1
+    }
+  }, /*#__PURE__*/React.createElement(TextInput, {
+    value: dPayment,
+    onChange: setDPayment,
+    label: "\u0E08\u0E48\u0E32\u0E22\u0E15\u0E48\u0E2D\u0E40\u0E14\u0E37\u0E2D\u0E19 (\u0E16\u0E49\u0E32\u0E23\u0E39\u0E49)",
+    placeholder: "2,000"
+  }))), /*#__PURE__*/React.createElement(ConfirmBtn, {
+    label: "\u0E1A\u0E31\u0E19\u0E17\u0E36\u0E01\u0E2B\u0E19\u0E35\u0E49",
+    disabled: !dCreditor || !dPrincipal || Number(dPrincipal) <= 0,
+    onClick: submitAddDebt
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      height: 20
+    }
+  }))), /*#__PURE__*/React.createElement(Sheet, {
     open: !!payModal,
     onClose: function onClose() {
       setPayModal(null);
@@ -1866,7 +2063,24 @@ function Debt(_ref19) {
     onClick: function onClick() {
       return confirmPay(payModal);
     }
-  }))), /*#__PURE__*/React.createElement(NBA, {
+  }))), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return setAddDebtSheet(true);
+    },
+    style: {
+      width: "100%",
+      padding: "11px 0",
+      fontSize: 12,
+      fontWeight: 900,
+      background: "#fff",
+      color: DARK,
+      border: "2px solid ".concat(DARK),
+      borderRadius: 12,
+      boxShadow: "2px 2px 0 ".concat(DARK),
+      cursor: "pointer",
+      marginBottom: 10
+    }
+  }, "+ \u0E08\u0E14\u0E2B\u0E19\u0E35\u0E49\u0E43\u0E2B\u0E21\u0E48"), /*#__PURE__*/React.createElement(NBA, {
     mood: "thinking",
     spicy: spicy,
     text: "\u0E08\u0E48\u0E32\u0E22\u0E1A\u0E31\u0E15\u0E23\u0E40\u0E04\u0E23\u0E14\u0E34\u0E15\u0E40\u0E1E\u0E34\u0E48\u0E21 \u0E3F500/\u0E40\u0E14\u0E37\u0E2D\u0E19 \u0E08\u0E30\u0E1B\u0E34\u0E14\u0E2B\u0E19\u0E35\u0E49\u0E40\u0E23\u0E47\u0E27\u0E02\u0E36\u0E49\u0E19 8 \u0E40\u0E14\u0E37\u0E2D\u0E19\n\u0E14\u0E2D\u0E01\u0E40\u0E1A\u0E35\u0E49\u0E22\u0E17\u0E35\u0E48\u0E1B\u0E23\u0E30\u0E2B\u0E22\u0E31\u0E14\u0E44\u0E14\u0E49 \u2248 \u0E3F3,200",
@@ -2154,50 +2368,50 @@ function Debt(_ref19) {
 // ══════════════════════════════════════════════════════════════════════════════
 function Goal(_ref20) {
   var spicy = _ref20.spicy;
-  var _useState47 = useState(false),
-    _useState48 = _slicedToArray(_useState47, 2),
-    addSheet = _useState48[0],
-    setAddSheet = _useState48[1];
-  var _useState49 = useState(null),
-    _useState50 = _slicedToArray(_useState49, 2),
-    fundSheet = _useState50[0],
-    setFundSheet = _useState50[1]; // goal object
-  var _useState51 = useState(null),
-    _useState52 = _slicedToArray(_useState51, 2),
-    addDone = _useState52[0],
-    setAddDone = _useState52[1];
-  var _useState53 = useState(null),
-    _useState54 = _slicedToArray(_useState53, 2),
-    fundDone = _useState54[0],
-    setFundDone = _useState54[1];
+  var _useState61 = useState(false),
+    _useState62 = _slicedToArray(_useState61, 2),
+    addSheet = _useState62[0],
+    setAddSheet = _useState62[1];
+  var _useState63 = useState(null),
+    _useState64 = _slicedToArray(_useState63, 2),
+    fundSheet = _useState64[0],
+    setFundSheet = _useState64[1]; // goal object
+  var _useState65 = useState(null),
+    _useState66 = _slicedToArray(_useState65, 2),
+    addDone = _useState66[0],
+    setAddDone = _useState66[1];
+  var _useState67 = useState(null),
+    _useState68 = _slicedToArray(_useState67, 2),
+    fundDone = _useState68[0],
+    setFundDone = _useState68[1];
 
   // add goal form
-  var _useState55 = useState(""),
-    _useState56 = _slicedToArray(_useState55, 2),
-    gName = _useState56[0],
-    setGName = _useState56[1];
-  var _useState57 = useState(""),
-    _useState58 = _slicedToArray(_useState57, 2),
-    gTarget = _useState58[0],
-    setGTarget = _useState58[1];
-  var _useState59 = useState(""),
-    _useState60 = _slicedToArray(_useState59, 2),
-    gDeadline = _useState60[0],
-    setGDeadline = _useState60[1];
+  var _useState69 = useState(""),
+    _useState70 = _slicedToArray(_useState69, 2),
+    gName = _useState70[0],
+    setGName = _useState70[1];
+  var _useState71 = useState(""),
+    _useState72 = _slicedToArray(_useState71, 2),
+    gTarget = _useState72[0],
+    setGTarget = _useState72[1];
+  var _useState73 = useState(""),
+    _useState74 = _slicedToArray(_useState73, 2),
+    gDeadline = _useState74[0],
+    setGDeadline = _useState74[1];
 
   // fund form
-  var _useState61 = useState(""),
-    _useState62 = _slicedToArray(_useState61, 2),
-    fAmt = _useState62[0],
-    setFAmt = _useState62[1];
-  var _useState63 = useState([]),
-    _useState64 = _slicedToArray(_useState63, 2),
-    goals = _useState64[0],
-    setGoals = _useState64[1];
-  var _useState65 = useState(false),
-    _useState66 = _slicedToArray(_useState65, 2),
-    goalsLoaded = _useState66[0],
-    setGoalsLoaded = _useState66[1];
+  var _useState75 = useState(""),
+    _useState76 = _slicedToArray(_useState75, 2),
+    fAmt = _useState76[0],
+    setFAmt = _useState76[1];
+  var _useState77 = useState([]),
+    _useState78 = _slicedToArray(_useState77, 2),
+    goals = _useState78[0],
+    setGoals = _useState78[1];
+  var _useState79 = useState(false),
+    _useState80 = _slicedToArray(_useState79, 2),
+    goalsLoaded = _useState80[0],
+    setGoalsLoaded = _useState80[1];
   React.useEffect(function () {
     var uid = getLiffUid();
     if (!uid) return;
@@ -2737,82 +2951,82 @@ function More(_ref21) {
 function SaveGoal(_ref22) {
   var spicy = _ref22.spicy;
   // ── Save state ──
-  var _useState67 = useState(false),
-    _useState68 = _slicedToArray(_useState67, 2),
-    saveSheet = _useState68[0],
-    setSaveSheet = _useState68[1];
-  var _useState69 = useState(null),
-    _useState70 = _slicedToArray(_useState69, 2),
-    saveDone = _useState70[0],
-    setSaveDone = _useState70[1];
-  var _useState71 = useState(""),
-    _useState72 = _slicedToArray(_useState71, 2),
-    amt = _useState72[0],
-    setAmt = _useState72[1];
-  var _useState73 = useState("general"),
-    _useState74 = _slicedToArray(_useState73, 2),
-    dest = _useState74[0],
-    setDest = _useState74[1];
-  var _useState75 = useState(""),
-    _useState76 = _slicedToArray(_useState75, 2),
-    saveNote = _useState76[0],
-    setSaveNote = _useState76[1];
-  var _useState77 = useState(false),
-    _useState78 = _slicedToArray(_useState77, 2),
-    investToast = _useState78[0],
-    setInvestToast = _useState78[1];
-  var _useState79 = useState({
+  var _useState81 = useState(false),
+    _useState82 = _slicedToArray(_useState81, 2),
+    saveSheet = _useState82[0],
+    setSaveSheet = _useState82[1];
+  var _useState83 = useState(null),
+    _useState84 = _slicedToArray(_useState83, 2),
+    saveDone = _useState84[0],
+    setSaveDone = _useState84[1];
+  var _useState85 = useState(""),
+    _useState86 = _slicedToArray(_useState85, 2),
+    amt = _useState86[0],
+    setAmt = _useState86[1];
+  var _useState87 = useState("general"),
+    _useState88 = _slicedToArray(_useState87, 2),
+    dest = _useState88[0],
+    setDest = _useState88[1];
+  var _useState89 = useState(""),
+    _useState90 = _slicedToArray(_useState89, 2),
+    saveNote = _useState90[0],
+    setSaveNote = _useState90[1];
+  var _useState91 = useState(false),
+    _useState92 = _slicedToArray(_useState91, 2),
+    investToast = _useState92[0],
+    setInvestToast = _useState92[1];
+  var _useState93 = useState({
       total: 0,
       emergency: 0,
       thisMonth: 0,
       emergencyPct: 0,
       emergencyTarget: 100000
     }),
-    _useState80 = _slicedToArray(_useState79, 2),
-    saveSummary = _useState80[0],
-    setSaveSummary = _useState80[1];
+    _useState94 = _slicedToArray(_useState93, 2),
+    saveSummary = _useState94[0],
+    setSaveSummary = _useState94[1];
 
   // ── Goal state ──
-  var _useState81 = useState(false),
-    _useState82 = _slicedToArray(_useState81, 2),
-    addSheet = _useState82[0],
-    setAddSheet = _useState82[1];
-  var _useState83 = useState(null),
-    _useState84 = _slicedToArray(_useState83, 2),
-    fundSheet = _useState84[0],
-    setFundSheet = _useState84[1];
-  var _useState85 = useState(null),
-    _useState86 = _slicedToArray(_useState85, 2),
-    addDone = _useState86[0],
-    setAddDone = _useState86[1];
-  var _useState87 = useState(null),
-    _useState88 = _slicedToArray(_useState87, 2),
-    fundDone = _useState88[0],
-    setFundDone = _useState88[1];
-  var _useState89 = useState(""),
-    _useState90 = _slicedToArray(_useState89, 2),
-    gName = _useState90[0],
-    setGName = _useState90[1];
-  var _useState91 = useState(""),
-    _useState92 = _slicedToArray(_useState91, 2),
-    gTarget = _useState92[0],
-    setGTarget = _useState92[1];
-  var _useState93 = useState(""),
-    _useState94 = _slicedToArray(_useState93, 2),
-    gDeadline = _useState94[0],
-    setGDeadline = _useState94[1];
-  var _useState95 = useState(""),
+  var _useState95 = useState(false),
     _useState96 = _slicedToArray(_useState95, 2),
-    fAmt = _useState96[0],
-    setFAmt = _useState96[1];
-  var _useState97 = useState([]),
+    addSheet = _useState96[0],
+    setAddSheet = _useState96[1];
+  var _useState97 = useState(null),
     _useState98 = _slicedToArray(_useState97, 2),
-    goals = _useState98[0],
-    setGoals = _useState98[1];
-  var _useState99 = useState(false),
+    fundSheet = _useState98[0],
+    setFundSheet = _useState98[1];
+  var _useState99 = useState(null),
     _useState100 = _slicedToArray(_useState99, 2),
-    goalsLoaded = _useState100[0],
-    setGoalsLoaded = _useState100[1];
+    addDone = _useState100[0],
+    setAddDone = _useState100[1];
+  var _useState101 = useState(null),
+    _useState102 = _slicedToArray(_useState101, 2),
+    fundDone = _useState102[0],
+    setFundDone = _useState102[1];
+  var _useState103 = useState(""),
+    _useState104 = _slicedToArray(_useState103, 2),
+    gName = _useState104[0],
+    setGName = _useState104[1];
+  var _useState105 = useState(""),
+    _useState106 = _slicedToArray(_useState105, 2),
+    gTarget = _useState106[0],
+    setGTarget = _useState106[1];
+  var _useState107 = useState(""),
+    _useState108 = _slicedToArray(_useState107, 2),
+    gDeadline = _useState108[0],
+    setGDeadline = _useState108[1];
+  var _useState109 = useState(""),
+    _useState110 = _slicedToArray(_useState109, 2),
+    fAmt = _useState110[0],
+    setFAmt = _useState110[1];
+  var _useState111 = useState([]),
+    _useState112 = _slicedToArray(_useState111, 2),
+    goals = _useState112[0],
+    setGoals = _useState112[1];
+  var _useState113 = useState(false),
+    _useState114 = _slicedToArray(_useState113, 2),
+    goalsLoaded = _useState114[0],
+    setGoalsLoaded = _useState114[1];
   var PURPOSE = [{
     id: "emergency",
     label: "กองทุนฉุกเฉิน",
@@ -3602,18 +3816,25 @@ function SaveGoal(_ref22) {
 // ══════════════════════════════════════════════════════════════════════════════
 function App() {
   var _TABS$find, _TABS$find2;
-  var _useState101 = useState("cashflow"),
-    _useState102 = _slicedToArray(_useState101, 2),
-    tab = _useState102[0],
-    setTab = _useState102[1];
-  var _useState103 = useState(false),
-    _useState104 = _slicedToArray(_useState103, 2),
-    spicy = _useState104[0],
-    setSpicy = _useState104[1];
-  var _useState105 = useState(false),
-    _useState106 = _slicedToArray(_useState105, 2),
-    spicyConfirm = _useState106[0],
-    setSpicyConfirm = _useState106[1];
+  var _useState115 = useState("cashflow"),
+    _useState116 = _slicedToArray(_useState115, 2),
+    tab = _useState116[0],
+    setTab = _useState116[1];
+  function switchTab(t) {
+    setTab(t);
+    setTimeout(function () {
+      var el = document.getElementById("main-scroll");
+      if (el) el.scrollTop = 0;
+    }, 0);
+  }
+  var _useState117 = useState(false),
+    _useState118 = _slicedToArray(_useState117, 2),
+    spicy = _useState118[0],
+    setSpicy = _useState118[1];
+  var _useState119 = useState(false),
+    _useState120 = _slicedToArray(_useState119, 2),
+    spicyConfirm = _useState120[0],
+    setSpicyConfirm = _useState120[1];
   var bgColor = spicy ? "#111" : CREAM;
   var headerBg = spicy ? DARK : G;
   var screens = {
@@ -3818,6 +4039,7 @@ function App() {
       cursor: "pointer"
     }
   }, spicy ? "ปิดเลย" : "เปิดเลย 🌶️")))), /*#__PURE__*/React.createElement("div", {
+    id: "main-scroll",
     style: {
       flex: 1,
       padding: "10px 14px 14px",
@@ -3836,7 +4058,7 @@ function App() {
     return /*#__PURE__*/React.createElement("button", {
       key: t.id,
       onClick: function onClick() {
-        return setTab(t.id);
+        return switchTab(t.id);
       },
       style: {
         background: "none",
