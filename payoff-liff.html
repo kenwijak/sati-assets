@@ -1754,34 +1754,82 @@ function Debt(_ref19) {
     _useState48 = _slicedToArray(_useState47, 2),
     paidDone = _useState48[0],
     setPaidDone = _useState48[1];
-  var _useState49 = useState(false),
+  var _useState49 = useState([]),
     _useState50 = _slicedToArray(_useState49, 2),
-    addDebtSheet = _useState50[0],
-    setAddDebtSheet = _useState50[1];
+    debts = _useState50[0],
+    setDebts = _useState50[1];
   var _useState51 = useState(false),
     _useState52 = _slicedToArray(_useState51, 2),
-    addDebtDone = _useState52[0],
-    setAddDebtDone = _useState52[1];
-  var _useState53 = useState(""),
+    debtsLoaded = _useState52[0],
+    setDebtsLoaded = _useState52[1];
+  var _useState53 = useState(0),
     _useState54 = _slicedToArray(_useState53, 2),
-    dCreditor = _useState54[0],
-    setDCreditor = _useState54[1];
-  var _useState55 = useState("credit_card"),
+    totalDebt = _useState54[0],
+    setTotalDebt = _useState54[1];
+  React.useEffect(function () {
+    var uid = liffUid || getLiffUid();
+    if (!uid) return;
+    fetch("/liff/payoff-data?userId=".concat(uid)).then(function (r) {
+      return r.json();
+    }).then(function (d) {
+      if (!d.ok || !d.debts) return;
+      var COLORS = {
+        "credit_card": "#FF6B6B",
+        "personal_loan": GOLD,
+        "auto": "#4ECDC4",
+        "mortgage": "#9B59B6",
+        "informal": "#E67E22",
+        "other": "#95A5A6"
+      };
+      setDebts(d.debts.map(function (db) {
+        return {
+          id: db.id,
+          name: db.creditor_name,
+          type: db.debt_type,
+          bal: Math.round(db.principal_thb),
+          rate: db.interest_rate_annual || 0,
+          min: Math.round(db.monthly_payment_thb || Math.round(db.principal_thb * 0.05)),
+          color: COLORS[db.debt_type] || "#aaa",
+          priority: db.interest_rate_annual > 15,
+          label: db.debt_type_label || db.debt_type
+        };
+      }));
+      setTotalDebt(d.debts.reduce(function (s, db) {
+        return s + db.principal_thb;
+      }, 0));
+      setDebtsLoaded(true);
+    }).catch(function () {
+      return setDebtsLoaded(true);
+    });
+  }, [liffUid]);
+  var _useState55 = useState(false),
     _useState56 = _slicedToArray(_useState55, 2),
-    dType = _useState56[0],
-    setDType = _useState56[1];
-  var _useState57 = useState(""),
+    addDebtSheet = _useState56[0],
+    setAddDebtSheet = _useState56[1];
+  var _useState57 = useState(false),
     _useState58 = _slicedToArray(_useState57, 2),
-    dPrincipal = _useState58[0],
-    setDPrincipal = _useState58[1];
+    addDebtDone = _useState58[0],
+    setAddDebtDone = _useState58[1];
   var _useState59 = useState(""),
     _useState60 = _slicedToArray(_useState59, 2),
-    dRate = _useState60[0],
-    setDRate = _useState60[1];
-  var _useState61 = useState(""),
+    dCreditor = _useState60[0],
+    setDCreditor = _useState60[1];
+  var _useState61 = useState("credit_card"),
     _useState62 = _slicedToArray(_useState61, 2),
-    dPayment = _useState62[0],
-    setDPayment = _useState62[1];
+    dType = _useState62[0],
+    setDType = _useState62[1];
+  var _useState63 = useState(""),
+    _useState64 = _slicedToArray(_useState63, 2),
+    dPrincipal = _useState64[0],
+    setDPrincipal = _useState64[1];
+  var _useState65 = useState(""),
+    _useState66 = _slicedToArray(_useState65, 2),
+    dRate = _useState66[0],
+    setDRate = _useState66[1];
+  var _useState67 = useState(""),
+    _useState68 = _slicedToArray(_useState67, 2),
+    dPayment = _useState68[0],
+    setDPayment = _useState68[1];
   var DEBT_TYPES = [{
     id: "credit_card",
     label: "บัตรเครดิต",
@@ -1843,57 +1891,88 @@ function Debt(_ref19) {
       return alert("เชื่อมต่อไม่ได้ ลองใหม่");
     });
   }
-  var debts = [{
-    name: "บัตรเครดิต KBank",
-    bal: 28000,
-    rate: 18,
-    min: 800,
-    color: "#FF6B6B",
-    priority: true
-  }, {
-    name: "สินเชื่อส่วนบุคคล",
-    bal: 45000,
-    rate: 12,
-    min: 1500,
-    color: GOLD,
-    priority: false
-  }, {
-    name: "ผ่อนมือถือ 0%",
-    bal: 8400,
-    rate: 0,
-    min: 700,
-    color: "#4ECDC4",
-    priority: false
-  }];
-  var total = debts.reduce(function (s, d) {
-    return s + d.bal;
-  }, 0);
-  var timeline = [{
-    name: "บัตรเครดิต KBank",
-    months: 14,
-    freeDate: "ส.ค. 2027",
-    color: "#FF6B6B"
-  }, {
-    name: "สินเชื่อส่วนบุคคล",
-    months: 28,
-    freeDate: "ต.ค. 2028",
-    color: GOLD
-  }, {
-    name: "ผ่อนมือถือ 0%",
-    months: 12,
-    freeDate: "มิ.ย. 2027",
-    color: "#4ECDC4"
-  }];
-  var freeDate = "ต.ค. 2028",
-    monthsLeft = 28;
+
+  // debts + totalDebt มาจาก state (fetch จาก API แล้ว)
+  var MONTHS_TH = ["ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค.", "ส.ค.", "ก.ย.", "ต.ค.", "พ.ย.", "ธ.ค."];
+  function calcFreeDate(bal, min, rate) {
+    if (!bal || !min) return {
+      months: 0,
+      label: "—"
+    };
+    var b = bal,
+      m = 0;
+    var monthly_rate = (rate || 0) / 100 / 12;
+    while (b > 0 && m < 360) {
+      b = b * (1 + monthly_rate) - min;
+      m++;
+    }
+    if (m >= 360) return {
+      months: 999,
+      label: "นานมาก"
+    };
+    var d = new Date();
+    d.setMonth(d.getMonth() + m);
+    return {
+      months: m,
+      label: MONTHS_TH[d.getMonth()] + " " + (d.getFullYear() + 543)
+    };
+  }
+  var timeline = debts.map(function (d) {
+    return _objectSpread(_objectSpread({}, d), calcFreeDate(d.bal, d.min, d.rate));
+  });
+  var maxMonths = timeline.length ? Math.max.apply(Math, _toConsumableArray(timeline.map(function (t) {
+    return t.months === 999 ? 360 : t.months;
+  }))) : 0;
+  var freeDateObj = calcFreeDate(totalDebt, debts.reduce(function (s, d) {
+    return s + d.min;
+  }, 0), debts.length ? debts.reduce(function (s, d) {
+    return s + d.rate;
+  }, 0) / debts.length : 0);
+  var freeDate = freeDateObj.label,
+    monthsLeft = freeDateObj.months;
   function confirmPay(debt) {
-    setPaidDone(function (p) {
-      return _objectSpread(_objectSpread({}, p), {}, _defineProperty({}, debt.name, Number(payAmt)));
+    var uid = liffUid || getLiffUid();
+    if (!uid) {
+      alert("ไม่พบ userId");
+      return;
+    }
+    fetch("/liff/debt-payment", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        userId: uid,
+        debt_id: debt.id,
+        amount_thb: Number(payAmt)
+      })
+    }).then(function (r) {
+      return r.json();
+    }).then(function (d) {
+      if (!d.ok) {
+        alert("ชำระไม่สำเร็จ: " + (d.error || ""));
+        return;
+      }
+      setPaidDone(function (p) {
+        return _objectSpread(_objectSpread({}, p), {}, _defineProperty({}, debt.name, Number(payAmt)));
+      });
+      setDebts(function (ds) {
+        return ds.map(function (db) {
+          return db.id === debt.id ? _objectSpread(_objectSpread({}, db), {}, {
+            bal: Math.max(0, db.bal - Number(payAmt))
+          }) : db;
+        });
+      });
+      setTotalDebt(function (t) {
+        return Math.max(0, t - Number(payAmt));
+      });
+      setPayModal(_objectSpread(_objectSpread({}, debt), {}, {
+        justPaid: Number(payAmt)
+      }));
+      setPayAmt("");
+    }).catch(function () {
+      return alert("เชื่อมต่อไม่ได้ ลองใหม่");
     });
-    setPayModal(_objectSpread(_objectSpread({}, debt), {}, {
-      justPaid: Number(payAmt)
-    }));
-    setPayAmt("");
   }
   return /*#__PURE__*/React.createElement("div", {
     style: {
@@ -2088,7 +2167,14 @@ function Debt(_ref19) {
     onClick: function onClick() {
       return confirmPay(payModal);
     }
-  }))), /*#__PURE__*/React.createElement("button", {
+  }))), !debtsLoaded && /*#__PURE__*/React.createElement(Card, null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      textAlign: "center",
+      color: "#aaa",
+      fontSize: 12,
+      padding: 8
+    }
+  }, "\u0E01\u0E33\u0E25\u0E31\u0E07\u0E42\u0E2B\u0E25\u0E14\u0E02\u0E49\u0E2D\u0E21\u0E39\u0E25\u0E2B\u0E19\u0E35\u0E49...")), /*#__PURE__*/React.createElement("button", {
     onClick: function onClick() {
       return setAddDebtSheet(true);
     },
@@ -2135,7 +2221,7 @@ function Debt(_ref19) {
       fontWeight: 900,
       color: "#E53E3E"
     }
-  }, "\u0E3F", total.toLocaleString()), /*#__PURE__*/React.createElement("div", {
+  }, "\u0E3F", Math.round(totalDebt).toLocaleString()), /*#__PURE__*/React.createElement("div", {
     style: {
       fontSize: 11,
       fontWeight: 700,
@@ -2243,7 +2329,7 @@ function Debt(_ref19) {
       }
     }, /*#__PURE__*/React.createElement("div", {
       style: {
-        width: "".concat(t.months / monthsLeft * 100, "%"),
+        width: "".concat(maxMonths > 0 ? t.months === 999 ? 100 : t.months / maxMonths * 100 : 0, "%"),
         height: "100%",
         background: t.color,
         borderRadius: 99
@@ -2393,50 +2479,50 @@ function Debt(_ref19) {
 // ══════════════════════════════════════════════════════════════════════════════
 function Goal(_ref20) {
   var spicy = _ref20.spicy;
-  var _useState63 = useState(false),
-    _useState64 = _slicedToArray(_useState63, 2),
-    addSheet = _useState64[0],
-    setAddSheet = _useState64[1];
-  var _useState65 = useState(null),
-    _useState66 = _slicedToArray(_useState65, 2),
-    fundSheet = _useState66[0],
-    setFundSheet = _useState66[1]; // goal object
-  var _useState67 = useState(null),
-    _useState68 = _slicedToArray(_useState67, 2),
-    addDone = _useState68[0],
-    setAddDone = _useState68[1];
-  var _useState69 = useState(null),
+  var _useState69 = useState(false),
     _useState70 = _slicedToArray(_useState69, 2),
-    fundDone = _useState70[0],
-    setFundDone = _useState70[1];
+    addSheet = _useState70[0],
+    setAddSheet = _useState70[1];
+  var _useState71 = useState(null),
+    _useState72 = _slicedToArray(_useState71, 2),
+    fundSheet = _useState72[0],
+    setFundSheet = _useState72[1]; // goal object
+  var _useState73 = useState(null),
+    _useState74 = _slicedToArray(_useState73, 2),
+    addDone = _useState74[0],
+    setAddDone = _useState74[1];
+  var _useState75 = useState(null),
+    _useState76 = _slicedToArray(_useState75, 2),
+    fundDone = _useState76[0],
+    setFundDone = _useState76[1];
 
   // add goal form
-  var _useState71 = useState(""),
-    _useState72 = _slicedToArray(_useState71, 2),
-    gName = _useState72[0],
-    setGName = _useState72[1];
-  var _useState73 = useState(""),
-    _useState74 = _slicedToArray(_useState73, 2),
-    gTarget = _useState74[0],
-    setGTarget = _useState74[1];
-  var _useState75 = useState(""),
-    _useState76 = _slicedToArray(_useState75, 2),
-    gDeadline = _useState76[0],
-    setGDeadline = _useState76[1];
-
-  // fund form
   var _useState77 = useState(""),
     _useState78 = _slicedToArray(_useState77, 2),
-    fAmt = _useState78[0],
-    setFAmt = _useState78[1];
-  var _useState79 = useState([]),
+    gName = _useState78[0],
+    setGName = _useState78[1];
+  var _useState79 = useState(""),
     _useState80 = _slicedToArray(_useState79, 2),
-    goals = _useState80[0],
-    setGoals = _useState80[1];
-  var _useState81 = useState(false),
+    gTarget = _useState80[0],
+    setGTarget = _useState80[1];
+  var _useState81 = useState(""),
     _useState82 = _slicedToArray(_useState81, 2),
-    goalsLoaded = _useState82[0],
-    setGoalsLoaded = _useState82[1];
+    gDeadline = _useState82[0],
+    setGDeadline = _useState82[1];
+
+  // fund form
+  var _useState83 = useState(""),
+    _useState84 = _slicedToArray(_useState83, 2),
+    fAmt = _useState84[0],
+    setFAmt = _useState84[1];
+  var _useState85 = useState([]),
+    _useState86 = _slicedToArray(_useState85, 2),
+    goals = _useState86[0],
+    setGoals = _useState86[1];
+  var _useState87 = useState(false),
+    _useState88 = _slicedToArray(_useState87, 2),
+    goalsLoaded = _useState88[0],
+    setGoalsLoaded = _useState88[1];
   React.useEffect(function () {
     var uid = liffUid || getLiffUid();
     if (!uid) return;
@@ -2977,82 +3063,82 @@ function SaveGoal(_ref22) {
   var spicy = _ref22.spicy;
   // ── Save state ──
   var liffUid = useLiffUid();
-  var _useState83 = useState(false),
-    _useState84 = _slicedToArray(_useState83, 2),
-    saveSheet = _useState84[0],
-    setSaveSheet = _useState84[1];
-  var _useState85 = useState(null),
-    _useState86 = _slicedToArray(_useState85, 2),
-    saveDone = _useState86[0],
-    setSaveDone = _useState86[1];
-  var _useState87 = useState(""),
-    _useState88 = _slicedToArray(_useState87, 2),
-    amt = _useState88[0],
-    setAmt = _useState88[1];
-  var _useState89 = useState("general"),
+  var _useState89 = useState(false),
     _useState90 = _slicedToArray(_useState89, 2),
-    dest = _useState90[0],
-    setDest = _useState90[1];
-  var _useState91 = useState(""),
+    saveSheet = _useState90[0],
+    setSaveSheet = _useState90[1];
+  var _useState91 = useState(null),
     _useState92 = _slicedToArray(_useState91, 2),
-    saveNote = _useState92[0],
-    setSaveNote = _useState92[1];
-  var _useState93 = useState(false),
+    saveDone = _useState92[0],
+    setSaveDone = _useState92[1];
+  var _useState93 = useState(""),
     _useState94 = _slicedToArray(_useState93, 2),
-    investToast = _useState94[0],
-    setInvestToast = _useState94[1];
-  var _useState95 = useState({
+    amt = _useState94[0],
+    setAmt = _useState94[1];
+  var _useState95 = useState("general"),
+    _useState96 = _slicedToArray(_useState95, 2),
+    dest = _useState96[0],
+    setDest = _useState96[1];
+  var _useState97 = useState(""),
+    _useState98 = _slicedToArray(_useState97, 2),
+    saveNote = _useState98[0],
+    setSaveNote = _useState98[1];
+  var _useState99 = useState(false),
+    _useState100 = _slicedToArray(_useState99, 2),
+    investToast = _useState100[0],
+    setInvestToast = _useState100[1];
+  var _useState101 = useState({
       total: 0,
       emergency: 0,
       thisMonth: 0,
       emergencyPct: 0,
       emergencyTarget: 100000
     }),
-    _useState96 = _slicedToArray(_useState95, 2),
-    saveSummary = _useState96[0],
-    setSaveSummary = _useState96[1];
+    _useState102 = _slicedToArray(_useState101, 2),
+    saveSummary = _useState102[0],
+    setSaveSummary = _useState102[1];
 
   // ── Goal state ──
-  var _useState97 = useState(false),
-    _useState98 = _slicedToArray(_useState97, 2),
-    addSheet = _useState98[0],
-    setAddSheet = _useState98[1];
-  var _useState99 = useState(null),
-    _useState100 = _slicedToArray(_useState99, 2),
-    fundSheet = _useState100[0],
-    setFundSheet = _useState100[1];
-  var _useState101 = useState(null),
-    _useState102 = _slicedToArray(_useState101, 2),
-    addDone = _useState102[0],
-    setAddDone = _useState102[1];
-  var _useState103 = useState(null),
+  var _useState103 = useState(false),
     _useState104 = _slicedToArray(_useState103, 2),
-    fundDone = _useState104[0],
-    setFundDone = _useState104[1];
-  var _useState105 = useState(""),
+    addSheet = _useState104[0],
+    setAddSheet = _useState104[1];
+  var _useState105 = useState(null),
     _useState106 = _slicedToArray(_useState105, 2),
-    gName = _useState106[0],
-    setGName = _useState106[1];
-  var _useState107 = useState(""),
+    fundSheet = _useState106[0],
+    setFundSheet = _useState106[1];
+  var _useState107 = useState(null),
     _useState108 = _slicedToArray(_useState107, 2),
-    gTarget = _useState108[0],
-    setGTarget = _useState108[1];
-  var _useState109 = useState(""),
+    addDone = _useState108[0],
+    setAddDone = _useState108[1];
+  var _useState109 = useState(null),
     _useState110 = _slicedToArray(_useState109, 2),
-    gDeadline = _useState110[0],
-    setGDeadline = _useState110[1];
+    fundDone = _useState110[0],
+    setFundDone = _useState110[1];
   var _useState111 = useState(""),
     _useState112 = _slicedToArray(_useState111, 2),
-    fAmt = _useState112[0],
-    setFAmt = _useState112[1];
-  var _useState113 = useState([]),
+    gName = _useState112[0],
+    setGName = _useState112[1];
+  var _useState113 = useState(""),
     _useState114 = _slicedToArray(_useState113, 2),
-    goals = _useState114[0],
-    setGoals = _useState114[1];
-  var _useState115 = useState(false),
+    gTarget = _useState114[0],
+    setGTarget = _useState114[1];
+  var _useState115 = useState(""),
     _useState116 = _slicedToArray(_useState115, 2),
-    goalsLoaded = _useState116[0],
-    setGoalsLoaded = _useState116[1];
+    gDeadline = _useState116[0],
+    setGDeadline = _useState116[1];
+  var _useState117 = useState(""),
+    _useState118 = _slicedToArray(_useState117, 2),
+    fAmt = _useState118[0],
+    setFAmt = _useState118[1];
+  var _useState119 = useState([]),
+    _useState120 = _slicedToArray(_useState119, 2),
+    goals = _useState120[0],
+    setGoals = _useState120[1];
+  var _useState121 = useState(false),
+    _useState122 = _slicedToArray(_useState121, 2),
+    goalsLoaded = _useState122[0],
+    setGoalsLoaded = _useState122[1];
   var PURPOSE = [{
     id: "emergency",
     label: "กองทุนฉุกเฉิน",
@@ -3842,10 +3928,10 @@ function SaveGoal(_ref22) {
 // ══════════════════════════════════════════════════════════════════════════════
 function App() {
   var _TABS$find, _TABS$find2;
-  var _useState117 = useState("cashflow"),
-    _useState118 = _slicedToArray(_useState117, 2),
-    tab = _useState118[0],
-    setTab = _useState118[1];
+  var _useState123 = useState("cashflow"),
+    _useState124 = _slicedToArray(_useState123, 2),
+    tab = _useState124[0],
+    setTab = _useState124[1];
   function switchTab(t) {
     setTab(t);
     setTimeout(function () {
@@ -3853,14 +3939,14 @@ function App() {
       if (el) el.scrollTop = 0;
     }, 0);
   }
-  var _useState119 = useState(false),
-    _useState120 = _slicedToArray(_useState119, 2),
-    spicy = _useState120[0],
-    setSpicy = _useState120[1];
-  var _useState121 = useState(false),
-    _useState122 = _slicedToArray(_useState121, 2),
-    spicyConfirm = _useState122[0],
-    setSpicyConfirm = _useState122[1];
+  var _useState125 = useState(false),
+    _useState126 = _slicedToArray(_useState125, 2),
+    spicy = _useState126[0],
+    setSpicy = _useState126[1];
+  var _useState127 = useState(false),
+    _useState128 = _slicedToArray(_useState127, 2),
+    spicyConfirm = _useState128[0],
+    setSpicyConfirm = _useState128[1];
   var bgColor = spicy ? "#111" : CREAM;
   var headerBg = spicy ? DARK : G;
   var screens = {
