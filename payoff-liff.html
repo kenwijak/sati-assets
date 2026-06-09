@@ -563,6 +563,41 @@ function CashFlow(_ref1) {
     _useState0 = _slicedToArray(_useState9, 2),
     txSummary = _useState0[0],
     setTxSummary = _useState0[1];
+  var _useState1 = useState("summary"),
+    _useState10 = _slicedToArray(_useState1, 2),
+    view = _useState10[0],
+    setView = _useState10[1];
+  var _useState11 = useState(0),
+    _useState12 = _slicedToArray(_useState11, 2),
+    monthOffset = _useState12[0],
+    setMonthOffset = _useState12[1];
+  var _useState13 = useState(false),
+    _useState14 = _slicedToArray(_useState13, 2),
+    sheet = _useState14[0],
+    setSheet = _useState14[1];
+  var _useState15 = useState(null),
+    _useState16 = _slicedToArray(_useState15, 2),
+    done = _useState16[0],
+    setDone = _useState16[1]; // {amt,cat,note}
+
+  // form state
+  var _useState17 = useState(""),
+    _useState18 = _slicedToArray(_useState17, 2),
+    amt = _useState18[0],
+    setAmt = _useState18[1];
+  var _useState19 = useState("food"),
+    _useState20 = _slicedToArray(_useState19, 2),
+    cat = _useState20[0],
+    setCat = _useState20[1];
+  var _useState21 = useState(""),
+    _useState22 = _slicedToArray(_useState21, 2),
+    note = _useState22[0],
+    setNote = _useState22[1];
+  var _useState23 = useState("expense"),
+    _useState24 = _slicedToArray(_useState23, 2),
+    type = _useState24[0],
+    setType = _useState24[1]; // expense | income
+
   React.useEffect(function () {
     var uid = liffUid || getLiffUid();
     if (!uid) return;
@@ -570,25 +605,6 @@ function CashFlow(_ref1) {
       var _t = new Date(new Date().getFullYear(), new Date().getMonth() + monthOffset, 1);
       var y = _t.getFullYear(),
         m = _t.getMonth() + 1;
-
-      // cache hit
-      var cached = getMonthCache(uid, y, m);
-      if (cached) {
-        setTxns(cached.txns || []);
-        setTxSummary({
-          exp: cached.exp || 0,
-          inc: cached.inc || 0,
-          net: cached.net || 0
-        });
-        setAlloc(cached.alloc || []);
-        setCashSummary(cached.cs || {
-          exp: 0,
-          inc: 0,
-          net: 0,
-          netLabel: "ใช้จ่ายได้จริง"
-        });
-        return;
-      }
       setAllocLoading(true);
       Promise.all([fetch("/liff/transactions?userId=".concat(uid, "&year=").concat(y, "&month=").concat(m), {
         cache: "no-store"
@@ -653,14 +669,6 @@ function CashFlow(_ref1) {
         setAlloc(alloc);
         setAllocLoaded(true);
         setCashSummary(cs2);
-        setMonthCache(uid, y, m, {
-          txns: txns,
-          exp: exp,
-          inc: inc,
-          net: net,
-          alloc: alloc,
-          cs: cs2
-        });
       }).finally(function () {
         return setAllocLoading(false);
       });
@@ -682,41 +690,6 @@ function CashFlow(_ref1) {
       }).catch(function () {});
     }
   }, [liffUid, period, monthOffset]);
-  var _useState1 = useState("summary"),
-    _useState10 = _slicedToArray(_useState1, 2),
-    view = _useState10[0],
-    setView = _useState10[1];
-  var _useState11 = useState(0),
-    _useState12 = _slicedToArray(_useState11, 2),
-    monthOffset = _useState12[0],
-    setMonthOffset = _useState12[1];
-  var _useState13 = useState(false),
-    _useState14 = _slicedToArray(_useState13, 2),
-    sheet = _useState14[0],
-    setSheet = _useState14[1];
-  var _useState15 = useState(null),
-    _useState16 = _slicedToArray(_useState15, 2),
-    done = _useState16[0],
-    setDone = _useState16[1]; // {amt,cat,note}
-
-  // form state
-  var _useState17 = useState(""),
-    _useState18 = _slicedToArray(_useState17, 2),
-    amt = _useState18[0],
-    setAmt = _useState18[1];
-  var _useState19 = useState("food"),
-    _useState20 = _slicedToArray(_useState19, 2),
-    cat = _useState20[0],
-    setCat = _useState20[1];
-  var _useState21 = useState(""),
-    _useState22 = _slicedToArray(_useState21, 2),
-    note = _useState22[0],
-    setNote = _useState22[1];
-  var _useState23 = useState("expense"),
-    _useState24 = _slicedToArray(_useState23, 2),
-    type = _useState24[0],
-    setType = _useState24[1]; // expense | income
-
   var MONTHS = ["ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค.", "ส.ค.", "ก.ย.", "ต.ค.", "พ.ย.", "ธ.ค."];
   var now = new Date();
   var disp = new Date(now.getFullYear(), now.getMonth() + monthOffset, 1);
