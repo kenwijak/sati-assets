@@ -574,22 +574,22 @@ function CashFlow(_ref1) {
     if (_fetchTimer.current) clearTimeout(_fetchTimer.current);
     _fetchTimer.current = setTimeout(function () {
       if (period === "month") {
-        var _now2 = new Date();
-        var target = new Date(_now2.getFullYear(), _now2.getMonth() + monthOffset, 1);
-        var y = target.getFullYear(),
-          m = target.getMonth() + 1;
+        var _now = new Date();
+        var _t = new Date(_now.getFullYear(), _now.getMonth() + monthOffset, 1);
+        var y = _t.getFullYear(),
+          m = _t.getMonth() + 1;
 
-        // เช็ค cache ก่อน
+        // เช็ค cache
         var cached = getMonthCache(uid, y, m);
         if (cached) {
           setTxns(cached.txns || []);
           setTxSummary({
-            exp: cached.expense_thb || 0,
-            inc: cached.income_thb || 0,
-            net: cached.net_thb || 0
+            exp: cached.exp || 0,
+            inc: cached.inc || 0,
+            net: cached.net || 0
           });
           setAlloc(cached.alloc || []);
-          setCashSummary(cached.cashSummary || {
+          setCashSummary(cached.cs || {
             exp: 0,
             inc: 0,
             net: 0,
@@ -597,13 +597,15 @@ function CashFlow(_ref1) {
           });
           return;
         }
-
-        // fetch รวม 1 call
         setAllocLoading(true);
         Promise.all([fetch("/liff/transactions?userId=".concat(uid, "&year=").concat(y, "&month=").concat(m)).then(function (r) {
           return r.json();
+        }).catch(function () {
+          return {};
         }), fetch("/liff/cashflow-summary?userId=".concat(uid, "&year=").concat(y, "&month=").concat(m)).then(function (r) {
           return r.json();
+        }).catch(function () {
+          return {};
         })]).then(function (_ref10) {
           var _ref11 = _slicedToArray(_ref10, 2),
             tx = _ref11[0],
@@ -612,7 +614,7 @@ function CashFlow(_ref1) {
           var exp = tx.expense_thb || 0,
             inc = tx.income_thb || 0,
             net = tx.net_thb || 0;
-          var allocData = cs.ok ? [{
+          var alloc = cs.ok ? [{
             label: "รายรับ",
             amt: cs.income_thb || 0,
             color: G,
@@ -640,7 +642,7 @@ function CashFlow(_ref1) {
           }].filter(function (r) {
             return r.amt !== 0;
           }) : [];
-          var csData = {
+          var cs2 = {
             exp: Math.round(exp),
             inc: Math.round(cs.income_thb || inc),
             net: Math.round(cs.net_thb || net),
@@ -652,22 +654,18 @@ function CashFlow(_ref1) {
             inc: inc,
             net: net
           });
-          if (allocData.length) {
-            setAlloc(allocData);
-            setAllocLoaded(true);
-          }
-          setCashSummary(csData);
-
-          // เซฟ cache
+          setAlloc(alloc);
+          setAllocLoaded(true);
+          setCashSummary(cs2);
           setMonthCache(uid, y, m, {
             txns: txns,
-            expense_thb: exp,
-            income_thb: inc,
-            net_thb: net,
-            alloc: allocData,
-            cashSummary: csData
+            exp: exp,
+            inc: inc,
+            net: net,
+            alloc: alloc,
+            cs: cs2
           });
-        }).catch(function () {}).finally(function () {
+        }).finally(function () {
           return setAllocLoading(false);
         });
       } else {
