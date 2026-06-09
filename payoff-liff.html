@@ -590,11 +590,15 @@ function CashFlow(_ref1) {
         return;
       }
       setAllocLoading(true);
-      Promise.all([fetch("/liff/transactions?userId=".concat(uid, "&year=").concat(y, "&month=").concat(m)).then(function (r) {
+      Promise.all([fetch("/liff/transactions?userId=".concat(uid, "&year=").concat(y, "&month=").concat(m), {
+        cache: "no-store"
+      }).then(function (r) {
         return r.json();
       }).catch(function () {
         return {};
-      }), fetch("/liff/cashflow-summary?userId=".concat(uid, "&year=").concat(y, "&month=").concat(m)).then(function (r) {
+      }), fetch("/liff/cashflow-summary?userId=".concat(uid, "&year=").concat(y, "&month=").concat(m), {
+        cache: "no-store"
+      }).then(function (r) {
         return r.json();
       }).catch(function () {
         return {};
@@ -663,7 +667,9 @@ function CashFlow(_ref1) {
     } else {
       var p = period === "week" ? "this_week" : "today";
       setAllocLoading(false);
-      fetch("/liff/transactions?userId=".concat(uid, "&period=").concat(p)).then(function (r) {
+      fetch("/liff/transactions?userId=".concat(uid, "&period=").concat(p), {
+        cache: "no-store"
+      }).then(function (r) {
         return r.json();
       }).then(function (d) {
         if (!d.ok) return;
@@ -1442,7 +1448,9 @@ function Save(_ref18) {
   React.useEffect(function () {
     var uid = liffUid || getLiffUid();
     if (!uid) return;
-    fetch("/liff/savings-summary?userId=".concat(uid)).then(function (r) {
+    fetch("/liff/savings-summary?userId=".concat(uid), {
+      cache: "no-store"
+    }).then(function (r) {
       return r.json();
     }).then(function (d) {
       if (!d.ok) return;
@@ -1929,7 +1937,9 @@ function Debt(_ref21) {
   React.useEffect(function () {
     var uid = liffUid || getLiffUid();
     if (!uid) return;
-    fetch("/liff/payoff-data?userId=".concat(uid)).then(function (r) {
+    fetch("/liff/payoff-data?userId=".concat(uid), {
+      cache: "no-store"
+    }).then(function (r) {
       return r.json();
     }).then(function (d) {
       if (!d.ok || !d.debts) return;
@@ -2696,7 +2706,9 @@ function Goal(_ref22) {
   React.useEffect(function () {
     var uid = liffUid || getLiffUid();
     if (!uid) return;
-    fetch("/liff/goals?userId=".concat(uid)).then(function (r) {
+    fetch("/liff/goals?userId=".concat(uid), {
+      cache: "no-store"
+    }).then(function (r) {
       return r.json();
     }).then(function (d) {
       if (!d.ok || !d.goals) return;
@@ -3117,7 +3129,9 @@ function More(_ref23) {
   React.useEffect(function () {
     var uid = liffUid || getLiffUid();
     if (!uid) return;
-    fetch("/liff/savings-summary?userId=".concat(uid)).then(function (r) {
+    fetch("/liff/savings-summary?userId=".concat(uid), {
+      cache: "no-store"
+    }).then(function (r) {
       return r.json();
     }).then(function (d) {
       if (!d.ok) return;
@@ -3371,7 +3385,9 @@ function SaveGoal(_ref24) {
   React.useEffect(function () {
     var uid = getLiffUid();
     if (!uid) return;
-    fetch("/liff/savings-summary?userId=".concat(uid)).then(function (r) {
+    fetch("/liff/savings-summary?userId=".concat(uid), {
+      cache: "no-store"
+    }).then(function (r) {
       return r.json();
     }).then(function (d) {
       if (!d.ok) return;
@@ -3389,7 +3405,9 @@ function SaveGoal(_ref24) {
   React.useEffect(function () {
     var uid = getLiffUid();
     if (!uid) return;
-    fetch("/liff/goals?userId=".concat(uid)).then(function (r) {
+    fetch("/liff/goals?userId=".concat(uid), {
+      cache: "no-store"
+    }).then(function (r) {
       return r.json();
     }).then(function (d) {
       if (!d.ok || !d.goals) return;
