@@ -2672,6 +2672,24 @@ function Goal(_ref22) {
     _useState92 = _slicedToArray(_useState91, 2),
     goalsLoaded = _useState92[0],
     setGoalsLoaded = _useState92[1];
+  var _useState93 = useState([]),
+    _useState94 = _slicedToArray(_useState93, 2),
+    savingsTxns = _useState94[0],
+    setSavingsTxns = _useState94[1];
+  React.useEffect(function () {
+    var uid = liffUid || getLiffUid();
+    if (!uid) return;
+    fetch("/liff/transactions?userId=".concat(uid, "&period=this_month"), {
+      cache: "no-store"
+    }).then(function (r) {
+      return r.json();
+    }).then(function (d) {
+      if (!d.ok) return;
+      setSavingsTxns((d.txns || []).filter(function (t) {
+        return t.category_id === "savings";
+      }).slice(0, 10));
+    }).catch(function () {});
+  }, [liffUid]);
   React.useEffect(function () {
     var uid = liffUid || getLiffUid();
     if (!uid) return;
@@ -3087,14 +3105,14 @@ function More(_ref23) {
   var spicy = _ref23.spicy,
     onSpicyConfirm = _ref23.onSpicyConfirm;
   var liffUid = useLiffUid();
-  var _useState93 = useState({
+  var _useState95 = useState({
       name: "...",
       days: 0,
       zone: "🪙 สะสม"
     }),
-    _useState94 = _slicedToArray(_useState93, 2),
-    profile = _useState94[0],
-    setProfile = _useState94[1];
+    _useState96 = _slicedToArray(_useState95, 2),
+    profile = _useState96[0],
+    setProfile = _useState96[1];
   React.useEffect(function () {
     var uid = liffUid || getLiffUid();
     if (!uid) return;
@@ -3252,82 +3270,82 @@ function SaveGoal(_ref24) {
   var spicy = _ref24.spicy;
   // ── Save state ──
   var liffUid = useLiffUid();
-  var _useState95 = useState(false),
-    _useState96 = _slicedToArray(_useState95, 2),
-    saveSheet = _useState96[0],
-    setSaveSheet = _useState96[1];
-  var _useState97 = useState(null),
+  var _useState97 = useState(false),
     _useState98 = _slicedToArray(_useState97, 2),
-    saveDone = _useState98[0],
-    setSaveDone = _useState98[1];
-  var _useState99 = useState(""),
+    saveSheet = _useState98[0],
+    setSaveSheet = _useState98[1];
+  var _useState99 = useState(null),
     _useState100 = _slicedToArray(_useState99, 2),
-    amt = _useState100[0],
-    setAmt = _useState100[1];
-  var _useState101 = useState("general"),
+    saveDone = _useState100[0],
+    setSaveDone = _useState100[1];
+  var _useState101 = useState(""),
     _useState102 = _slicedToArray(_useState101, 2),
-    dest = _useState102[0],
-    setDest = _useState102[1];
-  var _useState103 = useState(""),
+    amt = _useState102[0],
+    setAmt = _useState102[1];
+  var _useState103 = useState("general"),
     _useState104 = _slicedToArray(_useState103, 2),
-    saveNote = _useState104[0],
-    setSaveNote = _useState104[1];
-  var _useState105 = useState(false),
+    dest = _useState104[0],
+    setDest = _useState104[1];
+  var _useState105 = useState(""),
     _useState106 = _slicedToArray(_useState105, 2),
-    investToast = _useState106[0],
-    setInvestToast = _useState106[1];
-  var _useState107 = useState({
+    saveNote = _useState106[0],
+    setSaveNote = _useState106[1];
+  var _useState107 = useState(false),
+    _useState108 = _slicedToArray(_useState107, 2),
+    investToast = _useState108[0],
+    setInvestToast = _useState108[1];
+  var _useState109 = useState({
       total: 0,
       emergency: 0,
       thisMonth: 0,
       emergencyPct: 0,
       emergencyTarget: 100000
     }),
-    _useState108 = _slicedToArray(_useState107, 2),
-    saveSummary = _useState108[0],
-    setSaveSummary = _useState108[1];
+    _useState110 = _slicedToArray(_useState109, 2),
+    saveSummary = _useState110[0],
+    setSaveSummary = _useState110[1];
 
   // ── Goal state ──
-  var _useState109 = useState(false),
-    _useState110 = _slicedToArray(_useState109, 2),
-    addSheet = _useState110[0],
-    setAddSheet = _useState110[1];
-  var _useState111 = useState(null),
+  var _useState111 = useState(false),
     _useState112 = _slicedToArray(_useState111, 2),
-    fundSheet = _useState112[0],
-    setFundSheet = _useState112[1];
+    addSheet = _useState112[0],
+    setAddSheet = _useState112[1];
   var _useState113 = useState(null),
     _useState114 = _slicedToArray(_useState113, 2),
-    addDone = _useState114[0],
-    setAddDone = _useState114[1];
+    fundSheet = _useState114[0],
+    setFundSheet = _useState114[1];
   var _useState115 = useState(null),
     _useState116 = _slicedToArray(_useState115, 2),
-    fundDone = _useState116[0],
-    setFundDone = _useState116[1];
-  var _useState117 = useState(""),
+    addDone = _useState116[0],
+    setAddDone = _useState116[1];
+  var _useState117 = useState(null),
     _useState118 = _slicedToArray(_useState117, 2),
-    gName = _useState118[0],
-    setGName = _useState118[1];
+    fundDone = _useState118[0],
+    setFundDone = _useState118[1];
   var _useState119 = useState(""),
     _useState120 = _slicedToArray(_useState119, 2),
-    gTarget = _useState120[0],
-    setGTarget = _useState120[1];
+    gName = _useState120[0],
+    setGName = _useState120[1];
   var _useState121 = useState(""),
     _useState122 = _slicedToArray(_useState121, 2),
-    gDeadline = _useState122[0],
-    setGDeadline = _useState122[1];
+    gTarget = _useState122[0],
+    setGTarget = _useState122[1];
   var _useState123 = useState(""),
     _useState124 = _slicedToArray(_useState123, 2),
-    fAmt = _useState124[0],
-    setFAmt = _useState124[1];
-  var _useState125 = useState([]),
+    gDeadline = _useState124[0],
+    setGDeadline = _useState124[1];
+  var _useState125 = useState(""),
     _useState126 = _slicedToArray(_useState125, 2),
-    goals = _useState126[0],
-    setGoals = _useState126[1];
-  var _useState127 = useState(false),
+    fAmt = _useState126[0],
+    setFAmt = _useState126[1];
+  var _useState127 = useState([]),
     _useState128 = _slicedToArray(_useState127, 2),
-    goalsLoaded = _useState128[0],
-    setGoalsLoaded = _useState128[1];
+    goals = _useState128[0],
+    setGoals = _useState128[1];
+  var _useState129 = useState(false),
+    _useState130 = _slicedToArray(_useState129, 2),
+    goalsLoaded = _useState130[0],
+    setGoalsLoaded = _useState130[1];
   var PURPOSE = [{
     id: "emergency",
     label: "กองทุนฉุกเฉิน",
@@ -3420,6 +3438,7 @@ function SaveGoal(_ref24) {
     }).then(function (r) {
       return r.json();
     }).then(function (d) {
+      var _PURPOSE$find;
       if (!d.ok) {
         alert("บันทึกไม่สำเร็จ: " + (d.error || ""));
         return;
@@ -3427,6 +3446,18 @@ function SaveGoal(_ref24) {
       setSaveDone({
         amt: Number(amt),
         dest: dest
+      });
+      var _newEntry = {
+        cat: "🌱",
+        category_id: "savings",
+        amt: Number(amt),
+        note: (dest !== "general" && dest !== "emergency" ? ((_PURPOSE$find = PURPOSE.find(function (p) {
+          return p.id === dest;
+        })) === null || _PURPOSE$find === void 0 ? void 0 : _PURPOSE$find.label) || "" : "") || saveNote || "ออมทั่วไป",
+        time: "ตอนนี้"
+      };
+      setSavingsTxns(function (ts) {
+        return [_newEntry].concat(_toConsumableArray(ts)).slice(0, 10);
       });
       setSaveSummary(function (s) {
         return _objectSpread(_objectSpread({}, s), {}, {
@@ -3902,7 +3933,54 @@ function SaveGoal(_ref24) {
       borderRadius: 10,
       cursor: "pointer"
     }
-  }, "+ \u0E40\u0E15\u0E34\u0E21\u0E01\u0E2D\u0E07\u0E17\u0E38\u0E19\u0E09\u0E38\u0E01\u0E40\u0E09\u0E34\u0E19")), /*#__PURE__*/React.createElement("div", {
+  }, "+ \u0E40\u0E15\u0E34\u0E21\u0E01\u0E2D\u0E07\u0E17\u0E38\u0E19\u0E09\u0E38\u0E01\u0E40\u0E09\u0E34\u0E19")), savingsTxns.length > 0 && /*#__PURE__*/React.createElement(Card, {
+    style: {
+      marginBottom: 10
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 12,
+      fontWeight: 800,
+      color: DARK,
+      marginBottom: 10
+    }
+  }, "\uD83D\uDC9A \u0E23\u0E32\u0E22\u0E01\u0E32\u0E23\u0E2D\u0E2D\u0E21\u0E25\u0E48\u0E32\u0E2A\u0E38\u0E14"), savingsTxns.map(function (t, i) {
+    return /*#__PURE__*/React.createElement("div", {
+      key: i,
+      style: {
+        display: "flex",
+        alignItems: "center",
+        gap: 10,
+        padding: "8px 0",
+        borderBottom: i < savingsTxns.length - 1 ? "1px solid #f0f0f0" : "none"
+      }
+    }, /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 16
+      }
+    }, "\uD83C\uDF31"), /*#__PURE__*/React.createElement("div", {
+      style: {
+        flex: 1
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 12,
+        fontWeight: 700,
+        color: DARK
+      }
+    }, t.note && t.note.replace(/\[(.*?)\]\s*/, "") || "ออมทั่วไป"), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 10,
+        color: "#aaa"
+      }
+    }, t.time)), /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 13,
+        fontWeight: 900,
+        color: MID
+      }
+    }, "+\u0E3F", Math.abs(t.amt).toLocaleString()));
+  })), /*#__PURE__*/React.createElement("div", {
     style: {
       fontSize: 12,
       fontWeight: 900,
@@ -4113,10 +4191,10 @@ function SaveGoal(_ref24) {
 // ══════════════════════════════════════════════════════════════════════════════
 function App() {
   var _TABS$find, _TABS$find2;
-  var _useState129 = useState("cashflow"),
-    _useState130 = _slicedToArray(_useState129, 2),
-    tab = _useState130[0],
-    setTab = _useState130[1];
+  var _useState131 = useState("cashflow"),
+    _useState132 = _slicedToArray(_useState131, 2),
+    tab = _useState132[0],
+    setTab = _useState132[1];
   function switchTab(t) {
     setTab(t);
     setTimeout(function () {
@@ -4124,14 +4202,14 @@ function App() {
       if (el) el.scrollTop = 0;
     }, 0);
   }
-  var _useState131 = useState(false),
-    _useState132 = _slicedToArray(_useState131, 2),
-    spicy = _useState132[0],
-    setSpicy = _useState132[1];
   var _useState133 = useState(false),
     _useState134 = _slicedToArray(_useState133, 2),
-    spicyConfirm = _useState134[0],
-    setSpicyConfirm = _useState134[1];
+    spicy = _useState134[0],
+    setSpicy = _useState134[1];
+  var _useState135 = useState(false),
+    _useState136 = _slicedToArray(_useState135, 2),
+    spicyConfirm = _useState136[0],
+    setSpicyConfirm = _useState136[1];
   var bgColor = spicy ? "#111" : CREAM;
   var headerBg = spicy ? DARK : G;
   var screens = {
