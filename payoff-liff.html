@@ -563,129 +563,118 @@ function CashFlow(_ref1) {
     _useState0 = _slicedToArray(_useState9, 2),
     txSummary = _useState0[0],
     setTxSummary = _useState0[1];
-
-  // ── Debounce ref ──
-  var _fetchTimer = React.useRef(null);
   React.useEffect(function () {
     var uid = liffUid || getLiffUid();
     if (!uid) return;
+    if (period === "month") {
+      var _t = new Date(new Date().getFullYear(), new Date().getMonth() + monthOffset, 1);
+      var y = _t.getFullYear(),
+        m = _t.getMonth() + 1;
 
-    // debounce 400ms
-    if (_fetchTimer.current) clearTimeout(_fetchTimer.current);
-    _fetchTimer.current = setTimeout(function () {
-      if (period === "month") {
-        var _now = new Date();
-        var _t = new Date(_now.getFullYear(), _now.getMonth() + monthOffset, 1);
-        var y = _t.getFullYear(),
-          m = _t.getMonth() + 1;
-
-        // เช็ค cache
-        var cached = getMonthCache(uid, y, m);
-        if (cached) {
-          setTxns(cached.txns || []);
-          setTxSummary({
-            exp: cached.exp || 0,
-            inc: cached.inc || 0,
-            net: cached.net || 0
-          });
-          setAlloc(cached.alloc || []);
-          setCashSummary(cached.cs || {
-            exp: 0,
-            inc: 0,
-            net: 0,
-            netLabel: "ใช้จ่ายได้จริง"
-          });
-          return;
-        }
-        setAllocLoading(true);
-        Promise.all([fetch("/liff/transactions?userId=".concat(uid, "&year=").concat(y, "&month=").concat(m)).then(function (r) {
-          return r.json();
-        }).catch(function () {
-          return {};
-        }), fetch("/liff/cashflow-summary?userId=".concat(uid, "&year=").concat(y, "&month=").concat(m)).then(function (r) {
-          return r.json();
-        }).catch(function () {
-          return {};
-        })]).then(function (_ref10) {
-          var _ref11 = _slicedToArray(_ref10, 2),
-            tx = _ref11[0],
-            cs = _ref11[1];
-          var txns = tx.txns || [];
-          var exp = tx.expense_thb || 0,
-            inc = tx.income_thb || 0,
-            net = tx.net_thb || 0;
-          var alloc = cs.ok ? [{
-            label: "รายรับ",
-            amt: cs.income_thb || 0,
-            color: G,
-            icon: "💰"
-          }, {
-            label: "ผ่อนหนี้",
-            amt: -(cs.debt_payment_thb || 0),
-            color: "#FF6B6B",
-            icon: "🔓"
-          }, {
-            label: "ออมเงิน",
-            amt: -(cs.savings_thb || 0),
-            color: "#4ECDC4",
-            icon: "🌱"
-          }, {
-            label: "ค่าคงที่",
-            amt: -(cs.fixed_thb || 0),
-            color: GOLD,
-            icon: "📋"
-          }, {
-            label: "ค่าใช้จ่ายอื่นๆ",
-            amt: -(cs.expense_thb || 0),
-            color: "#aaa",
-            icon: "🛒"
-          }].filter(function (r) {
-            return r.amt !== 0;
-          }) : [];
-          var cs2 = {
-            exp: Math.round(exp),
-            inc: Math.round(cs.income_thb || inc),
-            net: Math.round(cs.net_thb || net),
-            netLabel: "ใช้จ่ายได้จริง"
-          };
-          setTxns(txns);
-          setTxSummary({
-            exp: exp,
-            inc: inc,
-            net: net
-          });
-          setAlloc(alloc);
-          setAllocLoaded(true);
-          setCashSummary(cs2);
-          setMonthCache(uid, y, m, {
-            txns: txns,
-            exp: exp,
-            inc: inc,
-            net: net,
-            alloc: alloc,
-            cs: cs2
-          });
-        }).finally(function () {
-          return setAllocLoading(false);
+      // cache hit
+      var cached = getMonthCache(uid, y, m);
+      if (cached) {
+        setTxns(cached.txns || []);
+        setTxSummary({
+          exp: cached.exp || 0,
+          inc: cached.inc || 0,
+          net: cached.net || 0
         });
-      } else {
-        var p = period === "week" ? "this_week" : "today";
-        fetch("/liff/transactions?userId=".concat(uid, "&period=").concat(p)).then(function (r) {
-          return r.json();
-        }).then(function (d) {
-          if (!d.ok) return;
-          setTxns(d.txns || []);
-          setTxSummary({
-            exp: d.expense_thb || 0,
-            inc: d.income_thb || 0,
-            net: d.net_thb || 0
-          });
-        }).catch(function () {});
+        setAlloc(cached.alloc || []);
+        setCashSummary(cached.cs || {
+          exp: 0,
+          inc: 0,
+          net: 0,
+          netLabel: "ใช้จ่ายได้จริง"
+        });
+        return;
       }
-    }, 400);
-    return function () {
-      if (_fetchTimer.current) clearTimeout(_fetchTimer.current);
-    };
+      setAllocLoading(true);
+      Promise.all([fetch("/liff/transactions?userId=".concat(uid, "&year=").concat(y, "&month=").concat(m)).then(function (r) {
+        return r.json();
+      }).catch(function () {
+        return {};
+      }), fetch("/liff/cashflow-summary?userId=".concat(uid, "&year=").concat(y, "&month=").concat(m)).then(function (r) {
+        return r.json();
+      }).catch(function () {
+        return {};
+      })]).then(function (_ref10) {
+        var _ref11 = _slicedToArray(_ref10, 2),
+          tx = _ref11[0],
+          cs = _ref11[1];
+        var txns = tx.txns || [];
+        var exp = tx.expense_thb || 0,
+          inc = tx.income_thb || 0,
+          net = tx.net_thb || 0;
+        var alloc = cs.ok ? [{
+          label: "รายรับ",
+          amt: cs.income_thb || 0,
+          color: G,
+          icon: "💰"
+        }, {
+          label: "ผ่อนหนี้",
+          amt: -(cs.debt_payment_thb || 0),
+          color: "#FF6B6B",
+          icon: "🔓"
+        }, {
+          label: "ออมเงิน",
+          amt: -(cs.savings_thb || 0),
+          color: "#4ECDC4",
+          icon: "🌱"
+        }, {
+          label: "ค่าคงที่",
+          amt: -(cs.fixed_thb || 0),
+          color: GOLD,
+          icon: "📋"
+        }, {
+          label: "ค่าใช้จ่ายอื่นๆ",
+          amt: -(cs.expense_thb || 0),
+          color: "#aaa",
+          icon: "🛒"
+        }].filter(function (r) {
+          return r.amt !== 0;
+        }) : [];
+        var cs2 = {
+          exp: Math.round(exp),
+          inc: Math.round(cs.income_thb || inc),
+          net: Math.round(cs.net_thb || net),
+          netLabel: "ใช้จ่ายได้จริง"
+        };
+        setTxns(txns);
+        setTxSummary({
+          exp: exp,
+          inc: inc,
+          net: net
+        });
+        setAlloc(alloc);
+        setAllocLoaded(true);
+        setCashSummary(cs2);
+        setMonthCache(uid, y, m, {
+          txns: txns,
+          exp: exp,
+          inc: inc,
+          net: net,
+          alloc: alloc,
+          cs: cs2
+        });
+      }).finally(function () {
+        return setAllocLoading(false);
+      });
+    } else {
+      var p = period === "week" ? "this_week" : "today";
+      setAllocLoading(false);
+      fetch("/liff/transactions?userId=".concat(uid, "&period=").concat(p)).then(function (r) {
+        return r.json();
+      }).then(function (d) {
+        if (!d.ok) return;
+        setTxns(d.txns || []);
+        setTxSummary({
+          exp: d.expense_thb || 0,
+          inc: d.income_thb || 0,
+          net: d.net_thb || 0
+        });
+      }).catch(function () {});
+    }
   }, [liffUid, period, monthOffset]);
   var _useState1 = useState("summary"),
     _useState10 = _slicedToArray(_useState1, 2),
