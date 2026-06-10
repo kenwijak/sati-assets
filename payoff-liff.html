@@ -3968,7 +3968,13 @@ function SaveGoal(_ref24) {
         fontWeight: 700,
         color: DARK
       }
-    }, t.note && t.note.replace(/\[(.*?)\]\s*/, "") || "ออมทั่วไป"), /*#__PURE__*/React.createElement("div", {
+    }, function () {
+      if (!t.note) return "ออมทั่วไป";
+      if (t.note.includes("[emergency]")) return "กองทุนฉุกเฉิน";
+      if (t.note.includes("[goal]")) return "เป้าหมาย";
+      var clean = t.note.replace(/\[.*?\]\s*/g, "").trim();
+      return clean || "ออมทั่วไป";
+    }()), /*#__PURE__*/React.createElement("div", {
       style: {
         fontSize: 10,
         color: "#aaa"
