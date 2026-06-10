@@ -3438,6 +3438,71 @@ function SaveGoal(_ref24) {
     _useState130 = _slicedToArray(_useState129, 2),
     savingsTxns = _useState130[0],
     setSavingsTxns = _useState130[1];
+  var _useState131 = useState(false),
+    _useState132 = _slicedToArray(_useState131, 2),
+    withdrawSheet = _useState132[0],
+    setWithdrawSheet = _useState132[1];
+  var _useState133 = useState(""),
+    _useState134 = _slicedToArray(_useState133, 2),
+    withdrawAmt = _useState134[0],
+    setWithdrawAmt = _useState134[1];
+  var _useState135 = useState(""),
+    _useState136 = _slicedToArray(_useState135, 2),
+    withdrawNote = _useState136[0],
+    setWithdrawNote = _useState136[1];
+  var _useState137 = useState(false),
+    _useState138 = _slicedToArray(_useState137, 2),
+    withdrawDone = _useState138[0],
+    setWithdrawDone = _useState138[1];
+  function submitWithdraw() {
+    var uid = liffUid || getLiffUid();
+    if (!uid) {
+      alert("ไม่พบ userId");
+      return;
+    }
+    fetch("/liff/saving", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        userId: uid,
+        amount_thb: -Number(withdrawAmt),
+        destination: "emergency",
+        note: withdrawNote || "ถอนจากกองทุนฉุกเฉิน"
+      })
+    }).then(function (r) {
+      return r.json();
+    }).then(function (d) {
+      if (!d.ok) {
+        alert("บันทึกไม่สำเร็จ: " + (d.error || ""));
+        return;
+      }
+      setWithdrawDone(true);
+      setSaveSummary(function (s) {
+        return _objectSpread(_objectSpread({}, s), {}, {
+          emergency: Math.max(0, s.emergency - Number(withdrawAmt)),
+          total: Math.max(0, s.total - Number(withdrawAmt)),
+          emergencyPct: Math.round(Math.max(0, s.emergency - Number(withdrawAmt)) / s.emergencyTarget * 100)
+        });
+      });
+      var entry = {
+        cat: "🌱",
+        category_id: "savings",
+        id: null,
+        amt: -Number(withdrawAmt),
+        note: "[emergency] " + withdrawNote || "ถอนจากกองทุนฉุกเฉิน",
+        time: "ตอนนี้"
+      };
+      setSavingsTxns(function (ts) {
+        return [entry].concat(_toConsumableArray(ts)).slice(0, 10);
+      });
+      setWithdrawAmt("");
+      setWithdrawNote("");
+    }).catch(function () {
+      return alert("เชื่อมต่อไม่ได้");
+    });
+  }
   React.useEffect(function () {
     var uid = liffUid || getLiffUid();
     if (!uid) return;
@@ -3792,6 +3857,68 @@ function SaveGoal(_ref24) {
       cursor: "pointer"
     }
   }, "\u0E42\u0E2D\u0E40\u0E04"))), /*#__PURE__*/React.createElement(Sheet, {
+    open: withdrawSheet,
+    onClose: function onClose() {
+      setWithdrawSheet(false);
+      setWithdrawDone(false);
+    }
+  }, withdrawDone ? /*#__PURE__*/React.createElement(Success, {
+    icon: "\uD83D\uDCB8",
+    title: "\u0E16\u0E2D\u0E19\u0E2D\u0E2D\u0E01 \u0E3F".concat(Number(withdrawAmt) || 0..toLocaleString()),
+    sub: "\u0E1A\u0E31\u0E19\u0E17\u0E36\u0E01\u0E41\u0E25\u0E49\u0E27 \u0E01\u0E2D\u0E07\u0E17\u0E38\u0E19\u0E09\u0E38\u0E01\u0E40\u0E09\u0E34\u0E19\u0E2D\u0E31\u0E1B\u0E40\u0E14\u0E15\u0E41\u0E25\u0E49\u0E27",
+    onClose: function onClose() {
+      setWithdrawSheet(false);
+      setWithdrawDone(false);
+    }
+  }) : /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 14,
+      fontWeight: 900,
+      color: DARK,
+      marginBottom: 6
+    }
+  }, "\uD83D\uDCB8 \u0E16\u0E2D\u0E19\u0E08\u0E32\u0E01\u0E01\u0E2D\u0E07\u0E17\u0E38\u0E19\u0E09\u0E38\u0E01\u0E40\u0E09\u0E34\u0E19"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11,
+      color: "#888",
+      marginBottom: 14
+    }
+  }, "\u0E21\u0E35\u0E2D\u0E22\u0E39\u0E48 \u0E3F", saveSummary.emergency.toLocaleString()), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11,
+      fontWeight: 800,
+      color: DARK,
+      marginBottom: 6
+    }
+  }, "\u0E08\u0E33\u0E19\u0E27\u0E19\u0E17\u0E35\u0E48\u0E16\u0E2D\u0E19"), /*#__PURE__*/React.createElement(AmtInput, {
+    value: withdrawAmt,
+    onChange: setWithdrawAmt
+  }), /*#__PURE__*/React.createElement(TextInput, {
+    value: withdrawNote,
+    onChange: setWithdrawNote,
+    label: "\u0E40\u0E2B\u0E15\u0E38\u0E1C\u0E25 (\u0E44\u0E21\u0E48\u0E1A\u0E31\u0E07\u0E04\u0E31\u0E1A)",
+    placeholder: "\u0E40\u0E0A\u0E48\u0E19 \u0E04\u0E48\u0E32\u0E2B\u0E21\u0E2D, \u0E0B\u0E48\u0E2D\u0E21\u0E23\u0E16"
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      height: 8
+    }
+  }), /*#__PURE__*/React.createElement(ConfirmBtn, {
+    label: "\u0E1A\u0E31\u0E19\u0E17\u0E36\u0E01\u0E01\u0E32\u0E23\u0E16\u0E2D\u0E19",
+    disabled: !withdrawAmt || Number(withdrawAmt) <= 0 || Number(withdrawAmt) > saveSummary.emergency,
+    onClick: submitWithdraw
+  }), withdrawAmt && Number(withdrawAmt) > saveSummary.emergency && /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11,
+      color: "#FF6B6B",
+      fontWeight: 700,
+      marginTop: 8,
+      textAlign: "center"
+    }
+  }, "\u0E16\u0E2D\u0E19\u0E40\u0E01\u0E34\u0E19\u0E22\u0E2D\u0E14\u0E17\u0E35\u0E48\u0E21\u0E35 \u0E3F", saveSummary.emergency.toLocaleString()), /*#__PURE__*/React.createElement("div", {
+    style: {
+      height: 20
+    }
+  }))), /*#__PURE__*/React.createElement(Sheet, {
     open: saveSheet,
     onClose: function onClose() {
       setSaveSheet(false);
@@ -4095,13 +4222,18 @@ function SaveGoal(_ref24) {
       fontWeight: 700,
       marginTop: 4
     }
-  }, spicy ? "\u0E23\u0E2D\u0E07\u0E23\u0E31\u0E1A\u0E09\u0E38\u0E01\u0E40\u0E09\u0E34\u0E19\u0E44\u0E14\u0E49 ".concat((saveSummary.emergencyPct / 100 * 3).toFixed(1), " \u0E40\u0E14\u0E37\u0E2D\u0E19 \u0E2B\u0E25\u0E31\u0E07\u0E08\u0E32\u0E01\u0E19\u0E31\u0E49\u0E19\u0E15\u0E49\u0E2D\u0E07\u0E02\u0E2D\u0E22\u0E37\u0E21") : "\u0E23\u0E2D\u0E07\u0E23\u0E31\u0E1A\u0E09\u0E38\u0E01\u0E40\u0E09\u0E34\u0E19\u0E44\u0E14\u0E49\u0E1B\u0E23\u0E30\u0E21\u0E32\u0E13 ".concat((saveSummary.emergencyPct / 100 * 3).toFixed(1), " \u0E40\u0E14\u0E37\u0E2D\u0E19"))), /*#__PURE__*/React.createElement("button", {
+  }, spicy ? "\u0E23\u0E2D\u0E07\u0E23\u0E31\u0E1A\u0E09\u0E38\u0E01\u0E40\u0E09\u0E34\u0E19\u0E44\u0E14\u0E49 ".concat((saveSummary.emergencyPct / 100 * 3).toFixed(1), " \u0E40\u0E14\u0E37\u0E2D\u0E19 \u0E2B\u0E25\u0E31\u0E07\u0E08\u0E32\u0E01\u0E19\u0E31\u0E49\u0E19\u0E15\u0E49\u0E2D\u0E07\u0E02\u0E2D\u0E22\u0E37\u0E21") : "\u0E23\u0E2D\u0E07\u0E23\u0E31\u0E1A\u0E09\u0E38\u0E01\u0E40\u0E09\u0E34\u0E19\u0E44\u0E14\u0E49\u0E1B\u0E23\u0E30\u0E21\u0E32\u0E13 ".concat((saveSummary.emergencyPct / 100 * 3).toFixed(1), " \u0E40\u0E14\u0E37\u0E2D\u0E19"))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: 8
+    }
+  }, /*#__PURE__*/React.createElement("button", {
     onClick: function onClick() {
       setDest("emergency");
       setSaveSheet(true);
     },
     style: {
-      width: "100%",
+      flex: 2,
       padding: "9px 0",
       fontSize: 12,
       fontWeight: 800,
@@ -4111,7 +4243,22 @@ function SaveGoal(_ref24) {
       borderRadius: 10,
       cursor: "pointer"
     }
-  }, "+ \u0E40\u0E15\u0E34\u0E21\u0E01\u0E2D\u0E07\u0E17\u0E38\u0E19\u0E09\u0E38\u0E01\u0E40\u0E09\u0E34\u0E19")), savingsTxns.length > 0 && /*#__PURE__*/React.createElement(Card, {
+  }, "+ \u0E40\u0E15\u0E34\u0E21\u0E01\u0E2D\u0E07\u0E17\u0E38\u0E19\u0E09\u0E38\u0E01\u0E40\u0E09\u0E34\u0E19"), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return setWithdrawSheet(true);
+    },
+    style: {
+      flex: 1,
+      padding: "9px 0",
+      fontSize: 12,
+      fontWeight: 800,
+      background: "#FFF0F0",
+      color: "#E53E3E",
+      border: "1.5px solid #FFD0D0",
+      borderRadius: 10,
+      cursor: "pointer"
+    }
+  }, "\uD83D\uDCB8 \u0E16\u0E2D\u0E19"))), savingsTxns.length > 0 && /*#__PURE__*/React.createElement(Card, {
     style: {
       marginBottom: 10
     }
@@ -4485,10 +4632,10 @@ function SaveGoal(_ref24) {
 // ══════════════════════════════════════════════════════════════════════════════
 function App() {
   var _TABS$find, _TABS$find2;
-  var _useState131 = useState("cashflow"),
-    _useState132 = _slicedToArray(_useState131, 2),
-    tab = _useState132[0],
-    setTab = _useState132[1];
+  var _useState139 = useState("cashflow"),
+    _useState140 = _slicedToArray(_useState139, 2),
+    tab = _useState140[0],
+    setTab = _useState140[1];
   function switchTab(t) {
     setTab(t);
     setTimeout(function () {
@@ -4496,14 +4643,14 @@ function App() {
       if (el) el.scrollTop = 0;
     }, 0);
   }
-  var _useState133 = useState(false),
-    _useState134 = _slicedToArray(_useState133, 2),
-    spicy = _useState134[0],
-    setSpicy = _useState134[1];
-  var _useState135 = useState(false),
-    _useState136 = _slicedToArray(_useState135, 2),
-    spicyConfirm = _useState136[0],
-    setSpicyConfirm = _useState136[1];
+  var _useState141 = useState(false),
+    _useState142 = _slicedToArray(_useState141, 2),
+    spicy = _useState142[0],
+    setSpicy = _useState142[1];
+  var _useState143 = useState(false),
+    _useState144 = _slicedToArray(_useState143, 2),
+    spicyConfirm = _useState144[0],
+    setSpicyConfirm = _useState144[1];
   var bgColor = spicy ? "#111" : CREAM;
   var headerBg = spicy ? DARK : G;
   var screens = {
