@@ -2672,24 +2672,6 @@ function Goal(_ref22) {
     _useState92 = _slicedToArray(_useState91, 2),
     goalsLoaded = _useState92[0],
     setGoalsLoaded = _useState92[1];
-  var _useState93 = useState([]),
-    _useState94 = _slicedToArray(_useState93, 2),
-    savingsTxns = _useState94[0],
-    setSavingsTxns = _useState94[1];
-  React.useEffect(function () {
-    var uid = liffUid || getLiffUid();
-    if (!uid) return;
-    fetch("/liff/transactions?userId=".concat(uid, "&period=this_month"), {
-      cache: "no-store"
-    }).then(function (r) {
-      return r.json();
-    }).then(function (d) {
-      if (!d.ok) return;
-      setSavingsTxns((d.txns || []).filter(function (t) {
-        return t.category_id === "savings";
-      }).slice(0, 10));
-    }).catch(function () {});
-  }, [liffUid]);
   React.useEffect(function () {
     var uid = liffUid || getLiffUid();
     if (!uid) return;
@@ -3105,14 +3087,14 @@ function More(_ref23) {
   var spicy = _ref23.spicy,
     onSpicyConfirm = _ref23.onSpicyConfirm;
   var liffUid = useLiffUid();
-  var _useState95 = useState({
+  var _useState93 = useState({
       name: "...",
       days: 0,
       zone: "🪙 สะสม"
     }),
-    _useState96 = _slicedToArray(_useState95, 2),
-    profile = _useState96[0],
-    setProfile = _useState96[1];
+    _useState94 = _slicedToArray(_useState93, 2),
+    profile = _useState94[0],
+    setProfile = _useState94[1];
   React.useEffect(function () {
     var uid = liffUid || getLiffUid();
     if (!uid) return;
@@ -3270,82 +3252,100 @@ function SaveGoal(_ref24) {
   var spicy = _ref24.spicy;
   // ── Save state ──
   var liffUid = useLiffUid();
-  var _useState97 = useState(false),
+  var _useState95 = useState(false),
+    _useState96 = _slicedToArray(_useState95, 2),
+    saveSheet = _useState96[0],
+    setSaveSheet = _useState96[1];
+  var _useState97 = useState(null),
     _useState98 = _slicedToArray(_useState97, 2),
-    saveSheet = _useState98[0],
-    setSaveSheet = _useState98[1];
-  var _useState99 = useState(null),
+    saveDone = _useState98[0],
+    setSaveDone = _useState98[1];
+  var _useState99 = useState(""),
     _useState100 = _slicedToArray(_useState99, 2),
-    saveDone = _useState100[0],
-    setSaveDone = _useState100[1];
-  var _useState101 = useState(""),
+    amt = _useState100[0],
+    setAmt = _useState100[1];
+  var _useState101 = useState("general"),
     _useState102 = _slicedToArray(_useState101, 2),
-    amt = _useState102[0],
-    setAmt = _useState102[1];
-  var _useState103 = useState("general"),
+    dest = _useState102[0],
+    setDest = _useState102[1];
+  var _useState103 = useState(""),
     _useState104 = _slicedToArray(_useState103, 2),
-    dest = _useState104[0],
-    setDest = _useState104[1];
-  var _useState105 = useState(""),
+    saveNote = _useState104[0],
+    setSaveNote = _useState104[1];
+  var _useState105 = useState(false),
     _useState106 = _slicedToArray(_useState105, 2),
-    saveNote = _useState106[0],
-    setSaveNote = _useState106[1];
-  var _useState107 = useState(false),
-    _useState108 = _slicedToArray(_useState107, 2),
-    investToast = _useState108[0],
-    setInvestToast = _useState108[1];
-  var _useState109 = useState({
+    investToast = _useState106[0],
+    setInvestToast = _useState106[1];
+  var _useState107 = useState({
       total: 0,
       emergency: 0,
       thisMonth: 0,
       emergencyPct: 0,
       emergencyTarget: 100000
     }),
-    _useState110 = _slicedToArray(_useState109, 2),
-    saveSummary = _useState110[0],
-    setSaveSummary = _useState110[1];
+    _useState108 = _slicedToArray(_useState107, 2),
+    saveSummary = _useState108[0],
+    setSaveSummary = _useState108[1];
 
   // ── Goal state ──
-  var _useState111 = useState(false),
+  var _useState109 = useState(false),
+    _useState110 = _slicedToArray(_useState109, 2),
+    addSheet = _useState110[0],
+    setAddSheet = _useState110[1];
+  var _useState111 = useState(null),
     _useState112 = _slicedToArray(_useState111, 2),
-    addSheet = _useState112[0],
-    setAddSheet = _useState112[1];
+    fundSheet = _useState112[0],
+    setFundSheet = _useState112[1];
   var _useState113 = useState(null),
     _useState114 = _slicedToArray(_useState113, 2),
-    fundSheet = _useState114[0],
-    setFundSheet = _useState114[1];
+    addDone = _useState114[0],
+    setAddDone = _useState114[1];
   var _useState115 = useState(null),
     _useState116 = _slicedToArray(_useState115, 2),
-    addDone = _useState116[0],
-    setAddDone = _useState116[1];
-  var _useState117 = useState(null),
+    fundDone = _useState116[0],
+    setFundDone = _useState116[1];
+  var _useState117 = useState(""),
     _useState118 = _slicedToArray(_useState117, 2),
-    fundDone = _useState118[0],
-    setFundDone = _useState118[1];
+    gName = _useState118[0],
+    setGName = _useState118[1];
   var _useState119 = useState(""),
     _useState120 = _slicedToArray(_useState119, 2),
-    gName = _useState120[0],
-    setGName = _useState120[1];
+    gTarget = _useState120[0],
+    setGTarget = _useState120[1];
   var _useState121 = useState(""),
     _useState122 = _slicedToArray(_useState121, 2),
-    gTarget = _useState122[0],
-    setGTarget = _useState122[1];
+    gDeadline = _useState122[0],
+    setGDeadline = _useState122[1];
   var _useState123 = useState(""),
     _useState124 = _slicedToArray(_useState123, 2),
-    gDeadline = _useState124[0],
-    setGDeadline = _useState124[1];
-  var _useState125 = useState(""),
+    fAmt = _useState124[0],
+    setFAmt = _useState124[1];
+  var _useState125 = useState([]),
     _useState126 = _slicedToArray(_useState125, 2),
-    fAmt = _useState126[0],
-    setFAmt = _useState126[1];
-  var _useState127 = useState([]),
+    goals = _useState126[0],
+    setGoals = _useState126[1];
+  var _useState127 = useState(false),
     _useState128 = _slicedToArray(_useState127, 2),
-    goals = _useState128[0],
-    setGoals = _useState128[1];
-  var _useState129 = useState(false),
+    goalsLoaded = _useState128[0],
+    setGoalsLoaded = _useState128[1];
+  var _useState129 = useState([]),
     _useState130 = _slicedToArray(_useState129, 2),
-    goalsLoaded = _useState130[0],
-    setGoalsLoaded = _useState130[1];
+    savingsTxns = _useState130[0],
+    setSavingsTxns = _useState130[1];
+  React.useEffect(function () {
+    var uid = liffUid || getLiffUid();
+    if (!uid) return;
+    fetch("/liff/transactions?userId=".concat(uid, "&period=this_month"), {
+      cache: "no-store"
+    }).then(function (r) {
+      return r.json();
+    }).then(function (d) {
+      if (!d.ok) return;
+      setSavingsTxns((d.txns || []).filter(function (t) {
+        return t.category_id === "savings";
+      }).slice(0, 10));
+    }).catch(function () {});
+  }, [liffUid]);
   var PURPOSE = [{
     id: "emergency",
     label: "กองทุนฉุกเฉิน",
