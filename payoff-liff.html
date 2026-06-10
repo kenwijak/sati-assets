@@ -3945,43 +3945,97 @@ function SaveGoal(_ref24) {
       marginBottom: 10
     }
   }, "\uD83D\uDC9A \u0E23\u0E32\u0E22\u0E01\u0E32\u0E23\u0E2D\u0E2D\u0E21\u0E25\u0E48\u0E32\u0E2A\u0E38\u0E14"), savingsTxns.map(function (t, i) {
+    var SAVE_CATS = {
+      "[emergency]": {
+        label: "กองทุนฉุกเฉิน",
+        icon: "🛡️",
+        color: "#4ECDC4"
+      },
+      "[goal]": {
+        label: "เป้าหมาย",
+        icon: "🎯",
+        color: GOLD
+      },
+      "เที่ยว": {
+        label: "เที่ยว",
+        icon: "✈️",
+        color: "#74B9FF"
+      },
+      "ของขวัญ": {
+        label: "ของขวัญ",
+        icon: "🎁",
+        color: "#FD79A8"
+      }
+    };
+    var raw = t.note || "";
+    var cat = {
+      label: "ออมทั่วไป",
+      icon: "🌱",
+      color: G
+    };
+    for (var _i = 0, _Object$entries = Object.entries(SAVE_CATS); _i < _Object$entries.length; _i++) {
+      var _Object$entries$_i = _slicedToArray(_Object$entries[_i], 2),
+        k = _Object$entries$_i[0],
+        v = _Object$entries$_i[1];
+      if (raw.includes(k)) {
+        cat = v;
+        break;
+      }
+    }
     return /*#__PURE__*/React.createElement("div", {
       key: i,
       style: {
         display: "flex",
         alignItems: "center",
         gap: 10,
-        padding: "8px 0",
+        padding: "9px 0",
         borderBottom: i < savingsTxns.length - 1 ? "1px solid #f0f0f0" : "none"
       }
-    }, /*#__PURE__*/React.createElement("span", {
+    }, /*#__PURE__*/React.createElement("div", {
       style: {
-        fontSize: 16
+        width: 34,
+        height: 34,
+        borderRadius: "50%",
+        background: cat.color + "22",
+        border: "1.5px solid ".concat(cat.color),
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        fontSize: 16,
+        flexShrink: 0
       }
-    }, "\uD83C\uDF31"), /*#__PURE__*/React.createElement("div", {
+    }, cat.icon), /*#__PURE__*/React.createElement("div", {
       style: {
         flex: 1
       }
     }, /*#__PURE__*/React.createElement("div", {
       style: {
+        display: "flex",
+        alignItems: "center",
+        gap: 6
+      }
+    }, /*#__PURE__*/React.createElement("span", {
+      style: {
         fontSize: 12,
-        fontWeight: 700,
+        fontWeight: 800,
         color: DARK
       }
-    }, function () {
-      if (!t.note) return "ออมทั่วไป";
-      if (t.note.includes("[emergency]")) return "กองทุนฉุกเฉิน";
-      if (t.note.includes("[goal]")) return "เป้าหมาย";
-      var clean = t.note.replace(/\[.*?\]\s*/g, "").trim();
-      return clean || "ออมทั่วไป";
-    }()), /*#__PURE__*/React.createElement("div", {
+    }, cat.label), raw && !["[emergency]", "[goal]"].some(function (k) {
+      return raw.includes(k);
+    }) && raw.replace(/\[.*?\]\s*/g, "").trim() && raw !== cat.label && /*#__PURE__*/React.createElement("span", {
       style: {
         fontSize: 10,
         color: "#aaa"
       }
+    }, raw.replace(/\[.*?\]\s*/g, "").trim())), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 10,
+        color: "#aaa",
+        marginTop: 1
+      }
     }, t.time)), /*#__PURE__*/React.createElement("span", {
       style: {
-        fontSize: 13,
+        fontSize: 14,
         fontWeight: 900,
         color: MID
       }
