@@ -818,6 +818,51 @@ function CashFlow(_ref1) {
     if (pct > 80) return spicy ? "\u0E43\u0E0A\u0E49\u0E44\u0E1B\u0E41\u0E25\u0E49\u0E27 ".concat(pct, "% \u0E02\u0E2D\u0E07\u0E23\u0E32\u0E22\u0E23\u0E31\u0E1A \u0E40\u0E2B\u0E25\u0E37\u0E2D\u0E07\u0E1A\u0E19\u0E34\u0E14\u0E40\u0E14\u0E35\u0E22\u0E27") : "\u0E43\u0E0A\u0E49\u0E44\u0E1B\u0E41\u0E25\u0E49\u0E27 ".concat(pct, "% \u0E02\u0E2D\u0E07\u0E23\u0E32\u0E22\u0E23\u0E31\u0E1A \u2014 \u0E23\u0E30\u0E27\u0E31\u0E07\u0E0A\u0E48\u0E27\u0E07\u0E17\u0E49\u0E32\u0E22\u0E40\u0E14\u0E37\u0E2D\u0E19\u0E14\u0E49\u0E27\u0E22\u0E19\u0E30");
     return spicy ? "\u0E40\u0E14\u0E37\u0E2D\u0E19\u0E19\u0E35\u0E49\u0E14\u0E35\u0E19\u0E30 \u0E43\u0E0A\u0E49\u0E41\u0E04\u0E48 ".concat(pct, "% \u0E17\u0E35\u0E48\u0E40\u0E2B\u0E25\u0E37\u0E2D\u0E40\u0E2D\u0E32\u0E44\u0E1B\u0E2D\u0E2D\u0E21\u0E44\u0E14\u0E49\u0E40\u0E25\u0E22") : "\u0E40\u0E14\u0E37\u0E2D\u0E19\u0E19\u0E35\u0E49\u0E43\u0E0A\u0E49\u0E44\u0E1B ".concat(pct, "% \u0E40\u0E2B\u0E25\u0E37\u0E2D \u0E3F").concat(Math.round(net).toLocaleString(), " \u2014 \u0E42\u0E22\u0E19\u0E40\u0E02\u0E49\u0E32\u0E2D\u0E2D\u0E21\u0E2B\u0E23\u0E37\u0E2D\u0E2B\u0E19\u0E35\u0E49\u0E44\u0E14\u0E49\u0E40\u0E25\u0E22 \uD83C\uDF31");
   }();
+  function deleteTx(t, idx) {
+    var uid = liffUid || getLiffUid();
+    if (!uid || !t.id) {
+      setTxns(function (ts) {
+        return ts.filter(function (_, i) {
+          return i !== idx;
+        });
+      });
+      return;
+    }
+    if (!confirm("ลบรายการนี้?")) return;
+    fetch("/liff/delete-transaction", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        userId: uid,
+        tx_id: t.id
+      })
+    }).then(function (r) {
+      return r.json();
+    }).then(function (d) {
+      if (!d.ok) {
+        alert("ลบไม่สำเร็จ");
+        return;
+      }
+      setTxns(function (ts) {
+        return ts.filter(function (_, i) {
+          return i !== idx;
+        });
+      });
+      setTxSummary(function (s) {
+        return t.amt > 0 ? _objectSpread(_objectSpread({}, s), {}, {
+          inc: Math.max(0, s.inc - t.amt),
+          net: s.net - t.amt
+        }) : _objectSpread(_objectSpread({}, s), {}, {
+          exp: Math.max(0, s.exp - Math.abs(t.amt)),
+          net: s.net + Math.abs(t.amt)
+        });
+      });
+    }).catch(function () {
+      return alert("เชื่อมต่อไม่ได้");
+    });
+  }
   function submit() {
     var uid = liffUid || getLiffUid();
     if (!uid) {
@@ -1373,9 +1418,23 @@ function CashFlow(_ref1) {
       style: {
         fontSize: 13,
         fontWeight: 900,
-        color: t.amt > 0 ? G : "#E53E3E"
+        color: t.amt > 0 ? G : "#E53E3E",
+        marginRight: 4
       }
-    }, t.amt > 0 ? "+" : "", "\u0E3F", Math.abs(t.amt).toLocaleString()));
+    }, t.amt > 0 ? "+" : "", "\u0E3F", Math.abs(t.amt).toLocaleString()), /*#__PURE__*/React.createElement("button", {
+      onClick: function onClick() {
+        return deleteTx(t, i);
+      },
+      style: {
+        background: "none",
+        border: "none",
+        cursor: "pointer",
+        fontSize: 14,
+        color: "#ccc",
+        padding: "2px 4px",
+        flexShrink: 0
+      }
+    }, "\u2715"));
   })));
 }
 
@@ -2113,6 +2172,38 @@ function Debt(_ref21) {
       return alert("เชื่อมต่อไม่ได้ ลองใหม่");
     });
   }
+  function deleteDebt(d) {
+    var uid = liffUid || getLiffUid();
+    if (!uid) return;
+    if (!confirm("\u0E25\u0E1A\u0E2B\u0E19\u0E35\u0E49 \"".concat(d.name, "\"?"))) return;
+    fetch("/liff/delete-debt", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        userId: uid,
+        debt_id: d.id
+      })
+    }).then(function (r) {
+      return r.json();
+    }).then(function (res) {
+      if (!res.ok) {
+        alert("ลบไม่สำเร็จ");
+        return;
+      }
+      setDebts(function (ds) {
+        return ds.filter(function (x) {
+          return x.id !== d.id;
+        });
+      });
+      setTotalDebt(function (t) {
+        return Math.max(0, t - d.bal);
+      });
+    }).catch(function () {
+      return alert("เชื่อมต่อไม่ได้");
+    });
+  }
   return /*#__PURE__*/React.createElement("div", {
     style: {
       position: "relative"
@@ -2619,7 +2710,22 @@ function Debt(_ref21) {
         borderRadius: 10,
         cursor: "pointer"
       }
-    }, paidDone[d.name] ? "✓ ชำระแล้วเดือนนี้" : "💸 ชำระหนี้งวดนี้"));
+    }, paidDone[d.name] ? "✓ ชำระแล้วเดือนนี้" : "💸 ชำระหนี้งวดนี้"), /*#__PURE__*/React.createElement("button", {
+      onClick: function onClick() {
+        return deleteDebt(d);
+      },
+      style: {
+        width: "100%",
+        marginTop: 6,
+        padding: "6px 0",
+        fontSize: 11,
+        fontWeight: 700,
+        background: "none",
+        color: "#bbb",
+        border: "none",
+        cursor: "pointer"
+      }
+    }, "\uD83D\uDDD1\uFE0F \u0E25\u0E1A\u0E2B\u0E19\u0E35\u0E49\u0E19\u0E35\u0E49"));
   }));
 }
 
@@ -3551,6 +3657,78 @@ function SaveGoal(_ref24) {
       setFAmt("");
     }).catch(function () {});
   }
+  function deleteSaving(tx, idx) {
+    var uid = liffUid || getLiffUid();
+    if (!uid || !tx.id) {
+      // optimistic entry ยังไม่มี id (เพิ่ง add) — ลบจาก state อย่างเดียว
+      setSavingsTxns(function (ts) {
+        return ts.filter(function (_, i) {
+          return i !== idx;
+        });
+      });
+      return;
+    }
+    if (!confirm("ลบรายการออมนี้?")) return;
+    fetch("/liff/delete-transaction", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        userId: uid,
+        tx_id: tx.id
+      })
+    }).then(function (r) {
+      return r.json();
+    }).then(function (d) {
+      if (!d.ok) {
+        alert("ลบไม่สำเร็จ");
+        return;
+      }
+      setSavingsTxns(function (ts) {
+        return ts.filter(function (_, i) {
+          return i !== idx;
+        });
+      });
+      setSaveSummary(function (s) {
+        return _objectSpread(_objectSpread({}, s), {}, {
+          total: Math.max(0, s.total - Math.abs(tx.amt)),
+          thisMonth: Math.max(0, s.thisMonth - Math.abs(tx.amt))
+        });
+      });
+    }).catch(function () {
+      return alert("เชื่อมต่อไม่ได้");
+    });
+  }
+  function deleteGoal(g) {
+    var uid = liffUid || getLiffUid();
+    if (!uid) return;
+    if (!confirm("\u0E25\u0E1A\u0E40\u0E1B\u0E49\u0E32\u0E2B\u0E21\u0E32\u0E22 \"".concat(g.name, "\"?"))) return;
+    fetch("/liff/delete-goal", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        userId: uid,
+        goal_id: g.id
+      })
+    }).then(function (r) {
+      return r.json();
+    }).then(function (d) {
+      if (!d.ok) {
+        alert("ลบไม่สำเร็จ");
+        return;
+      }
+      setGoals(function (gs) {
+        return gs.filter(function (x) {
+          return x.id !== g.id;
+        });
+      });
+    }).catch(function () {
+      return alert("เชื่อมต่อไม่ได้");
+    });
+  }
   return /*#__PURE__*/React.createElement("div", {
     style: {
       position: "relative"
@@ -4037,10 +4215,47 @@ function SaveGoal(_ref24) {
       style: {
         fontSize: 14,
         fontWeight: 900,
-        color: MID
+        color: MID,
+        marginRight: 4
       }
-    }, "+\u0E3F", Math.abs(t.amt).toLocaleString()));
-  })), /*#__PURE__*/React.createElement("div", {
+    }, "+\u0E3F", Math.abs(t.amt).toLocaleString()), /*#__PURE__*/React.createElement("button", {
+      onClick: function onClick() {
+        return deleteSaving(t, i);
+      },
+      style: {
+        background: "none",
+        border: "none",
+        cursor: "pointer",
+        fontSize: 15,
+        color: "#ccc",
+        padding: "2px 4px",
+        flexShrink: 0
+      }
+    }, "\u2715"));
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      borderTop: "2px dashed #eee",
+      marginTop: 8,
+      paddingTop: 8,
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "center"
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 11,
+      fontWeight: 700,
+      color: "#888"
+    }
+  }, "\u0E23\u0E27\u0E21\u0E2D\u0E2D\u0E21\u0E40\u0E14\u0E37\u0E2D\u0E19\u0E19\u0E35\u0E49"), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 14,
+      fontWeight: 900,
+      color: G
+    }
+  }, "+\u0E3F", savingsTxns.reduce(function (s, t) {
+    return s + Math.abs(t.amt);
+  }, 0).toLocaleString()))), /*#__PURE__*/React.createElement("div", {
     style: {
       fontSize: 12,
       fontWeight: 900,
@@ -4145,13 +4360,18 @@ function SaveGoal(_ref24) {
     }, g.pct, "%")), /*#__PURE__*/React.createElement(Bar, {
       pct: g.pct,
       color: g.color
-    }), /*#__PURE__*/React.createElement("button", {
+    }), /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        gap: 8,
+        marginTop: 8
+      }
+    }, /*#__PURE__*/React.createElement("button", {
       onClick: function onClick() {
         return setFundSheet(g);
       },
       style: {
-        width: "100%",
-        marginTop: 8,
+        flex: 1,
         padding: "8px 0",
         fontSize: 12,
         fontWeight: 800,
@@ -4161,7 +4381,21 @@ function SaveGoal(_ref24) {
         borderRadius: 10,
         cursor: "pointer"
       }
-    }, "+ \u0E40\u0E1E\u0E34\u0E48\u0E21\u0E40\u0E07\u0E34\u0E19\u0E40\u0E02\u0E49\u0E32\u0E40\u0E1B\u0E49\u0E32"));
+    }, "+ \u0E40\u0E1E\u0E34\u0E48\u0E21\u0E40\u0E07\u0E34\u0E19\u0E40\u0E02\u0E49\u0E32\u0E40\u0E1B\u0E49\u0E32"), /*#__PURE__*/React.createElement("button", {
+      onClick: function onClick() {
+        return deleteGoal(g);
+      },
+      style: {
+        padding: "8px 14px",
+        fontSize: 12,
+        fontWeight: 800,
+        background: "#fff",
+        color: "#FF6B6B",
+        border: "1.5px solid #FFD0D0",
+        borderRadius: 10,
+        cursor: "pointer"
+      }
+    }, "\uD83D\uDDD1\uFE0F")));
   }), /*#__PURE__*/React.createElement(Card, {
     style: {
       opacity: .85,
