@@ -4849,7 +4849,8 @@ function App() {
   }, /*#__PURE__*/React.createElement("div", {
     style: {
       background: headerBg,
-      height: 10,
+      height: "env(safe-area-inset-top, 10px)",
+      minHeight: 10,
       transition: "background .3s"
     }
   }), /*#__PURE__*/React.createElement("div", {
@@ -5019,7 +5020,7 @@ function App() {
       borderTop: "2.5px solid ".concat(DARK),
       display: "grid",
       gridTemplateColumns: "repeat(5,1fr)",
-      padding: "5px 0 9px",
+      padding: "5px 0 calc(9px + env(safe-area-inset-bottom, 0px))",
       transition: "background .3s"
     }
   }, TABS.map(function (t) {
