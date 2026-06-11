@@ -3462,6 +3462,10 @@ function SaveGoal(_ref24) {
     _useStatePNAArr = _slicedToArray(_useStatePNA, 2),
     potName = _useStatePNAArr[0],
     setPotName = _useStatePNAArr[1];
+  var _useStateBLS = useState(false),
+    _useStateBLSArr = _slicedToArray(_useStateBLS, 2),
+    bucketLimitSheet = _useStateBLSArr[0],
+    setBucketLimitSheet = _useStateBLSArr[1];
   function submitWithdraw() {
     var uid = liffUid || getLiffUid();
     if (!uid) {
@@ -3620,6 +3624,12 @@ function SaveGoal(_ref24) {
     }).then(function (d) {
       var _PURPOSE$find;
       if (!d.ok) {
+        if (d.error === 'BUCKET_LIMIT_REACHED') {
+          setSaveSheet(false);
+          setAmt("");
+          setBucketLimitSheet(true);
+          return;
+        }
         alert("บันทึกไม่สำเร็จ: " + (d.error || ""));
         return;
       }
@@ -3627,6 +3637,18 @@ function SaveGoal(_ref24) {
         amt: Number(amt),
         dest: dest
       });
+      // Update customPots optimistically: add new pot or increment existing
+      if (dest !== "emergency" && dest !== "goal" && note && note.trim()) {
+        setCustomPots(function(ps) {
+          var existing = ps.find(function(p) { return p.name === note.trim(); });
+          if (existing) {
+            return ps.map(function(p) {
+              return p.name === note.trim() ? _objectSpread(_objectSpread({}, p), {}, { total_thb: p.total_thb + Number(amt) }) : p;
+            });
+          }
+          return ps.concat([{ name: note.trim(), total_thb: Number(amt), icon: '🪙' }]);
+        });
+      }
       var _newEntry = {
         cat: "🌱",
         category_id: "savings",
@@ -3878,7 +3900,7 @@ function SaveGoal(_ref24) {
       fontSize: 13,
       cursor: "pointer"
     }
-  }, "\u0E42\u0E2D\u0E40\u0E04"))), /*#__PURE__*/React.createElement(Sheet, {
+  }, "โอเค"))), /*#__PURE__*/React.createElement(Sheet, {
     open: withdrawSheet,
     onClose: function onClose() {
       setWithdrawSheet(false);
@@ -3941,6 +3963,39 @@ function SaveGoal(_ref24) {
       height: 20
     }
   }))), /*#__PURE__*/React.createElement(Sheet, {
+    open: bucketLimitSheet,
+    onClose: function onClose() { return setBucketLimitSheet(false); }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: { textAlign: "center", padding: "8px 0 4px" }
+  },
+    /*#__PURE__*/React.createElement("div", { style: { fontSize: 36, marginBottom: 10 } }, "\uD83E\uDEA3"),
+    /*#__PURE__*/React.createElement("div", {
+      style: { fontSize: 15, fontWeight: 900, color: DARK, marginBottom: 8 }
+    }, "\u0E01\u0E2D\u0E07\u0E2D\u0E2D\u0E21\u0E40\u0E15\u0E47\u0E21  3 \u0E41\u0E25\u0E49\u0E27"),
+    /*#__PURE__*/React.createElement("div", {
+      style: { fontSize: 12, color: "#666", lineHeight: 1.7, marginBottom: 20 }
+    }, "\u0E25\u0E1A\u0E01\u0E2D\u0E07\u0E40\u0E01\u0E48\u0E32\u0E2D\u0E2D\u0E01\u0E2A\u0E31\u0E01\u0E2D\u0E31\u0E19\u0E01\u0E48\u0E2D\u0E19 \u0E2B\u0E23\u0E37\u0E2D\u0E2D\u0E31\u0E1B\u0E40\u0E01\u0E23\u0E14 Premium\n\u0E40\u0E1E\u0E37\u0E48\u0E2D\u0E2A\u0E23\u0E49\u0E32\u0E07\u0E01\u0E2D\u0E07\u0E2D\u0E2D\u0E21\u0E44\u0E14\u0E49\u0E44\u0E21\u0E48\u0E08\u0E33\u0E01\u0E31\u0E14"),
+    /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 8 } },
+      /*#__PURE__*/React.createElement("button", {
+        onClick: function() { setBucketLimitSheet(false); },
+        style: {
+          flex: 1, padding: "12px 0", fontSize: 13, fontWeight: 900,
+          background: DARK, color: "#fff",
+          border: "2px solid ".concat(DARK), borderRadius: 12,
+          boxShadow: "2px 2px 0 ".concat(DARK), cursor: "pointer"
+        }
+      }, "\u0E08\u0E31\u0E14\u0E01\u0E32\u0E23\u0E01\u0E2D\u0E07"),
+      /*#__PURE__*/React.createElement("button", {
+        onClick: function() { setBucketLimitSheet(false); setInvestToast(true); },
+        style: {
+          flex: 1, padding: "12px 0", fontSize: 13, fontWeight: 900,
+          background: GOLD, color: DARK,
+          border: "2px solid ".concat(DARK), borderRadius: 12,
+          boxShadow: "2px 2px 0 ".concat(DARK), cursor: "pointer"
+        }
+      }, "\u0E14\u0E39 Premium \u2728")
+    )
+  )), /*#__PURE__*/React.createElement(Sheet, {
     open: saveSheet,
     onClose: function onClose() {
       setSaveSheet(false);
