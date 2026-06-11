@@ -51,28 +51,55 @@ var G = "#3DDB5A",
   DARK = "#1A3D1F",
   MID = "#2D5A35";
 
-// ── LIFF userId helper ────────────────────────────────────────────────────────
-window.__LIFF_UID = new URLSearchParams(window.location.search).get("userId") || "";
+// ── LIFF userId + token helpers ───────────────────────────────────────────────
+window.__LIFF_UID   = "";
+window.__LIFF_TOKEN = "";
 window.__LIFF_READY = false;
 (function initLiff() {
-  if (typeof liff === "undefined") return;
-  liff.init({
-    liffId: "2010030839-xs1nAvDg"
-  }).then(function () {
-    try {
-      return liff.getProfile();
-    } catch (e) {}
-  }).then(function (p) {
-    if (p && p.userId) window.__LIFF_UID = p.userId;
-    window.__LIFF_READY = true;
-    window.dispatchEvent(new Event("liff-ready"));
-  }).catch(function () {
-    window.__LIFF_READY = true;
-    window.dispatchEvent(new Event("liff-ready"));
-  });
+  if (typeof liff === "undefined") { window.__LIFF_READY = true; return; }
+  liff.init({ liffId: "2010030839-xs1nAvDg" })
+    .then(function() {
+      try { return liff.getProfile(); } catch(e) {}
+    })
+    .then(function(p) {
+      if (p && p.userId) window.__LIFF_UID = p.userId;
+      var lineToken = "";
+      try { lineToken = liff.getAccessToken() || ""; } catch(e) {}
+      if (!lineToken) return;
+      return fetch("/liff/auth", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ lineToken: lineToken })
+      }).then(function(r) { return r.json(); })
+        .then(function(d) { if (d.ok && d.token) window.__LIFF_TOKEN = d.token; })
+        .catch(function() {});
+    })
+    .then(function() {
+      window.__LIFF_READY = true;
+      window.dispatchEvent(new Event("liff-ready"));
+    })
+    .catch(function() {
+      window.__LIFF_READY = true;
+      window.dispatchEvent(new Event("liff-ready"));
+    });
 })();
-function getLiffUid() {
-  return window.__LIFF_UID || new URLSearchParams(window.location.search).get("userId") || "";
+function getLiffToken() { return window.__LIFF_TOKEN || ""; }
+function getLiffUid()   { return window.__LIFF_UID   || ""; }
+// liffFetch: auto-injects token into all /liff/* API calls
+function liffFetch(url, options) {
+  var token = getLiffToken();
+  options = options ? Object.assign({}, options) : {};
+  var method = (options.method || "GET").toUpperCase();
+  if (method === "GET" || method === "HEAD") {
+    url = url + (url.indexOf("?") >= 0 ? "&" : "?") + "token=" + encodeURIComponent(token);
+  } else if (options.body) {
+    try {
+      var b = JSON.parse(options.body);
+      b.token = token;
+      options.body = JSON.stringify(b);
+    } catch(e) {}
+  }
+  return fetch(url, options);
 }
 
 // ── Month data cache (in-memory, per session) ─────────────────────────────
@@ -606,13 +633,13 @@ function CashFlow(_ref1) {
       var y = _t.getFullYear(),
         m = _t.getMonth() + 1;
       setAllocLoading(true);
-      Promise.all([fetch("/liff/transactions?userId=".concat(uid, "&year=").concat(y, "&month=").concat(m), {
+      Promise.all([liffFetch("/liff/transactions?userId=".concat(uid, "&year=").concat(y, "&month=").concat(m), {
         cache: "no-store"
       }).then(function (r) {
         return r.json();
       }).catch(function () {
         return {};
-      }), fetch("/liff/cashflow-summary?userId=".concat(uid, "&year=").concat(y, "&month=").concat(m), {
+      }), liffFetch("/liff/cashflow-summary?userId=".concat(uid, "&year=").concat(y, "&month=").concat(m), {
         cache: "no-store"
       }).then(function (r) {
         return r.json();
@@ -675,7 +702,7 @@ function CashFlow(_ref1) {
     } else {
       var p = period === "week" ? "this_week" : "today";
       setAllocLoading(false);
-      fetch("/liff/transactions?userId=".concat(uid, "&period=").concat(p), {
+      liffFetch("/liff/transactions?userId=".concat(uid, "&period=").concat(p), {
         cache: "no-store"
       }).then(function (r) {
         return r.json();
@@ -829,7 +856,7 @@ function CashFlow(_ref1) {
       return;
     }
     if (!confirm("ลบรายการนี้?")) return;
-    fetch("/liff/delete-transaction", {
+    liffFetch("/liff/delete-transaction", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -880,7 +907,7 @@ function CashFlow(_ref1) {
       other: "other"
     };
     var category_id = type === "income" ? "income" : cat_map[cat] || cat;
-    fetch("/liff/transaction", {
+    liffFetch("/liff/transaction", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -1480,7 +1507,7 @@ function Save(_ref18) {
   React.useEffect(function () {
     var uid = liffUid || getLiffUid();
     if (!uid) return;
-    fetch("/liff/savings-summary?userId=".concat(uid), {
+    liffFetch("/liff/savings-summary?userId=".concat(uid), {
       cache: "no-store"
     }).then(function (r) {
       return r.json();
@@ -1506,7 +1533,7 @@ function Save(_ref18) {
     });
     var destination = dest === "emergency" ? "emergency" : "general";
     var note = (dest !== "emergency" && dest !== "general" && chip ? chip.label + " " : "") + saveNote;
-    fetch("/liff/saving", {
+    liffFetch("/liff/saving", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -1965,7 +1992,7 @@ function Debt(_ref21) {
   React.useEffect(function () {
     var uid = liffUid || getLiffUid();
     if (!uid) return;
-    fetch("/liff/payoff-data?userId=".concat(uid), {
+    liffFetch("/liff/payoff-data?userId=".concat(uid), {
       cache: "no-store"
     }).then(function (r) {
       return r.json();
@@ -2059,7 +2086,7 @@ function Debt(_ref21) {
       alert("ไม่พบ userId");
       return;
     }
-    fetch("/liff/add-debt", {
+    liffFetch("/liff/add-debt", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -2134,7 +2161,7 @@ function Debt(_ref21) {
       alert("ไม่พบ userId");
       return;
     }
-    fetch("/liff/debt-payment", {
+    liffFetch("/liff/debt-payment", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -2176,7 +2203,7 @@ function Debt(_ref21) {
     var uid = liffUid || getLiffUid();
     if (!uid) return;
     if (!confirm("\u0E25\u0E1A\u0E2B\u0E19\u0E35\u0E49 \"".concat(d.name, "\"?"))) return;
-    fetch("/liff/delete-debt", {
+    liffFetch("/liff/delete-debt", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -2781,7 +2808,7 @@ function Goal(_ref22) {
   React.useEffect(function () {
     var uid = liffUid || getLiffUid();
     if (!uid) return;
-    fetch("/liff/goals?userId=".concat(uid), {
+    liffFetch("/liff/goals?userId=".concat(uid), {
       cache: "no-store"
     }).then(function (r) {
       return r.json();
@@ -2818,7 +2845,7 @@ function Goal(_ref22) {
       target_thb: Number(gTarget),
       deadline: gDeadline || ""
     };
-    fetch("/liff/goal", {
+    liffFetch("/liff/goal", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -2856,7 +2883,7 @@ function Goal(_ref22) {
       return;
     }
     if (!fundSheet) return;
-    fetch("/liff/goal", {
+    liffFetch("/liff/goal", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -3204,7 +3231,7 @@ function More(_ref23) {
   React.useEffect(function () {
     var uid = liffUid || getLiffUid();
     if (!uid) return;
-    fetch("/liff/savings-summary?userId=".concat(uid), {
+    liffFetch("/liff/savings-summary?userId=".concat(uid), {
       cache: "no-store"
     }).then(function (r) {
       return r.json();
@@ -3472,7 +3499,7 @@ function SaveGoal(_ref24) {
       alert("ไม่พบ userId");
       return;
     }
-    fetch("/liff/saving", {
+    liffFetch("/liff/saving", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -3518,7 +3545,7 @@ function SaveGoal(_ref24) {
   React.useEffect(function () {
     var uid = liffUid || getLiffUid();
     if (!uid) return;
-    fetch("/liff/transactions?userId=".concat(uid, "&period=this_month"), {
+    liffFetch("/liff/transactions?userId=".concat(uid, "&period=this_month"), {
       cache: "no-store"
     }).then(function (r) {
       return r.json();
@@ -3551,7 +3578,7 @@ function SaveGoal(_ref24) {
   React.useEffect(function () {
     var uid = getLiffUid();
     if (!uid) return;
-    fetch("/liff/savings-summary?userId=".concat(uid), {
+    liffFetch("/liff/savings-summary?userId=".concat(uid), {
       cache: "no-store"
     }).then(function (r) {
       return r.json();
@@ -3572,7 +3599,7 @@ function SaveGoal(_ref24) {
   React.useEffect(function () {
     var uid = getLiffUid();
     if (!uid) return;
-    fetch("/liff/goals?userId=".concat(uid), {
+    liffFetch("/liff/goals?userId=".concat(uid), {
       cache: "no-store"
     }).then(function (r) {
       return r.json();
@@ -3608,7 +3635,7 @@ function SaveGoal(_ref24) {
     });
     var destination = dest === "emergency" ? "emergency" : "general";
     var note = dest === "custom_pot" ? potName : (dest !== "emergency" && dest !== "general" && chip ? chip.label + " " : "") + saveNote;
-    fetch("/liff/saving", {
+    liffFetch("/liff/saving", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -3682,7 +3709,7 @@ function SaveGoal(_ref24) {
       alert("ไม่พบ userId — ลองปิดแล้วเปิด LIFF ใหม่");
       return;
     }
-    fetch("/liff/goal", {
+    liffFetch("/liff/goal", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -3724,7 +3751,7 @@ function SaveGoal(_ref24) {
       return;
     }
     if (!fundSheet) return;
-    fetch("/liff/goal", {
+    liffFetch("/liff/goal", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -3765,7 +3792,7 @@ function SaveGoal(_ref24) {
       return;
     }
     if (!confirm("ลบรายการออมนี้?")) return;
-    fetch("/liff/delete-transaction", {
+    liffFetch("/liff/delete-transaction", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -3800,7 +3827,7 @@ function SaveGoal(_ref24) {
     var uid = liffUid || getLiffUid();
     if (!uid) return;
     if (!confirm("\u0E25\u0E1A\u0E40\u0E1B\u0E49\u0E32\u0E2B\u0E21\u0E32\u0E22 \"".concat(g.name, "\"?"))) return;
-    fetch("/liff/delete-goal", {
+    liffFetch("/liff/delete-goal", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -3829,7 +3856,7 @@ function SaveGoal(_ref24) {
     var uid = liffUid || getLiffUid();
     if (!uid) return;
     if (!confirm("ลบกอง \"" + name + "\" และรายการออมทั้งหมด?")) return;
-    fetch("/liff/delete-saving-pot", {
+    liffFetch("/liff/delete-saving-pot", {
       method: "POST",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify({userId: uid, pot_name: name})
