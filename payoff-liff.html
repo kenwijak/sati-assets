@@ -869,7 +869,7 @@ function CashFlow(_ref1) {
       return r.json();
     }).then(function (d) {
       if (!d.ok) {
-        alert("ลบไม่สำเร็จ");
+        void 0;
         return;
       }
       setTxns(function (ts) {
@@ -887,13 +887,13 @@ function CashFlow(_ref1) {
         });
       });
     }).catch(function () {
-      return alert("เชื่อมต่อไม่ได้");
+      return;
     });
   }
   function submit() {
     var uid = liffUid || getLiffUid();
     if (!uid) {
-      alert("ไม่พบ userId");
+      void 0;
       return;
     }
     var cat_map = {
@@ -923,7 +923,7 @@ function CashFlow(_ref1) {
       return r.json();
     }).then(function (d) {
       if (!d.ok) {
-        alert("บันทึกไม่สำเร็จ: " + (d.error || ""));
+        void 0;
         return;
       }
       setDone({
@@ -960,7 +960,7 @@ function CashFlow(_ref1) {
       setCat("food");
       setType("expense");
     }).catch(function () {
-      return alert("เชื่อมต่อไม่ได้ ลองใหม่");
+      return;
     });
   }
   return /*#__PURE__*/React.createElement("div", {
@@ -1525,7 +1525,7 @@ function Save(_ref18) {
   function submit() {
     var uid = getLiffUid();
     if (!uid) {
-      alert("ไม่พบ userId — ลองปิดแล้วเปิด LIFF ใหม่");
+      void 0;
       return;
     }
     var chip = PURPOSE.find(function (p) {
@@ -1548,7 +1548,7 @@ function Save(_ref18) {
       return r.json();
     }).then(function (d) {
       if (!d.ok) {
-        alert("บันทึกไม่สำเร็จ: " + (d.error || ""));
+        void 0;
         return;
       }
       setDone({
@@ -1559,7 +1559,7 @@ function Save(_ref18) {
       setDest("general");
       setSaveNote("");
     }).catch(function () {
-      return alert("เชื่อมต่อไม่ได้ ลองใหม่อีกครั้ง");
+      return;
     });
   }
   var PURPOSE = [{
@@ -2083,7 +2083,7 @@ function Debt(_ref21) {
   function submitAddDebt() {
     var uid = getLiffUid();
     if (!uid) {
-      alert("ไม่พบ userId");
+      void 0;
       return;
     }
     liffFetch("/liff/add-debt", {
@@ -2103,7 +2103,7 @@ function Debt(_ref21) {
       return r.json();
     }).then(function (d) {
       if (!d.ok) {
-        alert("บันทึกไม่สำเร็จ: " + (d.error || ""));
+        void 0;
         return;
       }
       setAddDebtDone(true);
@@ -2113,7 +2113,7 @@ function Debt(_ref21) {
       setDRate("");
       setDPayment("");
     }).catch(function () {
-      return alert("เชื่อมต่อไม่ได้ ลองใหม่");
+      return;
     });
   }
 
@@ -2158,7 +2158,7 @@ function Debt(_ref21) {
   function confirmPay(debt) {
     var uid = liffUid || getLiffUid();
     if (!uid) {
-      alert("ไม่พบ userId");
+      void 0;
       return;
     }
     liffFetch("/liff/debt-payment", {
@@ -2175,7 +2175,7 @@ function Debt(_ref21) {
       return r.json();
     }).then(function (d) {
       if (!d.ok) {
-        alert("ชำระไม่สำเร็จ: " + (d.error || ""));
+        void 0;
         return;
       }
       setPaidDone(function (p) {
@@ -2196,7 +2196,7 @@ function Debt(_ref21) {
       }));
       setPayAmt("");
     }).catch(function () {
-      return alert("เชื่อมต่อไม่ได้ ลองใหม่");
+      return;
     });
   }
   function deleteDebt(d) {
@@ -2216,7 +2216,7 @@ function Debt(_ref21) {
       return r.json();
     }).then(function (res) {
       if (!res.ok) {
-        alert("ลบไม่สำเร็จ");
+        void 0;
         return;
       }
       setDebts(function (ds) {
@@ -2228,7 +2228,7 @@ function Debt(_ref21) {
         return Math.max(0, t - d.bal);
       });
     }).catch(function () {
-      return alert("เชื่อมต่อไม่ได้");
+      return;
     });
   }
   return /*#__PURE__*/React.createElement("div", {
@@ -2836,7 +2836,7 @@ function Goal(_ref22) {
   function submitAdd() {
     var uid = getLiffUid();
     if (!uid) {
-      alert("ไม่พบ userId — ลองปิดแล้วเปิด LIFF ใหม่");
+      void 0;
       return;
     }
     var body = {
@@ -2879,7 +2879,7 @@ function Goal(_ref22) {
   function submitFund() {
     var uid = getLiffUid();
     if (!uid) {
-      alert("ไม่พบ userId — ลองปิดแล้วเปิด LIFF ใหม่");
+      void 0;
       return;
     }
     if (!fundSheet) return;
@@ -3496,7 +3496,7 @@ function SaveGoal(_ref24) {
   function submitWithdraw() {
     var uid = liffUid || getLiffUid();
     if (!uid) {
-      alert("ไม่พบ userId");
+      void 0;
       return;
     }
     liffFetch("/liff/saving", {
@@ -3514,7 +3514,7 @@ function SaveGoal(_ref24) {
       return r.json();
     }).then(function (d) {
       if (!d.ok) {
-        alert("บันทึกไม่สำเร็จ: " + (d.error || ""));
+        void 0;
         return;
       }
       setWithdrawDone(true);
@@ -3539,7 +3539,7 @@ function SaveGoal(_ref24) {
       setWithdrawAmt("");
       setWithdrawNote("");
     }).catch(function () {
-      return alert("เชื่อมต่อไม่ได้");
+      return;
     });
   }
   React.useEffect(function () {
@@ -3627,7 +3627,7 @@ function SaveGoal(_ref24) {
   function submitSave() {
     var uid = getLiffUid();
     if (!uid) {
-      alert("ไม่พบ userId — ลองปิดแล้วเปิด LIFF ใหม่");
+      void 0;
       return;
     }
     var chip = PURPOSE.find(function (p) {
@@ -3657,7 +3657,7 @@ function SaveGoal(_ref24) {
           setBucketLimitSheet(true);
           return;
         }
-        alert("บันทึกไม่สำเร็จ: " + (d.error || ""));
+        void 0;
         return;
       }
       setSaveDone({
@@ -3700,13 +3700,13 @@ function SaveGoal(_ref24) {
       setDest("general");
       setSaveNote("");
     }).catch(function () {
-      return alert("เชื่อมต่อไม่ได้ ลองใหม่อีกครั้ง");
+      return;
     });
   }
   function submitAdd() {
     var uid = getLiffUid();
     if (!uid) {
-      alert("ไม่พบ userId — ลองปิดแล้วเปิด LIFF ใหม่");
+      void 0;
       return;
     }
     liffFetch("/liff/goal", {
@@ -3747,7 +3747,7 @@ function SaveGoal(_ref24) {
   function submitFund() {
     var uid = getLiffUid();
     if (!uid) {
-      alert("ไม่พบ userId — ลองปิดแล้วเปิด LIFF ใหม่");
+      void 0;
       return;
     }
     if (!fundSheet) return;
@@ -3805,7 +3805,7 @@ function SaveGoal(_ref24) {
       return r.json();
     }).then(function (d) {
       if (!d.ok) {
-        alert("ลบไม่สำเร็จ");
+        void 0;
         return;
       }
       setSavingsTxns(function (ts) {
@@ -3820,7 +3820,7 @@ function SaveGoal(_ref24) {
         });
       });
     }).catch(function () {
-      return alert("เชื่อมต่อไม่ได้");
+      return;
     });
   }
   function deleteGoal(g) {
@@ -3840,7 +3840,7 @@ function SaveGoal(_ref24) {
       return r.json();
     }).then(function (d) {
       if (!d.ok) {
-        alert("ลบไม่สำเร็จ");
+        void 0;
         return;
       }
       setGoals(function (gs) {
@@ -3849,7 +3849,7 @@ function SaveGoal(_ref24) {
         });
       });
     }).catch(function () {
-      return alert("เชื่อมต่อไม่ได้");
+      return;
     });
   }
   function deleteCustomPot(name) {
@@ -3861,9 +3861,9 @@ function SaveGoal(_ref24) {
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify({userId: uid, pot_name: name})
     }).then(function(r){return r.json();}).then(function(d){
-      if (!d.ok) { alert("ลบไม่สำเร็จ"); return; }
+      if (!d.ok) { void 0; return; }
       setCustomPots(function(ps){ return ps.filter(function(p){ return p.name !== name; }); });
-    }).catch(function(){ return alert("เชื่อมต่อไม่ได้"); });
+    }).catch(function(){ return; });
   }
   return /*#__PURE__*/React.createElement("div", {
     style: {
