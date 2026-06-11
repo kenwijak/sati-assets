@@ -15,7 +15,7 @@
   body{font-family:'Nunito',sans-serif}
   #root{display:flex;flex-direction:column;min-height:100vh;width:100%}
   ::-webkit-scrollbar{width:0}
-  @keyframes spin{to{transform:rotate(360deg)}}
+  @keyframes spin{to{transform:rotate(360deg)}}@keyframes fadeInUp{from{opacity:0;transform:translateX(-50%) translateY(8px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
 </style>
 </head>
 <body>
@@ -133,6 +133,31 @@ function useLiffUid() {
   }, [uid]);
   return uid;
 }
+
+// ── Global Toast ─────────────────────────────────────────────────────────────
+var _toastSetter = null;
+function showToast(msg) { if (_toastSetter) _toastSetter(msg); }
+function ToastProvider() {
+  var _s = React.useState(null), toast = _s[0], setToast = _s[1];
+  React.useEffect(function() { _toastSetter = setToast; return function() { _toastSetter = null; }; }, []);
+  React.useEffect(function() {
+    if (!toast) return;
+    var t = setTimeout(function() { setToast(null); }, 2800);
+    return function() { clearTimeout(t); };
+  }, [toast]);
+  if (!toast) return null;
+  return React.createElement("div", {
+    style: {
+      position: "fixed", bottom: 90, left: "50%", transform: "translateX(-50%)",
+      background: "#1A3D1F", color: "#fff", fontSize: 12, fontWeight: 700,
+      padding: "10px 18px", borderRadius: 99,
+      boxShadow: "0 4px 16px rgba(0,0,0,.25)", zIndex: 9999,
+      whiteSpace: "nowrap", pointerEvents: "none",
+      animation: "fadeInUp .2s ease"
+    }
+  }, toast);
+}
+
 var TABS = [{
   id: "cashflow",
   icon: "💸",
@@ -869,7 +894,7 @@ function CashFlow(_ref1) {
       return r.json();
     }).then(function (d) {
       if (!d.ok) {
-        void 0;
+        showToast("ลบไม่สำเร็จ ลองใหม่นะ");
         return;
       }
       setTxns(function (ts) {
@@ -923,7 +948,7 @@ function CashFlow(_ref1) {
       return r.json();
     }).then(function (d) {
       if (!d.ok) {
-        void 0;
+        showToast("บันทึกไม่สำเร็จ ลองใหม่นะ 🪙");
         return;
       }
       setDone({
@@ -1525,7 +1550,7 @@ function Save(_ref18) {
   function submit() {
     var uid = getLiffUid();
     if (!uid) {
-      void 0;
+      showToast("บันทึกไม่สำเร็จ ลองใหม่นะ 🪙");
       return;
     }
     var chip = PURPOSE.find(function (p) {
@@ -1548,7 +1573,7 @@ function Save(_ref18) {
       return r.json();
     }).then(function (d) {
       if (!d.ok) {
-        void 0;
+        showToast("บันทึกไม่สำเร็จ ลองใหม่นะ 🪙");
         return;
       }
       setDone({
@@ -2103,7 +2128,7 @@ function Debt(_ref21) {
       return r.json();
     }).then(function (d) {
       if (!d.ok) {
-        void 0;
+        showToast("บันทึกไม่สำเร็จ ลองใหม่นะ 🪙");
         return;
       }
       setAddDebtDone(true);
@@ -2158,7 +2183,7 @@ function Debt(_ref21) {
   function confirmPay(debt) {
     var uid = liffUid || getLiffUid();
     if (!uid) {
-      void 0;
+      showToast("ชำระไม่สำเร็จ ลองใหม่นะ 🪙");
       return;
     }
     liffFetch("/liff/debt-payment", {
@@ -2175,7 +2200,7 @@ function Debt(_ref21) {
       return r.json();
     }).then(function (d) {
       if (!d.ok) {
-        void 0;
+        showToast("ชำระไม่สำเร็จ ลองใหม่นะ 🪙");
         return;
       }
       setPaidDone(function (p) {
@@ -2216,7 +2241,7 @@ function Debt(_ref21) {
       return r.json();
     }).then(function (res) {
       if (!res.ok) {
-        void 0;
+        showToast("ลบไม่สำเร็จ ลองใหม่นะ");
         return;
       }
       setDebts(function (ds) {
@@ -3514,7 +3539,7 @@ function SaveGoal(_ref24) {
       return r.json();
     }).then(function (d) {
       if (!d.ok) {
-        void 0;
+        showToast("ถอนไม่สำเร็จ ลองใหม่นะ 🪙");
         return;
       }
       setWithdrawDone(true);
@@ -3657,7 +3682,7 @@ function SaveGoal(_ref24) {
           setBucketLimitSheet(true);
           return;
         }
-        void 0;
+        showToast("บันทึกไม่สำเร็จ ลองใหม่นะ 🪙");
         return;
       }
       setSaveDone({
@@ -3805,7 +3830,7 @@ function SaveGoal(_ref24) {
       return r.json();
     }).then(function (d) {
       if (!d.ok) {
-        void 0;
+        showToast("ลบไม่สำเร็จ ลองใหม่นะ");
         return;
       }
       setSavingsTxns(function (ts) {
@@ -3840,7 +3865,7 @@ function SaveGoal(_ref24) {
       return r.json();
     }).then(function (d) {
       if (!d.ok) {
-        void 0;
+        showToast("ลบไม่สำเร็จ ลองใหม่นะ");
         return;
       }
       setGoals(function (gs) {
@@ -3861,7 +3886,7 @@ function SaveGoal(_ref24) {
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify({userId: uid, pot_name: name})
     }).then(function(r){return r.json();}).then(function(d){
-      if (!d.ok) { void 0; return; }
+      if (!d.ok) { showToast("ลบไม่สำเร็จ ลองใหม่นะ"); return; }
       setCustomPots(function(ps){ return ps.filter(function(p){ return p.name !== name; }); });
     }).catch(function(){ return; });
   }
@@ -5041,7 +5066,7 @@ function App() {
 // mount
 window.addEventListener('load', function() {
   var root = ReactDOM.createRoot(document.getElementById('root'));
-  root.render(React.createElement(App));
+  root.render(React.createElement(React.Fragment, null, React.createElement(ToastProvider, null), React.createElement(App)));
 });
 
 </script>
