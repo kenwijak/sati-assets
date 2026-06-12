@@ -10,19 +10,34 @@
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
 <style>
   *{box-sizing:border-box;margin:0;padding:0}
-  *{box-sizing:border-box;margin:0;padding:0}
   body,html{width:100%;height:100%;overflow-x:hidden}
-  body{font-family:'Nunito',sans-serif}
+  body{font-family:'Nunito',sans-serif;-webkit-font-smoothing:antialiased}
   #root{display:flex;flex-direction:column;min-height:100vh;width:100%}
   ::-webkit-scrollbar{width:0}
-  @keyframes spin{to{transform:rotate(360deg)}}@keyframes fadeInUp{from{opacity:0;transform:translateX(-50%) translateY(8px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  @keyframes fadeInUp{from{opacity:0;transform:translateX(-50%) translateY(10px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+  @keyframes slideUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes popIn{0%{transform:scale(.85);opacity:0}70%{transform:scale(1.05)}100%{transform:scale(1);opacity:1}}
+  @keyframes shimmer{0%{background-position:-400px 0}100%{background-position:400px 0}}
+  .sl-card{animation:slideUp .22s ease both}
+  .sl-tab-btn{transition:all .18s cubic-bezier(.4,0,.2,1)}
+  input:focus{outline:none}
+  button{-webkit-tap-highlight-color:transparent}
 </style>
 </head>
 <body>
 <div id="root">
-  <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;background:#d0d0d0;gap:16px">
-    <div style="width:40px;height:40px;border:3px solid rgba(61,219,90,.2);border-top-color:#3DDB5A;border-radius:50%;animation:spin .9s linear infinite"></div>
-    <div style="font-size:13px;color:#888;font-family:sans-serif">กำลังโหลด Salung 🪙</div>
+  <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;background:#F5F0E8;gap:18px">
+    <svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg" style="animation:popIn .5s ease">
+      <ellipse cx="26" cy="34" rx="18" ry="15" fill="#3DDB5A" stroke="#1A3D1F" stroke-width="2.5"/>
+      <rect x="19" y="19" width="14" height="8" rx="3" fill="#FFD015" stroke="#1A3D1F" stroke-width="2.5"/>
+      <circle cx="26" cy="16" r="6" fill="#FFD015" stroke="#1A3D1F" stroke-width="2.5"/>
+      <circle cx="22" cy="33" r="2" fill="#1A3D1F"/>
+      <circle cx="30" cy="33" r="2" fill="#1A3D1F"/>
+      <path d="M21 38.5 Q26 42 31 38.5" stroke="#1A3D1F" stroke-width="2" stroke-linecap="round" fill="none"/>
+    </svg>
+    <div style="width:36px;height:36px;border:3px solid rgba(61,219,90,.2);border-top-color:#3DDB5A;border-radius:50%;animation:spin .9s linear infinite"></div>
+    <div style="font-size:12px;color:#6B8F72;font-family:'Nunito',sans-serif;font-weight:700;letter-spacing:.03em">กำลังโหลด Salung</div>
   </div>
 </div>
 <script>
@@ -148,11 +163,12 @@ function ToastProvider() {
   if (!toast) return null;
   return React.createElement("div", {
     style: {
-      position: "fixed", bottom: 90, left: "50%", transform: "translateX(-50%)",
-      background: "#1A3D1F", color: "#fff", fontSize: 12, fontWeight: 700,
-      padding: "10px 18px", borderRadius: 99,
-      boxShadow: "0 4px 16px rgba(0,0,0,.25)", zIndex: 9999,
+      position: "fixed", bottom: 88, left: "50%", transform: "translateX(-50%)",
+      background: "rgba(26,61,31,.95)", color: "#fff", fontSize: 12, fontWeight: 800,
+      padding: "10px 20px", borderRadius: 99,
+      boxShadow: "0 8px 24px rgba(0,0,0,.2)", zIndex: 9999,
       whiteSpace: "nowrap", pointerEvents: "none",
+      backdropFilter: "blur(8px)",
       animation: "fadeInUp .2s ease"
     }
   }, toast);
@@ -249,14 +265,16 @@ function Card(_ref2) {
     onClick = _ref2.onClick;
   return /*#__PURE__*/React.createElement("div", {
     onClick: onClick,
+    className: "sl-card",
     style: _objectSpread({
       background: "#fff",
-      borderRadius: 16,
-      border: "2px solid ".concat(DARK),
-      padding: 14,
-      boxShadow: "3px 3px 0 ".concat(DARK),
-      marginBottom: 10,
-      cursor: onClick ? "pointer" : "default"
+      borderRadius: 20,
+      border: "1px solid rgba(26,61,31,.08)",
+      padding: 16,
+      boxShadow: "0 2px 16px rgba(26,61,31,.07)",
+      marginBottom: 12,
+      cursor: onClick ? "pointer" : "default",
+      transition: "box-shadow .15s"
     }, style)
   }, children);
 }
@@ -270,9 +288,9 @@ function Tag(_ref3) {
       color: DARK,
       fontSize: 10,
       fontWeight: 800,
-      padding: "2px 8px",
+      padding: "3px 10px",
       borderRadius: 99,
-      border: "1.5px solid ".concat(DARK)
+      letterSpacing: ".03em"
     }
   }, children);
 }
@@ -285,9 +303,8 @@ function Bar(_ref4) {
   return /*#__PURE__*/React.createElement("div", {
     style: {
       height: height,
-      background: "#eee",
+      background: "rgba(26,61,31,.08)",
       borderRadius: 99,
-      border: "1.5px solid ".concat(DARK),
       overflow: "hidden"
     }
   }, /*#__PURE__*/React.createElement("div", {
@@ -295,7 +312,8 @@ function Bar(_ref4) {
       width: "".concat(Math.min(100, pct), "%"),
       height: "100%",
       background: pct > 100 ? "#FF6B6B" : color,
-      transition: "width .7s"
+      borderRadius: 99,
+      transition: "width .8s cubic-bezier(.4,0,.2,1)"
     }
   }));
 }
@@ -311,32 +329,31 @@ function Sheet(_ref5) {
     style: {
       position: "fixed",
       inset: 0,
-      background: "rgba(0,0,0,.45)",
-      zIndex: 98
+      background: "rgba(0,0,0,.4)",
+      zIndex: 98,
+      backdropFilter: "blur(2px)"
     }
   }), /*#__PURE__*/React.createElement("div", {
     style: {
       position: "fixed",
-      top: "5%",
+      top: "8%",
       left: 0,
       right: 0,
       bottom: 0,
       background: "#fff",
-      borderRadius: "20px 20px 0 0",
-      border: "2.5px solid ".concat(DARK),
-      padding: "20px 18px 40px",
+      borderRadius: "24px 24px 0 0",
+      boxShadow: "0 -8px 40px rgba(0,0,0,.12)",
+      padding: "20px 20px 40px",
       zIndex: 99,
-      overflowY: "auto",
-      maxWidth: 375,
-      margin: "0 auto"
+      overflowY: "auto"
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      width: 40,
+      width: 36,
       height: 4,
-      background: "#ddd",
+      background: "#e0e0e0",
       borderRadius: 99,
-      margin: "0 auto 16px"
+      margin: "0 auto 20px"
     }
   }), children));
 }
@@ -420,14 +437,15 @@ function AmtInput(_ref7) {
     placeholder: placeholder,
     style: {
       width: "100%",
-      padding: "11px 12px 11px 28px",
-      fontSize: 18,
+      padding: "12px 12px 12px 32px",
+      fontSize: 20,
       fontWeight: 800,
-      border: "2px solid ".concat(value ? DARK : "#ddd"),
-      borderRadius: 12,
+      border: "2px solid ".concat(value ? G : "rgba(26,61,31,.12)"),
+      borderRadius: 14,
       outline: "none",
       color: DARK,
-      boxShadow: value ? "2px 2px 0 ".concat(DARK) : "none"
+      background: value ? G + "08" : "#fafafa",
+      transition: "border-color .15s, background .15s"
     }
   }));
 }
@@ -456,13 +474,15 @@ function TextInput(_ref8) {
     placeholder: placeholder,
     style: {
       width: "100%",
-      padding: "10px 12px",
-      fontSize: 13,
+      padding: "11px 14px",
+      fontSize: 14,
       fontWeight: 700,
-      border: "2px solid ".concat(value ? DARK : "#ddd"),
+      border: "2px solid ".concat(value ? G : "rgba(26,61,31,.12)"),
       borderRadius: 12,
       outline: "none",
-      color: DARK
+      color: DARK,
+      background: value ? G + "08" : "#fafafa",
+      transition: "border-color .15s, background .15s"
     }
   }));
 }
@@ -475,15 +495,17 @@ function ConfirmBtn(_ref9) {
     disabled: disabled,
     style: {
       width: "100%",
-      padding: "13px 0",
-      fontSize: 13,
+      padding: "14px 0",
+      fontSize: 14,
       fontWeight: 900,
-      background: disabled ? "#eee" : DARK,
-      color: disabled ? "#aaa" : "#fff",
-      border: "2px solid ".concat(disabled ? "#ddd" : DARK),
-      borderRadius: 12,
-      boxShadow: disabled ? "none" : "2px 2px 0 ".concat(DARK),
-      cursor: disabled ? "default" : "pointer"
+      background: disabled ? "#f0f0f0" : "linear-gradient(135deg,#3DDB5A,#2D5A35)",
+      color: disabled ? "#bbb" : "#fff",
+      border: "none",
+      borderRadius: 14,
+      boxShadow: disabled ? "none" : "0 4px 14px rgba(61,219,90,.35)",
+      cursor: disabled ? "default" : "pointer",
+      transition: "opacity .15s",
+      letterSpacing: ".02em"
     }
   }, label);
 }
@@ -1074,15 +1096,16 @@ function CashFlow(_ref1) {
         return setCat(c.id);
       },
       style: {
-        padding: "8px 0",
+        padding: "10px 0",
         background: cat === c.id ? DARK : "#f5f5f5",
         color: cat === c.id ? "#fff" : DARK,
-        border: "2px solid ".concat(cat === c.id ? DARK : "#ddd"),
-        borderRadius: 10,
+        border: "2px solid ".concat(cat === c.id ? DARK : "transparent"),
+        borderRadius: 12,
         cursor: "pointer",
         fontSize: 11,
         fontWeight: 800,
-        boxShadow: cat === c.id ? "2px 2px 0 ".concat(DARK) : "none"
+        boxShadow: cat === c.id ? "0 4px 12px rgba(26,61,31,.25)" : "none",
+        transition: "all .15s"
       }
     }, /*#__PURE__*/React.createElement("div", {
       style: {
@@ -1626,11 +1649,11 @@ function Save(_ref18) {
       transform: "translate(-50%,-50%)",
       background: DARK,
       color: "#fff",
-      borderRadius: 16,
-      border: "2px solid ".concat(GOLD),
-      padding: "20px 18px",
+      borderRadius: 24,
+      boxShadow: "0 20px 60px rgba(0,0,0,.4)",
+      padding: "24px 22px",
       zIndex: 999,
-      width: 260,
+      width: 280,
       textAlign: "center"
     }
   }, /*#__PURE__*/React.createElement("div", {
@@ -3912,11 +3935,11 @@ function SaveGoal(_ref24) {
       transform: "translate(-50%,-50%)",
       background: DARK,
       color: "#fff",
-      borderRadius: 16,
-      border: "2px solid ".concat(GOLD),
-      padding: "20px 18px",
+      borderRadius: 24,
+      boxShadow: "0 20px 60px rgba(0,0,0,.4)",
+      padding: "24px 22px",
       zIndex: 999,
-      width: 260,
+      width: 280,
       textAlign: "center"
     }
   }, /*#__PURE__*/React.createElement("div", {
@@ -4803,8 +4826,7 @@ function App() {
     _useState144 = _slicedToArray(_useState143, 2),
     spicyConfirm = _useState144[0],
     setSpicyConfirm = _useState144[1];
-  var bgColor = spicy ? "#111" : CREAM;
-  var headerBg = spicy ? DARK : G;
+  var bgColor = spicy ? "#0d1a0e" : CREAM;
   var screens = {
     cashflow: /*#__PURE__*/React.createElement(CashFlow, {
       spicy: spicy
@@ -4826,103 +4848,64 @@ function App() {
     style: {
       display: "flex",
       flexDirection: "column",
-      alignItems: "center",
       minHeight: "100vh",
-      background: "#d0d0d0",
-      padding: "16px 0",
-      fontFamily: "'Nunito','Prompt',sans-serif"
-    }
-  }, /*#__PURE__*/React.createElement("style", null, "@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap');*{box-sizing:border-box;margin:0;padding:0}::-webkit-scrollbar{width:0}"), /*#__PURE__*/React.createElement("div", {
-    style: {
-      width: 375,
       background: bgColor,
-      borderRadius: 36,
-      border: "3px solid #222",
-      boxShadow: "0 20px 60px rgba(0,0,0,.3)",
-      overflow: "hidden",
-      minHeight: 680,
-      display: "flex",
-      flexDirection: "column",
-      transition: "background .3s",
-      position: "relative"
+      fontFamily: "'Nunito','Prompt',sans-serif",
+      transition: "background .3s"
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      background: headerBg,
-      height: "env(safe-area-inset-top, 10px)",
-      minHeight: 10,
+      background: spicy ? DARK : G,
+      height: "env(safe-area-inset-top, 0px)",
+      minHeight: 0,
       transition: "background .3s"
     }
   }), /*#__PURE__*/React.createElement("div", {
     style: {
-      background: headerBg,
-      padding: "8px 16px 12px",
+      padding: "10px 18px 14px",
       display: "flex",
       justifyContent: "space-between",
       alignItems: "center",
+      background: spicy ? "linear-gradient(135deg,#0d2a10,#1A3D1F)" : "linear-gradient(135deg,#3DDB5A,#2D5A35)",
+      boxShadow: "0 4px 20px rgba(26,61,31,.18)",
       transition: "background .3s"
     }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "flex",
-      alignItems: "center",
-      gap: 8
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      width: 30,
-      height: 30,
-      background: spicy ? G : DARK,
-      borderRadius: "50%",
-      border: "2px solid ".concat(DARK),
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      fontSize: 15
-    }
-  }, "\uD83D\uDCB0"), /*#__PURE__*/React.createElement("span", {
-    style: {
-      fontSize: 18,
-      fontWeight: 900,
-      color: spicy ? G : DARK
-    }
-  }, "Salung"), spicy && /*#__PURE__*/React.createElement(Tag, {
-    color: "#FF6B6B"
-  }, "\uD83C\uDF36\uFE0F")), /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "flex",
-      alignItems: "center",
-      gap: 8
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 11,
-      fontWeight: 700,
-      color: spicy ? "#aaa" : DARK
-    }
-  }, (_TABS$find = TABS.find(function (t) {
-    return t.id === tab;
-  })) === null || _TABS$find === void 0 ? void 0 : _TABS$find.icon, " ", (_TABS$find2 = TABS.find(function (t) {
-    return t.id === tab;
-  })) === null || _TABS$find2 === void 0 ? void 0 : _TABS$find2.thai), /*#__PURE__*/React.createElement("button", {
-    onClick: function onClick() {
-      return setSpicyConfirm(true);
+  },
+  /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10 } },
+    /*#__PURE__*/React.createElement("svg", {
+      width: "40", height: "40", viewBox: "0 0 52 52", fill: "none",
+      xmlns: "http://www.w3.org/2000/svg",
+      style: { flexShrink: 0, filter: "drop-shadow(0 2px 6px rgba(0,0,0,.25))" }
     },
+      /*#__PURE__*/React.createElement("ellipse", { cx: "26", cy: "34", rx: "18", ry: "15", fill: spicy ? "#222" : "#fff", stroke: spicy ? G : DARK, strokeWidth: "2.5" }),
+      /*#__PURE__*/React.createElement("rect", { x: "19", y: "19", width: "14", height: "8", rx: "3", fill: GOLD, stroke: spicy ? G : DARK, strokeWidth: "2.5" }),
+      /*#__PURE__*/React.createElement("circle", { cx: "26", cy: "16", r: "6", fill: GOLD, stroke: spicy ? G : DARK, strokeWidth: "2.5" }),
+      /*#__PURE__*/React.createElement("circle", { cx: "22", cy: "33", r: "2", fill: spicy ? G : DARK }),
+      /*#__PURE__*/React.createElement("circle", { cx: "30", cy: "33", r: "2", fill: spicy ? G : DARK }),
+      /*#__PURE__*/React.createElement("path", { d: "M21 38.5 Q26 42 31 38.5", stroke: spicy ? G : DARK, strokeWidth: "2", strokeLinecap: "round", fill: "none" })
+    ),
+    /*#__PURE__*/React.createElement("div", null,
+      /*#__PURE__*/React.createElement("div", {
+        style: { fontSize: 20, fontWeight: 900, color: "#fff", lineHeight: 1.1, letterSpacing: "-.01em" }
+      }, "Salung", spicy && /*#__PURE__*/React.createElement("span", { style: { fontSize: 13, marginLeft: 6 } }, "🌶️")),
+      /*#__PURE__*/React.createElement("div", {
+        style: { fontSize: 10, fontWeight: 700, color: "rgba(255,255,255,.7)", letterSpacing: ".04em", marginTop: 1 }
+      }, (TABS.find(function(t){ return t.id === tab; }) || {}).thai || "")
+    )
+  ),
+  /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() { return setSpicyConfirm(true); },
     style: {
-      display: "flex",
-      alignItems: "center",
-      gap: 4,
-      padding: "4px 10px",
-      fontSize: 11,
-      fontWeight: 800,
-      background: spicy ? "#FF6B6B" : DARK + "22",
-      color: spicy ? "#fff" : DARK,
-      border: "1.5px solid ".concat(spicy ? "#FF6B6B" : DARK),
-      borderRadius: 99,
-      cursor: "pointer",
+      display: "flex", alignItems: "center", gap: 5,
+      padding: "6px 14px",
+      fontSize: 11, fontWeight: 800,
+      background: spicy ? "rgba(255,107,107,.25)" : "rgba(255,255,255,.2)",
+      color: "#fff",
+      border: "1.5px solid rgba(255,255,255,.35)",
+      borderRadius: 99, cursor: "pointer",
       transition: "all .2s"
     }
-  }, spicy ? "🌶️ Spicy" : "😊 Normal"))), spicyConfirm && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
+  }, spicy ? "🌶️ Spicy" : "😊 Normal")), spicyConfirm && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
     onClick: function onClick() {
       return setSpicyConfirm(false);
     },
@@ -4940,10 +4923,9 @@ function App() {
       transform: "translate(-50%,-50%)",
       background: "#fff",
       width: 300,
-      borderRadius: 20,
-      border: "2.5px solid ".concat(DARK),
-      boxShadow: "4px 4px 0 ".concat(DARK),
-      padding: "20px 18px",
+      borderRadius: 24,
+      boxShadow: "0 20px 60px rgba(0,0,0,.25)",
+      padding: "24px 22px",
       zIndex: 999
     }
   }, /*#__PURE__*/React.createElement("div", {
@@ -4982,9 +4964,9 @@ function App() {
       padding: "11px 0",
       fontSize: 13,
       fontWeight: 800,
-      background: "#f5f5f5",
+      background: "#f0f0f0",
       color: "#888",
-      border: "2px solid #ddd",
+      border: "none",
       borderRadius: 12,
       cursor: "pointer"
     }
@@ -5002,33 +4984,34 @@ function App() {
       fontWeight: 900,
       background: spicy ? DARK : "#FF6B6B",
       color: "#fff",
-      border: "2px solid ".concat(DARK),
+      border: "none",
       borderRadius: 12,
-      boxShadow: "2px 2px 0 ".concat(DARK),
+      boxShadow: "0 4px 14px rgba(255,107,107,.3)",
       cursor: "pointer"
     }
   }, spicy ? "ปิดเลย" : "เปิดเลย 🌶️")))), /*#__PURE__*/React.createElement("div", {
     id: "main-scroll",
     style: {
       flex: 1,
-      padding: "10px 14px 14px",
+      padding: "12px 16px 16px",
       overflowY: "auto"
     }
   }, screens[tab]), /*#__PURE__*/React.createElement("div", {
     style: {
       background: spicy ? "#1a1a1a" : "#fff",
-      borderTop: "2.5px solid ".concat(DARK),
+      borderTop: "1px solid rgba(26,61,31,.08)",
       display: "grid",
-      gridTemplateColumns: "repeat(5,1fr)",
-      padding: "5px 0 calc(9px + env(safe-area-inset-bottom, 0px))",
+      gridTemplateColumns: "repeat(4,1fr)",
+      padding: "6px 8px calc(8px + env(safe-area-inset-bottom, 0px))",
+      boxShadow: "0 -4px 20px rgba(0,0,0,.06)",
       transition: "background .3s"
     }
   }, TABS.map(function (t) {
+    var isActive = tab === t.id;
     return /*#__PURE__*/React.createElement("button", {
       key: t.id,
-      onClick: function onClick() {
-        return switchTab(t.id);
-      },
+      className: "sl-tab-btn",
+      onClick: function onClick() { return switchTab(t.id); },
       style: {
         background: "none",
         border: "none",
@@ -5036,32 +5019,47 @@ function App() {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        gap: 2,
-        padding: "4px 2px"
+        gap: 4,
+        padding: "6px 4px 4px",
+        position: "relative"
       }
-    }, /*#__PURE__*/React.createElement("div", {
+    },
+    /*#__PURE__*/React.createElement("div", {
       style: {
-        width: 30,
-        height: 30,
-        borderRadius: 9,
-        background: tab === t.id ? spicy ? G : DARK : "transparent",
-        border: tab === t.id ? "2px solid ".concat(DARK) : "2px solid transparent",
+        width: isActive ? 44 : 36,
+        height: 32,
+        borderRadius: 12,
+        background: isActive ? (spicy ? G + "22" : G + "22") : "transparent",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        fontSize: 14,
-        transition: "all .15s",
-        boxShadow: tab === t.id ? "2px 2px 0 ".concat(DARK) : "none"
+        fontSize: 18,
+        transition: "all .2s cubic-bezier(.4,0,.2,1)"
       }
-    }, t.icon), /*#__PURE__*/React.createElement("span", {
+    }, t.icon),
+    /*#__PURE__*/React.createElement("span", {
       style: {
-        fontSize: 8,
-        fontWeight: 800,
+        fontSize: 9,
+        fontWeight: isActive ? 900 : 700,
         textAlign: "center",
-        color: tab === t.id ? spicy ? G : DARK : "#999"
+        color: isActive ? (spicy ? G : DARK) : "#aaa",
+        transition: "color .2s"
       }
-    }, t.label));
-  }))));
+    }, t.label),
+    isActive && /*#__PURE__*/React.createElement("div", {
+      style: {
+        position: "absolute",
+        bottom: 0,
+        left: "50%",
+        transform: "translateX(-50%)",
+        width: 20,
+        height: 3,
+        borderRadius: 99,
+        background: spicy ? G : DARK,
+        transition: "all .2s"
+      }
+    }));
+  }))))));
 }
 
 // mount
