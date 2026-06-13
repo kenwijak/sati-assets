@@ -1020,17 +1020,17 @@ function CashFlow(_ref1) {
   };
   var d = PDATA[period];
   var CAT_MAP = {
-    food: { label: "อาหาร", color: "#FF6B6B" },
-    travel: { label: "เดินทาง", color: "#4ECDC4" },
-    transport: { label: "เดินทาง", color: "#4ECDC4" },
-    shop: { label: "ช้อปปิ้ง", color: G },
-    shopping: { label: "ช้อปปิ้ง", color: G },
-    entertain: { label: "บันเทิง", color: GOLD },
-    entertainment: { label: "บันเทิง", color: GOLD },
-    health: { label: "สุขภาพ", color: "#FF9F43" },
-    bill: { label: "บิล/ยูทิลิตี้", color: "#A29BFE" },
-    utilities: { label: "บิล/ยูทิลิตี้", color: "#A29BFE" },
-    other: { label: "อื่นๆ", color: "#DFE6E9" }
+    food: { label: "อาหาร", color: "#FF6B6B", icon: "🍚" },
+    travel: { label: "เดินทาง", color: "#4ECDC4", icon: "🚇" },
+    transport: { label: "เดินทาง", color: "#4ECDC4", icon: "🚇" },
+    shop: { label: "ช้อปปิ้ง", color: G, icon: "🛍️" },
+    shopping: { label: "ช้อปปิ้ง", color: G, icon: "🛍️" },
+    entertain: { label: "บันเทิง", color: GOLD, icon: "🎮" },
+    entertainment: { label: "บันเทิง", color: GOLD, icon: "🎮" },
+    health: { label: "สุขภาพ", color: "#FF9F43", icon: "💊" },
+    bill: { label: "บิล/ยูทิลิตี้", color: "#A29BFE", icon: "📄" },
+    utilities: { label: "บิล/ยูทิลิตี้", color: "#A29BFE", icon: "📄" },
+    other: { label: "อื่นๆ", color: "#DFE6E9", icon: "📦" }
   };
   var catTotals = {};
   (txns || []).forEach(function(tx) {
@@ -1042,8 +1042,8 @@ function CashFlow(_ref1) {
   var cats = Object.keys(catTotals).filter(function(k) {
     return catTotals[k] > 0;
   }).map(function(k) {
-    var info = CAT_MAP[k] || { label: k, color: "#DFE6E9" };
-    return { label: info.label, val: catTotals[k], color: info.color, max: d.exp || 1 };
+    var info = CAT_MAP[k] || { label: k, color: "#DFE6E9", icon: "📦" };
+    return { label: info.label, val: catTotals[k], color: info.color, icon: info.icon || "📦", max: d.exp || 1 };
   }).sort(function(a, b) { return b.val - a.val; }).slice(0, 5);
 
   // txns มาจาก state ด้านบน
@@ -1216,9 +1216,7 @@ function CashFlow(_ref1) {
   /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
-      border: "2px solid ".concat(DARK),
-      borderRadius: 12,
-      overflow: "hidden",
+      gap: 8,
       marginBottom: 14
     }
   }, [["expense", "รายจ่าย"], ["income", "รายรับ"]].map(function (_ref12) {
@@ -1232,13 +1230,16 @@ function CashFlow(_ref1) {
       },
       style: {
         flex: 1,
-        padding: "9px 0",
-        fontSize: 12,
-        fontWeight: 800,
-        border: "none",
+        padding: "11px 0",
+        fontSize: 13,
+        fontWeight: 900,
+        border: "2px solid " + DARK,
+        borderRadius: 99,
         cursor: "pointer",
         background: type === id ? DARK : "#fff",
-        color: type === id ? "#fff" : "#888"
+        color: type === id ? "#fff" : "#888",
+        boxShadow: type === id ? "2px 2px 0 " + DARK : "none",
+        transition: "all .15s"
       }
     }, lbl);
   })), /*#__PURE__*/React.createElement("div", {
@@ -1275,14 +1276,14 @@ function CashFlow(_ref1) {
       },
       style: {
         padding: "10px 0",
-        background: cat === c.id ? DARK : "#f5f5f5",
-        color: cat === c.id ? "#fff" : DARK,
-        border: "2px solid ".concat(cat === c.id ? DARK : "transparent"),
-        borderRadius: 12,
+        background: cat === c.id ? GOLD : CREAM,
+        color: DARK,
+        border: "2px solid " + (cat === c.id ? DARK : "transparent"),
+        borderRadius: 99,
         cursor: "pointer",
         fontSize: 11,
         fontWeight: 800,
-        boxShadow: cat === c.id ? "0 4px 12px rgba(26,61,31,.25)" : "none",
+        boxShadow: cat === c.id ? "2px 2px 0 " + DARK : "none",
         transition: "all .15s"
       }
     }, /*#__PURE__*/React.createElement("div", {
@@ -1296,291 +1297,195 @@ function CashFlow(_ref1) {
     onChange: setNote,
     label: "\u0E42\u0E19\u0E49\u0E15 (\u0E44\u0E21\u0E48\u0E1A\u0E31\u0E07\u0E04\u0E31\u0E1A)",
     placeholder: "\u0E40\u0E0A\u0E48\u0E19 \u0E01\u0E32\u0E41\u0E1F, Grab, \u0E40\u0E07\u0E34\u0E19\u0E40\u0E14\u0E37\u0E2D\u0E19"
-  }), /*#__PURE__*/React.createElement(ConfirmBtn, {
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: "sticky", bottom: 0,
+      background: CREAM,
+      paddingTop: 12, paddingBottom: 20,
+      marginLeft: -20, marginRight: -20,
+      paddingLeft: 20, paddingRight: 20,
+      borderTop: "1.5px solid " + DARK + "15"
+    }
+  }, /*#__PURE__*/React.createElement(ConfirmBtn, {
     label: "\u0E1A\u0E31\u0E19\u0E17\u0E36\u0E01".concat(type === "income" ? "รายรับ" : "รายจ่าย"),
     disabled: !amt || Number(amt) <= 0,
     onClick: submit
-  }))), /*#__PURE__*/React.createElement(HeroCard, {
-  mood: d.net >= 0 ? "happy" : "sad",
-  title: d.netLabel,
-  bigNumber: (d.net < 0 ? "-\u0E3F" : "\u0E3F") + Math.abs(Math.round(d.net)).toLocaleString(),
-  numberColor: d.net >= 0 ? G : "#FF6B6B",
-  barPct: d.inc > 0 ? Math.min(100, Math.round(d.exp / d.inc * 100)) : 0,
-  sub: d.inc > 0 ? "\u0E23\u0E31\u0E1A \u0E3F" + Math.round(d.inc).toLocaleString() + " \u00B7 \u0E08\u0E48\u0E32\u0E22 \u0E3F" + Math.round(d.exp).toLocaleString() : "\u0E1A\u0E31\u0E19\u0E17\u0E36\u0E01\u0E40\u0E07\u0E34\u0E19\u0E40\u0E14\u0E37\u0E2D\u0E19\u0E01\u0E48\u0E2D\u0E19\u0E40\u0E25\u0E22\u0E19\u0E30 \uD83D\uDCB0",
-  salungText: nbaText,
-  accent: G,
-  spicy: spicy
-}), /*#__PURE__*/React.createElement(NBA, {
+  })))),
+  // ── Period switcher (top, sticker chips)
+  /*#__PURE__*/React.createElement("div", {
+    style: { display: "flex", gap: 6, marginBottom: 8 }
+  }, [["day", "\u0E27\u0E31\u0E19\u0E19\u0E35\u0E49"], ["week", "7 \u0E27\u0E31\u0E19"], ["month", "\u0E40\u0E14\u0E37\u0E2D\u0E19"]].map(function (_ref14) {
+    var _ref15 = _slicedToArray(_ref14, 2), id = _ref15[0], lbl = _ref15[1];
+    return /*#__PURE__*/React.createElement("button", {
+      key: id,
+      onClick: function onClick() { return setPeriod(id); },
+      style: {
+        flex: 1, padding: "10px 0",
+        fontSize: 13, fontWeight: 900,
+        cursor: "pointer", borderRadius: 99,
+        border: "2px solid " + DARK,
+        transition: "all .15s",
+        background: period === id ? (spicy ? G : GOLD) : (spicy ? "#222" : "#fff"),
+        color: period === id ? DARK : (spicy ? "#aaa" : DARK),
+        boxShadow: period === id ? "2px 2px 0 " + DARK : "none"
+      }
+    }, lbl);
+  })),
+  // ── Month navigator (only for month view)
+  period === "month" && /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex", alignItems: "center", justifyContent: "space-between",
+      marginBottom: 8
+    }
+  }, /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() { return setMonthOffset(function(o){ return o - 1; }); },
+    style: {
+      width: 32, height: 32, borderRadius: 10,
+      border: "2px solid " + DARK,
+      background: spicy ? "#222" : "#fff",
+      cursor: "pointer", fontSize: 14,
+      boxShadow: "2px 2px 0 " + DARK,
+      fontWeight: 900, color: DARK
+    }
+  }, "\u2039"),
+  /*#__PURE__*/React.createElement("div", {
+    style: { fontSize: 13, fontWeight: 900, color: spicy ? G : DARK }
+  }, monthLabel, " ", isCurrent && /*#__PURE__*/React.createElement("span", {
+    style: { fontSize: 10, color: "#aaa", fontWeight: 600 }
+  }, "(\u0E1B\u0E31\u0E08\u0E08\u0E38\u0E1A\u0E31\u0E19)")),
+  /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() { return setMonthOffset(function(o){ return Math.min(0, o + 1); }); },
+    disabled: isCurrent,
+    style: {
+      width: 32, height: 32, borderRadius: 10,
+      border: "2px solid " + (isCurrent ? "#ddd" : DARK),
+      background: isCurrent ? "#f5f5f5" : (spicy ? "#222" : "#fff"),
+      cursor: isCurrent ? "default" : "pointer",
+      fontSize: 14,
+      boxShadow: isCurrent ? "none" : "2px 2px 0 " + DARK,
+      fontWeight: 900, color: isCurrent ? "#ccc" : DARK
+    }
+  }, "\u203A")),
+  // ── HeroCard — period-aware big answer
+  /*#__PURE__*/React.createElement(HeroCard, {
+    mood: d.net >= 0 ? "happy" : "sad",
+    title: period === "day" ? "\u0E27\u0E31\u0E19\u0E19\u0E35\u0E49\u0E40\u0E2B\u0E25\u0E37\u0E2D\u0E43\u0E0A\u0E49" : period === "week" ? "\u0E2A\u0E31\u0E1B\u0E14\u0E32\u0E2B\u0E4C\u0E19\u0E35\u0E49\u0E2A\u0E16\u0E32\u0E19\u0E30\u0E40\u0E07\u0E34\u0E19" : "\u0E40\u0E14\u0E37\u0E2D\u0E19\u0E19\u0E35\u0E49\u0E22\u0E31\u0E07\u0E40\u0E2B\u0E25\u0E37\u0E2D\u0E43\u0E0A\u0E49\u0E44\u0E14\u0E49\u0E08\u0E23\u0E34\u0E07",
+    bigNumber: (d.net < 0 ? "-\u0E3F" : "\u0E3F") + Math.abs(Math.round(d.net)).toLocaleString(),
+    numberColor: d.net >= 0 ? G : "#FF6B6B",
+    barPct: d.inc > 0 ? Math.min(100, Math.round(d.exp / d.inc * 100)) : 0,
+    sub: d.inc > 0 ? "\u0E43\u0E0A\u0E49\u0E44\u0E1B\u0E41\u0E25\u0E49\u0E27 \u0E3F" + Math.round(d.exp).toLocaleString() + " \u0E08\u0E32\u0E01\u0E23\u0E32\u0E22\u0E23\u0E31\u0E1A \u0E3F" + Math.round(d.inc).toLocaleString() : "\u0E40\u0E23\u0E34\u0E48\u0E21\u0E08\u0E32\u0E01\u0E1A\u0E31\u0E19\u0E17\u0E36\u0E01\u0E23\u0E32\u0E22\u0E23\u0E31\u0E1A\u0E01\u0E48\u0E2D\u0E19 Salung \u0E08\u0E30\u0E0A\u0E48\u0E27\u0E22\u0E14\u0E39\u0E15\u0E48\u0E2D\u0E43\u0E2B\u0E49",
+    salungText: d.inc === 0 ? "\u0E40\u0E23\u0E34\u0E48\u0E21\u0E08\u0E32\u0E01\u0E1A\u0E31\u0E19\u0E17\u0E36\u0E01\u0E23\u0E32\u0E22\u0E23\u0E31\u0E1A\u0E01\u0E48\u0E2D\u0E19 Salung \u0E08\u0E30\u0E0A\u0E48\u0E27\u0E22\u0E14\u0E39\u0E15\u0E48\u0E2D\u0E43\u0E2B\u0E49" : d.net >= 0 ? "\u0E22\u0E31\u0E07\u0E44\u0E2B\u0E27\u0E2D\u0E22\u0E39\u0E48 \u0E41\u0E15\u0E48\u0E2D\u0E22\u0E48\u0E32\u0E40\u0E1E\u0E34\u0E48\u0E07\u0E40\u0E1C\u0E25\u0E2D\u0E01\u0E14\u0E02\u0E2D\u0E07\u0E1F\u0E38\u0E48\u0E21\u0E40\u0E1F\u0E37\u0E2D\u0E22\u0E19\u0E30" : "\u0E15\u0E34\u0E14\u0E25\u0E1A\u0E41\u0E25\u0E49\u0E27 \u0E04\u0E48\u0E2D\u0E22 \u0E46 \u0E2B\u0E22\u0E38\u0E14\u0E40\u0E25\u0E37\u0E2D\u0E14\u0E01\u0E48\u0E2D\u0E19\u0E19\u0E30",
+    accent: G,
+    spicy: spicy
+  }),
+  // ── NBA card
+  /*#__PURE__*/React.createElement(NBA, {
     text: nbaText,
     actionLabel: "+ \u0E1A\u0E31\u0E19\u0E17\u0E36\u0E01\u0E23\u0E32\u0E22\u0E01\u0E32\u0E23",
-    onAction: function onAction() {
-      return setSheet(true);
-    },
+    onAction: function onAction() { return setSheet(true); },
     spicy: spicy,
     mood: period === "month" ? "thinking" : "tip"
   }),
-  /*#__PURE__*/React.createElement(SectionHeader, { icon: "📅", text: "เลือกช่วงเวลา", spicy: spicy }),
+  // ── Cash breakdown section
+  /*#__PURE__*/React.createElement(SectionHeader, { icon: "\uD83D\uDCB8", text: "\u0E40\u0E07\u0E34\u0E19\u0E44\u0E2B\u0E25\u0E44\u0E1B\u0E17\u0E32\u0E07\u0E44\u0E2B\u0E19 \u2728", spicy: spicy }),
+  // Monthly alloc card or day/week mini summary
+  period === "month" ? /*#__PURE__*/React.createElement(Card, {
+    style: { background: spicy ? DARK : CREAM }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: { fontSize: 12, fontWeight: 900, color: spicy ? G : DARK }
+  }, "\uD83D\uDCB0 \u0E40\u0E07\u0E34\u0E19\u0E40\u0E14\u0E37\u0E2D\u0E19\u0E19\u0E35\u0E49\u0E44\u0E1B\u0E44\u0E2B\u0E19\u0E1A\u0E49\u0E32\u0E07?"),
+  allocLoading && /*#__PURE__*/React.createElement("div", {
+    style: { fontSize: 10, color: "#aaa" }
+  }, "\u0E01\u0E33\u0E25\u0E31\u0E07\u0E42\u0E2B\u0E25\u0E14..."),
+  !allocLoading && alloc.length === 0 && /*#__PURE__*/React.createElement("div", {
+    style: { fontSize: 10, color: "#aaa" }
+  }, "\u0E22\u0E31\u0E07\u0E44\u0E21\u0E48\u0E21\u0E35\u0E02\u0E49\u0E2D\u0E21\u0E39\u0E25\u0E40\u0E14\u0E37\u0E2D\u0E19\u0E19\u0E35\u0E49")),
+  alloc.map(function (row, i) {
+    var _alloc$find;
+    return /*#__PURE__*/React.createElement("div", { key: i, style: { marginBottom: 8 } },
+      /*#__PURE__*/React.createElement("div", {
+        style: { display: "flex", justifyContent: "space-between", marginBottom: 3 }
+      },
+        /*#__PURE__*/React.createElement("div", {
+          style: { display: "flex", gap: 6, alignItems: "center" }
+        },
+          /*#__PURE__*/React.createElement("span", { style: { fontSize: 13 } }, row.icon),
+          /*#__PURE__*/React.createElement("span", {
+            style: { fontSize: 12, fontWeight: 700, color: spicy ? "#ccc" : DARK }
+          }, row.label)
+        ),
+        /*#__PURE__*/React.createElement("span", {
+          style: { fontSize: 12, fontWeight: 900, color: row.amt > 0 ? G : spicy ? "#FF9999" : "#E53E3E" }
+        }, row.amt > 0 ? "+" : "-", "\u0E3F", Math.abs(row.amt).toLocaleString())
+      ),
+      /*#__PURE__*/React.createElement(Bar, {
+        pct: alloc.length ? Math.abs(row.amt) / Math.max(1, ((_alloc$find = alloc.find(function(r){ return r.label === "\u0E23\u0E32\u0E22\u0E23\u0E31\u0E1A"; })) === null || _alloc$find === void 0 ? void 0 : _alloc$find.amt) || 1) * 100 : 0,
+        color: row.color
+      })
+    );
+  }),
+  /*#__PURE__*/React.createElement("div", {
+    style: {
+      borderTop: "2px dashed " + (spicy ? "#444" : "#ccc"),
+      marginTop: 10, paddingTop: 10,
+      display: "flex", justifyContent: "space-between", alignItems: "center"
+    }
+  },
+    /*#__PURE__*/React.createElement("div", null,
+      /*#__PURE__*/React.createElement("div", {
+        style: { fontSize: 12, fontWeight: 800, color: spicy ? "#aaa" : "#666" }
+      }, "\uD83D\uDCB8 \u0E43\u0E0A\u0E49\u0E08\u0E48\u0E32\u0E22\u0E44\u0E14\u0E49\u0E08\u0E23\u0E34\u0E07"),
+      /*#__PURE__*/React.createElement("div", {
+        style: { fontSize: 10, color: "#aaa" }
+      }, "\u0E43\u0E0A\u0E49\u0E41\u0E25\u0E49\u0E27 \u0E3F", d.exp.toLocaleString(), " \xB7 \u0E40\u0E2B\u0E25\u0E37\u0E2D \u0E3F", Math.max(0, d.net).toLocaleString())
+    ),
+    /*#__PURE__*/React.createElement("div", {
+      style: { fontSize: 22, fontWeight: 900, color: spicy ? G : DARK }
+    }, "\u0E3F", Math.max(0, d.net).toLocaleString())
+  ),
+  /*#__PURE__*/React.createElement(Bar, { pct: d.inc > 0 ? d.exp / d.inc * 100 : 0, color: G, height: 10 })
+  ) : /*#__PURE__*/React.createElement(Card, {
+    style: { background: spicy ? DARK : CREAM }
+  },
+    /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 8 } },
+      /*#__PURE__*/React.createElement("div", {
+        style: { flex: 1, background: spicy ? "#222" : "#fff", borderRadius: 12, border: "2px solid " + DARK, padding: "10px 12px" }
+      },
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 10, color: "#888", fontWeight: 600 } }, "\u0E23\u0E32\u0E22\u0E08\u0E48\u0E32\u0E22"),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, fontWeight: 900, color: spicy ? "#FF9999" : "#E53E3E" } }, "-\u0E3F", d.exp.toLocaleString())
+      ),
+      /*#__PURE__*/React.createElement("div", {
+        style: { flex: 1, background: d.net >= 0 ? (spicy ? "#1a3a1a" : G + "22") : "#FFF0F0", borderRadius: 12, border: "2px solid " + DARK, padding: "10px 12px" }
+      },
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 10, color: "#888", fontWeight: 600 } }, d.netLabel),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, fontWeight: 900, color: d.net >= 0 ? (spicy ? G : MID) : "#E53E3E" } }, d.net >= 0 ? "+" : "", "\u0E3F", d.net.toLocaleString())
+      )
+    )
+  ),
+  // ── View tabs (summary / transactions)
   /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
-      gap: 6,
-      marginBottom: 10
-    }
-  }, [["day", "วันนี้"], ["week", "7 วัน"], ["month", "เดือน"]].map(function (_ref14) {
-    var _ref15 = _slicedToArray(_ref14, 2),
-      id = _ref15[0],
-      lbl = _ref15[1];
-    return /*#__PURE__*/React.createElement("button", {
-      key: id,
-      onClick: function onClick() {
-        return setPeriod(id);
-      },
-      style: {
-        flex: 1,
-        padding: "8px 0",
-        fontSize: 12,
-        fontWeight: 800,
-        cursor: "pointer",
-        borderRadius: 10,
-        border: "2px solid ".concat(DARK),
-        transition: "all .15s",
-        background: period === id ? spicy ? G : DARK : spicy ? "#222" : "#fff",
-        color: period === id ? spicy ? DARK : "#fff" : spicy ? "#aaa" : DARK,
-        boxShadow: period === id ? "2px 2px 0 ".concat(DARK) : "none"
-      }
-    }, lbl);
-  })), period === "month" && /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "space-between",
-      marginBottom: 10
-    }
-  }, /*#__PURE__*/React.createElement("button", {
-    onClick: function onClick() {
-      return setMonthOffset(function (o) {
-        return o - 1;
-      });
-    },
-    style: {
-      width: 32,
-      height: 32,
-      borderRadius: 10,
-      border: "2px solid ".concat(DARK),
-      background: spicy ? "#222" : "#fff",
-      cursor: "pointer",
-      fontSize: 14,
-      boxShadow: "2px 2px 0 ".concat(DARK),
-      fontWeight: 900,
-      color: DARK
-    }
-  }, "\u2039"), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 13,
-      fontWeight: 900,
-      color: spicy ? G : DARK
-    }
-  }, monthLabel, " ", isCurrent && /*#__PURE__*/React.createElement("span", {
-    style: {
-      fontSize: 10,
-      color: "#aaa",
-      fontWeight: 600
-    }
-  }, "(\u0E1B\u0E31\u0E08\u0E08\u0E38\u0E1A\u0E31\u0E19)")), /*#__PURE__*/React.createElement("button", {
-    onClick: function onClick() {
-      return setMonthOffset(function (o) {
-        return Math.min(0, o + 1);
-      });
-    },
-    disabled: isCurrent,
-    style: {
-      width: 32,
-      height: 32,
-      borderRadius: 10,
-      border: "2px solid ".concat(isCurrent ? "#ddd" : DARK),
-      background: isCurrent ? "#f5f5f5" : spicy ? "#222" : "#fff",
-      cursor: isCurrent ? "default" : "pointer",
-      fontSize: 14,
-      boxShadow: isCurrent ? "none" : "2px 2px 0 ".concat(DARK),
-      fontWeight: 900,
-      color: isCurrent ? "#ccc" : DARK
-    }
-  }, "\u203A")), period === "month" ? /*#__PURE__*/React.createElement(Card, {
-    style: {
-      background: spicy ? DARK : CREAM
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "flex",
-      justifyContent: "space-between",
-      alignItems: "center",
-      marginBottom: 12
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 12,
-      fontWeight: 900,
-      color: spicy ? G : DARK
-    }
-  }, "\uD83D\uDCB0 \u0E40\u0E07\u0E34\u0E19\u0E40\u0E14\u0E37\u0E2D\u0E19\u0E19\u0E35\u0E49\u0E44\u0E1B\u0E44\u0E2B\u0E19\u0E1A\u0E49\u0E32\u0E07?"), allocLoading && /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 10,
-      color: "#aaa"
-    }
-  }, "\u0E01\u0E33\u0E25\u0E31\u0E07\u0E42\u0E2B\u0E25\u0E14..."), !allocLoading && alloc.length === 0 && /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 10,
-      color: "#aaa"
-    }
-  }, "ยังไม่มีข้อมูลเดือนนี้")), alloc.map(function (row, i) {
-    var _alloc$find;
-    return /*#__PURE__*/React.createElement("div", {
-      key: i,
-      style: {
-        marginBottom: 8
-      }
-    }, /*#__PURE__*/React.createElement("div", {
-      style: {
-        display: "flex",
-        justifyContent: "space-between",
-        marginBottom: 3
-      }
-    }, /*#__PURE__*/React.createElement("div", {
-      style: {
-        display: "flex",
-        gap: 6,
-        alignItems: "center"
-      }
-    }, /*#__PURE__*/React.createElement("span", {
-      style: {
-        fontSize: 13
-      }
-    }, row.icon), /*#__PURE__*/React.createElement("span", {
-      style: {
-        fontSize: 12,
-        fontWeight: 700,
-        color: spicy ? "#ccc" : DARK
-      }
-    }, row.label)), /*#__PURE__*/React.createElement("span", {
-      style: {
-        fontSize: 12,
-        fontWeight: 900,
-        color: row.amt > 0 ? G : spicy ? "#FF9999" : "#E53E3E"
-      }
-    }, row.amt > 0 ? "+" : "-", "\u0E3F", Math.abs(row.amt).toLocaleString())), /*#__PURE__*/React.createElement(Bar, {
-      pct: alloc.length ? Math.abs(row.amt) / Math.max(1, ((_alloc$find = alloc.find(function (r) {
-        return r.label === "รายรับ";
-      })) === null || _alloc$find === void 0 ? void 0 : _alloc$find.amt) || 1) * 100 : 0,
-      color: row.color
-    }));
-  }), /*#__PURE__*/React.createElement("div", {
-    style: {
-      borderTop: "2px dashed ".concat(spicy ? "#444" : "#ccc"),
-      marginTop: 10,
-      paddingTop: 10,
-      display: "flex",
-      justifyContent: "space-between",
-      alignItems: "center"
-    }
-  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 12,
-      fontWeight: 800,
-      color: spicy ? "#aaa" : "#666"
-    }
-  }, "\uD83D\uDCB8 \u0E43\u0E0A\u0E49\u0E08\u0E48\u0E32\u0E22\u0E44\u0E14\u0E49\u0E08\u0E23\u0E34\u0E07"), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 10,
-      color: "#aaa"
-    }
-  }, "\u0E43\u0E0A\u0E49\u0E41\u0E25\u0E49\u0E27 \u0E3F", d.exp.toLocaleString(), " \xB7 \u0E40\u0E2B\u0E25\u0E37\u0E2D \u0E3F", Math.max(0, d.net).toLocaleString())), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 22,
-      fontWeight: 900,
-      color: spicy ? G : DARK
-    }
-  }, "\u0E3F", Math.max(0, d.net).toLocaleString())), /*#__PURE__*/React.createElement(Bar, {
-    pct: d.inc > 0 ? d.exp / d.inc * 100 : 0,
-    color: G,
-    height: 10
-  })) : /*#__PURE__*/React.createElement(Card, {
-    style: {
-      background: spicy ? DARK : CREAM
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "flex",
-      gap: 8
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      flex: 1,
-      background: spicy ? "#222" : "#fff",
-      borderRadius: 12,
-      border: "2px solid ".concat(DARK),
-      padding: "10px 12px"
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 10,
-      color: "#888",
-      fontWeight: 600
-    }
-  }, "\u0E23\u0E32\u0E22\u0E08\u0E48\u0E32\u0E22"), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 16,
-      fontWeight: 900,
-      color: spicy ? "#FF9999" : "#E53E3E"
-    }
-  }, "-\u0E3F", d.exp.toLocaleString())), /*#__PURE__*/React.createElement("div", {
-    style: {
-      flex: 1,
-      background: d.net >= 0 ? spicy ? "#1a3a1a" : "".concat(G, "22") : "#FFF0F0",
-      borderRadius: 12,
-      border: "2px solid ".concat(DARK),
-      padding: "10px 12px"
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 10,
-      color: "#888",
-      fontWeight: 600
-    }
-  }, d.netLabel), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 16,
-      fontWeight: 900,
-      color: d.net >= 0 ? spicy ? G : MID : "#E53E3E"
-    }
-  }, d.net >= 0 ? "+" : "", "\u0E3F", d.net.toLocaleString())))), /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "flex",
-      border: "2px solid ".concat(DARK),
+      border: "2px solid " + DARK,
       borderRadius: 12,
       overflow: "hidden",
-      marginBottom: 10
+      marginBottom: 10,
+      marginTop: 8
     }
-  },
-  /*#__PURE__*/React.createElement(SectionHeader, { icon: "📊", text: "เงินไหลไปทางไหน", spicy: spicy }),
-  [["summary", "📊 สรุป"], ["transactions", "📋 รายการ"]].map(function (_ref16) {
-    var _ref17 = _slicedToArray(_ref16, 2),
-      id = _ref17[0],
-      lbl = _ref17[1];
+  }, [["summary", "\uD83D\uDCCA \u0E2A\u0E23\u0E38\u0E1B"], ["transactions", "\uD83D\uDCCB \u0E23\u0E32\u0E22\u0E01\u0E32\u0E23"]].map(function (_ref16) {
+    var _ref17 = _slicedToArray(_ref16, 2), id = _ref17[0], lbl = _ref17[1];
     return /*#__PURE__*/React.createElement("button", {
       key: id,
-      onClick: function onClick() {
-        return setView(id);
-      },
+      onClick: function onClick() { return setView(id); },
       style: {
-        flex: 1,
-        padding: "9px 0",
-        fontSize: 12,
-        fontWeight: 800,
-        border: "none",
-        cursor: "pointer",
+        flex: 1, padding: "9px 0",
+        fontSize: 12, fontWeight: 800,
+        border: "none", cursor: "pointer",
         transition: "all .15s",
-        background: view === id ? spicy ? G : DARK : spicy ? "#222" : "#fff",
-        color: view === id ? spicy ? DARK : "#fff" : spicy ? "#aaa" : "#888"
+        background: view === id ? (spicy ? G : DARK) : (spicy ? "#222" : "#fff"),
+        color: view === id ? (spicy ? DARK : "#fff") : (spicy ? "#aaa" : "#888")
       }
     }, lbl);
   })), view === "summary" ? /*#__PURE__*/React.createElement(Card, null, /*#__PURE__*/React.createElement("div", {
@@ -1603,78 +1508,50 @@ function CashFlow(_ref1) {
     style: { fontSize: 11, color: MID, fontWeight: 700, lineHeight: 1.6 }
   }, "บันทึกรายการแรกก่อน แล้ว Salung จะสรุปให้เอง 🧾")
 ) : cats.map(function (c) {
+    var pct = c.max > 0 ? Math.round(c.val / c.max * 100) : 0;
     return /*#__PURE__*/React.createElement("div", {
       key: c.label,
-      style: {
-        marginBottom: 8
-      }
-    }, /*#__PURE__*/React.createElement("div", {
-      style: {
-        display: "flex",
-        justifyContent: "space-between",
-        marginBottom: 3
-      }
-    }, /*#__PURE__*/React.createElement("span", {
-      style: {
-        fontSize: 12,
-        fontWeight: 700
-      }
-    }, c.label), /*#__PURE__*/React.createElement("div", {
-      style: {
-        display: "flex",
-        gap: 6,
-        alignItems: "center"
-      }
-    }, c.val / c.max > 1 && /*#__PURE__*/React.createElement(Tag, {
-      color: "#FF6B6B"
-    }, "\u0E40\u0E01\u0E34\u0E19\u0E07\u0E1A"), /*#__PURE__*/React.createElement("span", {
-      style: {
-        fontSize: 12,
-        fontWeight: 800
-      }
-    }, "\u0E3F", c.val.toLocaleString()))), /*#__PURE__*/React.createElement(Bar, {
-      pct: c.val / c.max * 100,
-      color: c.color
-    }), c.val / c.max > 1 && /*#__PURE__*/React.createElement("div", {
-      style: {
-        fontSize: 10,
-        color: "#FF6B6B",
-        fontWeight: 700,
-        marginTop: 2
-      }
-    }, spicy ? "งบแตกแล้วจ้า ของในบ้านน่าจะพอใช้ได้อีกสักพัก" : "เกินงบแล้วนะ เดือนหน้าตั้งต้นใหม่ได้เลย"));
+      style: { marginBottom: 10 }
+    },
+      /*#__PURE__*/React.createElement("div", {
+        style: { display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }
+      },
+        /*#__PURE__*/React.createElement("span", { style: { fontSize: 16, width: 22, textAlign: "center", flexShrink: 0 } }, c.icon),
+        /*#__PURE__*/React.createElement("span", {
+          style: { flex: 1, fontSize: 12, fontWeight: 700, color: spicy ? "#ccc" : DARK }
+        }, c.label),
+        /*#__PURE__*/React.createElement("span", {
+          style: { fontSize: 10, fontWeight: 700, color: spicy ? "#88aa88" : "#aaa", marginRight: 6 }
+        }, pct + "%"),
+        /*#__PURE__*/React.createElement("span", {
+          style: { fontSize: 12, fontWeight: 900, color: spicy ? "#FF9999" : "#E53E3E" }
+        }, "\u0E3F", c.val.toLocaleString())
+      ),
+      /*#__PURE__*/React.createElement(Bar, { pct: Math.min(100, pct), color: c.color })
+    );
   })) : /*#__PURE__*/React.createElement(Card, {
     style: {
       padding: "12px 12px 6px"
     }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "flex",
-      justifyContent: "space-between",
-      marginBottom: 8
-    }
-  }, /*#__PURE__*/React.createElement("span", {
-    style: {
-      fontSize: 12,
-      fontWeight: 800,
-      color: DARK
-    }
-  }, "\u0E23\u0E32\u0E22\u0E01\u0E32\u0E23"), /*#__PURE__*/React.createElement("span", {
-    style: {
-      fontSize: 10,
-      color: "#aaa"
-    }
-  }, "\u2190 \u0E40\u0E25\u0E37\u0E48\u0E2D\u0E19\u0E0B\u0E49\u0E32\u0E22\u0E40\u0E1E\u0E37\u0E48\u0E2D\u0E25\u0E1A")),
+  }, React.createElement(SectionHeader, { icon: "📋", text: "รายการล่าสุด", spicy: spicy }),
   txns.length === 0 && /*#__PURE__*/React.createElement("div", {
-    style: { textAlign: "center", padding: "20px 16px 12px" }
+    style: { textAlign: "center", padding: "20px 16px 24px" }
   },
     /*#__PURE__*/React.createElement(SalungMascot, { mood: "budgeting", size: 64 }),
     /*#__PURE__*/React.createElement("div", {
       style: { fontSize: 13, fontWeight: 900, color: DARK, marginTop: 10, marginBottom: 4 }
-    }, "\u0E22\u0E31\u0E07\u0E44\u0E21\u0E48\u0E21\u0E35\u0E23\u0E32\u0E22\u0E01\u0E32\u0E23\u0E27\u0E31\u0E19\u0E19\u0E35\u0E49"),
+    }, "ยังไม่มีรายการวันนี้"),
     /*#__PURE__*/React.createElement("div", {
-      style: { fontSize: 11, color: MID, fontWeight: 700, lineHeight: 1.6 }
-    }, "\u0E40\u0E23\u0E34\u0E48\u0E21\u0E08\u0E32\u0E01\u0E01\u0E32\u0E41\u0E1F\u0E41\u0E01\u0E49\u0E27\u0E41\u0E23\u0E01\u0E01\u0E47\u0E44\u0E14\u0E49 \u2615 Salung \u0E08\u0E30\u0E08\u0E33\u0E43\u0E2B\u0E49\u0E40\u0E2D\u0E07")
+      style: { fontSize: 11, color: MID, fontWeight: 700, lineHeight: 1.6, marginBottom: 12 }
+    }, "เริ่มจากกาแฟแก้วแรกก็ได้ Salung จะจำให้เอง ☕"),
+    /*#__PURE__*/React.createElement("button", {
+      onClick: function() { setSheet(true); },
+      style: {
+        padding: "10px 24px", fontSize: 13, fontWeight: 900,
+        background: GOLD, color: DARK, border: "2px solid " + DARK,
+        borderRadius: 99, cursor: "pointer", boxShadow: "2px 2px 0 " + DARK
+      }
+    }, "+ บันทึกรายการ")
   ),
   txns.map(function (t, i) {
     return /*#__PURE__*/React.createElement("div", {
@@ -1726,7 +1603,23 @@ function CashFlow(_ref1) {
         flexShrink: 0
       }
     }, "\u2715"));
-  })));
+  })),
+  /*#__PURE__*/React.createElement("button", {
+    onClick: function() { setSheet(true); },
+    style: {
+      position: "fixed", right: 20, bottom: 88,
+      width: 52, height: 52,
+      borderRadius: 99,
+      background: GOLD, color: DARK,
+      border: "2.5px solid " + DARK,
+      fontSize: 24, fontWeight: 900,
+      cursor: "pointer",
+      boxShadow: "3px 3px 0 " + DARK,
+      zIndex: 50,
+      display: "flex", alignItems: "center", justifyContent: "center",
+      lineHeight: 1
+    }
+  }, "+"));
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
