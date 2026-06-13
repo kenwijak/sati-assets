@@ -2557,24 +2557,7 @@ function Debt(_ref21) {
       fontSize: 12,
       padding: 8
     }
-  }, "\u0E01\u0E33\u0E25\u0E31\u0E07\u0E42\u0E2B\u0E25\u0E14\u0E02\u0E49\u0E2D\u0E21\u0E39\u0E25\u0E2B\u0E19\u0E35\u0E49...")), /*#__PURE__*/React.createElement("button", {
-    onClick: function onClick() {
-      return setAddDebtSheet(true);
-    },
-    style: {
-      width: "100%",
-      padding: "11px 0",
-      fontSize: 12,
-      fontWeight: 900,
-      background: "#fff",
-      color: DARK,
-      border: "2px solid ".concat(DARK),
-      borderRadius: 12,
-      boxShadow: "2px 2px 0 ".concat(DARK),
-      cursor: "pointer",
-      marginBottom: 10
-    }
-  }, "+ \u0E08\u0E14\u0E2B\u0E19\u0E35\u0E49\u0E43\u0E2B\u0E21\u0E48"), /*#__PURE__*/React.createElement(HeroCard, {
+  }, "\u0E01\u0E33\u0E25\u0E31\u0E07\u0E42\u0E2B\u0E25\u0E14\u0E02\u0E49\u0E2D\u0E21\u0E39\u0E25\u0E2B\u0E19\u0E35\u0E49...")), /*#__PURE__*/React.createElement(HeroCard, {
   mood: debts.length ? "detective" : "happy",
   title: debts.length ? "\u0E27\u0E31\u0E19\u0E1B\u0E25\u0E14\u0E41\u0E2D\u0E01\u0E02\u0E2D\u0E07\u0E40\u0E18\u0E2D" : "\u0E44\u0E21\u0E48\u0E21\u0E35\u0E2B\u0E19\u0E35\u0E49\u0E40\u0E25\u0E22! \uD83C\uDF89",
   bigNumber: debts.length ? freeDate : "\u2014",
@@ -2813,25 +2796,21 @@ function Debt(_ref21) {
     return /*#__PURE__*/React.createElement(Card, {
       key: i,
       style: {
+        padding: "10px 14px",
         opacity: paidDone[d.name] ? .7 : 1
       }
     }, /*#__PURE__*/React.createElement("div", {
       style: {
         display: "flex",
         justifyContent: "space-between",
-        alignItems: "flex-start",
-        marginBottom: 8
-      }
-    }, /*#__PURE__*/React.createElement("div", {
-      style: {
-        flex: 1
+        alignItems: "center",
+        marginBottom: 2
       }
     }, /*#__PURE__*/React.createElement("div", {
       style: {
         display: "flex",
         alignItems: "center",
-        gap: 6,
-        marginBottom: 2
+        gap: 6
       }
     }, /*#__PURE__*/React.createElement("div", {
       style: {
@@ -2841,31 +2820,38 @@ function Debt(_ref21) {
       }
     }, d.name), d.priority && /*#__PURE__*/React.createElement(Tag, {
       color: "#FF6B6B"
-    }, "\u26A1 \u0E08\u0E48\u0E32\u0E22\u0E01\u0E48\u0E2D\u0E19"), paidDone[d.name] && /*#__PURE__*/React.createElement(Tag, {
+    }, "\u26A1"), paidDone[d.name] && /*#__PURE__*/React.createElement(Tag, {
       color: G
-    }, "\u2713 \u0E3F", paidDone[d.name].toLocaleString())), /*#__PURE__*/React.createElement("div", {
+    }, "\u2713")), /*#__PURE__*/React.createElement("div", {
       style: {
-        fontSize: 10,
-        color: "#888"
-      }
-    }, "\u0E14\u0E2D\u0E01\u0E40\u0E1A\u0E35\u0E49\u0E22 ", d.rate, "% \xB7 \u0E02\u0E31\u0E49\u0E19\u0E15\u0E48\u0E33 \u0E3F", d.min.toLocaleString(), "/\u0E40\u0E14\u0E37\u0E2D\u0E19")), /*#__PURE__*/React.createElement("div", {
-      style: {
-        fontSize: 15,
+        fontSize: 14,
         fontWeight: 900,
         color: DARK
       }
-    }, "\u0E3F", d.bal.toLocaleString())), /*#__PURE__*/React.createElement(Bar, {
+    }, "\u0E3F", d.bal.toLocaleString())), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 10,
+        color: "#888",
+        marginBottom: 6
+      }
+    }, d.label || d.type, " \xB7 \u0E14\u0E2D\u0E01 ", d.rate, "% \xB7 \u0E02\u0E31\u0E49\u0E19\u0E15\u0E48\u0E33 \u0E3F", d.min.toLocaleString()), /*#__PURE__*/React.createElement(Bar, {
       pct: d.bal / 50000 * 100,
       color: d.color
-    }), /*#__PURE__*/React.createElement("button", {
+    }), /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        gap: 8,
+        marginTop: 8,
+        alignItems: "center"
+      }
+    }, /*#__PURE__*/React.createElement("button", {
       onClick: function onClick() {
         setPayModal(d);
         setPayAmt(String(d.min));
       },
       style: {
-        width: "100%",
-        marginTop: 8,
-        padding: "8px 0",
+        flex: 1,
+        padding: "7px 0",
         fontSize: 12,
         fontWeight: 800,
         background: paidDone[d.name] ? "#f5f5f5" : "".concat(G, "22"),
@@ -2874,23 +2860,41 @@ function Debt(_ref21) {
         borderRadius: 10,
         cursor: "pointer"
       }
-    }, paidDone[d.name] ? "✓ ชำระแล้วเดือนนี้" : "💸 ชำระหนี้งวดนี้"), /*#__PURE__*/React.createElement("button", {
+    }, paidDone[d.name] ? "\u2713 \u0E0A\u0E33\u0E23\u0E30\u0E41\u0E25\u0E49\u0E27" : "\uD83D\uDCB8 \u0E0A\u0E33\u0E23\u0E30\u0E2B\u0E19\u0E35\u0E49"), /*#__PURE__*/React.createElement("button", {
       onClick: function onClick() {
         return deleteDebt(d);
       },
       style: {
-        width: "100%",
-        marginTop: 6,
-        padding: "6px 0",
-        fontSize: 11,
-        fontWeight: 700,
+        width: 32,
+        height: 32,
+        padding: 0,
+        fontSize: 15,
         background: "none",
-        color: "#bbb",
-        border: "none",
-        cursor: "pointer"
+        color: "#ccc",
+        border: "1px solid #ddd",
+        borderRadius: 8,
+        cursor: "pointer",
+        flexShrink: 0
       }
-    }, "\uD83D\uDDD1\uFE0F \u0E25\u0E1A\u0E2B\u0E19\u0E35\u0E49\u0E19\u0E35\u0E49"));
-  }));
+    }, "\uD83D\uDDD1\uFE0F")));
+  }), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return setAddDebtSheet(true);
+    },
+    style: {
+      width: "100%",
+      padding: "11px 0",
+      fontSize: 12,
+      fontWeight: 900,
+      background: "#fff",
+      color: DARK,
+      border: "2px solid ".concat(DARK),
+      borderRadius: 12,
+      boxShadow: "2px 2px 0 ".concat(DARK),
+      cursor: "pointer",
+      marginTop: 10
+    }
+  }, "+ \u0E08\u0E14\u0E2B\u0E19\u0E35\u0E49\u0E43\u0E2B\u0E21\u0E48"));
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -3607,6 +3611,10 @@ function SaveGoal(_ref24) {
     _useStateBLSArr = _slicedToArray(_useStateBLS, 2),
     bucketLimitSheet = _useStateBLSArr[0],
     setBucketLimitSheet = _useStateBLSArr[1];
+  var _useState_sag = useState(false),
+    _useState_sag_arr = _slicedToArray(_useState_sag, 2),
+    showAllGoals = _useState_sag_arr[0],
+    setShowAllGoals = _useState_sag_arr[1];
   function submitWithdraw() {
     var uid = liffUid || getLiffUid();
     if (!uid) {
@@ -3648,7 +3656,7 @@ function SaveGoal(_ref24) {
         time: "ตอนนี้"
       };
       setSavingsTxns(function (ts) {
-        return [entry].concat(_toConsumableArray(ts)).slice(0, 10);
+        return [entry].concat(_toConsumableArray(ts)).slice(0, 5);
       });
       setWithdrawAmt("");
       setWithdrawNote("");
@@ -3667,7 +3675,7 @@ function SaveGoal(_ref24) {
       if (!d.ok) return;
       setSavingsTxns((d.txns || []).filter(function (t) {
         return t.category_id === "savings";
-      }).slice(0, 10));
+      }).slice(0, 5));
     }).catch(function () {});
   }, [liffUid]);
   var PURPOSE = [{
@@ -3800,7 +3808,7 @@ function SaveGoal(_ref24) {
         time: "ตอนนี้"
       };
       setSavingsTxns(function (ts) {
-        return [_newEntry].concat(_toConsumableArray(ts)).slice(0, 10);
+        return [_newEntry].concat(_toConsumableArray(ts)).slice(0, 5);
       });
       setSaveSummary(function (s) {
         return _objectSpread(_objectSpread({}, s), {}, {
@@ -4705,7 +4713,7 @@ function SaveGoal(_ref24) {
       boxShadow: "2px 2px 0 ".concat(DARK),
       cursor: "pointer"
     }
-  }, "+ \u0E40\u0E1E\u0E34\u0E48\u0E21\u0E40\u0E1B\u0E49\u0E32\u0E2B\u0E21\u0E32\u0E22\u0E41\u0E23\u0E01")), goals.map(function (g) {
+  }, "+ \u0E40\u0E1E\u0E34\u0E48\u0E21\u0E40\u0E1B\u0E49\u0E32\u0E2B\u0E21\u0E32\u0E22\u0E41\u0E23\u0E01")), (showAllGoals ? goals : goals.slice(0, 3)).map(function (g) {
     return /*#__PURE__*/React.createElement(Card, {
       key: g.id,
       style: {
@@ -4792,7 +4800,23 @@ function SaveGoal(_ref24) {
         cursor: "pointer"
       }
     }, "\uD83D\uDDD1\uFE0F")));
-  }), /*#__PURE__*/React.createElement(Card, {
+  }), goals.length > 3 && /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return setShowAllGoals(!showAllGoals);
+    },
+    style: {
+      width: "100%",
+      padding: "8px 0",
+      fontSize: 12,
+      fontWeight: 700,
+      background: "none",
+      color: "#888",
+      border: "1.5px solid #ddd",
+      borderRadius: 10,
+      cursor: "pointer",
+      marginTop: 2
+    }
+  }, showAllGoals ? "\u0E0B\u0E48\u0E2D\u0E19\u0E40\u0E1B\u0E49\u0E32\u0E2B\u0E21\u0E32\u0E22 \u25B2" : "\u0E14\u0E39\u0E40\u0E1B\u0E49\u0E32\u0E2B\u0E21\u0E32\u0E22\u0E17\u0E31\u0E49\u0E07\u0E2B\u0E21\u0E14 \u25BE"), /*#__PURE__*/React.createElement(Card, {
     style: {
       opacity: .85,
       marginTop: 4
