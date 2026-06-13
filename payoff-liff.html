@@ -11,18 +11,21 @@
 <style>
   *{box-sizing:border-box;margin:0;padding:0}
   body,html{width:100%;height:100%;overflow-x:hidden}
-  body{font-family:'Nunito',sans-serif;-webkit-font-smoothing:antialiased}
+  body{font-family:'Nunito',sans-serif;-webkit-font-smoothing:antialiased;background:#F5F0E8}
   #root{display:flex;flex-direction:column;min-height:100vh;width:100%}
   ::-webkit-scrollbar{width:0}
   @keyframes spin{to{transform:rotate(360deg)}}
   @keyframes fadeInUp{from{opacity:0;transform:translateX(-50%) translateY(10px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
-  @keyframes slideUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
-  @keyframes popIn{0%{transform:scale(.85);opacity:0}70%{transform:scale(1.05)}100%{transform:scale(1);opacity:1}}
-  @keyframes shimmer{0%{background-position:-400px 0}100%{background-position:400px 0}}
-  .sl-card{animation:slideUp .22s ease both}
-  .sl-tab-btn{transition:all .18s cubic-bezier(.4,0,.2,1)}
+  @keyframes slideUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes popIn{0%{transform:scale(.75);opacity:0}60%{transform:scale(1.08)}100%{transform:scale(1);opacity:1}}
+  @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+  @keyframes wiggle{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(3deg)}}
+  .sl-card{animation:slideUp .2s cubic-bezier(.34,1.56,.64,1) both}
+  .sl-mascot{animation:popIn .4s cubic-bezier(.34,1.56,.64,1) both}
+  .sl-tab-btn{transition:all .2s cubic-bezier(.34,1.56,.64,1)}
   input:focus{outline:none}
-  button{-webkit-tap-highlight-color:transparent}
+  button{-webkit-tap-highlight-color:transparent;cursor:pointer}
+  .sl-hero{animation:slideUp .25s cubic-bezier(.34,1.56,.64,1) both}
 </style>
 </head>
 <body>
@@ -164,11 +167,11 @@ function ToastProvider() {
   return React.createElement("div", {
     style: {
       position: "fixed", bottom: 88, left: "50%", transform: "translateX(-50%)",
-      background: "rgba(26,61,31,.95)", color: "#fff", fontSize: 12, fontWeight: 800,
+      background: DARK, color: "#fff", fontSize: 12, fontWeight: 900,
       padding: "10px 20px", borderRadius: 99,
-      boxShadow: "0 8px 24px rgba(0,0,0,.2)", zIndex: 9999,
+      border: "2px solid " + GOLD,
+      boxShadow: "3px 3px 0 rgba(26,61,31,.3)", zIndex: 9999,
       whiteSpace: "nowrap", pointerEvents: "none",
-      backdropFilter: "blur(8px)",
       animation: "fadeInUp .2s ease"
     }
   }, toast);
@@ -235,28 +238,12 @@ function Face(_ref) {
     size = _ref$size === void 0 ? 40 : _ref$size,
     _ref$mood = _ref.mood,
     mood = _ref$mood === void 0 ? "happy" : _ref$mood;
-  return /*#__PURE__*/React.createElement("div", {
-    style: {
-      width: size,
-      height: size,
-      background: G,
-      borderRadius: "50%",
-      border: "2.5px solid ".concat(DARK),
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      fontSize: size * .44,
-      boxShadow: "2px 2px 0 ".concat(DARK),
-      flexShrink: 0
-    }
-  }, {
-    happy: "😊",
-    excited: "🤩",
-    thinking: "🤔",
-    proud: "😎",
-    cheer: "🥳",
-    tip: "💡"
-  }[mood]);
+  // Map old emoji moods to SalungMascot moods
+  var mascotMood = {
+    happy: "happy", excited: "proud", thinking: "detective",
+    proud: "proud", cheer: "excited", tip: "tip"
+  }[mood] || "happy";
+  return /*#__PURE__*/React.createElement(SalungMascot, { mood: mascotMood, size: size });
 }
 function Card(_ref2) {
   var children = _ref2.children,
@@ -269,12 +256,11 @@ function Card(_ref2) {
     style: _objectSpread({
       background: "#fff",
       borderRadius: 20,
-      border: "1px solid rgba(26,61,31,.08)",
+      border: "2.5px solid " + DARK,
       padding: 16,
-      boxShadow: "0 2px 16px rgba(26,61,31,.07)",
+      boxShadow: "4px 4px 0 rgba(26,61,31,.12)",
       marginBottom: 12,
-      cursor: onClick ? "pointer" : "default",
-      transition: "box-shadow .15s"
+      cursor: onClick ? "pointer" : "default"
     }, style)
   }, children);
 }
@@ -287,10 +273,12 @@ function Tag(_ref3) {
       background: color,
       color: DARK,
       fontSize: 10,
-      fontWeight: 800,
+      fontWeight: 900,
       padding: "3px 10px",
       borderRadius: 99,
-      letterSpacing: ".03em"
+      border: "1.5px solid " + DARK,
+      letterSpacing: ".03em",
+      display: "inline-block"
     }
   }, children);
 }
@@ -299,12 +287,13 @@ function Bar(_ref4) {
     _ref4$color = _ref4.color,
     color = _ref4$color === void 0 ? G : _ref4$color,
     _ref4$height = _ref4.height,
-    height = _ref4$height === void 0 ? 8 : _ref4$height;
+    height = _ref4$height === void 0 ? 10 : _ref4$height;
   return /*#__PURE__*/React.createElement("div", {
     style: {
       height: height,
-      background: "rgba(26,61,31,.08)",
+      background: "#E8E0D0",
       borderRadius: 99,
+      border: "2px solid " + DARK,
       overflow: "hidden"
     }
   }, /*#__PURE__*/React.createElement("div", {
@@ -313,7 +302,7 @@ function Bar(_ref4) {
       height: "100%",
       background: pct > 100 ? "#FF6B6B" : color,
       borderRadius: 99,
-      transition: "width .8s cubic-bezier(.4,0,.2,1)"
+      transition: "width .8s cubic-bezier(.34,1.56,.64,1)"
     }
   }));
 }
@@ -340,18 +329,20 @@ function Sheet(_ref5) {
       left: 0,
       right: 0,
       bottom: 0,
-      background: "#fff",
+      background: CREAM,
       borderRadius: "24px 24px 0 0",
-      boxShadow: "0 -8px 40px rgba(0,0,0,.12)",
+      border: "2.5px solid " + DARK,
+      borderBottom: "none",
+      boxShadow: "0 -4px 0 " + DARK,
       padding: "20px 20px 40px",
       zIndex: 99,
       overflowY: "auto"
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      width: 36,
-      height: 4,
-      background: "#e0e0e0",
+      width: 40,
+      height: 5,
+      background: DARK + "30",
       borderRadius: 99,
       margin: "0 auto 20px"
     }
@@ -496,16 +487,16 @@ function ConfirmBtn(_ref9) {
     style: {
       width: "100%",
       padding: "14px 0",
-      fontSize: 14,
+      fontSize: 15,
       fontWeight: 900,
-      background: disabled ? "#f0f0f0" : "linear-gradient(135deg,#3DDB5A,#2D5A35)",
-      color: disabled ? "#bbb" : "#fff",
-      border: "none",
-      borderRadius: 14,
-      boxShadow: disabled ? "none" : "0 4px 14px rgba(61,219,90,.35)",
+      background: disabled ? "#eee" : G,
+      color: disabled ? "#aaa" : DARK,
+      border: "2.5px solid " + (disabled ? "#ddd" : DARK),
+      borderRadius: 99,
+      boxShadow: disabled ? "none" : "3px 3px 0 " + DARK,
       cursor: disabled ? "default" : "pointer",
-      transition: "opacity .15s",
-      letterSpacing: ".02em"
+      letterSpacing: ".02em",
+      transition: "transform .1s"
     }
   }, label);
 }
@@ -524,8 +515,8 @@ function NBA(_ref0) {
     setDone = _useState4[1];
   if (done) return /*#__PURE__*/React.createElement(Card, {
     style: {
-      background: spicy ? "#1a3a1a" : "".concat(G, "18"),
-      marginBottom: 10
+      background: spicy ? "#0d2a10" : G + "15",
+      marginBottom: 12
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
@@ -546,9 +537,10 @@ function NBA(_ref0) {
   }, "\u0E23\u0E31\u0E1A\u0E17\u0E23\u0E32\u0E1A\u0E41\u0E25\u0E49\u0E27! Salung \u0E08\u0E30\u0E15\u0E34\u0E14\u0E15\u0E32\u0E21\u0E43\u0E2B\u0E49\u0E19\u0E30 \uD83E\uDE99")));
   return /*#__PURE__*/React.createElement(Card, {
     style: {
-      background: spicy ? "#0d2a10" : "".concat(G, "12"),
-      border: "2px solid ".concat(spicy ? G : MID),
-      marginBottom: 10
+      background: spicy ? "#0d2a10" : G + "12",
+      border: "2.5px solid " + (spicy ? G : DARK),
+      boxShadow: "3px 3px 0 rgba(26,61,31,.12)",
+      marginBottom: 12
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
@@ -618,6 +610,159 @@ function NBA(_ref0) {
 // ══════════════════════════════════════════════════════════════════════════════
 // CASH FLOW
 // ══════════════════════════════════════════════════════════════════════════════
+
+// ── Salung Mascot SVG ─────────────────────────────────────────────────────────
+function SalungMascot(props) {
+  var mood = props.mood || "happy";
+  var sz = props.size || 80;
+  var g = G, dk = DARK, gold = GOLD;
+
+  // Base body parts
+  var base = [
+    // left ear
+    React.createElement("ellipse",{key:"le",cx:"22",cy:"17",rx:"10",ry:"9",fill:g,stroke:dk,strokeWidth:"2.5"}),
+    // right ear
+    React.createElement("ellipse",{key:"re",cx:"58",cy:"17",rx:"10",ry:"9",fill:g,stroke:dk,strokeWidth:"2.5"}),
+    // body
+    React.createElement("rect",{key:"bd",x:"10",y:"18",width:"60",height:"52",rx:"22",fill:g,stroke:dk,strokeWidth:"2.5"}),
+    // left eye white
+    React.createElement("circle",{key:"lew",cx:"27",cy:"37",r:"9",fill:"#fff",stroke:dk,strokeWidth:"2"}),
+    // left pupil
+    React.createElement("circle",{key:"lep",cx:"28",cy:"38",r:"5",fill:dk}),
+    // left eye shine
+    React.createElement("circle",{key:"les",cx:"30",cy:"36",r:"2",fill:"#fff"}),
+    // right eye white
+    React.createElement("circle",{key:"rew",cx:"53",cy:"37",r:"9",fill:"#fff",stroke:dk,strokeWidth:"2"}),
+    // right pupil
+    React.createElement("circle",{key:"rep",cx:"54",cy:"38",r:"5",fill:dk}),
+    // right eye shine
+    React.createElement("circle",{key:"res",cx:"56",cy:"36",r:"2",fill:"#fff"}),
+  ];
+
+  var extras = [];
+
+  if (mood === "cool" || mood === "spicy") {
+    // sunglasses
+    extras = [
+      React.createElement("rect",{key:"sgl",x:"15",y:"31",width:"21",height:"12",rx:"6",fill:dk}),
+      React.createElement("rect",{key:"sgr",x:"44",y:"31",width:"21",height:"12",rx:"6",fill:dk}),
+      React.createElement("line",{key:"sgc",x1:"36",y1:"37",x2:"44",y2:"37",stroke:dk,strokeWidth:"3"}),
+      React.createElement("path",{key:"sm",d:"M33 53 Q40 57 47 53",stroke:dk,strokeWidth:"2.5",fill:"none",strokeLinecap:"round"}),
+    ];
+  } else if (mood === "detective" || mood === "thinking") {
+    extras = [
+      // hat brim
+      React.createElement("ellipse",{key:"hb",cx:"40",cy:"19",rx:"23",ry:"5",fill:"#5C3D1A",stroke:dk,strokeWidth:"2"}),
+      // hat body
+      React.createElement("rect",{key:"hd",x:"24",y:"6",width:"32",height:"16",rx:"5",fill:"#5C3D1A",stroke:dk,strokeWidth:"2"}),
+      // magnifier ring
+      React.createElement("circle",{key:"mr",cx:"62",cy:"52",r:"9",fill:"none",stroke:dk,strokeWidth:"3"}),
+      // magnifier handle
+      React.createElement("line",{key:"mh",x1:"68",y1:"58",x2:"75",y2:"65",stroke:dk,strokeWidth:"3",strokeLinecap:"round"}),
+      // happy mouth
+      React.createElement("path",{key:"mo",d:"M31 52 Q40 59 49 52",stroke:dk,strokeWidth:"2.5",fill:"none",strokeLinecap:"round"}),
+    ];
+  } else if (mood === "proud" || mood === "excited") {
+    extras = [
+      // big smile
+      React.createElement("path",{key:"sm",d:"M28 52 Q40 62 52 52",stroke:dk,strokeWidth:"2.5",fill:"none",strokeLinecap:"round"}),
+      // gold coin
+      React.createElement("circle",{key:"c1",cx:"65",cy:"48",r:"10",fill:gold,stroke:dk,strokeWidth:"2.5"}),
+      React.createElement("text",{key:"ct",x:"65",y:"53",textAnchor:"middle",fontSize:"9",fill:dk,fontWeight:"900"},"฿"),
+      // sparkle
+      React.createElement("path",{key:"sp",d:"M10 30 L11 26 L12 30 L16 31 L12 32 L11 36 L10 32 L6 31 Z",fill:gold}),
+      React.createElement("path",{key:"sp2",d:"M66 18 L67 15 L68 18 L71 19 L68 20 L67 23 L66 20 L63 19 Z",fill:gold}),
+    ];
+  } else if (mood === "budgeting" || mood === "cheer") {
+    extras = [
+      // round glasses
+      React.createElement("circle",{key:"glL",cx:"25",cy:"36",r:"7",fill:"none",stroke:dk,strokeWidth:"2.5"}),
+      React.createElement("circle",{key:"glR",cx:"51",cy:"36",r:"7",fill:"none",stroke:dk,strokeWidth:"2.5"}),
+      React.createElement("line",{key:"glC",x1:"32",y1:"36",x2:"44",y2:"36",stroke:dk,strokeWidth:"2"}),
+      // small notebook
+      React.createElement("rect",{key:"nb",x:"57",y:"42",width:"14",height:"18",rx:"2",fill:"#fff",stroke:dk,strokeWidth:"2"}),
+      React.createElement("line",{key:"nl1",x1:"59",y1:"48",x2:"69",y2:"48",stroke:dk,strokeWidth:"1.5"}),
+      React.createElement("line",{key:"nl2",x1:"59",y1:"53",x2:"69",y2:"53",stroke:dk,strokeWidth:"1.5"}),
+      React.createElement("path",{key:"mo",d:"M31 52 Q40 58 49 52",stroke:dk,strokeWidth:"2.5",fill:"none",strokeLinecap:"round"}),
+    ];
+  } else if (mood === "sad" || mood === "crying") {
+    extras = [
+      // sad mouth
+      React.createElement("path",{key:"sm",d:"M32 57 Q40 52 48 57",stroke:dk,strokeWidth:"2.5",fill:"none",strokeLinecap:"round"}),
+      // tears
+      React.createElement("ellipse",{key:"t1",cx:"24",cy:"48",rx:"2.5",ry:"4",fill:"#6BBDF5",opacity:"0.9"}),
+      React.createElement("ellipse",{key:"t2",cx:"53",cy:"48",rx:"2.5",ry:"4",fill:"#6BBDF5",opacity:"0.9"}),
+    ];
+  } else if (mood === "tip") {
+    extras = [
+      React.createElement("path",{key:"mo",d:"M31 52 Q40 58 49 52",stroke:dk,strokeWidth:"2.5",fill:"none",strokeLinecap:"round"}),
+      React.createElement("text",{key:"q1",x:"58",y:"28",fontSize:"13",fill:gold,fontWeight:"900"},"?"),
+      React.createElement("text",{key:"q2",x:"64",y:"20",fontSize:"9",fill:gold,fontWeight:"900"},"?"),
+    ];
+  } else {
+    // happy default
+    extras = [
+      React.createElement("path",{key:"mo",d:"M31 52 Q40 59 49 52",stroke:dk,strokeWidth:"2.5",fill:"none",strokeLinecap:"round"}),
+      React.createElement("path",{key:"sp",d:"M63 22 L64 18 L65 22 L69 23 L65 24 L64 28 L63 24 L59 23 Z",fill:gold}),
+    ];
+  }
+
+  return React.createElement.apply(React, ["svg", {
+    width: sz, height: sz, viewBox:"0 0 80 80", fill:"none",
+    xmlns:"http://www.w3.org/2000/svg",
+    className: "sl-mascot"
+  }].concat(base).concat(extras));
+}
+
+// ── Hero Card ─────────────────────────────────────────────────────────────────
+function HeroCard(props) {
+  var mood = props.mood || "happy";
+  var title = props.title || "";
+  var sub = props.sub;
+  var spicy = props.spicy;
+  var accent = props.accent || G;
+
+  return React.createElement("div", {
+    className: "sl-hero",
+    style: {
+      background: spicy ? "#0d2a10" : accent + "20",
+      border: "2.5px solid " + DARK,
+      borderRadius: 20,
+      padding: "14px 16px",
+      marginBottom: 14,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between",
+      boxShadow: "4px 4px 0 rgba(26,61,31,.15)",
+      overflow: "hidden",
+      position: "relative"
+    }
+  },
+  React.createElement("div", { style: { flex: 1, paddingRight: 8 } },
+    React.createElement("div", {
+      style: {
+        fontSize: 10, fontWeight: 900, color: spicy ? G + "99" : DARK + "66",
+        letterSpacing: ".1em", marginBottom: 4, textTransform: "uppercase"
+      }
+    }, "✦ salung says"),
+    React.createElement("div", {
+      style: {
+        fontSize: 16, fontWeight: 900, color: spicy ? "#e8f5e8" : DARK,
+        lineHeight: 1.3
+      }
+    }, title),
+    sub && React.createElement("div", {
+      style: {
+        fontSize: 11, fontWeight: 700,
+        color: spicy ? "#88aa88" : MID,
+        marginTop: 5, lineHeight: 1.5
+      }
+    }, sub)
+  ),
+  React.createElement(SalungMascot, { mood: spicy ? "cool" : mood, size: 80 })
+  );
+}
+
 function CashFlow(_ref1) {
   var spicy = _ref1.spicy;
   var liffUid = useLiffUid();
@@ -1122,7 +1267,13 @@ function CashFlow(_ref1) {
     label: "\u0E1A\u0E31\u0E19\u0E17\u0E36\u0E01".concat(type === "income" ? "รายรับ" : "รายจ่าย"),
     disabled: !amt || Number(amt) <= 0,
     onClick: submit
-  }))), /*#__PURE__*/React.createElement(NBA, {
+  }))), /*#__PURE__*/React.createElement(HeroCard, {
+  mood: "happy",
+  title: "\u0E40\u0E14\u0E37\u0E2D\u0E19\u0E19\u0E35\u0E49\u0E22\u0E31\u0E07\u0E40\u0E2B\u0E25\u0E37\u0E2D\u0E43\u0E0A\u0E49\u0E44\u0E14\u0E49\u0E08\u0E23\u0E34\u0E07",
+  sub: "\u0E23\u0E32\u0E22\u0E23\u0E31\u0E1A - \u0E23\u0E32\u0E22\u0E08\u0E48\u0E32\u0E22 = \u0E2A\u0E34\u0E48\u0E07\u0E17\u0E35\u0E48\u0E40\u0E2B\u0E25\u0E37\u0E2D\u0E08\u0E23\u0E34\u0E07",
+  accent: G,
+  spicy: spicy
+}), /*#__PURE__*/React.createElement(NBA, {
     text: nbaText,
     actionLabel: "+ \u0E1A\u0E31\u0E19\u0E17\u0E36\u0E01\u0E23\u0E32\u0E22\u0E01\u0E32\u0E23",
     onAction: function onAction() {
@@ -2496,7 +2647,13 @@ function Debt(_ref21) {
       cursor: "pointer",
       marginBottom: 10
     }
-  }, "+ \u0E08\u0E14\u0E2B\u0E19\u0E35\u0E49\u0E43\u0E2B\u0E21\u0E48"), /*#__PURE__*/React.createElement(NBA, {
+  }, "+ \u0E08\u0E14\u0E2B\u0E19\u0E35\u0E49\u0E43\u0E2B\u0E21\u0E48"), /*#__PURE__*/React.createElement(HeroCard, {
+  mood: "detective",
+  title: "\u0E27\u0E31\u0E19\u0E1B\u0E25\u0E14\u0E41\u0E2D\u0E01\u0E02\u0E2D\u0E07\u0E40\u0E18\u0E2D",
+  sub: "\u0E44\u0E02\u0E2B\u0E19\u0E35\u0E49\u0E17\u0E35\u0E25\u0E30\u0E19\u0E49\u0E2D\u0E22 \u0E16\u0E36\u0E07\u0E2B\u0E21\u0E14\u0E40\u0E23\u0E47\u0E27\u0E01\u0E27\u0E48\u0E32\u0E17\u0E35\u0E48\u0E04\u0E34\u0E14",
+  accent: GOLD,
+  spicy: spicy
+}), /*#__PURE__*/React.createElement(NBA, {
     mood: "thinking",
     spicy: spicy,
     text: function () {
@@ -3328,7 +3485,13 @@ function More(_ref23) {
     icon: "🗑️",
     label: "ลบข้อมูลของฉัน"
   }];
-  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(Card, {
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(HeroCard, {
+  mood: "budgeting",
+  title: "\u0E2A\u0E27\u0E31\u0E2A\u0E14\u0E35 " + (profile.name || ""), 
+  sub: "Zone " + profile.zone,
+  accent: GOLD,
+  spicy: spicy
+}), /*#__PURE__*/React.createElement(Card, {
     style: {
       background: spicy ? DARK : CREAM
     }
@@ -4247,7 +4410,13 @@ function SaveGoal(_ref24) {
     label: "\u0E40\u0E1E\u0E34\u0E48\u0E21 \u0E3F".concat(fAmt ? Number(fAmt).toLocaleString() : "—", " \u0E40\u0E02\u0E49\u0E32\u0E40\u0E1B\u0E49\u0E32\u0E2B\u0E21\u0E32\u0E22"),
     disabled: !fAmt || Number(fAmt) <= 0,
     onClick: submitFund
-  }))), /*#__PURE__*/React.createElement(NBA, {
+  }))), /*#__PURE__*/React.createElement(HeroCard, {
+  mood: "proud",
+  title: "\u0E40\u0E07\u0E34\u0E19\u0E2D\u0E2D\u0E21\u0E02\u0E2D\u0E07\u0E40\u0E18\u0E2D\u0E01\u0E33\u0E25\u0E31\u0E07\u0E42\u0E15",
+  sub: "\u0E17\u0E38\u0E01\u0E2A\u0E15\u0E32\u0E07\u0E40\u0E14\u0E35\u0E22\u0E27\u0E23\u0E38\u0E48\u0E07\u0E44\u0E1B\u0E44\u0E14\u0E49\u0E40\u0E23\u0E47\u0E27\u0E01\u0E27\u0E48\u0E32\u0E40\u0E14\u0E34\u0E19\u0E41\u0E1A\u0E1A\u0E19\u0E35\u0E49",
+  accent: G,
+  spicy: spicy
+}), /*#__PURE__*/React.createElement(NBA, {
     mood: "tip",
     spicy: spicy,
     text: saveSummary.emergencyPct < 100 ? "เติมกองทุนฉุกเฉินให้ครบ 3 เดือนก่อนเลย — ตอนนี้อยู่ที่ " + saveSummary.emergencyPct + "%" : "กองทุนฉุกเฉินครบแล้ว! ถัดไปโฟกัสเป้าหมายระยะยาวได้เลย 🎯"
@@ -4826,7 +4995,7 @@ function App() {
     _useState144 = _slicedToArray(_useState143, 2),
     spicyConfirm = _useState144[0],
     setSpicyConfirm = _useState144[1];
-  var bgColor = spicy ? "#0d1a0e" : CREAM;
+  var bgColor = spicy ? "#0d1a0e" : "#F0EBE1";
   var screens = {
     cashflow: /*#__PURE__*/React.createElement(CashFlow, {
       spicy: spicy
@@ -4855,7 +5024,7 @@ function App() {
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      background: spicy ? DARK : G,
+      background: spicy ? "#0d1a0e" : CREAM,
       height: "env(safe-area-inset-top, 0px)",
       minHeight: 0,
       transition: "background .3s"
@@ -4866,8 +5035,8 @@ function App() {
       display: "flex",
       justifyContent: "space-between",
       alignItems: "center",
-      background: spicy ? "linear-gradient(135deg,#0d2a10,#1A3D1F)" : "linear-gradient(135deg,#3DDB5A,#2D5A35)",
-      boxShadow: "0 4px 20px rgba(26,61,31,.18)",
+      background: spicy ? "#0d1a0e" : CREAM,
+      borderBottom: "2.5px solid " + DARK,
       transition: "background .3s"
     }
   },
@@ -4886,10 +5055,10 @@ function App() {
     ),
     /*#__PURE__*/React.createElement("div", null,
       /*#__PURE__*/React.createElement("div", {
-        style: { fontSize: 20, fontWeight: 900, color: "#fff", lineHeight: 1.1, letterSpacing: "-.01em" }
+        style: { fontSize: 20, fontWeight: 900, color: spicy ? G : DARK, lineHeight: 1.1, letterSpacing: "-.01em" }
       }, "Salung", spicy && /*#__PURE__*/React.createElement("span", { style: { fontSize: 13, marginLeft: 6 } }, "🌶️")),
       /*#__PURE__*/React.createElement("div", {
-        style: { fontSize: 10, fontWeight: 700, color: "rgba(255,255,255,.7)", letterSpacing: ".04em", marginTop: 1 }
+        style: { fontSize: 10, fontWeight: 700, color: spicy ? "#88aa88" : MID, letterSpacing: ".04em", marginTop: 1 }
       }, (TABS.find(function(t){ return t.id === tab; }) || {}).thai || "")
     )
   ),
@@ -4899,9 +5068,9 @@ function App() {
       display: "flex", alignItems: "center", gap: 5,
       padding: "6px 14px",
       fontSize: 11, fontWeight: 800,
-      background: spicy ? "rgba(255,107,107,.25)" : "rgba(255,255,255,.2)",
-      color: "#fff",
-      border: "1.5px solid rgba(255,255,255,.35)",
+      background: spicy ? "#FF6B6B22" : G + "22",
+      color: spicy ? "#FF6B6B" : DARK,
+      border: "1.5px solid " + (spicy ? "#FF6B6B" : DARK),
       borderRadius: 99, cursor: "pointer",
       transition: "all .2s"
     }
@@ -4998,12 +5167,12 @@ function App() {
     }
   }, screens[tab]), /*#__PURE__*/React.createElement("div", {
     style: {
-      background: spicy ? "#1a1a1a" : "#fff",
-      borderTop: "1px solid rgba(26,61,31,.08)",
+      background: spicy ? "#0d1a0e" : CREAM,
+      borderTop: "2.5px solid " + DARK,
       display: "grid",
       gridTemplateColumns: "repeat(4,1fr)",
       padding: "6px 8px calc(8px + env(safe-area-inset-bottom, 0px))",
-      boxShadow: "0 -4px 20px rgba(0,0,0,.06)",
+
       transition: "background .3s"
     }
   }, TABS.map(function (t) {
@@ -5029,7 +5198,7 @@ function App() {
         width: isActive ? 44 : 36,
         height: 32,
         borderRadius: 12,
-        background: isActive ? (spicy ? G + "22" : G + "22") : "transparent",
+        background: isActive ? (spicy ? DARK : GOLD) : "transparent",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
@@ -5055,7 +5224,7 @@ function App() {
         width: 20,
         height: 3,
         borderRadius: 99,
-        background: spicy ? G : DARK,
+        background: GOLD,
         transition: "all .2s"
       }
     }));
