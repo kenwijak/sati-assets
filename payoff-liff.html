@@ -1021,16 +1021,25 @@ function CashFlow(_ref1) {
   var d = PDATA[period];
   var CAT_MAP = {
     food: { label: "อาหาร", color: "#FF6B6B", icon: "🍚" },
-    travel: { label: "เดินทาง", color: "#4ECDC4", icon: "🚇" },
-    transport: { label: "เดินทาง", color: "#4ECDC4", icon: "🚇" },
+    travel: { label: "เดินทาง", color: "#4ECDC4", icon: "🚆" },
+    transport: { label: "เดินทาง", color: "#4ECDC4", icon: "🚆" },
     shop: { label: "ช้อปปิ้ง", color: G, icon: "🛍️" },
     shopping: { label: "ช้อปปิ้ง", color: G, icon: "🛍️" },
     entertain: { label: "บันเทิง", color: GOLD, icon: "🎮" },
     entertainment: { label: "บันเทิง", color: GOLD, icon: "🎮" },
     health: { label: "สุขภาพ", color: "#FF9F43", icon: "💊" },
-    bill: { label: "บิล/ยูทิลิตี้", color: "#A29BFE", icon: "📄" },
-    utilities: { label: "บิล/ยูทิลิตี้", color: "#A29BFE", icon: "📄" },
-    other: { label: "อื่นๆ", color: "#DFE6E9", icon: "📦" }
+    bill: { label: "บิล/ค่าน้ำไฟ", color: "#A29BFE", icon: "🧾" },
+    utilities: { label: "บิล/ค่าน้ำไฟ", color: "#A29BFE", icon: "🧾" },
+    education: { label: "การศึกษา", color: "#74B9FF", icon: "📚" },
+    savings: { label: "ออมเงิน", color: G, icon: "🌱" },
+    saving: { label: "ออมเงิน", color: G, icon: "🌱" },
+    debt_auto: { label: "ผ่อนรถ", color: "#FDCB6E", icon: "🚗" },
+    auto_debt: { label: "ผ่อนรถ", color: "#FDCB6E", icon: "🚗" },
+    car_loan: { label: "ผ่อนรถ", color: "#FDCB6E", icon: "🚗" },
+    debt_card: { label: "บัตรเครดิต", color: "#A29BFE", icon: "💳" },
+    credit_card: { label: "บัตรเครดิต", color: "#A29BFE", icon: "💳" },
+    income: { label: "รายรับ", color: G, icon: "💰" },
+    other: { label: "อื่น ๆ", color: "#DFE6E9", icon: "📦" }
   };
   var catTotals = {};
   (txns || []).forEach(function(tx) {
@@ -1157,7 +1166,7 @@ function CashFlow(_ref1) {
       });
       var newTx = {
         cat: type === "income" ? "💰" : ((CATS.find(function(c){ return c.id === cat; }) || {}).icon || "📦"),
-        category_id: cat,
+        category_id: category_id,
         note: note || cat,
         amt: type === "income" ? Number(amt) : -Number(amt),
         amount_thb: type === "income" ? Number(amt) : -Number(amt),
@@ -1386,12 +1395,128 @@ function CashFlow(_ref1) {
     spicy: spicy,
     mood: period === "month" ? "thinking" : "tip"
   }),
-  // ── Cash breakdown section
+  // ── Category section
   /*#__PURE__*/React.createElement(SectionHeader, { icon: "\uD83D\uDCB8", text: "\u0E40\u0E07\u0E34\u0E19\u0E44\u0E2B\u0E25\u0E44\u0E1B\u0E17\u0E32\u0E07\u0E44\u0E2B\u0E19 \u2728", spicy: spicy }),
-  // Monthly alloc card or day/week mini summary
-  period === "month" ? /*#__PURE__*/React.createElement(Card, {
-    style: { background: spicy ? DARK : CREAM }
-  }, /*#__PURE__*/React.createElement("div", {
+  /*#__PURE__*/React.createElement(Card, null,
+    cats.length === 0 ? /*#__PURE__*/React.createElement("div", {
+    style: { textAlign: "center", padding: "16px 0" }
+  },
+  /*#__PURE__*/React.createElement(SalungMascot, { mood: "budgeting", size: 56 }),
+  /*#__PURE__*/React.createElement("div", {
+    style: { fontSize: 12, fontWeight: 900, color: DARK, marginTop: 8, marginBottom: 4 }
+  }, "\u0E22\u0E31\u0E07\u0E44\u0E21\u0E48\u0E21\u0E35\u0E23\u0E32\u0E22\u0E08\u0E48\u0E32\u0E22\u0E41\u0E22\u0E01\u0E2B\u0E21\u0E27\u0E14"),
+  /*#__PURE__*/React.createElement("div", {
+    style: { fontSize: 11, color: MID, fontWeight: 700, lineHeight: 1.6 }
+  }, "\u0E1A\u0E31\u0E19\u0E17\u0E36\u0E01\u0E23\u0E32\u0E22\u0E01\u0E32\u0E23\u0E41\u0E23\u0E01\u0E01\u0E48\u0E2D\u0E19 \u0E41\u0E25\u0E49\u0E27 Salung \u0E08\u0E30\u0E2A\u0E23\u0E38\u0E1B\u0E43\u0E2B\u0E49\u0E40\u0E2D\u0E07 \uD83E\uDDFE")
+) : cats.map(function (c) {
+    var pct = c.max > 0 ? Math.round(c.val / c.max * 100) : 0;
+    return /*#__PURE__*/React.createElement("div", {
+      key: c.label,
+      style: { marginBottom: 10 }
+    },
+      /*#__PURE__*/React.createElement("div", {
+        style: { display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }
+      },
+        /*#__PURE__*/React.createElement("span", { style: { fontSize: 16, width: 22, textAlign: "center", flexShrink: 0 } }, c.icon),
+        /*#__PURE__*/React.createElement("span", {
+          style: { flex: 1, fontSize: 12, fontWeight: 700, color: spicy ? "#ccc" : DARK }
+        }, c.label),
+        /*#__PURE__*/React.createElement("span", {
+          style: { fontSize: 10, fontWeight: 700, color: spicy ? "#88aa88" : "#aaa", marginRight: 6 }
+        }, pct + "%"),
+        /*#__PURE__*/React.createElement("span", {
+          style: { fontSize: 12, fontWeight: 900, color: spicy ? "#FF9999" : "#E53E3E" }
+        }, "\u0E3F", c.val.toLocaleString())
+      ),
+      /*#__PURE__*/React.createElement(Bar, { pct: Math.min(100, pct), color: c.color })
+    );
+  })
+  ),
+  // ── Transaction list
+  /*#__PURE__*/React.createElement(Card, {
+    style: {
+      padding: "12px 12px 6px"
+    }
+  },
+  React.createElement(SectionHeader, { icon: "\uD83D\uDCCB", text: "\u0E23\u0E32\u0E22\u0E01\u0E32\u0E23\u0E25\u0E48\u0E32\u0E2A\u0E38\u0E14", spicy: spicy }),
+  txns.length === 0 && /*#__PURE__*/React.createElement("div", {
+    style: { textAlign: "center", padding: "20px 16px 24px" }
+  },
+    /*#__PURE__*/React.createElement(SalungMascot, { mood: "budgeting", size: 64 }),
+    /*#__PURE__*/React.createElement("div", {
+      style: { fontSize: 13, fontWeight: 900, color: DARK, marginTop: 10, marginBottom: 4 }
+    }, "\u0E22\u0E31\u0E07\u0E44\u0E21\u0E48\u0E21\u0E35\u0E23\u0E32\u0E22\u0E01\u0E32\u0E23\u0E27\u0E31\u0E19\u0E19\u0E35\u0E49"),
+    /*#__PURE__*/React.createElement("div", {
+      style: { fontSize: 11, color: MID, fontWeight: 700, lineHeight: 1.6, marginBottom: 12 }
+    }, "\u0E40\u0E23\u0E34\u0E48\u0E21\u0E08\u0E32\u0E01\u0E01\u0E32\u0E41\u0E1F\u0E41\u0E01\u0E49\u0E27\u0E41\u0E23\u0E01\u0E01\u0E47\u0E44\u0E14\u0E49 Salung \u0E08\u0E30\u0E08\u0E33\u0E43\u0E2B\u0E49\u0E40\u0E2D\u0E07 \u2615"),
+    /*#__PURE__*/React.createElement("button", {
+      onClick: function() { setSheet(true); },
+      style: {
+        padding: "10px 24px", fontSize: 13, fontWeight: 900,
+        background: GOLD, color: DARK, border: "2px solid " + DARK,
+        borderRadius: 99, cursor: "pointer", boxShadow: "2px 2px 0 " + DARK
+      }
+    }, "+ \u0E1A\u0E31\u0E19\u0E17\u0E36\u0E01\u0E23\u0E32\u0E22\u0E01\u0E32\u0E23")
+  ),
+  txns.map(function (t, i) {
+    return /*#__PURE__*/React.createElement("div", {
+      key: i,
+      style: {
+        display: "flex",
+        alignItems: "center",
+        gap: 10,
+        padding: "9px 0",
+        borderBottom: i < txns.length - 1 ? "1px solid #f0f0f0" : "none"
+      }
+    }, /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 16
+      }
+    }, t.cat), /*#__PURE__*/React.createElement("div", {
+      style: {
+        flex: 1
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 12,
+        fontWeight: 700,
+        color: DARK
+      }
+    }, t.note), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 10,
+        color: "#aaa"
+      }
+    }, t.time)), /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 13,
+        fontWeight: 900,
+        color: t.amt > 0 ? G : "#E53E3E",
+        marginRight: 4
+      }
+    }, t.amt > 0 ? "+" : "", "\u0E3F", Math.abs(t.amt).toLocaleString()), /*#__PURE__*/React.createElement("button", {
+      onClick: function onClick() {
+        return deleteTx(t, i);
+      },
+      style: {
+        background: "none",
+        border: "none",
+        cursor: "pointer",
+        fontSize: 14,
+        color: "#ccc",
+        padding: "2px 4px",
+        flexShrink: 0
+      }
+    }, "\u2715"));
+  })
+  ),
+  // ── Monthly breakdown (at bottom)
+  period === "month" && /*#__PURE__*/React.createElement(React.Fragment, null,
+    /*#__PURE__*/React.createElement(SectionHeader, { icon: "\uD83D\uDCB0", text: "\u0E40\u0E07\u0E34\u0E19\u0E40\u0E14\u0E37\u0E2D\u0E19\u0E19\u0E35\u0E49\u0E44\u0E1B\u0E44\u0E2B\u0E19\u0E1A\u0E49\u0E32\u0E07?", spicy: spicy }),
+    /*#__PURE__*/React.createElement(Card, {
+      style: { background: spicy ? DARK : CREAM }
+    },
+    /*#__PURE__*/React.createElement("div", {
     style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }
   }, /*#__PURE__*/React.createElement("div", {
     style: { fontSize: 12, fontWeight: 900, color: spicy ? G : DARK }
@@ -1446,173 +1571,17 @@ function CashFlow(_ref1) {
     }, "\u0E3F", Math.max(0, d.net).toLocaleString())
   ),
   /*#__PURE__*/React.createElement(Bar, { pct: d.inc > 0 ? d.exp / d.inc * 100 : 0, color: G, height: 10 })
-  ) : /*#__PURE__*/React.createElement(Card, {
-    style: { background: spicy ? DARK : CREAM }
-  },
-    /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 8 } },
-      /*#__PURE__*/React.createElement("div", {
-        style: { flex: 1, background: spicy ? "#222" : "#fff", borderRadius: 12, border: "2px solid " + DARK, padding: "10px 12px" }
-      },
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 10, color: "#888", fontWeight: 600 } }, "\u0E23\u0E32\u0E22\u0E08\u0E48\u0E32\u0E22"),
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, fontWeight: 900, color: spicy ? "#FF9999" : "#E53E3E" } }, "-\u0E3F", d.exp.toLocaleString())
-      ),
-      /*#__PURE__*/React.createElement("div", {
-        style: { flex: 1, background: d.net >= 0 ? (spicy ? "#1a3a1a" : G + "22") : "#FFF0F0", borderRadius: 12, border: "2px solid " + DARK, padding: "10px 12px" }
-      },
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 10, color: "#888", fontWeight: 600 } }, d.netLabel),
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, fontWeight: 900, color: d.net >= 0 ? (spicy ? G : MID) : "#E53E3E" } }, d.net >= 0 ? "+" : "", "\u0E3F", d.net.toLocaleString())
-      )
     )
   ),
-  // ── View tabs (summary / transactions)
-  /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "flex",
-      border: "2px solid " + DARK,
-      borderRadius: 12,
-      overflow: "hidden",
-      marginBottom: 10,
-      marginTop: 8
-    }
-  }, [["summary", "\uD83D\uDCCA \u0E2A\u0E23\u0E38\u0E1B"], ["transactions", "\uD83D\uDCCB \u0E23\u0E32\u0E22\u0E01\u0E32\u0E23"]].map(function (_ref16) {
-    var _ref17 = _slicedToArray(_ref16, 2), id = _ref17[0], lbl = _ref17[1];
-    return /*#__PURE__*/React.createElement("button", {
-      key: id,
-      onClick: function onClick() { return setView(id); },
-      style: {
-        flex: 1, padding: "9px 0",
-        fontSize: 12, fontWeight: 800,
-        border: "none", cursor: "pointer",
-        transition: "all .15s",
-        background: view === id ? (spicy ? G : DARK) : (spicy ? "#222" : "#fff"),
-        color: view === id ? (spicy ? DARK : "#fff") : (spicy ? "#aaa" : "#888")
-      }
-    }, lbl);
-  })), view === "summary" ? /*#__PURE__*/React.createElement(Card, null, /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 12,
-      fontWeight: 800,
-      color: DARK,
-      marginBottom: 10
-    }
-  }, "\u0E23\u0E32\u0E22\u0E08\u0E48\u0E32\u0E22\u0E41\u0E22\u0E01\u0E2B\u0E21\u0E27\u0E14"),
-  /*#__PURE__*/React.createElement(SectionHeader, { icon: "\uD83E\uDDFE", text: "\u0E41\u0E22\u0E01\u0E15\u0E32\u0E21\u0E2B\u0E21\u0E27\u0E14", spicy: spicy }),
-  cats.length === 0 ? /*#__PURE__*/React.createElement("div", {
-    style: { textAlign: "center", padding: "16px 0" }
-  },
-  /*#__PURE__*/React.createElement(SalungMascot, { mood: "budgeting", size: 56 }),
-  /*#__PURE__*/React.createElement("div", {
-    style: { fontSize: 12, fontWeight: 900, color: DARK, marginTop: 8, marginBottom: 4 }
-  }, "ยังไม่มีรายจ่ายแยกหมวด"),
-  /*#__PURE__*/React.createElement("div", {
-    style: { fontSize: 11, color: MID, fontWeight: 700, lineHeight: 1.6 }
-  }, "บันทึกรายการแรกก่อน แล้ว Salung จะสรุปให้เอง 🧾")
-) : cats.map(function (c) {
-    var pct = c.max > 0 ? Math.round(c.val / c.max * 100) : 0;
-    return /*#__PURE__*/React.createElement("div", {
-      key: c.label,
-      style: { marginBottom: 10 }
-    },
-      /*#__PURE__*/React.createElement("div", {
-        style: { display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }
-      },
-        /*#__PURE__*/React.createElement("span", { style: { fontSize: 16, width: 22, textAlign: "center", flexShrink: 0 } }, c.icon),
-        /*#__PURE__*/React.createElement("span", {
-          style: { flex: 1, fontSize: 12, fontWeight: 700, color: spicy ? "#ccc" : DARK }
-        }, c.label),
-        /*#__PURE__*/React.createElement("span", {
-          style: { fontSize: 10, fontWeight: 700, color: spicy ? "#88aa88" : "#aaa", marginRight: 6 }
-        }, pct + "%"),
-        /*#__PURE__*/React.createElement("span", {
-          style: { fontSize: 12, fontWeight: 900, color: spicy ? "#FF9999" : "#E53E3E" }
-        }, "\u0E3F", c.val.toLocaleString())
-      ),
-      /*#__PURE__*/React.createElement(Bar, { pct: Math.min(100, pct), color: c.color })
-    );
-  })) : /*#__PURE__*/React.createElement(Card, {
-    style: {
-      padding: "12px 12px 6px"
-    }
-  }, React.createElement(SectionHeader, { icon: "📋", text: "รายการล่าสุด", spicy: spicy }),
-  txns.length === 0 && /*#__PURE__*/React.createElement("div", {
-    style: { textAlign: "center", padding: "20px 16px 24px" }
-  },
-    /*#__PURE__*/React.createElement(SalungMascot, { mood: "budgeting", size: 64 }),
-    /*#__PURE__*/React.createElement("div", {
-      style: { fontSize: 13, fontWeight: 900, color: DARK, marginTop: 10, marginBottom: 4 }
-    }, "ยังไม่มีรายการวันนี้"),
-    /*#__PURE__*/React.createElement("div", {
-      style: { fontSize: 11, color: MID, fontWeight: 700, lineHeight: 1.6, marginBottom: 12 }
-    }, "เริ่มจากกาแฟแก้วแรกก็ได้ Salung จะจำให้เอง ☕"),
-    /*#__PURE__*/React.createElement("button", {
-      onClick: function() { setSheet(true); },
-      style: {
-        padding: "10px 24px", fontSize: 13, fontWeight: 900,
-        background: GOLD, color: DARK, border: "2px solid " + DARK,
-        borderRadius: 99, cursor: "pointer", boxShadow: "2px 2px 0 " + DARK
-      }
-    }, "+ บันทึกรายการ")
-  ),
-  txns.map(function (t, i) {
-    return /*#__PURE__*/React.createElement("div", {
-      key: i,
-      style: {
-        display: "flex",
-        alignItems: "center",
-        gap: 10,
-        padding: "9px 0",
-        borderBottom: i < txns.length - 1 ? "1px solid #f0f0f0" : "none"
-      }
-    }, /*#__PURE__*/React.createElement("span", {
-      style: {
-        fontSize: 16
-      }
-    }, t.cat), /*#__PURE__*/React.createElement("div", {
-      style: {
-        flex: 1
-      }
-    }, /*#__PURE__*/React.createElement("div", {
-      style: {
-        fontSize: 12,
-        fontWeight: 700,
-        color: DARK
-      }
-    }, t.note), /*#__PURE__*/React.createElement("div", {
-      style: {
-        fontSize: 10,
-        color: "#aaa"
-      }
-    }, t.time)), /*#__PURE__*/React.createElement("span", {
-      style: {
-        fontSize: 13,
-        fontWeight: 900,
-        color: t.amt > 0 ? G : "#E53E3E",
-        marginRight: 4
-      }
-    }, t.amt > 0 ? "+" : "", "\u0E3F", Math.abs(t.amt).toLocaleString()), /*#__PURE__*/React.createElement("button", {
-      onClick: function onClick() {
-        return deleteTx(t, i);
-      },
-      style: {
-        background: "none",
-        border: "none",
-        cursor: "pointer",
-        fontSize: 14,
-        color: "#ccc",
-        padding: "2px 4px",
-        flexShrink: 0
-      }
-    }, "\u2715"));
-  })),
   /*#__PURE__*/React.createElement("button", {
     onClick: function() { setSheet(true); },
     style: {
       position: "fixed", right: 20, bottom: 88,
-      width: 52, height: 52,
+      width: 44, height: 44,
       borderRadius: 99,
       background: GOLD, color: DARK,
       border: "2.5px solid " + DARK,
-      fontSize: 24, fontWeight: 900,
+      fontSize: 22, fontWeight: 900,
       cursor: "pointer",
       boxShadow: "3px 3px 0 " + DARK,
       zIndex: 50,
@@ -3457,36 +3426,6 @@ function More(_ref23) {
   spicy: spicy
 }), /*#__PURE__*/React.createElement(Card, {
     style: {
-      background: spicy ? DARK : CREAM
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "flex",
-      alignItems: "center",
-      gap: 12
-    }
-  }, /*#__PURE__*/React.createElement(Face, {
-    size: 46,
-    mood: spicy ? "excited" : "happy"
-  }), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 14,
-      fontWeight: 900,
-      color: spicy ? G : DARK
-    }
-  }, "\u0E2A\u0E27\u0E31\u0E2A\u0E14\u0E35 ", profile.name, "! \uD83D\uDC4B"), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 11,
-      color: "#888"
-    }
-  }, "Zone: ", profile.zone), /*#__PURE__*/React.createElement("div", {
-    style: {
-      marginTop: 4
-    }
-  }, /*#__PURE__*/React.createElement(Tag, {
-    color: spicy ? G : GOLD
-  }, profile.zone))))), /*#__PURE__*/React.createElement(Card, {
-    style: {
       padding: "4px 14px"
     }
   }, items.map(function (item, i) {
@@ -4997,7 +4936,7 @@ function App() {
     }
   }), /*#__PURE__*/React.createElement("div", {
     style: {
-      padding: "10px 18px 14px",
+      padding: "8px 16px 10px",
       display: "flex",
       justifyContent: "space-between",
       alignItems: "center",
@@ -5007,10 +4946,10 @@ function App() {
     }
   },
   /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10 } },
-    /*#__PURE__*/React.createElement(SalungMascot, { mood: spicy ? "cool" : "happy", size: 44 }),
+    /*#__PURE__*/React.createElement(SalungMascot, { mood: spicy ? "cool" : "happy", size: 40 }),
     /*#__PURE__*/React.createElement("div", null,
       /*#__PURE__*/React.createElement("div", {
-        style: { fontSize: 18, fontWeight: 900, color: spicy ? G : DARK, lineHeight: 1.1, letterSpacing: "-.01em" }
+        style: { fontSize: 16, fontWeight: 900, color: spicy ? G : DARK, lineHeight: 1.1, letterSpacing: "-.01em" }
       }, "Salung 👋"),
       /*#__PURE__*/React.createElement("div", {
         style: { fontSize: 10, fontWeight: 700, color: spicy ? "#88aa88" : MID, letterSpacing: ".04em", marginTop: 1 }
@@ -5119,7 +5058,7 @@ function App() {
     id: "main-scroll",
     style: {
       flex: 1,
-      padding: "12px 16px 16px",
+      padding: "12px 16px 100px",
       overflowY: "auto"
     }
   }, screens[tab]), /*#__PURE__*/React.createElement("div", {
