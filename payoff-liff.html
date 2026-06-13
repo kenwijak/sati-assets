@@ -721,6 +721,10 @@ function HeroCard(props) {
   var sub = props.sub;
   var spicy = props.spicy;
   var accent = props.accent || G;
+  var bigNumber = props.bigNumber;
+  var numberColor = props.numberColor || (spicy ? G : DARK);
+  var barPct = props.barPct != null ? props.barPct : null;
+  var salungText = props.salungText;
 
   return React.createElement("div", {
     className: "sl-hero",
@@ -730,36 +734,57 @@ function HeroCard(props) {
       borderRadius: 20,
       padding: "14px 16px",
       marginBottom: 14,
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "space-between",
       boxShadow: "4px 4px 0 rgba(26,61,31,.15)",
       overflow: "hidden",
       position: "relative"
     }
   },
-  React.createElement("div", { style: { flex: 1, paddingRight: 8 } },
-    React.createElement("div", {
-      style: {
-        fontSize: 10, fontWeight: 900, color: spicy ? G + "99" : DARK + "66",
-        letterSpacing: ".1em", marginBottom: 4, textTransform: "uppercase"
-      }
-    }, "✦ salung says"),
-    React.createElement("div", {
-      style: {
-        fontSize: 16, fontWeight: 900, color: spicy ? "#e8f5e8" : DARK,
-        lineHeight: 1.3
-      }
-    }, title),
-    sub && React.createElement("div", {
-      style: {
-        fontSize: 11, fontWeight: 700,
-        color: spicy ? "#88aa88" : MID,
-        marginTop: 5, lineHeight: 1.5
-      }
-    }, sub)
-  ),
-  React.createElement(SalungMascot, { mood: spicy ? "cool" : mood, size: 80 })
+  React.createElement("div", { style: { display: "flex", alignItems: "center", justifyContent: "space-between" } },
+    React.createElement("div", { style: { flex: 1, paddingRight: 8 } },
+      React.createElement("div", {
+        style: {
+          fontSize: 10, fontWeight: 900, color: spicy ? G + "99" : DARK + "66",
+          letterSpacing: ".1em", marginBottom: 4, textTransform: "uppercase"
+        }
+      }, "✦ salung says"),
+      React.createElement("div", {
+        style: {
+          fontSize: bigNumber ? 11 : 16, fontWeight: 900,
+          color: spicy ? "#e8f5e8" : MID,
+          lineHeight: 1.3, marginBottom: bigNumber ? 2 : 0,
+          textTransform: "uppercase", letterSpacing: ".04em"
+        }
+      }, title),
+      bigNumber && React.createElement("div", {
+        style: {
+          fontSize: 30, fontWeight: 900, color: numberColor,
+          lineHeight: 1.1, letterSpacing: "-.02em", marginBottom: 4
+        }
+      }, bigNumber),
+      sub && React.createElement("div", {
+        style: {
+          fontSize: 11, fontWeight: 700,
+          color: spicy ? "#88aa88" : MID,
+          marginTop: bigNumber ? 0 : 5, lineHeight: 1.5
+        }
+      }, sub),
+      barPct != null && React.createElement("div", {
+        style: { marginTop: 7, background: spicy ? "#1a3d1f" : DARK + "15", borderRadius: 99, height: 6, overflow: "hidden", border: "1px solid " + DARK + "20" }
+      }, React.createElement("div", {
+        style: { width: Math.min(100, Math.max(0, barPct)) + "%", height: "100%", background: barPct > 85 ? "#FF6B6B" : accent, borderRadius: 99, transition: "width .5s" }
+      })),
+      salungText && React.createElement("div", {
+        style: {
+          fontSize: 10, fontWeight: 700,
+          color: spicy ? G + "88" : DARK + "66",
+          marginTop: 7, lineHeight: 1.5,
+          borderTop: "1px dashed " + (spicy ? G + "33" : DARK + "20"),
+          paddingTop: 6
+        }
+      }, "💬 " + salungText)
+    ),
+    React.createElement(SalungMascot, { mood: spicy ? "cool" : mood, size: 80 })
+  )
   );
 }
 
@@ -959,61 +984,32 @@ function CashFlow(_ref1) {
     }
   };
   var d = PDATA[period];
-  var cats = [{
-    label: "อาหาร",
-    val: {
-      day: 420,
-      week: 1890,
-      month: 4200
-    }[period],
-    color: "#FF6B6B",
-    max: {
-      day: 167,
-      week: 1167,
-      month: 5000
-    }[period]
-  }, {
-    label: "เดินทาง",
-    val: {
-      day: 260,
-      week: 980,
-      month: 2100
-    }[period],
-    color: "#4ECDC4",
-    max: {
-      day: 100,
-      week: 700,
-      month: 3000
-    }[period]
-  }, {
-    label: "ช้อปปิ้ง",
-    val: {
-      day: 0,
-      week: 650,
-      month: 3800
-    }[period],
-    color: G,
-    max: {
-      day: 0,
-      week: 700,
-      month: 3000
-    }[period]
-  }, {
-    label: "บันเทิง",
-    val: {
-      day: 0,
-      week: 320,
-      month: 1500
-    }[period],
-    color: GOLD,
-    max: {
-      day: 0,
-      week: 467,
-      month: 2000
-    }[period]
-  }].filter(function (c) {
-    return c.val > 0;
+  var CAT_MAP = {
+    food: { label: "อาหาร", color: "#FF6B6B" },
+    travel: { label: "เดินทาง", color: "#4ECDC4" },
+    transport: { label: "เดินทาง", color: "#4ECDC4" },
+    shop: { label: "ช้อปปิ้ง", color: G },
+    shopping: { label: "ช้อปปิ้ง", color: G },
+    entertain: { label: "บันเทิง", color: GOLD },
+    entertainment: { label: "บันเทิง", color: GOLD },
+    health: { label: "สุขภาพ", color: "#FF9F43" },
+    bill: { label: "บิล/ยูทิลิตี้", color: "#A29BFE" },
+    utilities: { label: "บิล/ยูทิลิตี้", color: "#A29BFE" },
+    other: { label: "อื่นๆ", color: "#DFE6E9" }
+  };
+  var catTotals = {};
+  (txns || []).forEach(function(tx) {
+    var amt = Number(tx.amount_thb || tx.amt || 0);
+    if (amt >= 0) return;
+    var k = (tx.category_id || tx.cat || "other").toLowerCase();
+    catTotals[k] = (catTotals[k] || 0) + Math.abs(amt);
   });
+  var cats = Object.keys(catTotals).filter(function(k) {
+    return catTotals[k] > 0;
+  }).map(function(k) {
+    var info = CAT_MAP[k] || { label: k, color: "#DFE6E9" };
+    return { label: info.label, val: catTotals[k], color: info.color, max: d.exp || 1 };
+  }).sort(function(a, b) { return b.val - a.val; }).slice(0, 5);
 
   // txns มาจาก state ด้านบน
 
@@ -1268,9 +1264,13 @@ function CashFlow(_ref1) {
     disabled: !amt || Number(amt) <= 0,
     onClick: submit
   }))), /*#__PURE__*/React.createElement(HeroCard, {
-  mood: "happy",
-  title: "\u0E40\u0E14\u0E37\u0E2D\u0E19\u0E19\u0E35\u0E49\u0E22\u0E31\u0E07\u0E40\u0E2B\u0E25\u0E37\u0E2D\u0E43\u0E0A\u0E49\u0E44\u0E14\u0E49\u0E08\u0E23\u0E34\u0E07",
-  sub: "\u0E23\u0E32\u0E22\u0E23\u0E31\u0E1A - \u0E23\u0E32\u0E22\u0E08\u0E48\u0E32\u0E22 = \u0E2A\u0E34\u0E48\u0E07\u0E17\u0E35\u0E48\u0E40\u0E2B\u0E25\u0E37\u0E2D\u0E08\u0E23\u0E34\u0E07",
+  mood: d.net >= 0 ? "happy" : "sad",
+  title: d.netLabel,
+  bigNumber: "\u0E3F" + Math.abs(Math.round(d.net)).toLocaleString(),
+  numberColor: d.net >= 0 ? G : "#FF6B6B",
+  barPct: d.inc > 0 ? Math.min(100, Math.round(d.exp / d.inc * 100)) : 0,
+  sub: d.inc > 0 ? "\u0E23\u0E31\u0E1A \u0E3F" + Math.round(d.inc).toLocaleString() + " \u00B7 \u0E08\u0E48\u0E32\u0E22 \u0E3F" + Math.round(d.exp).toLocaleString() : "\u0E1A\u0E31\u0E19\u0E17\u0E36\u0E01\u0E40\u0E07\u0E34\u0E19\u0E40\u0E14\u0E37\u0E2D\u0E19\u0E01\u0E48\u0E2D\u0E19\u0E40\u0E25\u0E22\u0E19\u0E30 \uD83D\uDCB0",
+  salungText: nbaText,
   accent: G,
   spicy: spicy
 }), /*#__PURE__*/React.createElement(NBA, {
@@ -1549,7 +1549,13 @@ function CashFlow(_ref1) {
       color: DARK,
       marginBottom: 10
     }
-  }, "\u0E23\u0E32\u0E22\u0E08\u0E48\u0E32\u0E22\u0E41\u0E22\u0E01\u0E2B\u0E21\u0E27\u0E14"), cats.map(function (c) {
+  }, "\u0E23\u0E32\u0E22\u0E08\u0E48\u0E32\u0E22\u0E41\u0E22\u0E01\u0E2B\u0E21\u0E27\u0E14"), cats.length === 0 ? /*#__PURE__*/React.createElement("div", {
+    style: { textAlign: "center", padding: "16px 0", color: MID, fontSize: 12, fontWeight: 700, lineHeight: 1.7 }
+  }, /*#__PURE__*/React.createElement("div", { style: { fontSize: 28, marginBottom: 6 } }, "\uD83E\uDDFE"),
+  "\u0E22\u0E31\u0E07\u0E44\u0E21\u0E48\u0E21\u0E35\u0E23\u0E32\u0E22\u0E08\u0E48\u0E32\u0E22\u0E41\u0E22\u0E01\u0E2B\u0E21\u0E27\u0E14\u0E43\u0E19\u0E0A\u0E48\u0E27\u0E07\u0E19\u0E35\u0E49",
+  /*#__PURE__*/React.createElement("br", null),
+  "\u0E1A\u0E31\u0E19\u0E17\u0E36\u0E01\u0E23\u0E32\u0E22\u0E01\u0E32\u0E23\u0E41\u0E23\u0E01\u0E44\u0E14\u0E49\u0E40\u0E25\u0E22 \uD83E\uDDFE"
+) : cats.map(function (c) {
     return /*#__PURE__*/React.createElement("div", {
       key: c.label,
       style: {
@@ -2648,9 +2654,11 @@ function Debt(_ref21) {
       marginBottom: 10
     }
   }, "+ \u0E08\u0E14\u0E2B\u0E19\u0E35\u0E49\u0E43\u0E2B\u0E21\u0E48"), /*#__PURE__*/React.createElement(HeroCard, {
-  mood: "detective",
-  title: "\u0E27\u0E31\u0E19\u0E1B\u0E25\u0E14\u0E41\u0E2D\u0E01\u0E02\u0E2D\u0E07\u0E40\u0E18\u0E2D",
-  sub: "\u0E44\u0E02\u0E2B\u0E19\u0E35\u0E49\u0E17\u0E35\u0E25\u0E30\u0E19\u0E49\u0E2D\u0E22 \u0E16\u0E36\u0E07\u0E2B\u0E21\u0E14\u0E40\u0E23\u0E47\u0E27\u0E01\u0E27\u0E48\u0E32\u0E17\u0E35\u0E48\u0E04\u0E34\u0E14",
+  mood: debts.length ? "detective" : "happy",
+  title: debts.length ? "\u0E27\u0E31\u0E19\u0E1B\u0E25\u0E14\u0E41\u0E2D\u0E01\u0E02\u0E2D\u0E07\u0E40\u0E18\u0E2D" : "\u0E44\u0E21\u0E48\u0E21\u0E35\u0E2B\u0E19\u0E35\u0E49\u0E40\u0E25\u0E22! \uD83C\uDF89",
+  bigNumber: debts.length ? freeDate : "\u2014",
+  sub: debts.length ? "\u0E40\u0E2B\u0E25\u0E37\u0E2D\u0E2D\u0E35\u0E01 " + monthsLeft + " \u0E40\u0E14\u0E37\u0E2D\u0E19 \u00B7 \u0E2B\u0E19\u0E35\u0E49\u0E23\u0E27\u0E21 \u0E3F" + Math.round(totalDebt).toLocaleString() : "\u0E44\u0E21\u0E48\u0E21\u0E35\u0E2B\u0E19\u0E35\u0E49\u0E01\u0E47\u0E14\u0E35\u0E21\u0E32\u0E01 \u0E16\u0E49\u0E32\u0E21\u0E35 \u0E08\u0E14\u0E44\u0E27\u0E49\u0E01\u0E48\u0E2D\u0E19\u0E19\u0E30",
+  salungText: debts.length ? "Salung \u0E08\u0E30\u0E0A\u0E48\u0E27\u0E22\u0E27\u0E32\u0E07\u0E41\u0E1C\u0E19\u0E1B\u0E25\u0E14\u0E2B\u0E19\u0E35\u0E49 \u0E04\u0E48\u0E2D\u0E22\u0E46 \u0E17\u0E33\u0E17\u0E35\u0E25\u0E30\u0E02\u0E31\u0E49\u0E19 \u0E40\u0E23\u0E32\u0E17\u0E33\u0E44\u0E14\u0E49!" : "Salung \u0E08\u0E30\u0E0A\u0E48\u0E27\u0E22\u0E27\u0E32\u0E07\u0E41\u0E1C\u0E19\u0E43\u0E2B\u0E49\u0E16\u0E49\u0E32\u0E40\u0E18\u0E2D\u0E21\u0E35\u0E2B\u0E19\u0E35\u0E49 \uD83D\uDD13",
   accent: GOLD,
   spicy: spicy
 }), /*#__PURE__*/React.createElement(NBA, {
@@ -4411,9 +4419,12 @@ function SaveGoal(_ref24) {
     disabled: !fAmt || Number(fAmt) <= 0,
     onClick: submitFund
   }))), /*#__PURE__*/React.createElement(HeroCard, {
-  mood: "proud",
-  title: "\u0E40\u0E07\u0E34\u0E19\u0E2D\u0E2D\u0E21\u0E02\u0E2D\u0E07\u0E40\u0E18\u0E2D\u0E01\u0E33\u0E25\u0E31\u0E07\u0E42\u0E15",
-  sub: "\u0E17\u0E38\u0E01\u0E2A\u0E15\u0E32\u0E07\u0E40\u0E14\u0E35\u0E22\u0E27\u0E23\u0E38\u0E48\u0E07\u0E44\u0E1B\u0E44\u0E14\u0E49\u0E40\u0E23\u0E47\u0E27\u0E01\u0E27\u0E48\u0E32\u0E40\u0E14\u0E34\u0E19\u0E41\u0E1A\u0E1A\u0E19\u0E35\u0E49",
+  mood: saveSummary.total > 0 ? "proud" : "budgeting",
+  title: saveSummary.total > 0 ? "\u0E40\u0E07\u0E34\u0E19\u0E2D\u0E2D\u0E21\u0E02\u0E2D\u0E07\u0E40\u0E18\u0E2D\u0E01\u0E33\u0E25\u0E31\u0E07\u0E42\u0E15" : "\u0E40\u0E23\u0E34\u0E48\u0E21\u0E2D\u0E2D\u0E21\u0E27\u0E31\u0E19\u0E19\u0E35\u0E49\u0E40\u0E25\u0E22\u0E19\u0E30 \uD83C\uDF31",
+  bigNumber: "\u0E3F" + Math.round(saveSummary.total).toLocaleString(),
+  barPct: saveSummary.emergencyPct,
+  sub: "\u0E09\u0E38\u0E01\u0E40\u0E09\u0E34\u0E19 " + Math.round(saveSummary.emergencyPct) + "% \u00B7 \u0E40\u0E14\u0E37\u0E2D\u0E19\u0E19\u0E35\u0E49\u0E1D\u0E32\u0E01 \u0E3F" + Math.round(saveSummary.thisMonth).toLocaleString(),
+  salungText: saveSummary.total > 0 ? "\u0E2D\u0E2D\u0E21\u0E44\u0E1B\u0E41\u0E25\u0E49\u0E27 \u0E3F" + Math.round(saveSummary.total).toLocaleString() + " \u0E40\u0E01\u0E48\u0E07\u0E21\u0E32\u0E01\u0E40\u0E25\u0E22! \uD83C\uDF1F" : "\u0E22\u0E31\u0E07\u0E44\u0E21\u0E48\u0E21\u0E35\u0E40\u0E1B\u0E49\u0E32\u0E2B\u0E21\u0E32\u0E22\u0E41\u0E23\u0E01 \u0E40\u0E23\u0E34\u0E48\u0E21\u0E40\u0E25\u0E22\u0E19\u0E30 \uD83C\uDF31",
   accent: G,
   spicy: spicy
 }), /*#__PURE__*/React.createElement(NBA, {
@@ -5041,40 +5052,28 @@ function App() {
     }
   },
   /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10 } },
-    /*#__PURE__*/React.createElement("svg", {
-      width: "40", height: "40", viewBox: "0 0 52 52", fill: "none",
-      xmlns: "http://www.w3.org/2000/svg",
-      style: { flexShrink: 0, filter: "drop-shadow(0 2px 6px rgba(0,0,0,.25))" }
-    },
-      /*#__PURE__*/React.createElement("ellipse", { cx: "26", cy: "34", rx: "18", ry: "15", fill: spicy ? "#222" : "#fff", stroke: spicy ? G : DARK, strokeWidth: "2.5" }),
-      /*#__PURE__*/React.createElement("rect", { x: "19", y: "19", width: "14", height: "8", rx: "3", fill: GOLD, stroke: spicy ? G : DARK, strokeWidth: "2.5" }),
-      /*#__PURE__*/React.createElement("circle", { cx: "26", cy: "16", r: "6", fill: GOLD, stroke: spicy ? G : DARK, strokeWidth: "2.5" }),
-      /*#__PURE__*/React.createElement("circle", { cx: "22", cy: "33", r: "2", fill: spicy ? G : DARK }),
-      /*#__PURE__*/React.createElement("circle", { cx: "30", cy: "33", r: "2", fill: spicy ? G : DARK }),
-      /*#__PURE__*/React.createElement("path", { d: "M21 38.5 Q26 42 31 38.5", stroke: spicy ? G : DARK, strokeWidth: "2", strokeLinecap: "round", fill: "none" })
-    ),
+    /*#__PURE__*/React.createElement(SalungMascot, { mood: spicy ? "cool" : "happy", size: 44 }),
     /*#__PURE__*/React.createElement("div", null,
       /*#__PURE__*/React.createElement("div", {
-        style: { fontSize: 20, fontWeight: 900, color: spicy ? G : DARK, lineHeight: 1.1, letterSpacing: "-.01em" }
-      }, "Salung", spicy && /*#__PURE__*/React.createElement("span", { style: { fontSize: 13, marginLeft: 6 } }, "🌶️")),
+        style: { fontSize: 18, fontWeight: 900, color: spicy ? G : DARK, lineHeight: 1.1, letterSpacing: "-.01em" }
+      }, "Salung วันนี้ว่าไง 👋"),
       /*#__PURE__*/React.createElement("div", {
         style: { fontSize: 10, fontWeight: 700, color: spicy ? "#88aa88" : MID, letterSpacing: ".04em", marginTop: 1 }
-      }, (TABS.find(function(t){ return t.id === tab; }) || {}).thai || "")
+      }, tab === "cashflow" ? "เช็กเงินเข้าออกให้แล้ว" : tab === "savegoal" ? "ปั้นเงินออมกับเป้าหมาย" : tab === "debt" ? "ค่อย ๆ ปลดแอกไปด้วยกัน" : "ตั้งค่าเพื่อนการเงินของเธอ")
     )
   ),
   /*#__PURE__*/React.createElement("button", {
     onClick: function onClick() { return setSpicyConfirm(true); },
     style: {
-      display: "flex", alignItems: "center", gap: 5,
-      padding: "6px 14px",
-      fontSize: 11, fontWeight: 800,
-      background: spicy ? "#FF6B6B22" : G + "22",
-      color: spicy ? "#FF6B6B" : DARK,
-      border: "1.5px solid " + (spicy ? "#FF6B6B" : DARK),
+      display: "flex", alignItems: "center",
+      padding: "4px 8px",
+      fontSize: 18, fontWeight: 800,
+      background: "transparent",
+      border: "none",
       borderRadius: 99, cursor: "pointer",
       transition: "all .2s"
     }
-  }, spicy ? "🌶️ Spicy" : "😊 Normal")), spicyConfirm && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
+  }, spicy ? "🌶️" : "😊")), spicyConfirm && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
     onClick: function onClick() {
       return setSpicyConfirm(false);
     },
