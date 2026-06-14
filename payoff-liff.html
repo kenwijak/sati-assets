@@ -419,6 +419,7 @@ function Success(_ref6) {
     title = _ref6.title,
     sub = _ref6.sub,
     onClose = _ref6.onClose,
+    onContinue = _ref6.onContinue,
     spicy = _ref6.spicy;
   return /*#__PURE__*/React.createElement("div", {
     style: {
@@ -450,7 +451,41 @@ function Success(_ref6) {
       marginBottom: 20,
       padding: "0 8px"
     }
-  }, sub), /*#__PURE__*/React.createElement("button", {
+  }, sub),
+  onContinue ? /*#__PURE__*/React.createElement(React.Fragment, null,
+    /*#__PURE__*/React.createElement("button", {
+      className: "sl-press",
+      onClick: onContinue,
+      style: {
+        width: "100%",
+        padding: "13px 0",
+        fontSize: 14,
+        fontWeight: 900,
+        background: G,
+        color: DARK,
+        border: "2px solid ".concat(DARK),
+        borderRadius: 99,
+        boxShadow: "0 4px 16px rgba(26,61,31,.18)",
+        cursor: "pointer",
+        marginBottom: 10
+      }
+    }, "\u0E1A\u0E31\u0E19\u0E17\u0E36\u0E01\u0E23\u0E32\u0E22\u0E01\u0E32\u0E23\u0E15\u0E48\u0E2D"),
+    /*#__PURE__*/React.createElement("button", {
+      className: "sl-press",
+      onClick: onClose,
+      style: {
+        width: "100%",
+        padding: "11px 0",
+        fontSize: 13,
+        fontWeight: 800,
+        background: "transparent",
+        color: DARK + "88",
+        border: "1.5px solid ".concat(DARK + "30"),
+        borderRadius: 99,
+        cursor: "pointer"
+      }
+    }, "\u0E23\u0E32\u0E22\u0E01\u0E32\u0E23\u0E17\u0E31\u0E49\u0E07\u0E2B\u0E21\u0E14")
+  ) : /*#__PURE__*/React.createElement("button", {
     className: "sl-press",
     onClick: onClose,
     style: {
@@ -482,12 +517,12 @@ function AmtInput(_ref7) {
   }, /*#__PURE__*/React.createElement("span", {
     style: {
       position: "absolute",
-      left: 12,
+      left: 16,
       top: "50%",
       transform: "translateY(-50%)",
-      fontSize: 14,
+      fontSize: 22,
       fontWeight: 900,
-      color: "#aaa"
+      color: DARK + "55"
     }
   }, "\u0E3F"), /*#__PURE__*/React.createElement("input", {
     type: "number",
@@ -498,8 +533,8 @@ function AmtInput(_ref7) {
     placeholder: placeholder,
     style: {
       width: "100%",
-      padding: "12px 12px 12px 32px",
-      fontSize: 20,
+      padding: "16px 16px 16px 52px",
+      fontSize: 28,
       fontWeight: 800,
       border: "2px solid ".concat(value ? G : "rgba(26,61,31,.12)"),
       borderRadius: 14,
@@ -564,7 +599,7 @@ function ConfirmBtn(_ref9) {
       color: disabled ? "#aaa" : DARK,
       border: "2.5px solid " + (disabled ? "#ddd" : DARK),
       borderRadius: 99,
-      boxShadow: disabled ? "none" : "3px 3px 0 " + DARK,
+      boxShadow: disabled ? "none" : "0 4px 16px rgba(26,61,31,.18)",
       cursor: disabled ? "default" : "pointer",
       letterSpacing: ".02em",
       transition: "transform .1s"
@@ -1514,13 +1549,19 @@ function CashFlow(_ref1) {
     onClose: function onClose() {
       setSheet(false);
       setDone(null);
+    },
+    onContinue: function() {
+      setDone(null);
+      setAmt("");
+      setCat(null);
+      setNote("");
     }
   }) : /*#__PURE__*/React.createElement(React.Fragment, null,
   /*#__PURE__*/React.createElement("div", {
-    style: { display: "flex", alignItems: "center", gap: 8, marginBottom: 16 }
+    style: { display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 20 }
   },
-    /*#__PURE__*/React.createElement(MascotAsset, { context: "header", variant: "inline" }),
-    /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, fontWeight: 900, color: DARK } }, "\u0E1A\u0E31\u0E19\u0E17\u0E36\u0E01\u0E23\u0E32\u0E22\u0E01\u0E32\u0E23")
+    /*#__PURE__*/React.createElement("div", { style: { fontSize: 17, fontWeight: 900, color: DARK } }, "\u0E1A\u0E31\u0E19\u0E17\u0E36\u0E01\u0E23\u0E32\u0E22\u0E01\u0E32\u0E23"),
+    /*#__PURE__*/React.createElement("button", { onClick: function() { setSheet(false); setDone(null); }, style: { background: "none", border: "none", fontSize: 22, lineHeight: 1, color: DARK + "88", cursor: "pointer", padding: "2px 8px", borderRadius: 8 } }, "\u00D7")
   ),
   /*#__PURE__*/React.createElement("div", {
     style: {
@@ -1542,12 +1583,12 @@ function CashFlow(_ref1) {
         padding: "11px 0",
         fontSize: 13,
         fontWeight: 900,
-        border: "2px solid " + DARK,
+        border: "1.5px solid " + (type === id ? G : DARK + "20"),
         borderRadius: 99,
         cursor: "pointer",
-        background: type === id ? DARK : "#fff",
-        color: type === id ? "#fff" : "#888",
-        boxShadow: type === id ? "2px 2px 0 " + DARK : "none",
+        background: type === id ? G + "28" : "#fafaf8",
+        color: type === id ? DARK : DARK + "55",
+        boxShadow: "none",
         transition: "all .15s"
       }
     }, lbl);
@@ -1558,7 +1599,7 @@ function CashFlow(_ref1) {
       color: DARK,
       marginBottom: 6
     }
-  }, "\u0E08\u0E33\u0E19\u0E27\u0E19"), /*#__PURE__*/React.createElement(AmtInput, {
+  }, "\u0E08\u0E33\u0E19\u0E27\u0E19\u0E40\u0E07\u0E34\u0E19"), /*#__PURE__*/React.createElement(AmtInput, {
     value: amt,
     onChange: setAmt
   }), type === "expense" && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
@@ -1568,7 +1609,7 @@ function CashFlow(_ref1) {
       color: DARK,
       marginBottom: 8
     }
-  }, "\u0E2B\u0E21\u0E27\u0E14"), /*#__PURE__*/React.createElement("div", {
+  }, "\u0E2B\u0E21\u0E27\u0E14\u0E2B\u0E21\u0E39\u0E48"), /*#__PURE__*/React.createElement("div", {
     style: {
       display: "grid",
       gridTemplateColumns: "repeat(4,1fr)",
@@ -1585,14 +1626,14 @@ function CashFlow(_ref1) {
       },
       style: {
         padding: "10px 0",
-        background: cat === c.id ? GOLD : CREAM,
-        color: DARK,
-        border: "2px solid " + (cat === c.id ? DARK : "transparent"),
+        background: cat === c.id ? G + "28" : CREAM,
+        color: cat === c.id ? DARK : DARK + "99",
+        border: "1.5px solid " + (cat === c.id ? G : "transparent"),
         borderRadius: 99,
         cursor: "pointer",
         fontSize: 11,
         fontWeight: 800,
-        boxShadow: cat === c.id ? "2px 2px 0 " + DARK : "none",
+        boxShadow: "none",
         transition: "all .15s"
       }
     }, /*#__PURE__*/React.createElement("div", {
@@ -1604,8 +1645,8 @@ function CashFlow(_ref1) {
   }))), /*#__PURE__*/React.createElement(TextInput, {
     value: note,
     onChange: setNote,
-    label: "\u0E42\u0E19\u0E49\u0E15 (\u0E44\u0E21\u0E48\u0E1A\u0E31\u0E07\u0E04\u0E31\u0E1A)",
-    placeholder: "\u0E40\u0E0A\u0E48\u0E19 \u0E01\u0E32\u0E41\u0E1F, Grab, \u0E40\u0E07\u0E34\u0E19\u0E40\u0E14\u0E37\u0E2D\u0E19"
+    label: "\u0E1A\u0E31\u0E19\u0E17\u0E36\u0E01\u0E40\u0E1E\u0E34\u0E48\u0E21\u0E40\u0E15\u0E34\u0E21 (\u0E44\u0E21\u0E48\u0E1A\u0E31\u0E07\u0E04\u0E31\u0E1A)",
+    placeholder: "\u0E40\u0E0A\u0E48\u0E19 \u0E02\u0E49\u0E32\u0E27\u0E1C\u0E31\u0E14, 7-11, Grab"
   }), /*#__PURE__*/React.createElement("div", {
     style: {
       position: "sticky", bottom: 0,
