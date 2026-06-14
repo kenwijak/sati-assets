@@ -989,11 +989,11 @@ function HeroCard(props) {
     className: "sl-hero",
     style: {
       background: spicy ? "linear-gradient(145deg, #0f2d12 0%, #0a2209 100%)" : accent + "20",
-      border: "2.5px solid " + DARK,
+      border: "1.5px solid " + DARK + "22",
       borderRadius: 24,
-      padding: "14px 16px",
+      padding: "18px 16px 14px",
       marginBottom: 14,
-      boxShadow: "inset 0 1px 0 rgba(255,255,255,.3), 4px 4px 0 rgba(26,61,31,.18), 0 8px 28px rgba(26,61,31,.09)",
+      boxShadow: "0 2px 16px rgba(26,61,31,.08), inset 0 1px 0 rgba(255,255,255,.4)",
       overflow: "hidden",
       position: "relative"
     }
@@ -1005,7 +1005,7 @@ function HeroCard(props) {
           fontSize: bigNumber ? 13 : 16, fontWeight: 900,
           color: spicy ? "#e8f5e8" : MID,
           lineHeight: 1.3, marginBottom: bigNumber ? 2 : 0,
-          textTransform: "uppercase", letterSpacing: ".04em"
+          letterSpacing: ".01em"
         }
       }, title),
       bigNumber && React.createElement("div", {
@@ -1035,11 +1035,12 @@ function HeroCard(props) {
       ),
       salungText && React.createElement("div", {
         style: {
-          fontSize: 10, fontWeight: 700,
-          color: spicy ? G + "88" : DARK + "66",
-          marginTop: 7, lineHeight: 1.5,
-          borderTop: "1px dashed " + (spicy ? G + "33" : DARK + "20"),
-          paddingTop: 6
+          marginTop: 10, padding: "6px 11px",
+          background: spicy ? "#122714" : "#fff",
+          border: "1.5px solid " + (spicy ? G + "44" : DARK + "18"),
+          borderRadius: 12,
+          fontSize: 11, fontWeight: 700, lineHeight: 1.5,
+          color: spicy ? G + "cc" : DARK + "88"
         }
       }, "💬 " + salungText)
     ),
@@ -1671,11 +1672,11 @@ function CashFlow(_ref1) {
         flex: 1, padding: "10px 0",
         fontSize: 13, fontWeight: 900,
         cursor: "pointer", borderRadius: 99,
-        border: "2px solid " + DARK,
+        border: period === id ? "1.5px solid " + G : "1.5px solid " + DARK + "20",
         transition: "all .15s",
-        background: period === id ? (spicy ? G : G) : (spicy ? "#222" : "#fafaf8"),
-        color: period === id ? (spicy ? DARK : "#fff") : (spicy ? "#aaa" : DARK + "99"),
-        boxShadow: period === id ? "1px 1px 0 " + DARK + "88" : "none"
+        background: period === id ? (spicy ? G + "33" : G + "28") : (spicy ? "#222" : "#fafaf8"),
+        color: period === id ? DARK : (spicy ? "#aaa" : DARK + "88"),
+        boxShadow: "none"
       }
     }, lbl);
   })),
@@ -1752,12 +1753,12 @@ function CashFlow(_ref1) {
     var pct = c.max > 0 ? Math.round(c.val / c.max * 100) : 0;
     return /*#__PURE__*/React.createElement("div", {
       key: c.label,
-      style: { marginBottom: 10 }
+      style: { marginBottom: 8 }
     },
       /*#__PURE__*/React.createElement("div", {
-        style: { display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }
+        style: { display: "flex", alignItems: "center", gap: 6, marginBottom: 3 }
       },
-        /*#__PURE__*/React.createElement("span", { style: { width: 32, height: 32, borderRadius: 10, background: (c.color || G) + "22", border: "1.5px solid " + (c.color || G) + "55", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16, flexShrink: 0 } }, c.icon),
+        /*#__PURE__*/React.createElement("span", { style: { width: 28, height: 28, borderRadius: 8, background: (c.color || G) + "22", border: "1.5px solid " + (c.color || G) + "55", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16, flexShrink: 0 } }, c.icon),
         /*#__PURE__*/React.createElement("span", {
           style: { flex: 1, fontSize: 12, fontWeight: 700, color: spicy ? "#ccc" : DARK }
         }, c.label),
@@ -1775,7 +1776,7 @@ function CashFlow(_ref1) {
   // ── Transaction list
   /*#__PURE__*/React.createElement(Card, {
     style: {
-      padding: "10px 12px 96px"
+      padding: "10px 12px 112px"
     }
   },
   React.createElement("div", {
