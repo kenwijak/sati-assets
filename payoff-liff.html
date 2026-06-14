@@ -777,6 +777,101 @@ function SalungMascot(props) {
   }].concat(base).concat(extras));
 }
 
+// ── Mascot background removal (BFS flood-fill from edges, cached) ────────────
+var _bgCache = new Map();
+function removeMascotBg(src, cb) {
+  if (_bgCache.has(src)) { cb(_bgCache.get(src)); return; }
+  var img = new Image();
+  img.crossOrigin = "anonymous";
+  img.onload = function() {
+    try {
+      // Scale down to max 400px for processing speed
+      var MAX = 400;
+      var iW = img.naturalWidth || 400, iH = img.naturalHeight || 400;
+      var sc = Math.min(1, MAX / Math.max(iW, iH));
+      var W = Math.max(1, Math.round(iW * sc));
+      var H = Math.max(1, Math.round(iH * sc));
+      var cv = document.createElement("canvas");
+      cv.width = W; cv.height = H;
+      var ctx = cv.getContext("2d");
+      ctx.drawImage(img, 0, 0, W, H);
+      var id = ctx.getImageData(0, 0, W, H);
+      var d = id.data;
+
+      // Background pixel: very light, low colour saturation
+      // Covers white (#fff) and cream (#F5F0E8) without touching
+      // the green mascot body, yellow coins, or dark outlines
+      function isBg(i) {
+        var r = d[i], g = d[i+1], b = d[i+2];
+        return r > 205 && g > 190 && b > 175
+          && Math.max(r,g,b) - Math.min(r,g,b) < 60;
+      }
+
+      // 8-directional BFS flood-fill starting from all image edges
+      var vis = new Uint8Array(W * H);
+      var q = [], head = 0;
+      for (var y = 0; y < H; y++) {
+        for (var x = 0; x < W; x++) {
+          if (x === 0 || x === W-1 || y === 0 || y === H-1) {
+            var p = y * W + x;
+            if (!vis[p] && isBg(p << 2)) { vis[p] = 1; q.push(p); }
+          }
+        }
+      }
+      while (head < q.length) {
+        var pos = q[head++];
+        d[(pos<<2)+3] = 0; // fully transparent
+        var px = pos % W, py = (pos / W) | 0;
+        // 4-directional neighbours
+        if (py > 0   && !vis[pos-W] && isBg((pos-W)<<2)) { vis[pos-W]=1; q.push(pos-W); }
+        if (py < H-1 && !vis[pos+W] && isBg((pos+W)<<2)) { vis[pos+W]=1; q.push(pos+W); }
+        if (px > 0   && !vis[pos-1] && isBg((pos-1)<<2)) { vis[pos-1]=1; q.push(pos-1); }
+        if (px < W-1 && !vis[pos+1] && isBg((pos+1)<<2)) { vis[pos+1]=1; q.push(pos+1); }
+        // 4 diagonal neighbours (avoids corner fringe)
+        if (py>0&&px>0     &&!vis[pos-W-1]&&isBg((pos-W-1)<<2)){vis[pos-W-1]=1;q.push(pos-W-1);}
+        if (py>0&&px<W-1   &&!vis[pos-W+1]&&isBg((pos-W+1)<<2)){vis[pos-W+1]=1;q.push(pos-W+1);}
+        if (py<H-1&&px>0   &&!vis[pos+W-1]&&isBg((pos+W-1)<<2)){vis[pos+W-1]=1;q.push(pos+W-1);}
+        if (py<H-1&&px<W-1 &&!vis[pos+W+1]&&isBg((pos+W+1)<<2)){vis[pos+W+1]=1;q.push(pos+W+1);}
+      }
+
+      // Soften anti-aliased edges: pixels adjacent to removed pixels
+      // get alpha proportional to their darkness so the outline stays crisp
+      var orig = new Uint8Array(W * H);
+      for (var i = 0; i < W*H; i++) orig[i] = d[(i<<2)+3];
+      for (var i = 0; i < W*H; i++) {
+        if (!orig[i]) continue;
+        var ex = i % W, ey = (i/W)|0;
+        var adj = (ey>0   && !orig[i-W])
+               || (ey<H-1 && !orig[i+W])
+               || (ex>0   && !orig[i-1])
+               || (ex<W-1 && !orig[i+1])
+               || (ey>0&&ex>0     && !orig[i-W-1])
+               || (ey>0&&ex<W-1   && !orig[i-W+1])
+               || (ey<H-1&&ex>0   && !orig[i+W-1])
+               || (ey<H-1&&ex<W-1 && !orig[i+W+1]);
+        if (adj) {
+          var ii = i<<2;
+          // Perceived luminance (BT.601)
+          var lum = (d[ii]*299 + d[ii+1]*587 + d[ii+2]*114) / 255000;
+          // Light edge pixels fade out; dark outline pixels stay fully opaque
+          d[ii+3] = Math.round(Math.min(255, Math.max(0, (1-lum)*3*255)));
+        }
+      }
+
+      ctx.putImageData(id, 0, 0);
+      var url = cv.toDataURL("image/png");
+      _bgCache.set(src, url);
+      cb(url);
+    } catch(e) {
+      // Canvas tainted (CORS) or other failure — fall back to raw URL
+      _bgCache.set(src, src);
+      cb(src);
+    }
+  };
+  img.onerror = function() { _bgCache.set(src, src); cb(src); };
+  img.src = src;
+}
+
 // ── Mascot Asset (image-based with SVG fallback) ──────────────────────────────
 function MascotAsset(props) {
   var context = props.context || null;
@@ -810,39 +905,46 @@ function MascotAsset(props) {
   var src = (context && MASCOT_BY_CONTEXT[context]) || moodToAsset[mood] || MASCOT_ASSETS.happy;
   console.log("MascotAsset loading:", src);
 
-  var _useState_ma = React.useState(false),
-    imgErr = _useState_ma[0],
-    setImgErr = _useState_ma[1];
+  var _sp = React.useState(null),
+    procSrc = _sp[0], setProcSrc = _sp[1];
+  var _se = React.useState(false),
+    imgErr = _se[0], setImgErr = _se[1];
+
+  React.useEffect(function() {
+    setProcSrc(null);
+    removeMascotBg(src, function(result) { setProcSrc(result); });
+  }, [src]);
+
+  var containerStyle = {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    flexShrink: 0,
+    width: sz,
+    height: sz,
+    borderRadius: vStyle.radius,
+    overflow: "hidden",
+    background: "transparent",
+    padding: vStyle.pad
+  };
 
   if (imgErr) {
-    return React.createElement(SalungMascot, { mood: mood, size: sz });
+    return React.createElement("div", { style: containerStyle },
+      React.createElement(SalungMascot, { mood: mood, size: sz - vStyle.pad * 2 })
+    );
   }
   return React.createElement("div", {
     className: "sl-mascot",
-    style: {
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      flexShrink: 0,
-      width: sz,
-      height: sz,
-      borderRadius: vStyle.radius,
-      overflow: "hidden",
-      background: "transparent",
-      padding: vStyle.pad
-    }
-  }, React.createElement("img", {
-    src: src,
-    alt: "salung mascot",
-    onError: function() { setImgErr(true); },
-    style: {
-      objectFit: "contain",
-      width: "100%",
-      height: "100%",
-      display: "block",
-      mixBlendMode: "multiply"
-    }
-  }));
+    style: containerStyle
+  }, procSrc
+    ? React.createElement("img", {
+        src: procSrc,
+        alt: "salung mascot",
+        onError: function() { setImgErr(true); },
+        style: { objectFit: "contain", width: "100%", height: "100%", display: "block" }
+      })
+    : React.createElement(SalungMascot, { mood: mood, size: sz - vStyle.pad * 2 })
+  );
 }
 
 // ── Hero Card ─────────────────────────────────────────────────────────────────
