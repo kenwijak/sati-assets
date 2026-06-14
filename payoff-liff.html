@@ -4745,58 +4745,58 @@ function SaveGoal(_ref24) {
   }))), /*#__PURE__*/React.createElement(HeroCard, {
   mood: saveSummary.total > 0 ? "proud" : "budgeting",
   mascotContext: "saveHero",
-  title: saveSummary.total > 0 ? "\u0E40\u0E07\u0E34\u0E19\u0E2D\u0E2D\u0E21\u0E02\u0E2D\u0E07\u0E40\u0E18\u0E2D\u0E01\u0E33\u0E25\u0E31\u0E07\u0E42\u0E15" : "\u0E40\u0E23\u0E34\u0E48\u0E21\u0E2D\u0E2D\u0E21\u0E27\u0E31\u0E19\u0E19\u0E35\u0E49\u0E40\u0E25\u0E22\u0E19\u0E30 \uD83C\uDF31",
+  title: "\u0E2D\u0E2D\u0E21\u0E41\u0E25\u0E49\u0E27\u0E17\u0E31\u0E49\u0E07\u0E2B\u0E21\u0E14",
   bigNumber: "\u0E3F" + Math.round(saveSummary.total).toLocaleString(),
   barPct: saveSummary.emergencyPct,
-  sub: "\u0E09\u0E38\u0E01\u0E40\u0E09\u0E34\u0E19 " + Math.round(saveSummary.emergencyPct) + "% \u00B7 \u0E40\u0E14\u0E37\u0E2D\u0E19\u0E19\u0E35\u0E49\u0E1D\u0E32\u0E01 \u0E3F" + Math.round(saveSummary.thisMonth).toLocaleString(),
-  salungText: saveSummary.total > 0 ? "\u0E2D\u0E2D\u0E21\u0E44\u0E1B\u0E41\u0E25\u0E49\u0E27 \u0E3F" + Math.round(saveSummary.total).toLocaleString() + " \u0E40\u0E01\u0E48\u0E07\u0E21\u0E32\u0E01\u0E40\u0E25\u0E22! \uD83C\uDF1F" : "\u0E22\u0E31\u0E07\u0E44\u0E21\u0E48\u0E21\u0E35\u0E40\u0E1B\u0E49\u0E32\u0E2B\u0E21\u0E32\u0E22\u0E41\u0E23\u0E01 \u0E40\u0E23\u0E34\u0E48\u0E21\u0E40\u0E25\u0E22\u0E19\u0E30 \uD83C\uDF31",
+  sub: "\u0E40\u0E14\u0E37\u0E2D\u0E19\u0E19\u0E35\u0E49\u0E2D\u0E2D\u0E21\u0E40\u0E1E\u0E34\u0E48\u0E21 \u0E3F" + Math.round(saveSummary.thisMonth).toLocaleString(),
+  salungText: saveSummary.total > 0 ? "\u0E40\u0E25\u0E47\u0E01\u0E41\u0E04\u0E48\u0E44\u0E2B\u0E19\u0E01\u0E47\u0E19\u0E31\u0E1A\u0E27\u0E48\u0E32\u0E42\u0E15\u0E02\u0E36\u0E49\u0E19\u0E19\u0E30 \uD83C\uDF31" : "\u0E40\u0E23\u0E34\u0E48\u0E21\u0E27\u0E31\u0E19\u0E19\u0E35\u0E49\u0E01\u0E47\u0E44\u0E14\u0E49 \u0E17\u0E38\u0E01\u0E1A\u0E32\u0E17\u0E19\u0E31\u0E1A \uD83C\uDF31",
   accent: G,
   spicy: spicy
 }), /*#__PURE__*/React.createElement(NBA, {
     mood: "tip",
     spicy: spicy,
-    text: saveSummary.emergencyPct < 100 ? "เติมกองทุนฉุกเฉินให้ครบ 3 เดือนก่อนเลย — ตอนนี้อยู่ที่ " + saveSummary.emergencyPct + "%" : "กองทุนฉุกเฉินครบแล้ว! ถัดไปโฟกัสเป้าหมายระยะยาวได้เลย 🎯"
+    text: saveSummary.emergencyPct < 100 ? "กองฉุกเฉินตอนนี้ " + saveSummary.emergencyPct + "% — เพิ่มอีกนิดก็ครบ 3 เดือนแล้วนะ \uD83D\uDEE1\uFE0F" : "กองฉุกเฉินครบ 3 เดือนแล้ว! \uD83C\uDF89 โฟกัสเป้าหมายต่อได้เลย \u2728"
   }), /*#__PURE__*/React.createElement("div", {
     style: {
-      display: "flex",
-      gap: 8,
-      marginBottom: 10
+      marginBottom: 12
     }
   }, /*#__PURE__*/React.createElement("button", {
     onClick: function onClick() {
       return setSaveSheet(true);
     },
     style: {
-      flex: 1,
-      padding: "11px 0",
-      fontSize: 12,
+      width: "100%",
+      padding: "14px 0",
+      fontSize: 15,
       fontWeight: 900,
-      background: spicy ? G : DARK,
-      color: spicy ? DARK : "#fff",
+      background: G,
+      color: DARK,
       border: "2px solid ".concat(DARK),
-      borderRadius: 12,
-      boxShadow: "2px 2px 0 ".concat(DARK),
-      cursor: "pointer"
+      borderRadius: 99,
+      boxShadow: "0 4px 16px rgba(26,61,31,.18)",
+      cursor: "pointer",
+      marginBottom: 8,
+      letterSpacing: ".01em"
     }
-  }, "\uD83C\uDF31 \u0E2D\u0E2D\u0E21\u0E40\u0E07\u0E34\u0E19"), /*#__PURE__*/React.createElement("button", {
+  }, "+ \u0E1A\u0E31\u0E19\u0E17\u0E36\u0E01\u0E40\u0E07\u0E34\u0E19\u0E2D\u0E2D\u0E21"), /*#__PURE__*/React.createElement("button", {
     onClick: function onClick() {
       return setAddSheet(true);
     },
     style: {
-      flex: 1,
-      padding: "11px 0",
-      fontSize: 12,
-      fontWeight: 900,
-      background: "#fff",
-      color: DARK,
-      border: "2px solid ".concat(DARK),
-      borderRadius: 12,
-      boxShadow: "2px 2px 0 ".concat(DARK),
+      width: "100%",
+      padding: "10px 0",
+      fontSize: 13,
+      fontWeight: 800,
+      background: "transparent",
+      color: DARK + "99",
+      border: "1.5px solid ".concat(DARK + "30"),
+      borderRadius: 99,
       cursor: "pointer"
     }
   }, "\uD83C\uDFAF \u0E40\u0E1E\u0E34\u0E48\u0E21\u0E40\u0E1B\u0E49\u0E32\u0E2B\u0E21\u0E32\u0E22")), /*#__PURE__*/React.createElement(Card, {
     style: {
-      background: spicy ? DARK : "".concat(G, "12")
+      background: spicy ? DARK : G + "10",
+      border: "1.5px solid " + (spicy ? G + "22" : G + "30")
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
@@ -4807,13 +4807,14 @@ function SaveGoal(_ref24) {
   }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
     style: {
       fontSize: 11,
-      color: "#888",
-      fontWeight: 600,
-      marginBottom: 2
+      color: MID,
+      fontWeight: 700,
+      marginBottom: 2,
+      letterSpacing: ".02em"
     }
-  }, "Net Worth \u0E17\u0E31\u0E49\u0E07\u0E2B\u0E21\u0E14"), /*#__PURE__*/React.createElement("div", {
+  }, "\u0E2D\u0E2D\u0E21\u0E2A\u0E30\u0E2A\u0E21\u0E17\u0E31\u0E49\u0E07\u0E2B\u0E21\u0E14"), /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 26,
+      fontSize: 32,
       fontWeight: 900,
       color: spicy ? G : DARK
     }
@@ -4839,12 +4840,14 @@ function SaveGoal(_ref24) {
       fontSize: 12,
       fontWeight: 800,
       color: DARK,
-      marginBottom: 10
+      marginBottom: 12,
+      fontSize: 14,
+      letterSpacing: ".01em"
     }
   }, "\uD83D\uDEE1\uFE0F \u0E01\u0E2D\u0E07\u0E17\u0E38\u0E19\u0E09\u0E38\u0E01\u0E40\u0E09\u0E34\u0E19"), /*#__PURE__*/React.createElement("div", {
     style: {
       background: "".concat(G, "12"),
-      borderRadius: 12,
+      borderRadius: 14,
       padding: 12,
       marginBottom: 8
     }
@@ -5088,8 +5091,9 @@ function SaveGoal(_ref24) {
       fontSize: 12,
       fontWeight: 900,
       color: spicy ? G : DARK,
-      marginBottom: 8,
-      marginTop: 4
+      marginBottom: 10,
+      marginTop: 8,
+      fontSize: 14
     }
   }, "\uD83C\uDFAF \u0E40\u0E1B\u0E49\u0E32\u0E2B\u0E21\u0E32\u0E22"), !goalsLoaded && /*#__PURE__*/React.createElement(Card, null, /*#__PURE__*/React.createElement("div", {
     style: {
@@ -5130,18 +5134,18 @@ function SaveGoal(_ref24) {
       padding: "10px 0",
       fontSize: 12,
       fontWeight: 900,
-      background: DARK,
-      color: "#fff",
+      background: G,
+      color: DARK,
       border: "2px solid ".concat(DARK),
-      borderRadius: 10,
-      boxShadow: "2px 2px 0 ".concat(DARK),
+      borderRadius: 99,
+      boxShadow: "0 4px 16px rgba(26,61,31,.15)",
       cursor: "pointer"
     }
   }, "+ \u0E40\u0E1E\u0E34\u0E48\u0E21\u0E40\u0E1B\u0E49\u0E32\u0E2B\u0E21\u0E32\u0E22\u0E41\u0E23\u0E01")), goals.map(function (g) {
     return /*#__PURE__*/React.createElement(Card, {
       key: g.id,
       style: {
-        background: g.fi ? "".concat(GOLD, "18") : "#fff"
+        background: g.fi ? G + "18" : "#fafaf8"
       }
     }, /*#__PURE__*/React.createElement("div", {
       style: {
