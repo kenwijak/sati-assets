@@ -1056,9 +1056,9 @@ function SalungToday(props) {
   var dailyAllowance = (inc > 0 && net > 0) ? Math.round(net / daysLeft) : null;
   var state = loading ? "loading" : inc === 0 && exp === 0 ? "empty" : inc === 0 ? "no_inc" : net < 0 ? "over" : spendPct > 80 ? "tight" : "ok";
   var accentColor = state === "over" ? "#FF5A5A" : state === "tight" ? GOLD : G;
-  var ctaAction = (state === "empty" || state === "no_inc" || state === "over") ? onAddInc : onAdd;
-  var ctaLabel = (state === "empty" || state === "no_inc" || state === "over")
-    ? "+ \u0E40\u0E1E\u0E34\u0E48\u0E21\u0E23\u0E32\u0E22\u0E23\u0E31\u0E1A"
+  var ctaAction = (state === "empty" || state === "no_inc") ? onAddInc : onAdd;
+  var ctaLabel = state === "over" ? "\u0E27\u0E32\u0E07\u0E41\u0E1C\u0E19\u0E27\u0E31\u0E19\u0E19\u0E35\u0E49"
+    : (state === "empty" || state === "no_inc") ? "+ \u0E40\u0E1E\u0E34\u0E48\u0E21\u0E23\u0E32\u0E22\u0E23\u0E31\u0E1A"
     : "\u0E1A\u0E31\u0E19\u0E17\u0E36\u0E01\u0E23\u0E32\u0E22\u0E08\u0E48\u0E32\u0E22";
   var headline = state === "loading"
     ? "\u0E42\u0E2B\u0E25\u0E14\u0E02\u0E49\u0E2D\u0E21\u0E39\u0E25\u2026"
@@ -1091,7 +1091,7 @@ function SalungToday(props) {
     }),
     React.createElement("div", {
       style: { fontSize: 10, fontWeight: 800, letterSpacing: ".08em", color: accentColor, marginBottom: 4, textTransform: "uppercase" }
-    }, "Salung Today"),
+    }, "Salung Check-in"),
     loading
       ? React.createElement("div", { style: { fontSize: 13, color: spicy ? "rgba(255,255,255,.5)" : MID } }, headline)
       : React.createElement("div", { style: { fontSize: 18, fontWeight: 900, color: spicy ? "#fff" : DARK, lineHeight: 1.25, marginBottom: subline ? 3 : 10 } }, headline),
@@ -1733,7 +1733,7 @@ function CashFlow(_ref1) {
   // ── Transaction list
   /*#__PURE__*/React.createElement(Card, {
     style: {
-      padding: "10px 12px 4px"
+      padding: "10px 12px 28px"
     }
   },
   React.createElement("div", {
@@ -1784,7 +1784,7 @@ function CashFlow(_ref1) {
       style: {
         fontSize: 16
       }
-    }, t.cat), /*#__PURE__*/React.createElement("div", {
+    }, t.amt > 0 ? "\uD83D\uDCB0" : t.cat), /*#__PURE__*/React.createElement("div", {
       style: {
         flex: 1,
         minWidth: 0
@@ -1835,9 +1835,7 @@ function CashFlow(_ref1) {
     },
     /*#__PURE__*/React.createElement("div", {
     style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: { fontSize: 12, fontWeight: 900, color: spicy ? G : DARK }
-  }, "\uD83D\uDCB0 \u0E40\u0E07\u0E34\u0E19\u0E40\u0E14\u0E37\u0E2D\u0E19\u0E19\u0E35\u0E49\u0E44\u0E1B\u0E44\u0E2B\u0E19\u0E1A\u0E49\u0E32\u0E07?"),
+  },
   allocLoading && /*#__PURE__*/React.createElement("div", {
     style: { fontSize: 10, color: "#aaa" }
   }, "\u0E01\u0E33\u0E25\u0E31\u0E07\u0E42\u0E2B\u0E25\u0E14..."),
@@ -1895,11 +1893,11 @@ function CashFlow(_ref1) {
     onClick: function() { setSheet(true); },
     style: {
       position: "fixed", right: 24, bottom: 88,
-      width: 64, height: 64,
+      width: 56, height: 56,
       borderRadius: 99,
       background: GOLD, color: DARK,
       border: "3px solid " + DARK,
-      fontSize: 28, fontWeight: 900,
+      fontSize: 24, fontWeight: 900,
       cursor: "pointer",
       boxShadow: "inset 0 2px 0 rgba(255,255,255,.5), 3px 3px 0 rgba(26,61,31,.85), 0 8px 24px rgba(247,201,72,.4)",
       zIndex: 50,
