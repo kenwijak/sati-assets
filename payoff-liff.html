@@ -1141,6 +1141,12 @@ function CashFlow(_ref1) {
     sheet = _useState14[0],
     setSheet = _useState14[1];
   var _usR0 = useState(false), _usR1 = _slicedToArray(_usR0, 2), recoverySheet = _usR1[0], setRecoverySheet = _usR1[1];
+  var _sfab0 = useState(false), _sfab1 = _slicedToArray(_sfab0, 2), fabVisible = _sfab1[0], setFabVisible = _sfab1[1];
+  React.useEffect(function() {
+    function _onFabScroll() { setFabVisible(window.scrollY > 220); }
+    window.addEventListener("scroll", _onFabScroll);
+    return function() { window.removeEventListener("scroll", _onFabScroll); };
+  }, []);
   var _useState15 = useState(null),
     _useState16 = _slicedToArray(_useState15, 2),
     done = _useState16[0],
@@ -1625,7 +1631,7 @@ function CashFlow(_ref1) {
       })
     ),
     React.createElement("button", {
-      onClick: function() { setRecoverySheet(false); },
+      onClick: function() { setRecoverySheet(false); showToast("\u0E40\u0E23\u0E34\u0E48\u0E21\u0E41\u0E1C\u0E19\u0E27\u0E31\u0E19\u0E19\u0E35\u0E49\u0E41\u0E25\u0E49\u0E27 Salung \u0E08\u0E30\u0E0A\u0E48\u0E27\u0E22\u0E04\u0E38\u0E21\u0E43\u0E2B\u0E49\u0E19\u0E30 \uD83E\uDE99"); },
       style: {width: "100%", padding: "12px", borderRadius: 99, background: G, color: DARK, border: "2px solid " + DARK, fontSize: 14, fontWeight: 900, cursor: "pointer", boxShadow: "2px 2px 0 " + DARK, marginBottom: 10}
     }, "\u0E40\u0E23\u0E34\u0E48\u0E21\u0E41\u0E1C\u0E19\u0E27\u0E31\u0E19\u0E19\u0E35\u0E49"),
     React.createElement("button", {
@@ -1645,13 +1651,12 @@ function CashFlow(_ref1) {
     style: {background: spicy ? "#0a1f0d" : "#F0FAF4", border: "1.5px solid " + G, borderRadius: 20, padding: "16px", marginBottom: 14}
   },
     React.createElement("div", {style: {fontWeight: 900, fontSize: 15, color: DARK, marginBottom: 10}}, "\u0E40\u0E23\u0E34\u0E48\u0E21\u0E23\u0E39\u0E49\u0E08\u0E31\u0E01\u0E40\u0E18\u0E2D\u0E01\u0E48\u0E2D\u0E19\u0E19\u0E30 \uD83D\uDC4B"),
-    ["\u0E40\u0E14\u0E37\u0E2D\u0E19\u0E19\u0E35\u0E49\u0E21\u0E35\u0E40\u0E07\u0E34\u0E19\u0E43\u0E0A\u0E49\u0E1B\u0E23\u0E30\u0E21\u0E32\u0E13\u0E40\u0E17\u0E48\u0E32\u0E44\u0E2B\u0E23\u0E48?", "\u0E21\u0E35\u0E2B\u0E19\u0E35\u0E49\u0E2B\u0E23\u0E37\u0E2D\u0E1C\u0E48\u0E2D\u0E19\u0E2D\u0E30\u0E44\u0E23\u0E44\u0E2B\u0E21?", "\u0E2D\u0E22\u0E32\u0E01\u0E43\u0E2B\u0E49 Salung \u0E04\u0E38\u0E22\u0E42\u0E17\u0E19\u0E44\u0E2B\u0E19?"].map(function(q, i) {
-      return React.createElement("div", {key: i, style: {fontSize: 12, color: spicy ? "#aaa" : MID, padding: "5px 0", borderBottom: i < 2 ? "1px solid " + DARK + "10" : "none"}}, "\u25B8 " + q);
-    }),
+    React.createElement("div", {style: {fontSize: 13, color: spicy ? "#aaa" : MID, lineHeight: 1.6, marginBottom: 12}},
+      "\u0E1A\u0E31\u0E19\u0E17\u0E36\u0E01\u0E23\u0E32\u0E22\u0E23\u0E31\u0E1A\u0E40\u0E14\u0E37\u0E2D\u0E19\u0E19\u0E35\u0E49\u0E01\u0E48\u0E2D\u0E19 \u0E41\u0E25\u0E49\u0E27 Salung \u0E08\u0E30\u0E04\u0E33\u0E19\u0E27\u0E13\u0E07\u0E1A\u0E15\u0E48\u0E2D\u0E27\u0E31\u0E19\u0E43\u0E2B\u0E49\u0E40\u0E25\u0E22"),
     React.createElement("button", {
       onClick: function() { setType("income"); setSheet(true); },
       style: {marginTop: 12, width: "100%", padding: "11px", borderRadius: 99, background: G, color: DARK, border: "2px solid " + DARK, fontSize: 13, fontWeight: 900, cursor: "pointer", boxShadow: "2px 2px 0 " + DARK}
-    }, "\u0E40\u0E23\u0E34\u0E48\u0E21\u0E15\u0E31\u0E49\u0E07\u0E04\u0E48\u0E32 1 \u0E19\u0E32\u0E17\u0E35")
+    }, "\u0E40\u0E23\u0E34\u0E48\u0E21\u0E08\u0E32\u0E01\u0E23\u0E32\u0E22\u0E23\u0E31\u0E1A\u0E01\u0E48\u0E2D\u0E19 \u2192")
   ),
   // ── Period switcher (top, sticker chips)
   /*#__PURE__*/React.createElement("div", {
@@ -1950,7 +1955,7 @@ function CashFlow(_ref1) {
       cursor: "pointer",
       boxShadow: "inset 0 2px 0 rgba(255,255,255,.5), 3px 3px 0 rgba(26,61,31,.85), 0 8px 24px rgba(247,201,72,.4)",
       zIndex: 50,
-      display: "flex", alignItems: "center", justifyContent: "center",
+      display: fabVisible ? "flex" : "none", alignItems: "center", justifyContent: "center",
       lineHeight: 1
     }
   }, "+"));
