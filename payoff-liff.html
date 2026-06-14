@@ -264,12 +264,13 @@ function Face(_ref) {
   var _ref$size = _ref.size,
     size = _ref$size === void 0 ? 40 : _ref$size,
     _ref$mood = _ref.mood,
-    mood = _ref$mood === void 0 ? "happy" : _ref$mood;
+    mood = _ref$mood === void 0 ? "happy" : _ref$mood,
+    variant = _ref.variant || null;
   var mascotMood = {
     happy: "happy", excited: "proud", thinking: "detective",
     proud: "proud", cheer: "excited", tip: "tip"
   }[mood] || "happy";
-  return /*#__PURE__*/React.createElement(MascotAsset, { mood: mascotMood, size: size });
+  return /*#__PURE__*/React.createElement(MascotAsset, { mood: mascotMood, size: size, variant: variant });
 }
 function Card(_ref2) {
   var children = _ref2.children,
@@ -419,7 +420,7 @@ function Success(_ref6) {
       padding: "16px 8px 8px"
     }
   },
-  /*#__PURE__*/React.createElement(MascotAsset, { context: "success", size: 72 }),
+  /*#__PURE__*/React.createElement(MascotAsset, { context: "success", variant: "state" }),
   /*#__PURE__*/React.createElement("div", {
     style: {
       fontSize: 28,
@@ -612,6 +613,7 @@ function NBA(_ref0) {
     }
   }, /*#__PURE__*/React.createElement(Face, {
     size: 34,
+    variant: "inline",
     mood: mood
   }), /*#__PURE__*/React.createElement("div", {
     style: {
@@ -777,9 +779,22 @@ function SalungMascot(props) {
 
 // ── Mascot Asset (image-based with SVG fallback) ──────────────────────────────
 function MascotAsset(props) {
-  var size = props.size || 80;
   var context = props.context || null;
   var mood = props.mood || "happy";
+  var variant = props.variant || null;
+  var sizeProp = props.size || 80;
+
+  // variant controls canonical size + container radius
+  var VARIANT = {
+    header: { size: 52,  radius: 16, pad: 2 },
+    hero:   { size: 118, radius: 28, pad: 4 },
+    inline: { size: 44,  radius: 14, pad: 2 },
+    card:   { size: 64,  radius: 20, pad: 2 },
+    state:  { size: 96,  radius: 28, pad: 4 }
+  };
+  var vStyle = (variant && VARIANT[variant]) || { size: sizeProp, radius: 16, pad: 2 };
+  var sz = vStyle.size;
+
   var moodToAsset = {
     happy: MASCOT_ASSETS.happy,
     proud: MASCOT_ASSETS.success,
@@ -794,26 +809,40 @@ function MascotAsset(props) {
   };
   var src = (context && MASCOT_BY_CONTEXT[context]) || moodToAsset[mood] || MASCOT_ASSETS.happy;
   console.log("MascotAsset loading:", src);
+
   var _useState_ma = React.useState(false),
     imgErr = _useState_ma[0],
     setImgErr = _useState_ma[1];
+
   if (imgErr) {
-    return React.createElement(SalungMascot, { mood: mood, size: size });
+    return React.createElement(SalungMascot, { mood: mood, size: sz });
   }
-  return React.createElement("img", {
-    src: src,
-    width: size,
-    height: size,
+  return React.createElement("div", {
     className: "sl-mascot",
+    style: {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      flexShrink: 0,
+      width: sz,
+      height: sz,
+      borderRadius: vStyle.radius,
+      overflow: "hidden",
+      background: "transparent",
+      padding: vStyle.pad
+    }
+  }, React.createElement("img", {
+    src: src,
+    alt: "salung mascot",
     onError: function() { setImgErr(true); },
     style: {
       objectFit: "contain",
-      width: size,
-      height: size,
-      flexShrink: 0,
-      display: "block"
+      width: "100%",
+      height: "100%",
+      display: "block",
+      mixBlendMode: "multiply"
     }
-  });
+  }));
 }
 
 // ── Hero Card ─────────────────────────────────────────────────────────────────
@@ -886,7 +915,7 @@ function HeroCard(props) {
         }
       }, "💬 " + salungText)
     ),
-    React.createElement(MascotAsset, { context: mascotContext, mood: mood, size: 92 })
+    React.createElement(MascotAsset, { context: mascotContext, mood: mood, variant: "hero" })
   )
   );
 }
@@ -1974,6 +2003,7 @@ function Save(_ref18) {
     }
   }, spicy ? "\u0E3F".concat(saveSummary.total.toLocaleString(), " \u0E22\u0E31\u0E07\u0E44\u0E21\u0E48\u0E23\u0E27\u0E22\u0E41\u0E15\u0E48\u0E14\u0E35\u0E01\u0E27\u0E48\u0E32\u0E40\u0E21\u0E37\u0E48\u0E2D\u0E1B\u0E35\u0E17\u0E35\u0E48\u0E41\u0E25\u0E49\u0E27\u0E41\u0E19\u0E48\u0E19\u0E2D\u0E19") : "\u0E2D\u0E2D\u0E21\u0E44\u0E1B\u0E41\u0E25\u0E49\u0E27 \u0E3F".concat(saveSummary.thisMonth.toLocaleString(), " \u0E40\u0E14\u0E37\u0E2D\u0E19\u0E19\u0E35\u0E49 \u2014 Salung \u0E42\u0E15\u0E02\u0E36\u0E49\u0E19\u0E14\u0E49\u0E27\u0E22\u0E19\u0E30 \uD83C\uDF31"))), /*#__PURE__*/React.createElement(Face, {
     size: 44,
+    variant: "card",
     mood: "proud"
   }))), /*#__PURE__*/React.createElement(Card, null, /*#__PURE__*/React.createElement("div", {
     style: {
@@ -2702,6 +2732,7 @@ function Debt(_ref21) {
     }
   }, spicy ? "฿81,400 ยังอยู่นะ แต่น้อยลงทุกเดือน ดีกว่าเพิ่ม" : "ลดลง ฿2,300 จากเดือนที่แล้ว เดินมาถูกทางแล้ว")), /*#__PURE__*/React.createElement(Face, {
     size: 42,
+    variant: "card",
     mood: "thinking"
   }))), /*#__PURE__*/React.createElement(Card, {
     style: {
@@ -4474,6 +4505,7 @@ function SaveGoal(_ref24) {
     }
   }, spicy ? "\u0E3F".concat(saveSummary.total.toLocaleString(), " \u0E22\u0E31\u0E07\u0E44\u0E21\u0E48\u0E23\u0E27\u0E22\u0E41\u0E15\u0E48\u0E14\u0E35\u0E01\u0E27\u0E48\u0E32\u0E40\u0E21\u0E37\u0E48\u0E2D\u0E1B\u0E35\u0E17\u0E35\u0E48\u0E41\u0E25\u0E49\u0E27\u0E41\u0E19\u0E48\u0E19\u0E2D\u0E19") : "\u0E2D\u0E2D\u0E21\u0E44\u0E1B\u0E41\u0E25\u0E49\u0E27 \u0E3F".concat(saveSummary.thisMonth.toLocaleString(), " \u0E40\u0E14\u0E37\u0E2D\u0E19\u0E19\u0E35\u0E49 \uD83C\uDF31"))), /*#__PURE__*/React.createElement(Face, {
     size: 44,
+    variant: "card",
     mood: "proud"
   }))), /*#__PURE__*/React.createElement(Card, null, /*#__PURE__*/React.createElement("div", {
     style: {
@@ -5018,7 +5050,7 @@ function App() {
     }
   },
   /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10 } },
-    /*#__PURE__*/React.createElement(MascotAsset, { context: spicy ? "spicy" : "header", size: 44 }),
+    /*#__PURE__*/React.createElement(MascotAsset, { context: spicy ? "spicy" : "header", variant: "header" }),
     /*#__PURE__*/React.createElement("div", null,
       /*#__PURE__*/React.createElement("div", {
         style: { fontSize: 16, fontWeight: 900, color: spicy ? G : DARK, lineHeight: 1.1, letterSpacing: "-.01em" }
