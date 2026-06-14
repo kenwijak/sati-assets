@@ -905,13 +905,20 @@ function MascotAsset(props) {
   var src = (context && MASCOT_BY_CONTEXT[context]) || moodToAsset[mood] || MASCOT_ASSETS.happy;
   console.log("MascotAsset loading:", src);
 
-  var _sp = React.useState(null),
+  // Initialize immediately with raw src so there is never a blank/SVG flash
+  var _sp = React.useState(src),
     procSrc = _sp[0], setProcSrc = _sp[1];
   var _se = React.useState(false),
     imgErr = _se[0], setImgErr = _se[1];
 
   React.useEffect(function() {
-    setProcSrc(null);
+    if (_bgCache.has(src)) {
+      // Already processed — upgrade without showing raw
+      setProcSrc(_bgCache.get(src));
+      return;
+    }
+    // Show raw immediately, then swap to bg-removed PNG when ready
+    setProcSrc(src);
     removeMascotBg(src, function(result) { setProcSrc(result); });
   }, [src]);
 
@@ -936,15 +943,12 @@ function MascotAsset(props) {
   return React.createElement("div", {
     className: "sl-mascot",
     style: containerStyle
-  }, procSrc
-    ? React.createElement("img", {
-        src: procSrc,
-        alt: "salung mascot",
-        onError: function() { setImgErr(true); },
-        style: { objectFit: "contain", width: "100%", height: "100%", display: "block" }
-      })
-    : React.createElement(SalungMascot, { mood: mood, size: sz - vStyle.pad * 2 })
-  );
+  }, React.createElement("img", {
+    src: procSrc,
+    alt: "salung mascot",
+    onError: function() { setImgErr(true); },
+    style: { objectFit: "contain", width: "100%", height: "100%", display: "block" }
+  }));
 }
 
 // ── Hero Card ─────────────────────────────────────────────────────────────────
@@ -1418,7 +1422,7 @@ function CashFlow(_ref1) {
   /*#__PURE__*/React.createElement("div", {
     style: { display: "flex", alignItems: "center", gap: 8, marginBottom: 16 }
   },
-    /*#__PURE__*/React.createElement(SalungMascot, { mood: "happy", size: 36 }),
+    /*#__PURE__*/React.createElement(MascotAsset, { context: "header", variant: "inline" }),
     /*#__PURE__*/React.createElement("div", { style: { fontSize: 15, fontWeight: 900, color: DARK } }, "\u0E1A\u0E31\u0E19\u0E17\u0E36\u0E01\u0E23\u0E32\u0E22\u0E01\u0E32\u0E23")
   ),
   /*#__PURE__*/React.createElement("div", {
@@ -1601,7 +1605,7 @@ function CashFlow(_ref1) {
     cats.length === 0 ? /*#__PURE__*/React.createElement("div", {
     style: { textAlign: "center", padding: "16px 0" }
   },
-  /*#__PURE__*/React.createElement(SalungMascot, { mood: "budgeting", size: 56 }),
+  /*#__PURE__*/React.createElement(MascotAsset, { context: "empty", variant: "card" }),
   /*#__PURE__*/React.createElement("div", {
     style: { fontSize: 12, fontWeight: 900, color: DARK, marginTop: 8, marginBottom: 4 }
   }, "\u0E22\u0E31\u0E07\u0E44\u0E21\u0E48\u0E21\u0E35\u0E23\u0E32\u0E22\u0E08\u0E48\u0E32\u0E22\u0E41\u0E22\u0E01\u0E2B\u0E21\u0E27\u0E14"),
@@ -1642,7 +1646,7 @@ function CashFlow(_ref1) {
   txns.length === 0 && /*#__PURE__*/React.createElement("div", {
     style: { textAlign: "center", padding: "20px 16px 24px" }
   },
-    /*#__PURE__*/React.createElement(SalungMascot, { mood: "budgeting", size: 64 }),
+    /*#__PURE__*/React.createElement(MascotAsset, { context: "empty", variant: "card" }),
     /*#__PURE__*/React.createElement("div", {
       style: { fontSize: 13, fontWeight: 900, color: DARK, marginTop: 10, marginBottom: 4 }
     }, "\u0E22\u0E31\u0E07\u0E44\u0E21\u0E48\u0E21\u0E35\u0E23\u0E32\u0E22\u0E01\u0E32\u0E23\u0E27\u0E31\u0E19\u0E19\u0E35\u0E49"),
@@ -3451,7 +3455,7 @@ function Goal(_ref22) {
       textAlign: "center",
       padding: "20px 14px"
     }
-  }, /*#__PURE__*/React.createElement(SalungMascot, { mood: "proud", size: 64 }),
+  }, /*#__PURE__*/React.createElement(MascotAsset, { context: "empty", variant: "card" }),
   /*#__PURE__*/React.createElement("div", {
     style: {
       fontSize: 13,
@@ -4878,7 +4882,7 @@ function SaveGoal(_ref24) {
       textAlign: "center",
       padding: "16px 14px"
     }
-  }, /*#__PURE__*/React.createElement(SalungMascot, { mood: "proud", size: 56 }),
+  }, /*#__PURE__*/React.createElement(MascotAsset, { context: "empty", variant: "card" }),
   /*#__PURE__*/React.createElement("div", {
     style: {
       fontSize: 12,
