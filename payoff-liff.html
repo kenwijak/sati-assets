@@ -285,11 +285,11 @@ function Card(_ref2) {
     onClick: onClick,
     className: "sl-card",
     style: _objectSpread({
-      background: "#fff",
+      background: "#FEFCF8",
       borderRadius: 20,
-      border: "2px solid " + DARK,
+      border: "1.5px solid " + DARK,
       padding: 16,
-      boxShadow: "3px 3px 0 rgba(26,61,31,.10)",
+      boxShadow: "2px 2px 0 rgba(26,61,31,.09)",
       marginBottom: 12,
       cursor: onClick ? "pointer" : "default"
     }, style)
@@ -329,7 +329,7 @@ function SectionHeader(props) {
   icon && React.createElement("span", { style: { fontSize: 13 } }, icon),
   React.createElement("span", null, text),
   React.createElement("div", {
-    style: { flex: 1, height: 1, background: spicy ? "#2a4a2a" : DARK + "15", marginLeft: 4 }
+    style: { flex: 1, height: 1, background: spicy ? "#2a4a2a" : DARK + "22", marginLeft: 4 }
   })
   );
 }
@@ -344,7 +344,7 @@ function Bar(_ref4) {
       height: height,
       background: "#E8E0D0",
       borderRadius: 99,
-      border: "2px solid " + DARK,
+      border: "1.5px solid rgba(26,61,31,.4)",
       overflow: "hidden"
     }
   }, /*#__PURE__*/React.createElement("div", {
@@ -991,7 +991,7 @@ function HeroCard(props) {
       borderRadius: 20,
       padding: "12px 14px",
       marginBottom: 14,
-      boxShadow: "4px 4px 0 rgba(26,61,31,.15)",
+      boxShadow: "4px 4px 0 rgba(26,61,31,.18), 0 6px 20px rgba(26,61,31,.06)",
       overflow: "hidden",
       position: "relative"
     }
@@ -1830,7 +1830,7 @@ function CashFlow(_ref1) {
       border: "3px solid " + DARK,
       fontSize: 28, fontWeight: 900,
       cursor: "pointer",
-      boxShadow: "4px 4px 0 " + DARK,
+      boxShadow: "3px 3px 0 rgba(26,61,31,.75), 0 4px 12px rgba(26,61,31,.15)",
       zIndex: 50,
       display: "flex", alignItems: "center", justifyContent: "center",
       lineHeight: 1
@@ -5168,7 +5168,9 @@ function App() {
       if (!_bgCache.has(src)) removeMascotBg(src, function() {});
     });
   }, []);
-  var bgColor = spicy ? "#0d1a0e" : "#F0EBE1";
+  var bgColor = spicy
+    ? "radial-gradient(circle at 20% 10%, rgba(61,219,90,.07), transparent 35%), radial-gradient(circle at 80% 85%, rgba(61,219,90,.04), transparent 30%), #0d1a0e"
+    : "radial-gradient(circle at 15% 0%, rgba(247,201,72,.10), transparent 30%), radial-gradient(circle at 88% 15%, rgba(61,219,90,.08), transparent 28%), #F0EBE1";
   var screens = {
     cashflow: /*#__PURE__*/React.createElement(CashFlow, {
       spicy: spicy
@@ -5192,7 +5194,6 @@ function App() {
       flexDirection: "column",
       minHeight: "100vh",
       background: bgColor,
-      fontFamily: "'Nunito','Prompt',sans-serif",
       transition: "background .3s"
     }
   }, /*#__PURE__*/React.createElement("div", {
@@ -5209,7 +5210,7 @@ function App() {
       justifyContent: "space-between",
       alignItems: "center",
       background: spicy ? "#0d1a0e" : CREAM,
-      borderBottom: "2.5px solid " + DARK,
+      borderBottom: "2px solid rgba(26,61,31,.7)",
       transition: "background .3s"
     }
   },
@@ -5254,7 +5255,7 @@ function App() {
       top: "50%",
       left: "50%",
       transform: "translate(-50%,-50%)",
-      background: "#fff",
+      background: CREAM,
       width: 300,
       borderRadius: 24,
       boxShadow: "0 20px 60px rgba(0,0,0,.25)",
@@ -5332,10 +5333,11 @@ function App() {
   }, screens[tab]), /*#__PURE__*/React.createElement("div", {
     style: {
       background: spicy ? "#0d1a0e" : CREAM,
-      borderTop: "2px solid " + DARK,
+      borderTop: "1.5px solid rgba(26,61,31,.45)",
       display: "grid",
       gridTemplateColumns: "repeat(4,1fr)",
       padding: "4px 8px calc(5px + env(safe-area-inset-bottom, 0px))",
+      boxShadow: "0 -4px 16px rgba(26,61,31,.06)",
 
       transition: "background .3s"
     }
