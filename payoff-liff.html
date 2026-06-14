@@ -36,7 +36,7 @@
 </head>
 <body>
 <div id="root">
-  <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;background:#F5F0E8;gap:18px">
+  <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;background:radial-gradient(circle at 20% 10%,rgba(247,201,72,.12),transparent 35%),radial-gradient(circle at 80% 85%,rgba(61,219,90,.10),transparent 30%),#F5F0E8;gap:18px">
     <img src="https://raw.githubusercontent.com/kenwijak/sati-assets/main/salung-happy.jpeg"
          width="84" height="84"
          style="object-fit:contain;width:84px;height:84px;border-radius:24px;animation:popIn .5s ease"
@@ -323,7 +323,7 @@ function SectionHeader(props) {
       fontSize: 11, fontWeight: 900,
       color: spicy ? "#88aa88" : MID,
       letterSpacing: ".06em", textTransform: "uppercase",
-      marginBottom: 8, marginTop: 4
+      marginBottom: 10, marginTop: 14
     }
   },
   icon && React.createElement("span", { style: { fontSize: 13 } }, icon),
@@ -382,7 +382,7 @@ function Sheet(_ref5) {
       bottom: 0,
       background: CREAM,
       borderRadius: "28px 28px 0 0",
-      border: "2.5px solid " + DARK,
+      border: "2px solid " + DARK,
       borderBottom: "none",
       boxShadow: "0 -6px 0 " + DARK,
       padding: "0 0 40px",
@@ -503,7 +503,7 @@ function AmtInput(_ref7) {
       borderRadius: 14,
       outline: "none",
       color: DARK,
-      background: value ? G + "08" : "#fafafa",
+      background: value ? G + "10" : "#FEFCF8",
       transition: "border-color .15s, background .15s"
     }
   }));
@@ -540,7 +540,7 @@ function TextInput(_ref8) {
       borderRadius: 12,
       outline: "none",
       color: DARK,
-      background: value ? G + "08" : "#fafafa",
+      background: value ? G + "10" : "#FEFCF8",
       transition: "border-color .15s, background .15s"
     }
   }));
@@ -986,7 +986,7 @@ function HeroCard(props) {
   return React.createElement("div", {
     className: "sl-hero",
     style: {
-      background: spicy ? "#0d2a10" : accent + "20",
+      background: spicy ? "linear-gradient(145deg, #0f2d12 0%, #0a2209 100%)" : accent + "20",
       border: "2.5px solid " + DARK,
       borderRadius: 20,
       padding: "12px 14px",
@@ -3496,7 +3496,8 @@ function Goal(_ref22) {
   }, "\u0E01\u0E33\u0E25\u0E31\u0E07\u0E42\u0E2B\u0E25\u0E14\u0E40\u0E1B\u0E49\u0E32\u0E2B\u0E21\u0E32\u0E22...")), goalsLoaded && goals.length === 0 && /*#__PURE__*/React.createElement(Card, {
     style: {
       textAlign: "center",
-      padding: "20px 14px"
+      padding: "20px 14px",
+      background: G + "08"
     }
   }, /*#__PURE__*/React.createElement(MascotAsset, { context: "empty", variant: "card" }),
   /*#__PURE__*/React.createElement("div", {
@@ -4923,7 +4924,8 @@ function SaveGoal(_ref24) {
   }, "\u0E01\u0E33\u0E25\u0E31\u0E07\u0E42\u0E2B\u0E25\u0E14\u0E40\u0E1B\u0E49\u0E32\u0E2B\u0E21\u0E32\u0E22...")), goalsLoaded && goals.length === 0 && /*#__PURE__*/React.createElement(Card, {
     style: {
       textAlign: "center",
-      padding: "16px 14px"
+      padding: "16px 14px",
+      background: G + "08"
     }
   }, /*#__PURE__*/React.createElement(MascotAsset, { context: "empty", variant: "card" }),
   /*#__PURE__*/React.createElement("div", {
@@ -5210,7 +5212,8 @@ function App() {
       justifyContent: "space-between",
       alignItems: "center",
       background: spicy ? "#0d1a0e" : CREAM,
-      borderBottom: "2px solid rgba(26,61,31,.7)",
+      borderBottom: "1.5px solid rgba(26,61,31,.45)",
+      boxShadow: "0 2px 10px rgba(26,61,31,.07)",
       transition: "background .3s"
     }
   },
@@ -5327,7 +5330,7 @@ function App() {
     id: "main-scroll",
     style: {
       flex: 1,
-      padding: "12px 16px 160px",
+      padding: "12px 16px 176px",
       overflowY: "auto"
     }
   }, screens[tab]), /*#__PURE__*/React.createElement("div", {
@@ -5337,7 +5340,7 @@ function App() {
       display: "grid",
       gridTemplateColumns: "repeat(4,1fr)",
       padding: "4px 8px calc(5px + env(safe-area-inset-bottom, 0px))",
-      boxShadow: "0 -4px 16px rgba(26,61,31,.06)",
+      boxShadow: "0 -6px 24px rgba(26,61,31,.08)",
 
       transition: "background .3s"
     }
