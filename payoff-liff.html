@@ -1057,7 +1057,7 @@ function SalungToday(props) {
   var state = loading ? "loading" : inc === 0 && exp === 0 ? "empty" : inc === 0 ? "no_inc" : net < 0 ? "over" : spendPct > 80 ? "tight" : "ok";
   var accentColor = state === "over" ? "#FF5A5A" : state === "tight" ? GOLD : G;
   var ctaAction = (state === "empty" || state === "no_inc") ? onAddInc : onAdd;
-  var ctaLabel = state === "over" ? "\u0E27\u0E32\u0E07\u0E41\u0E1C\u0E19\u0E27\u0E31\u0E19\u0E19\u0E35\u0E49"
+  var ctaLabel = state === "over" ? "\u0E1A\u0E31\u0E19\u0E17\u0E36\u0E01\u0E23\u0E32\u0E22\u0E08\u0E48\u0E32\u0E22"
     : (state === "empty" || state === "no_inc") ? "+ \u0E40\u0E1E\u0E34\u0E48\u0E21\u0E23\u0E32\u0E22\u0E23\u0E31\u0E1A"
     : "\u0E1A\u0E31\u0E19\u0E17\u0E36\u0E01\u0E23\u0E32\u0E22\u0E08\u0E48\u0E32\u0E22";
   var headline = state === "loading"
@@ -1733,7 +1733,7 @@ function CashFlow(_ref1) {
   // ── Transaction list
   /*#__PURE__*/React.createElement(Card, {
     style: {
-      padding: "10px 12px 28px"
+      padding: "10px 12px 96px"
     }
   },
   React.createElement("div", {
@@ -1756,7 +1756,7 @@ function CashFlow(_ref1) {
     /*#__PURE__*/React.createElement(MascotAsset, { context: "empty", variant: "card" }),
     /*#__PURE__*/React.createElement("div", {
       style: { fontSize: 13, fontWeight: 900, color: DARK, marginTop: 10, marginBottom: 4 }
-    }, "\u0E22\u0E31\u0E07\u0E44\u0E21\u0E48\u0E21\u0E35\u0E23\u0E32\u0E22\u0E01\u0E32\u0E23\u0E27\u0E31\u0E19\u0E19\u0E35\u0E49"),
+    }, period === "day" ? "\u0E22\u0E31\u0E07\u0E44\u0E21\u0E48\u0E21\u0E35\u0E23\u0E32\u0E22\u0E01\u0E32\u0E23\u0E27\u0E31\u0E19\u0E19\u0E35\u0E49" : period === "week" ? "\u0E22\u0E31\u0E07\u0E44\u0E21\u0E48\u0E21\u0E35\u0E23\u0E32\u0E22\u0E01\u0E32\u0E23\u0E43\u0E19 7 \u0E27\u0E31\u0E19\u0E19\u0E35\u0E49" : "\u0E22\u0E31\u0E07\u0E44\u0E21\u0E48\u0E21\u0E35\u0E23\u0E32\u0E22\u0E01\u0E32\u0E23\u0E40\u0E14\u0E37\u0E2D\u0E19\u0E19\u0E35\u0E49"),
     /*#__PURE__*/React.createElement("div", {
       style: { fontSize: 11, color: MID, fontWeight: 700, lineHeight: 1.6, marginBottom: 12 }
     }, "\u0E40\u0E23\u0E34\u0E48\u0E21\u0E08\u0E32\u0E01\u0E01\u0E32\u0E41\u0E1F\u0E41\u0E01\u0E49\u0E27\u0E41\u0E23\u0E01\u0E01\u0E47\u0E44\u0E14\u0E49 Salung \u0E08\u0E30\u0E08\u0E33\u0E43\u0E2B\u0E49\u0E40\u0E2D\u0E07 \u2615"),
