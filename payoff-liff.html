@@ -232,18 +232,43 @@ var CATS = [{
   label: "อื่นๆ"
 }];
 
+// ── Mascot image asset maps ───────────────────────────────────────────────────
+var MASCOT_ASSETS = {
+  happy: "/salung-happy.jpeg",
+  receipt: "/salung-receipt.jpeg",
+  save: "/salung-save.jpeg",
+  budget: "/salung-budget.jpeg",
+  detective: "/salung-detective.jpeg",
+  cool: "/salung-cool.jpeg",
+  success: "/salung-success.jpeg",
+  thinking: "/salung-thinking.jpeg",
+  warning: "/salung-warning.jpeg",
+  sleeping: "/salung-sleeping.jpeg"
+};
+var MASCOT_BY_CONTEXT = {
+  header: MASCOT_ASSETS.happy,
+  cashflowHero: MASCOT_ASSETS.receipt,
+  saveHero: MASCOT_ASSETS.save,
+  debtHero: MASCOT_ASSETS.detective,
+  moreHero: MASCOT_ASSETS.budget,
+  success: MASCOT_ASSETS.success,
+  warning: MASCOT_ASSETS.warning,
+  empty: MASCOT_ASSETS.thinking,
+  spicy: MASCOT_ASSETS.cool,
+  sleeping: MASCOT_ASSETS.sleeping
+};
+
 // ── primitives ────────────────────────────────────────────────────────────────
 function Face(_ref) {
   var _ref$size = _ref.size,
     size = _ref$size === void 0 ? 40 : _ref$size,
     _ref$mood = _ref.mood,
     mood = _ref$mood === void 0 ? "happy" : _ref$mood;
-  // Map old emoji moods to SalungMascot moods
   var mascotMood = {
     happy: "happy", excited: "proud", thinking: "detective",
     proud: "proud", cheer: "excited", tip: "tip"
   }[mood] || "happy";
-  return /*#__PURE__*/React.createElement(SalungMascot, { mood: mascotMood, size: size });
+  return /*#__PURE__*/React.createElement(MascotAsset, { mood: mascotMood, size: size });
 }
 function Card(_ref2) {
   var children = _ref2.children,
@@ -393,7 +418,7 @@ function Success(_ref6) {
       padding: "16px 8px 8px"
     }
   },
-  /*#__PURE__*/React.createElement(SalungMascot, { mood: "proud", size: 72 }),
+  /*#__PURE__*/React.createElement(MascotAsset, { context: "success", size: 72 }),
   /*#__PURE__*/React.createElement("div", {
     style: {
       fontSize: 28,
@@ -749,6 +774,46 @@ function SalungMascot(props) {
   }].concat(base).concat(extras));
 }
 
+// ── Mascot Asset (image-based with SVG fallback) ──────────────────────────────
+function MascotAsset(props) {
+  var size = props.size || 80;
+  var context = props.context || null;
+  var mood = props.mood || "happy";
+  var moodToAsset = {
+    happy: MASCOT_ASSETS.happy,
+    proud: MASCOT_ASSETS.success,
+    excited: MASCOT_ASSETS.happy,
+    detective: MASCOT_ASSETS.detective,
+    thinking: MASCOT_ASSETS.thinking,
+    budgeting: MASCOT_ASSETS.budget,
+    cool: MASCOT_ASSETS.cool,
+    spicy: MASCOT_ASSETS.cool,
+    sad: MASCOT_ASSETS.warning,
+    tip: MASCOT_ASSETS.thinking
+  };
+  var src = (context && MASCOT_BY_CONTEXT[context]) || moodToAsset[mood] || MASCOT_ASSETS.happy;
+  var _useState_ma = React.useState(false),
+    imgErr = _useState_ma[0],
+    setImgErr = _useState_ma[1];
+  if (imgErr) {
+    return React.createElement(SalungMascot, { mood: mood, size: size });
+  }
+  return React.createElement("img", {
+    src: src,
+    width: size,
+    height: size,
+    className: "sl-mascot",
+    onError: function() { setImgErr(true); },
+    style: {
+      objectFit: "contain",
+      width: size,
+      height: size,
+      flexShrink: 0,
+      display: "block"
+    }
+  });
+}
+
 // ── Hero Card ─────────────────────────────────────────────────────────────────
 function HeroCard(props) {
   var mood = props.mood || "happy";
@@ -760,6 +825,7 @@ function HeroCard(props) {
   var numberColor = props.numberColor || (spicy ? G : DARK);
   var barPct = props.barPct != null ? props.barPct : null;
   var salungText = props.salungText;
+  var mascotContext = props.mascotContext || (spicy ? "spicy" : null);
 
   return React.createElement("div", {
     className: "sl-hero",
@@ -818,7 +884,7 @@ function HeroCard(props) {
         }
       }, "💬 " + salungText)
     ),
-    React.createElement(SalungMascot, { mood: spicy ? "cool" : mood, size: 80 })
+    React.createElement(MascotAsset, { context: mascotContext, mood: mood, size: 92 })
   )
   );
 }
@@ -1378,6 +1444,7 @@ function CashFlow(_ref1) {
   // ── HeroCard — period-aware big answer
   /*#__PURE__*/React.createElement(HeroCard, {
     mood: d.net >= 0 ? "happy" : "sad",
+    mascotContext: "cashflowHero",
     title: period === "day" ? "\u0E27\u0E31\u0E19\u0E19\u0E35\u0E49\u0E40\u0E2B\u0E25\u0E37\u0E2D\u0E43\u0E0A\u0E49" : period === "week" ? "\u0E2A\u0E31\u0E1B\u0E14\u0E32\u0E2B\u0E4C\u0E19\u0E35\u0E49\u0E2A\u0E16\u0E32\u0E19\u0E30\u0E40\u0E07\u0E34\u0E19" : "\u0E40\u0E14\u0E37\u0E2D\u0E19\u0E19\u0E35\u0E49\u0E22\u0E31\u0E07\u0E40\u0E2B\u0E25\u0E37\u0E2D\u0E43\u0E0A\u0E49\u0E44\u0E14\u0E49\u0E08\u0E23\u0E34\u0E07",
     bigNumber: (d.net < 0 ? "-\u0E3F" : "\u0E3F") + Math.abs(Math.round(d.net)).toLocaleString(),
     numberColor: d.net >= 0 ? G : "#FF6B6B",
@@ -2576,6 +2643,7 @@ function Debt(_ref21) {
     }
   }, "+ \u0E08\u0E14\u0E2B\u0E19\u0E35\u0E49\u0E43\u0E2B\u0E21\u0E48"), /*#__PURE__*/React.createElement(HeroCard, {
   mood: debts.length ? "detective" : "happy",
+  mascotContext: "debtHero",
   title: debts.length ? "\u0E27\u0E31\u0E19\u0E1B\u0E25\u0E14\u0E41\u0E2D\u0E01\u0E02\u0E2D\u0E07\u0E40\u0E18\u0E2D" : "\u0E44\u0E21\u0E48\u0E21\u0E35\u0E2B\u0E19\u0E35\u0E49\u0E40\u0E25\u0E22! \uD83C\uDF89",
   bigNumber: debts.length ? freeDate : "\u2014",
   sub: debts.length ? "\u0E40\u0E2B\u0E25\u0E37\u0E2D\u0E2D\u0E35\u0E01 " + monthsLeft + " \u0E40\u0E14\u0E37\u0E2D\u0E19 \u00B7 \u0E2B\u0E19\u0E35\u0E49\u0E23\u0E27\u0E21 \u0E3F" + Math.round(totalDebt).toLocaleString() : "\u0E44\u0E21\u0E48\u0E21\u0E35\u0E2B\u0E19\u0E35\u0E49\u0E01\u0E47\u0E14\u0E35\u0E21\u0E32\u0E01 \u0E16\u0E49\u0E32\u0E21\u0E35 \u0E08\u0E14\u0E44\u0E27\u0E49\u0E01\u0E48\u0E2D\u0E19\u0E19\u0E30",
@@ -3420,7 +3488,8 @@ function More(_ref23) {
   }];
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(HeroCard, {
   mood: "budgeting",
-  title: "\u0E2A\u0E27\u0E31\u0E2A\u0E14\u0E35 " + (profile.name || ""), 
+  mascotContext: "moreHero",
+  title: "\u0E2A\u0E27\u0E31\u0E2A\u0E14\u0E35 " + (profile.name || ""),
   sub: "Zone " + profile.zone,
   accent: GOLD,
   spicy: spicy
@@ -4315,6 +4384,7 @@ function SaveGoal(_ref24) {
     onClick: submitFund
   }))), /*#__PURE__*/React.createElement(HeroCard, {
   mood: saveSummary.total > 0 ? "proud" : "budgeting",
+  mascotContext: "saveHero",
   title: saveSummary.total > 0 ? "\u0E40\u0E07\u0E34\u0E19\u0E2D\u0E2D\u0E21\u0E02\u0E2D\u0E07\u0E40\u0E18\u0E2D\u0E01\u0E33\u0E25\u0E31\u0E07\u0E42\u0E15" : "\u0E40\u0E23\u0E34\u0E48\u0E21\u0E2D\u0E2D\u0E21\u0E27\u0E31\u0E19\u0E19\u0E35\u0E49\u0E40\u0E25\u0E22\u0E19\u0E30 \uD83C\uDF31",
   bigNumber: "\u0E3F" + Math.round(saveSummary.total).toLocaleString(),
   barPct: saveSummary.emergencyPct,
@@ -4946,7 +5016,7 @@ function App() {
     }
   },
   /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10 } },
-    /*#__PURE__*/React.createElement(SalungMascot, { mood: spicy ? "cool" : "happy", size: 40 }),
+    /*#__PURE__*/React.createElement(MascotAsset, { context: spicy ? "spicy" : "header", size: 44 }),
     /*#__PURE__*/React.createElement("div", null,
       /*#__PURE__*/React.createElement("div", {
         style: { fontSize: 16, fontWeight: 900, color: spicy ? G : DARK, lineHeight: 1.1, letterSpacing: "-.01em" }
