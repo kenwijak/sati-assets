@@ -233,17 +233,18 @@ var CATS = [{
 }];
 
 // ── Mascot image asset maps ───────────────────────────────────────────────────
+var ASSET_BASE = "https://raw.githubusercontent.com/kenwijak/sati-assets/main";
 var MASCOT_ASSETS = {
-  happy: "/salung-happy.jpeg",
-  receipt: "/salung-receipt.jpeg",
-  save: "/salung-save.jpeg",
-  budget: "/salung-budget.jpeg",
-  detective: "/salung-detective.jpeg",
-  cool: "/salung-cool.jpeg",
-  success: "/salung-success.jpeg",
-  thinking: "/salung-thinking.jpeg",
-  warning: "/salung-warning.jpeg",
-  sleeping: "/salung-sleeping.jpeg"
+  happy: ASSET_BASE + "/salung-happy.jpeg",
+  receipt: ASSET_BASE + "/salung-receipt.jpeg",
+  save: ASSET_BASE + "/salung-save.jpeg",
+  budget: ASSET_BASE + "/salung-budget.jpeg",
+  detective: ASSET_BASE + "/salung-detective.jpeg",
+  cool: ASSET_BASE + "/salung-cool.jpeg",
+  success: ASSET_BASE + "/salung-success.jpeg",
+  thinking: ASSET_BASE + "/salung-thinking.jpeg",
+  warning: ASSET_BASE + "/salung-warning.jpeg",
+  sleeping: ASSET_BASE + "/salung-sleeping.jpeg"
 };
 var MASCOT_BY_CONTEXT = {
   header: MASCOT_ASSETS.happy,
@@ -792,6 +793,7 @@ function MascotAsset(props) {
     tip: MASCOT_ASSETS.thinking
   };
   var src = (context && MASCOT_BY_CONTEXT[context]) || moodToAsset[mood] || MASCOT_ASSETS.happy;
+  console.log("MascotAsset loading:", src);
   var _useState_ma = React.useState(false),
     imgErr = _useState_ma[0],
     setImgErr = _useState_ma[1];
