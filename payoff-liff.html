@@ -28,6 +28,9 @@
   .sl-hero{animation:slideUp .25s cubic-bezier(.34,1.56,.64,1) both}
   @keyframes skpulse{0%,100%{opacity:.55}50%{opacity:.2}}
   .sl-ph{border-radius:inherit;animation:skpulse 1.4s ease-in-out infinite}
+  .sl-press:active{transform:scale(.96);transition:transform .07s ease}
+  @keyframes coinPop{0%{transform:scale(.35) rotate(-10deg);opacity:0}65%{transform:scale(1.18) rotate(4deg)}100%{transform:scale(1) rotate(0deg);opacity:1}}
+  .sl-coin{animation:coinPop .5s cubic-bezier(.34,1.56,.64,1) both}
 </style>
 </head>
 <body>
@@ -420,10 +423,11 @@ function Success(_ref6) {
   },
   /*#__PURE__*/React.createElement(MascotAsset, { context: "success", variant: "state" }),
   /*#__PURE__*/React.createElement("div", {
+    className: "sl-coin",
     style: {
-      fontSize: 28,
+      fontSize: 34,
       marginTop: 8,
-      marginBottom: 4
+      marginBottom: 6
     }
   }, icon), /*#__PURE__*/React.createElement("div", {
     style: {
@@ -442,6 +446,7 @@ function Success(_ref6) {
       padding: "0 8px"
     }
   }, sub), /*#__PURE__*/React.createElement("button", {
+    className: "sl-press",
     onClick: onClose,
     style: {
       width: "100%",
@@ -542,6 +547,7 @@ function ConfirmBtn(_ref9) {
     disabled = _ref9.disabled,
     onClick = _ref9.onClick;
   return /*#__PURE__*/React.createElement("button", {
+    className: "sl-press",
     onClick: onClick,
     disabled: disabled,
     style: {
@@ -643,6 +649,7 @@ function NBA(_ref0) {
       marginTop: 2
     }
   }, /*#__PURE__*/React.createElement("button", {
+    className: "sl-press",
     onClick: onAction,
     style: {
       flex: 1,
@@ -916,7 +923,6 @@ function MascotAsset(props) {
     imgLoaded = _sl[0], setImgLoaded = _sl[1];
 
   React.useEffect(function() {
-    console.log("MascotAsset src:", src);
     setImgLoaded(false);
     if (_bgCache.has(src)) {
       setDisplayedSrc(_bgCache.get(src));
@@ -1811,6 +1817,7 @@ function CashFlow(_ref1) {
     )
   ),
   /*#__PURE__*/React.createElement("button", {
+    className: "sl-press",
     onClick: function() { setSheet(true); },
     style: {
       position: "fixed", right: 24, bottom: 100,
@@ -2804,7 +2811,7 @@ function Debt(_ref21) {
       padding: "11px 0",
       fontSize: 12,
       fontWeight: 900,
-      background: "#fff",
+      background: spicy ? "#1a3a1f" : CREAM,
       color: DARK,
       border: "2px solid ".concat(DARK),
       borderRadius: 12,
@@ -5307,7 +5314,7 @@ function App() {
   }, screens[tab]), /*#__PURE__*/React.createElement("div", {
     style: {
       background: spicy ? "#0d1a0e" : CREAM,
-      borderTop: "2.5px solid " + DARK,
+      borderTop: "2px solid " + DARK,
       display: "grid",
       gridTemplateColumns: "repeat(4,1fr)",
       padding: "4px 8px calc(5px + env(safe-area-inset-bottom, 0px))",
