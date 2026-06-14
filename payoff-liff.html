@@ -1071,6 +1071,10 @@ function CashFlow(_ref1) {
     _useState16 = _slicedToArray(_useState15, 2),
     done = _useState16[0],
     setDone = _useState16[1]; // {amt,cat,note}
+  var _useState25 = useState(false),
+    _useState26 = _slicedToArray(_useState25, 2),
+    showAllTxns = _useState26[0],
+    setShowAllTxns = _useState26[1];
 
   // form state
   var _useState17 = useState(""),
@@ -1649,10 +1653,24 @@ function CashFlow(_ref1) {
   // ── Transaction list
   /*#__PURE__*/React.createElement(Card, {
     style: {
-      padding: "12px 12px 6px"
+      padding: "10px 12px 4px"
     }
   },
-  React.createElement(SectionHeader, { icon: "\uD83D\uDCCB", text: "\u0E23\u0E32\u0E22\u0E01\u0E32\u0E23\u0E25\u0E48\u0E32\u0E2A\u0E38\u0E14", spicy: spicy }),
+  React.createElement("div", {
+    style: { display: "flex", alignItems: "center", gap: 4, marginBottom: 2, marginTop: 2 }
+  },
+    React.createElement(SectionHeader, { icon: "\uD83D\uDCCB", text: "\u0E23\u0E32\u0E22\u0E01\u0E32\u0E23\u0E25\u0E48\u0E32\u0E2A\u0E38\u0E14", spicy: spicy }),
+    txns.length > 5 && React.createElement("button", {
+      onClick: function() { setShowAllTxns(function(v) { return !v; }); },
+      style: {
+        flexShrink: 0,
+        background: "none", border: "none", cursor: "pointer",
+        fontSize: 10, fontWeight: 800,
+        color: spicy ? G : MID,
+        letterSpacing: ".04em", padding: "0 0 8px 2px"
+      }
+    }, showAllTxns ? "\u0E22\u0E48\u0E2D\u0E40\u0E2B\u0E25\u0E37\u0E2D \u25B2" : "\u0E14\u0E39\u0E17\u0E31\u0E49\u0E07\u0E2B\u0E21\u0E14 \u25BC")
+  ),
   txns.length === 0 && /*#__PURE__*/React.createElement("div", {
     style: { textAlign: "center", padding: "20px 16px 24px" }
   },
@@ -1672,15 +1690,16 @@ function CashFlow(_ref1) {
       }
     }, "+ \u0E1A\u0E31\u0E19\u0E17\u0E36\u0E01\u0E23\u0E32\u0E22\u0E01\u0E32\u0E23")
   ),
-  txns.map(function (t, i) {
+  (showAllTxns ? txns : txns.slice(0, 5)).map(function (t, i) {
+    var listLen = showAllTxns ? txns.length : Math.min(txns.length, 5);
     return /*#__PURE__*/React.createElement("div", {
       key: i,
       style: {
         display: "flex",
         alignItems: "center",
-        gap: 10,
-        padding: "9px 0",
-        borderBottom: i < txns.length - 1 ? "1px solid #f0f0f0" : "none"
+        gap: 9,
+        padding: "7px 0",
+        borderBottom: i < listLen - 1 ? "1px solid #f0f0f0" : "none"
       }
     }, /*#__PURE__*/React.createElement("span", {
       style: {
@@ -1688,13 +1707,17 @@ function CashFlow(_ref1) {
       }
     }, t.cat), /*#__PURE__*/React.createElement("div", {
       style: {
-        flex: 1
+        flex: 1,
+        minWidth: 0
       }
     }, /*#__PURE__*/React.createElement("div", {
       style: {
         fontSize: 12,
         fontWeight: 700,
-        color: DARK
+        color: DARK,
+        overflow: "hidden",
+        textOverflow: "ellipsis",
+        whiteSpace: "nowrap"
       }
     }, t.note), /*#__PURE__*/React.createElement("div", {
       style: {
@@ -1706,7 +1729,8 @@ function CashFlow(_ref1) {
         fontSize: 13,
         fontWeight: 900,
         color: t.amt > 0 ? G : "#E53E3E",
-        marginRight: 4
+        marginRight: 4,
+        flexShrink: 0
       }
     }, t.amt > 0 ? "+" : "", "\u0E3F", Math.abs(t.amt).toLocaleString()), /*#__PURE__*/React.createElement("button", {
       onClick: function onClick() {
