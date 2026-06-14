@@ -2242,9 +2242,9 @@ function Save(_ref18) {
       },
       style: {
         padding: "7px 12px",
-        background: dest === o.id ? DARK : "#f5f5f5",
-        color: dest === o.id ? "#fff" : DARK,
-        border: "2px solid ".concat(dest === o.id ? DARK : "#ddd"),
+        background: dest === o.id ? G + "28" : "#fafaf8",
+        color: DARK,
+        border: "1.5px solid " + (dest === o.id ? G : DARK + "20"),
         borderRadius: 99,
         cursor: "pointer",
         fontSize: 12,
@@ -2252,7 +2252,7 @@ function Save(_ref18) {
         display: "flex",
         alignItems: "center",
         gap: 5,
-        boxShadow: dest === o.id ? "2px 2px 0 ".concat(DARK) : "none"
+        boxShadow: "none"
       }
     }, /*#__PURE__*/React.createElement("span", {
       style: {
@@ -3724,11 +3724,22 @@ function Goal(_ref22) {
         alignItems: "center",
         gap: 8
       }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        width: 36,
+        height: 36,
+        borderRadius: "50%",
+        background: G + "20",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        flexShrink: 0
+      }
     }, /*#__PURE__*/React.createElement("span", {
       style: {
-        fontSize: 20
+        fontSize: 18
       }
-    }, g.icon), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    }, g.icon)), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
       style: {
         fontSize: 12,
         fontWeight: 800,
@@ -4623,9 +4634,9 @@ function SaveGoal(_ref24) {
       },
       style: {
         padding: "7px 12px",
-        background: dest === o.id ? DARK : "#f5f5f5",
-        color: dest === o.id ? "#fff" : DARK,
-        border: "2px solid ".concat(dest === o.id ? DARK : "#ddd"),
+        background: dest === o.id ? G + "28" : "#fafaf8",
+        color: DARK,
+        border: "1.5px solid " + (dest === o.id ? G : DARK + "20"),
         borderRadius: 99,
         cursor: "pointer",
         fontSize: 12,
@@ -4633,7 +4644,7 @@ function SaveGoal(_ref24) {
         display: "flex",
         alignItems: "center",
         gap: 5,
-        boxShadow: dest === o.id ? "2px 2px 0 ".concat(DARK) : "none"
+        boxShadow: "none"
       }
     }, /*#__PURE__*/React.createElement("span", {
       style: {
@@ -4745,10 +4756,10 @@ function SaveGoal(_ref24) {
   }))), /*#__PURE__*/React.createElement(HeroCard, {
   mood: saveSummary.total > 0 ? "proud" : "budgeting",
   mascotContext: "saveHero",
-  title: "\u0E2D\u0E2D\u0E21\u0E41\u0E25\u0E49\u0E27\u0E17\u0E31\u0E49\u0E07\u0E2B\u0E21\u0E14",
+  title: "\u0E40\u0E07\u0E34\u0E19\u0E2D\u0E2D\u0E21\u0E17\u0E31\u0E49\u0E07\u0E2B\u0E21\u0E14",
   bigNumber: "\u0E3F" + Math.round(saveSummary.total).toLocaleString(),
   barPct: saveSummary.emergencyPct,
-  sub: "\u0E40\u0E14\u0E37\u0E2D\u0E19\u0E19\u0E35\u0E49\u0E2D\u0E2D\u0E21\u0E40\u0E1E\u0E34\u0E48\u0E21 \u0E3F" + Math.round(saveSummary.thisMonth).toLocaleString(),
+  sub: "\u0E40\u0E14\u0E37\u0E2D\u0E19\u0E19\u0E35\u0E49\u0E2D\u0E2D\u0E21\u0E41\u0E25\u0E49\u0E27 \u0E3F" + Math.round(saveSummary.thisMonth).toLocaleString(),
   salungText: saveSummary.total > 0 ? "\u0E40\u0E25\u0E47\u0E01\u0E41\u0E04\u0E48\u0E44\u0E2B\u0E19\u0E01\u0E47\u0E19\u0E31\u0E1A\u0E27\u0E48\u0E32\u0E42\u0E15\u0E02\u0E36\u0E49\u0E19\u0E19\u0E30 \uD83C\uDF31" : "\u0E40\u0E23\u0E34\u0E48\u0E21\u0E27\u0E31\u0E19\u0E19\u0E35\u0E49\u0E01\u0E47\u0E44\u0E14\u0E49 \u0E17\u0E38\u0E01\u0E1A\u0E32\u0E17\u0E19\u0E31\u0E1A \uD83C\uDF31",
   accent: G,
   spicy: spicy
@@ -4793,49 +4804,7 @@ function SaveGoal(_ref24) {
       borderRadius: 99,
       cursor: "pointer"
     }
-  }, "\uD83C\uDFAF \u0E40\u0E1E\u0E34\u0E48\u0E21\u0E40\u0E1B\u0E49\u0E32\u0E2B\u0E21\u0E32\u0E22")), /*#__PURE__*/React.createElement(Card, {
-    style: {
-      background: spicy ? DARK : G + "10",
-      border: "1.5px solid " + (spicy ? G + "22" : G + "30")
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "flex",
-      justifyContent: "space-between",
-      alignItems: "flex-start"
-    }
-  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 11,
-      color: MID,
-      fontWeight: 700,
-      marginBottom: 2,
-      letterSpacing: ".02em"
-    }
-  }, "\u0E2D\u0E2D\u0E21\u0E2A\u0E30\u0E2A\u0E21\u0E17\u0E31\u0E49\u0E07\u0E2B\u0E21\u0E14"), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 32,
-      fontWeight: 900,
-      color: spicy ? G : DARK
-    }
-  }, "\u0E3F", saveSummary.total.toLocaleString()), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 10,
-      color: "#aaa",
-      fontWeight: 600
-    }
-  }, "\u0E40\u0E07\u0E34\u0E19\u0E2D\u0E2D\u0E21 + \u0E40\u0E07\u0E34\u0E19\u0E1D\u0E32\u0E01 \xB7 \u0E44\u0E21\u0E48\u0E23\u0E27\u0E21\u0E25\u0E07\u0E17\u0E38\u0E19"), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 11,
-      color: spicy ? G : MID,
-      fontWeight: 700,
-      marginTop: 4
-    }
-  }, spicy ? "\u0E3F".concat(saveSummary.total.toLocaleString(), " \u0E22\u0E31\u0E07\u0E44\u0E21\u0E48\u0E23\u0E27\u0E22\u0E41\u0E15\u0E48\u0E14\u0E35\u0E01\u0E27\u0E48\u0E32\u0E40\u0E21\u0E37\u0E48\u0E2D\u0E1B\u0E35\u0E17\u0E35\u0E48\u0E41\u0E25\u0E49\u0E27\u0E41\u0E19\u0E48\u0E19\u0E2D\u0E19") : "\u0E2D\u0E2D\u0E21\u0E44\u0E1B\u0E41\u0E25\u0E49\u0E27 \u0E3F".concat(saveSummary.thisMonth.toLocaleString(), " \u0E40\u0E14\u0E37\u0E2D\u0E19\u0E19\u0E35\u0E49 \uD83C\uDF31"))), /*#__PURE__*/React.createElement(Face, {
-    size: 44,
-    variant: "card",
-    mood: "proud"
-  }))), /*#__PURE__*/React.createElement(Card, null, /*#__PURE__*/React.createElement("div", {
+  }, "\uD83C\uDFAF \u0E40\u0E1E\u0E34\u0E48\u0E21\u0E40\u0E1B\u0E49\u0E32\u0E2B\u0E21\u0E32\u0E22")), /*#__PURE__*/React.createElement(Card, null, /*#__PURE__*/React.createElement("div", {
     style: {
       fontSize: 12,
       fontWeight: 800,
@@ -5095,7 +5064,7 @@ function SaveGoal(_ref24) {
       marginTop: 8,
       fontSize: 14
     }
-  }, "\uD83C\uDFAF \u0E40\u0E1B\u0E49\u0E32\u0E2B\u0E21\u0E32\u0E22"), !goalsLoaded && /*#__PURE__*/React.createElement(Card, null, /*#__PURE__*/React.createElement("div", {
+  }, "\u0E40\u0E1B\u0E49\u0E32\u0E2B\u0E21\u0E32\u0E22\u0E17\u0E35\u0E48\u0E01\u0E33\u0E25\u0E31\u0E07\u0E1B\u0E31\u0E49\u0E19 \uD83C\uDFAF"), !goalsLoaded && /*#__PURE__*/React.createElement(Card, null, /*#__PURE__*/React.createElement("div", {
     style: {
       textAlign: "center",
       color: "#aaa",
@@ -5160,11 +5129,22 @@ function SaveGoal(_ref24) {
         alignItems: "center",
         gap: 8
       }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        width: 36,
+        height: 36,
+        borderRadius: "50%",
+        background: G + "20",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        flexShrink: 0
+      }
     }, /*#__PURE__*/React.createElement("span", {
       style: {
-        fontSize: 20
+        fontSize: 18
       }
-    }, g.icon), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    }, g.icon)), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
       style: {
         fontSize: 12,
         fontWeight: 800,
@@ -5228,76 +5208,15 @@ function SaveGoal(_ref24) {
         cursor: "pointer"
       }
     }, "\uD83D\uDDD1\uFE0F")));
-  }), /*#__PURE__*/React.createElement(Card, {
+  }), /*#__PURE__*/React.createElement("div", {
     style: {
-      opacity: .85,
-      marginTop: 4
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "flex",
-      justifyContent: "space-between",
-      alignItems: "center",
-      marginBottom: 10
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 12,
-      fontWeight: 800,
-      color: DARK
-    }
-  }, "\u0E1E\u0E2D\u0E23\u0E4C\u0E15\u0E25\u0E07\u0E17\u0E38\u0E19"), /*#__PURE__*/React.createElement(Tag, {
-    color: "#f0f0f0"
-  }, /*#__PURE__*/React.createElement("span", {
-    style: {
-      color: "#999"
-    }
-  }, "\u26D3\uFE0F \u0E40\u0E23\u0E47\u0E27\u0E46 \u0E19\u0E35\u0E49"))), ["หุ้น / ETF", "กองทุนรวม", "คริปโต"].map(function (lbl, i) {
-    return /*#__PURE__*/React.createElement("div", {
-      key: i,
-      style: {
-        marginBottom: 8
-      }
-    }, /*#__PURE__*/React.createElement("div", {
-      style: {
-        display: "flex",
-        justifyContent: "space-between",
-        marginBottom: 3
-      }
-    }, /*#__PURE__*/React.createElement("span", {
-      style: {
-        fontSize: 12,
-        fontWeight: 700,
-        color: "#bbb"
-      }
-    }, lbl), /*#__PURE__*/React.createElement("span", {
-      style: {
-        fontSize: 12,
-        color: "#ccc"
-      }
-    }, "\u2014 \u2014 \u2014")), /*#__PURE__*/React.createElement("div", {
-      style: {
-        height: 7,
-        background: "#f0f0f0",
-        borderRadius: 99
-      }
-    }));
-  }), /*#__PURE__*/React.createElement("button", {
-    onClick: function onClick() {
-      return setInvestToast(true);
-    },
-    style: {
-      width: "100%",
-      marginTop: 4,
-      padding: "10px 0",
-      background: "#f7f7f7",
-      border: "2px dashed #ccc",
-      borderRadius: 12,
-      cursor: "pointer",
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
-      gap: 8
+      padding: "12px 4px",
+      marginTop: 4,
+      opacity: .45,
+      gap: 6
     }
   }, /*#__PURE__*/React.createElement("span", {
     style: {
@@ -5306,10 +5225,10 @@ function SaveGoal(_ref24) {
   }, "\u26D3\uFE0F"), /*#__PURE__*/React.createElement("span", {
     style: {
       fontSize: 12,
-      fontWeight: 800,
-      color: "#aaa"
+      fontWeight: 700,
+      color: DARK
     }
-  }, "\u0E40\u0E0A\u0E37\u0E48\u0E2D\u0E21\u0E1E\u0E2D\u0E23\u0E4C\u0E15\u0E25\u0E07\u0E17\u0E38\u0E19 (\u0E01\u0E33\u0E25\u0E31\u0E07\u0E1E\u0E31\u0E12\u0E19\u0E32)"))));
+  }, "\u0E40\u0E0A\u0E37\u0E48\u0E2D\u0E21\u0E1E\u0E2D\u0E23\u0E4C\u0E15\u0E25\u0E07\u0E17\u0E38\u0E19 (\u0E01\u0E33\u0E25\u0E31\u0E07\u0E1E\u0E31\u0E12\u0E19\u0E32)")));
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
