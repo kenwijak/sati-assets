@@ -7,11 +7,12 @@
 <script src="https://static.line-scdn.net/liff/edge/versions/2.22.3/sdk.js"></script>
 <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
 <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700;800&family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
 <style>
   *{box-sizing:border-box;margin:0;padding:0}
   body,html{width:100%;height:100%;overflow-x:hidden}
-  body{font-family:'Nunito',sans-serif;-webkit-font-smoothing:antialiased;background:#F5F0E8}
+  body{font-family:'IBM Plex Sans Thai','Noto Sans Thai',system-ui,-apple-system,BlinkMacSystemFont,sans-serif;-webkit-font-smoothing:antialiased;background:#F5F0E8;line-height:1.5}
+  .sl-number,.sl-amount,.sl-hero-number{font-family:'Nunito','IBM Plex Sans Thai',system-ui,sans-serif}
   #root{display:flex;flex-direction:column;min-height:100vh;width:100%}
   ::-webkit-scrollbar{width:0}
   @keyframes spin{to{transform:rotate(360deg)}}
@@ -41,7 +42,7 @@
          style="object-fit:contain;width:84px;height:84px;border-radius:24px;animation:popIn .5s ease"
          alt="">
     <div style="width:36px;height:36px;border:3px solid rgba(61,219,90,.2);border-top-color:#3DDB5A;border-radius:50%;animation:spin .9s linear infinite"></div>
-    <div style="font-size:12px;color:#6B8F72;font-family:'Nunito',sans-serif;font-weight:700;letter-spacing:.03em">กำลังโหลด Salung</div>
+    <div style="font-size:12px;color:#6B8F72;font-family:'IBM Plex Sans Thai',sans-serif;font-weight:600;letter-spacing:.02em">กำลังโหลด Salung</div>
   </div>
 </div>
 <script>
@@ -234,6 +235,8 @@ var CATS = [{
 }];
 
 // ── Mascot image asset maps ───────────────────────────────────────────────────
+// To use transparent PNG/WebP: swap .jpeg → .webp or .png when files are added to the repo
+// e.g. happy: ASSET_BASE + "/salung-happy.webp"
 var ASSET_BASE = "https://raw.githubusercontent.com/kenwijak/sati-assets/main";
 var MASCOT_ASSETS = {
   happy: ASSET_BASE + "/salung-happy.jpeg",
@@ -923,14 +926,14 @@ function MascotAsset(props) {
     imgLoaded = _sl[0], setImgLoaded = _sl[1];
 
   React.useEffect(function() {
-    setImgLoaded(false);
     if (_bgCache.has(src)) {
       setDisplayedSrc(_bgCache.get(src));
       setImgLoaded(true);
       return;
     }
-    // Show raw image immediately, then upgrade to transparent PNG when ready
+    // Show raw image immediately while background removal runs in background
     setDisplayedSrc(src);
+    setImgLoaded(false);
     removeMascotBg(src, function(result) { setDisplayedSrc(result); setImgLoaded(true); });
   }, [src]);
 
@@ -963,7 +966,7 @@ function MascotAsset(props) {
     alt: "salung mascot",
     onLoad: function() { setImgLoaded(true); },
     onError: function() { setImgErr(true); },
-    style: { objectFit: "contain", width: "100%", height: "100%", display: "block", opacity: imgLoaded ? 1 : 0.88, transition: "opacity .25s" }
+    style: { objectFit: "contain", width: "100%", height: "100%", display: "block", opacity: displayedSrc ? 1 : 0, transition: "opacity .18s ease" }
   }));
 }
 
@@ -5151,12 +5154,17 @@ function App() {
     spicyConfirm = _useState144[0],
     setSpicyConfirm = _useState144[1];
   React.useEffect(function() {
-    var preload = [
+    // Warm browser cache via lightweight Image() so tab switching feels instant
+    [
       MASCOT_ASSETS.happy, MASCOT_ASSETS.receipt, MASCOT_ASSETS.save,
       MASCOT_ASSETS.detective, MASCOT_ASSETS.thinking, MASCOT_ASSETS.success,
-      MASCOT_ASSETS.warning
-    ];
-    preload.forEach(function(src) {
+      MASCOT_ASSETS.warning, MASCOT_ASSETS.cool
+    ].forEach(function(src) {
+      var img = new Image();
+      img.src = src;
+    });
+    // Warm _bgCache for the first-seen mascots so first render is instant
+    [MASCOT_ASSETS.happy, MASCOT_ASSETS.receipt].forEach(function(src) {
       if (!_bgCache.has(src)) removeMascotBg(src, function() {});
     });
   }, []);
