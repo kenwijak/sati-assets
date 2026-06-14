@@ -1048,7 +1048,7 @@ function HeroCard(props) {
 }
 
 function SalungToday(props) {
-  var inc = props.inc, exp = props.exp, net = props.net, spicy = props.spicy, loading = props.loading, onAdd = props.onAdd, onAddInc = props.onAddInc;
+  var inc = props.inc, exp = props.exp, net = props.net, spicy = props.spicy, loading = props.loading, onAdd = props.onAdd, onAddInc = props.onAddInc, onPlan = props.onPlan;
   var today = new Date();
   var daysInMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate();
   var daysLeft = Math.max(1, daysInMonth - today.getDate() + 1);
@@ -1056,8 +1056,8 @@ function SalungToday(props) {
   var dailyAllowance = (inc > 0 && net > 0) ? Math.round(net / daysLeft) : null;
   var state = loading ? "loading" : inc === 0 && exp === 0 ? "empty" : inc === 0 ? "no_inc" : net < 0 ? "over" : spendPct > 80 ? "tight" : "ok";
   var accentColor = state === "over" ? "#FF5A5A" : state === "tight" ? GOLD : G;
-  var ctaAction = (state === "empty" || state === "no_inc") ? onAddInc : onAdd;
-  var ctaLabel = state === "over" ? "\u0E1A\u0E31\u0E19\u0E17\u0E36\u0E01\u0E23\u0E32\u0E22\u0E08\u0E48\u0E32\u0E22"
+  var ctaAction = (state === "empty" || state === "no_inc") ? onAddInc : (state === "over" || state === "tight") ? (onPlan || onAdd) : onAdd;
+  var ctaLabel = (state === "over" || state === "tight") ? "\u0E27\u0E32\u0E07\u0E41\u0E1C\u0E19\u0E27\u0E31\u0E19\u0E19\u0E35\u0E49"
     : (state === "empty" || state === "no_inc") ? "+ \u0E40\u0E1E\u0E34\u0E48\u0E21\u0E23\u0E32\u0E22\u0E23\u0E31\u0E1A"
     : "\u0E1A\u0E31\u0E19\u0E17\u0E36\u0E01\u0E23\u0E32\u0E22\u0E08\u0E48\u0E32\u0E22";
   var headline = state === "loading"
@@ -1140,6 +1140,7 @@ function CashFlow(_ref1) {
     _useState14 = _slicedToArray(_useState13, 2),
     sheet = _useState14[0],
     setSheet = _useState14[1];
+  var _usR0 = useState(false), _usR1 = _slicedToArray(_usR0, 2), recoverySheet = _usR1[0], setRecoverySheet = _usR1[1];
   var _useState15 = useState(null),
     _useState16 = _slicedToArray(_useState15, 2),
     done = _useState16[0],
@@ -1611,12 +1612,47 @@ function CashFlow(_ref1) {
     disabled: !amt || Number(amt) <= 0,
     onClick: submit
   })))),
+  React.createElement(Sheet, {open: recoverySheet, onClose: function() { setRecoverySheet(false); }},
+    React.createElement("div", {style: {fontWeight: 900, fontSize: 17, color: DARK, marginBottom: 6}},
+      "\u0E41\u0E1C\u0E19\u0E40\u0E2D\u0E32\u0E15\u0E31\u0E27\u0E23\u0E2D\u0E14\u0E27\u0E31\u0E19\u0E19\u0E35\u0E49"),
+    React.createElement("div", {style: {fontSize: 13, color: MID, marginBottom: 16, lineHeight: 1.5}},
+      cashSummary.net < 0
+        ? "\u0E27\u0E31\u0E19\u0E19\u0E35\u0E49\u0E02\u0E2D\u0E04\u0E38\u0E21\u0E23\u0E32\u0E22\u0E08\u0E48\u0E32\u0E22\u0E01\u0E48\u0E2D\u0E19\u0E19\u0E30"
+        : "\u0E25\u0E2D\u0E07\u0E40\u0E25\u0E37\u0E2D\u0E01 1 \u0E2D\u0E22\u0E48\u0E32\u0E07\u0E17\u0E35\u0E48\u0E17\u0E33\u0E44\u0E14\u0E49\u0E27\u0E31\u0E19\u0E19\u0E35\u0E49"),
+    React.createElement("div", {style: {display: "flex", flexDirection: "column", gap: 8, marginBottom: 20}},
+      ["\u0E07\u0E14\u0E02\u0E2D\u0E07\u0E1F\u0E38\u0E48\u0E21\u0E40\u0E1F\u0E37\u0E2D\u0E22\u0E27\u0E31\u0E19\u0E19\u0E35\u0E49", "\u0E08\u0E33\u0E01\u0E31\u0E14\u0E07\u0E1A\u0E27\u0E31\u0E19\u0E19\u0E35\u0E49", "\u0E1A\u0E31\u0E19\u0E17\u0E36\u0E01\u0E23\u0E32\u0E22\u0E08\u0E48\u0E32\u0E22\u0E17\u0E35\u0E48\u0E08\u0E33\u0E40\u0E1B\u0E47\u0E19\u0E40\u0E17\u0E48\u0E32\u0E19\u0E31\u0E49\u0E19"].map(function(opt, i) {
+        return React.createElement("div", {key: i, style: {padding: "10px 14px", borderRadius: 12, border: "1.5px solid " + DARK, fontSize: 13, fontWeight: 700, color: DARK, background: spicy ? "#1a2e1c" : "#f8f8f0"}}, "\u2713 ", opt);
+      })
+    ),
+    React.createElement("button", {
+      onClick: function() { setRecoverySheet(false); },
+      style: {width: "100%", padding: "12px", borderRadius: 99, background: G, color: DARK, border: "2px solid " + DARK, fontSize: 14, fontWeight: 900, cursor: "pointer", boxShadow: "2px 2px 0 " + DARK, marginBottom: 10}
+    }, "\u0E40\u0E23\u0E34\u0E48\u0E21\u0E41\u0E1C\u0E19\u0E27\u0E31\u0E19\u0E19\u0E35\u0E49"),
+    React.createElement("button", {
+      onClick: function() { setRecoverySheet(false); setType("expense"); setSheet(true); },
+      style: {width: "100%", padding: "11px", borderRadius: 99, background: "transparent", color: DARK, border: "1.5px solid " + DARK, fontSize: 13, fontWeight: 700, cursor: "pointer"}
+    }, "\u0E1A\u0E31\u0E19\u0E17\u0E36\u0E01\u0E23\u0E32\u0E22\u0E08\u0E48\u0E32\u0E22\u0E41\u0E17\u0E19")
+  ),
   isCurrent && React.createElement(SalungToday, {
     inc: cashSummary.inc, exp: cashSummary.exp, net: cashSummary.net,
     spicy: spicy, loading: allocLoading,
     onAdd: function() { setSheet(true); },
-    onAddInc: function() { setType("income"); setSheet(true); }
+    onAddInc: function() { setType("income"); setSheet(true); },
+    onPlan: function() { setRecoverySheet(true); }
   }),
+  isCurrent && cashSummary.inc === 0 && cashSummary.exp === 0 && !allocLoading && React.createElement("div", {
+    className: "sl-card",
+    style: {background: spicy ? "#0a1f0d" : "#F0FAF4", border: "1.5px solid " + G, borderRadius: 20, padding: "16px", marginBottom: 14}
+  },
+    React.createElement("div", {style: {fontWeight: 900, fontSize: 15, color: DARK, marginBottom: 10}}, "\u0E40\u0E23\u0E34\u0E48\u0E21\u0E23\u0E39\u0E49\u0E08\u0E31\u0E01\u0E40\u0E18\u0E2D\u0E01\u0E48\u0E2D\u0E19\u0E19\u0E30 \uD83D\uDC4B"),
+    ["\u0E40\u0E14\u0E37\u0E2D\u0E19\u0E19\u0E35\u0E49\u0E21\u0E35\u0E40\u0E07\u0E34\u0E19\u0E43\u0E0A\u0E49\u0E1B\u0E23\u0E30\u0E21\u0E32\u0E13\u0E40\u0E17\u0E48\u0E32\u0E44\u0E2B\u0E23\u0E48?", "\u0E21\u0E35\u0E2B\u0E19\u0E35\u0E49\u0E2B\u0E23\u0E37\u0E2D\u0E1C\u0E48\u0E2D\u0E19\u0E2D\u0E30\u0E44\u0E23\u0E44\u0E2B\u0E21?", "\u0E2D\u0E22\u0E32\u0E01\u0E43\u0E2B\u0E49 Salung \u0E04\u0E38\u0E22\u0E42\u0E17\u0E19\u0E44\u0E2B\u0E19?"].map(function(q, i) {
+      return React.createElement("div", {key: i, style: {fontSize: 12, color: spicy ? "#aaa" : MID, padding: "5px 0", borderBottom: i < 2 ? "1px solid " + DARK + "10" : "none"}}, "\u25B8 " + q);
+    }),
+    React.createElement("button", {
+      onClick: function() { setType("income"); setSheet(true); },
+      style: {marginTop: 12, width: "100%", padding: "11px", borderRadius: 99, background: G, color: DARK, border: "2px solid " + DARK, fontSize: 13, fontWeight: 900, cursor: "pointer", boxShadow: "2px 2px 0 " + DARK}
+    }, "\u0E40\u0E23\u0E34\u0E48\u0E21\u0E15\u0E31\u0E49\u0E07\u0E04\u0E48\u0E32 1 \u0E19\u0E32\u0E17\u0E35")
+  ),
   // ── Period switcher (top, sticker chips)
   /*#__PURE__*/React.createElement("div", {
     style: { display: "flex", gap: 6, marginBottom: 8 }
@@ -1886,7 +1922,20 @@ function CashFlow(_ref1) {
     }, "\u0E3F", Math.max(0, d.net).toLocaleString())
   ),
   /*#__PURE__*/React.createElement(Bar, { pct: d.inc > 0 ? d.exp / d.inc * 100 : 0, color: G, height: 10 })
-    )
+    ), alloc.length > 1 && (function() {
+      var expenses = alloc.filter(function(r) { return r.amt < 0; });
+      if (!expenses.length) return null;
+      var topCat = expenses.reduce(function(a, b) { return Math.abs(a.amt) > Math.abs(b.amt) ? a : b; });
+      if (!topCat || Math.abs(topCat.amt) < 100) return null;
+      return React.createElement("div", {
+        style: {background: spicy ? "#1a2e1c" : "#fffff8", border: "1.5px dashed " + (spicy ? G + "44" : DARK + "30"), borderRadius: 14, padding: "10px 14px", marginTop: 10, fontSize: 12, lineHeight: 1.5}
+      },
+        React.createElement("div", {style: {fontWeight: 900, color: spicy ? G : DARK, marginBottom: 2}},
+          "\uD83D\uDCA1 \u0E40\u0E14\u0E37\u0E2D\u0E19\u0E19\u0E35\u0E49\u0E40\u0E07\u0E34\u0E19\u0E44\u0E2B\u0E25\u0E44\u0E1B\u0E17\u0E35\u0E48 " + topCat.icon + " " + topCat.label + " \u0E21\u0E32\u0E01\u0E2A\u0E38\u0E14 \u0E3F" + Math.abs(Math.round(topCat.amt)).toLocaleString()),
+        React.createElement("div", {style: {color: spicy ? "#88aa88" : MID}},
+          "\u0E16\u0E49\u0E32\u0E25\u0E14 " + topCat.label + " \u0E25\u0E07\u0E19\u0E34\u0E14\u0E40\u0E14\u0E35\u0E22\u0E27 \u0E40\u0E14\u0E37\u0E2D\u0E19\u0E19\u0E35\u0E49\u0E08\u0E30\u0E40\u0E2B\u0E25\u0E37\u0E2D\u0E40\u0E1E\u0E34\u0E48\u0E21\u0E02\u0E36\u0E49\u0E19")
+      );
+    })()
   ),
   /*#__PURE__*/React.createElement("button", {
     className: "sl-press",
@@ -2914,7 +2963,7 @@ function Debt(_ref21) {
       var interest = top && top.rate > 0 ? Math.round(top.bal * (top.rate / 100) / 12 * savedMonths) : 0;
       if (!savedMonths || savedMonths <= 0 || isNaN(savedMonths) || !interest || interest <= 0 || isNaN(interest)) return "\u0E41\u0E1C\u0E19\u0E19\u0E35\u0E49\u0E22\u0E31\u0E07\u0E44\u0E21\u0E48\u0E17\u0E33\u0E43\u0E2B\u0E49\u0E1B\u0E34\u0E14\u0E40\u0E23\u0E47\u0E27\u0E02\u0E36\u0E49\u0E19 \u0E25\u0E2D\u0E07\u0E40\u0E1E\u0E34\u0E48\u0E21\u0E22\u0E2D\u0E14\u0E08\u0E48\u0E32\u0E22\u0E2D\u0E35\u0E01\u0E19\u0E34\u0E14";
       if (top && top.rate > 15) return spicy ? "".concat(top.name, " \u0E14\u0E2D\u0E01\u0E40\u0E1A\u0E35\u0E49\u0E22 ").concat(top.rate, "% \u0E41\u0E1E\u0E07\u0E21\u0E32\u0E01 \u0E08\u0E48\u0E32\u0E22\u0E40\u0E1E\u0E34\u0E48\u0E21 \u0E3F").concat(extra.toLocaleString(), " \u0E40\u0E14\u0E37\u0E2D\u0E19\u0E25\u0E30\u0E04\u0E23\u0E31\u0E49\u0E07\u0E1B\u0E34\u0E14\u0E40\u0E23\u0E47\u0E27\u0E02\u0E36\u0E49\u0E19 ").concat(savedMonths, " \u0E40\u0E14\u0E37\u0E2D\u0E19 Salung \u0E40\u0E2B\u0E47\u0E19\u0E2B\u0E21\u0E14\u0E19\u0E30") : "\u0E08\u0E48\u0E32\u0E22 ".concat(top.name, " \u0E40\u0E1E\u0E34\u0E48\u0E21 \u0E3F").concat(extra.toLocaleString(), "/\u0E40\u0E14\u0E37\u0E2D\u0E19 \u0E1B\u0E34\u0E14\u0E40\u0E23\u0E47\u0E27\u0E02\u0E36\u0E49\u0E19 ~").concat(savedMonths, " \u0E40\u0E14\u0E37\u0E2D\u0E19 \u0E1B\u0E23\u0E30\u0E2B\u0E22\u0E31\u0E14\u0E14\u0E2D\u0E01\u0E2F \u0E3F").concat(interest.toLocaleString());
-      return spicy ? "\u0E2B\u0E19\u0E35\u0E49\u0E23\u0E27\u0E21 \u0E3F".concat(Math.round(totalDebt).toLocaleString(), " \u0E17\u0E38\u0E01\u0E1A\u0E32\u0E17\u0E17\u0E35\u0E48\u0E08\u0E48\u0E32\u0E22\u0E40\u0E01\u0E34\u0E19\u0E02\u0E31\u0E49\u0E19\u0E15\u0E48\u0E33\u0E04\u0E37\u0E2D\u0E40\u0E07\u0E34\u0E19\u0E17\u0E35\u0E48\u0E44\u0E14\u0E49\u0E04\u0E37\u0E19\u0E21\u0E32") : "\u0E08\u0E48\u0E32\u0E22\u0E40\u0E01\u0E34\u0E19\u0E02\u0E31\u0E49\u0E19\u0E15\u0E48\u0E33\u0E17\u0E38\u0E01\u0E40\u0E14\u0E37\u0E2D\u0E19 \u0E41\u0E21\u0E49\u0E41\u0E04\u0E48 \u0E3F500 \u0E01\u0E47\u0E1B\u0E34\u0E14\u0E2B\u0E19\u0E35\u0E49\u0E40\u0E23\u0E47\u0E27\u0E02\u0E36\u0E49\u0E19\u0E44\u0E14\u0E49\u0E2B\u0E25\u0E32\u0E22\u0E40\u0E14\u0E37\u0E2D\u0E19\u0E19\u0E30";
+      return spicy ? "\u0E2B\u0E19\u0E35\u0E49\u0E23\u0E27\u0E21 \u0E3F".concat(Math.round(totalDebt).toLocaleString(), " \u0E17\u0E38\u0E01\u0E1A\u0E32\u0E17\u0E17\u0E35\u0E48\u0E08\u0E48\u0E32\u0E22\u0E40\u0E01\u0E34\u0E19\u0E02\u0E31\u0E49\u0E19\u0E15\u0E48\u0E33\u0E04\u0E37\u0E2D\u0E40\u0E07\u0E34\u0E19\u0E17\u0E35\u0E48\u0E44\u0E14\u0E49\u0E04\u0E37\u0E19\u0E21\u0E32") : "\u0E08\u0E48\u0E32\u0E22\u0E02\u0E31\u0E49\u0E19\u0E15\u0E48\u0E33\u0E2D\u0E22\u0E48\u0E32\u0E07\u0E40\u0E14\u0E35\u0E22\u0E27: \u0E2B\u0E21\u0E14\u0E1B\u0E23\u0E30\u0E21\u0E32\u0E13 " + freeDate + " \u00B7 \u0E08\u0E48\u0E32\u0E22\u0E40\u0E1E\u0E34\u0E48\u0E21\u0E19\u0E34\u0E14\u0E40\u0E14\u0E35\u0E22\u0E27\u0E01\u0E47\u0E0A\u0E48\u0E27\u0E22\u0E44\u0E14\u0E49\u0E21\u0E32\u0E01\u0E19\u0E30";
     }(),
     actionLabel: "\u0E0A\u0E33\u0E23\u0E30\u0E2B\u0E19\u0E35\u0E49\u0E40\u0E25\u0E22",
     onAction: function onAction() {
@@ -3813,7 +3862,10 @@ function More(_ref23) {
         background: "#f0f0f0"
       }
     }));
-  })));
+  })), React.createElement("div", {
+    style: {fontSize: 11, color: "#aaa", textAlign: "center", padding: "20px 16px 8px", lineHeight: 1.5}
+  }, "Salung \u0E0A\u0E48\u0E27\u0E22\u0E27\u0E32\u0E07\u0E41\u0E1C\u0E19\u0E40\u0E1A\u0E37\u0E49\u0E2D\u0E07\u0E15\u0E49\u0E19 \u0E44\u0E21\u0E48\u0E43\u0E0A\u0E48\u0E04\u0E33\u0E41\u0E19\u0E30\u0E19\u0E33\u0E01\u0E32\u0E23\u0E40\u0E07\u0E34\u0E19\u0E2D\u0E22\u0E48\u0E32\u0E07\u0E40\u0E1B\u0E47\u0E19\u0E17\u0E32\u0E07\u0E01\u0E32\u0E23")
+  ));
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
