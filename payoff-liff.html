@@ -72,6 +72,12 @@ var G = "#3DDB5A",
   CREAM = "#F5F0E8",
   DARK = "#1A3D1F",
   MID = "#2D5A35";
+// Color tokens
+var CARD_BG = "#FEFCF8",
+  SOFT_GREEN = "#EEF8F0",
+  DANGER = "#D95555",
+  SOFT_DANGER_BG = "#FFF2F2",
+  SPICY_CARD = "#0d2a10";
 
 // ── LIFF userId + token helpers ───────────────────────────────────────────────
 window.__LIFF_UID   = "";
@@ -287,7 +293,7 @@ function Card(_ref2) {
     onClick: onClick,
     className: "sl-card",
     style: _objectSpread({
-      background: "#FEFCF8",
+      background: CARD_BG,
       borderRadius: 22,
       border: "1.5px solid " + DARK,
       padding: 16,
@@ -331,7 +337,7 @@ function SectionHeader(props) {
   icon && React.createElement("span", { style: { fontSize: 13 } }, icon),
   React.createElement("span", null, text),
   React.createElement("div", {
-    style: { flex: 1, height: 1, background: spicy ? "#2a4a2a" : DARK + "22", marginLeft: 4 }
+    style: { flex: 1, height: 1, background: spicy ? MID : DARK + "22", marginLeft: 4 }
   })
   );
 }
@@ -540,7 +546,7 @@ function AmtInput(_ref7) {
       borderRadius: 14,
       outline: "none",
       color: DARK,
-      background: value ? G + "10" : "#FEFCF8",
+      background: value ? G + "10" : CARD_BG,
       transition: "border-color .15s, background .15s"
     }
   }));
@@ -577,7 +583,7 @@ function TextInput(_ref8) {
       borderRadius: 12,
       outline: "none",
       color: DARK,
-      background: value ? G + "10" : "#FEFCF8",
+      background: value ? G + "10" : CARD_BG,
       transition: "border-color .15s, background .15s"
     }
   }));
@@ -1071,7 +1077,7 @@ function HeroCard(props) {
       salungText && React.createElement("div", {
         style: {
           marginTop: 10, padding: "6px 11px",
-          background: spicy ? "#122714" : "#fff",
+          background: spicy ? SPICY_CARD : CARD_BG,
           border: "1.5px solid " + (spicy ? G + "44" : DARK + "18"),
           borderRadius: 12,
           fontSize: 11, fontWeight: 700, lineHeight: 1.5,
@@ -1092,7 +1098,7 @@ function SalungToday(props) {
   var spendPct = inc > 0 ? Math.round((exp / inc) * 100) : 0;
   var dailyAllowance = (inc > 0 && net > 0) ? Math.round(net / daysLeft) : null;
   var state = loading ? "loading" : hasAnyData && inc === 0 ? "returning_empty" : inc === 0 && exp === 0 ? "empty" : inc === 0 ? "no_inc" : net < 0 ? "over" : spendPct > 80 ? "tight" : "ok";
-  var accentColor = state === "over" ? "#FF5A5A" : state === "tight" ? GOLD : G;
+  var accentColor = state === "over" ? DANGER : state === "tight" ? GOLD : G;
   var ctaAction = (state === "empty" || state === "no_inc") ? onAddInc : state === "returning_empty" ? onAdd : (state === "over" || state === "tight") ? (onPlan || onAdd) : onAdd;
   var ctaLabel = (state === "over" || state === "tight") ? "\u0E27\u0E32\u0E07\u0E41\u0E1C\u0E19\u0E27\u0E31\u0E19\u0E19\u0E35\u0E49"
     : state === "returning_empty" ? "+ \u0E1A\u0E31\u0E19\u0E17\u0E36\u0E01\u0E23\u0E32\u0E22\u0E01\u0E32\u0E23"
@@ -1592,7 +1598,7 @@ function CashFlow(_ref1) {
         border: "1.5px solid " + (type === id ? G : DARK + "20"),
         borderRadius: 99,
         cursor: "pointer",
-        background: type === id ? G + "28" : "#fafaf8",
+        background: type === id ? G + "28" : CARD_BG,
         color: type === id ? DARK : DARK + "55",
         boxShadow: "none",
         transition: "all .15s"
@@ -1676,7 +1682,7 @@ function CashFlow(_ref1) {
         : "\u0E25\u0E2D\u0E07\u0E40\u0E25\u0E37\u0E2D\u0E01 1 \u0E2D\u0E22\u0E48\u0E32\u0E07\u0E17\u0E35\u0E48\u0E17\u0E33\u0E44\u0E14\u0E49\u0E27\u0E31\u0E19\u0E19\u0E35\u0E49"),
     React.createElement("div", {style: {display: "flex", flexDirection: "column", gap: 8, marginBottom: 20}},
       ["\u0E07\u0E14\u0E02\u0E2D\u0E07\u0E1F\u0E38\u0E48\u0E21\u0E40\u0E1F\u0E37\u0E2D\u0E22\u0E27\u0E31\u0E19\u0E19\u0E35\u0E49", "\u0E08\u0E33\u0E01\u0E31\u0E14\u0E07\u0E1A\u0E27\u0E31\u0E19\u0E19\u0E35\u0E49", "\u0E1A\u0E31\u0E19\u0E17\u0E36\u0E01\u0E23\u0E32\u0E22\u0E08\u0E48\u0E32\u0E22\u0E17\u0E35\u0E48\u0E08\u0E33\u0E40\u0E1B\u0E47\u0E19\u0E40\u0E17\u0E48\u0E32\u0E19\u0E31\u0E49\u0E19"].map(function(opt, i) {
-        return React.createElement("div", {key: i, style: {padding: "10px 14px", borderRadius: 12, border: "1.5px solid " + DARK, fontSize: 13, fontWeight: 700, color: DARK, background: spicy ? "#1a2e1c" : "#f8f8f0"}}, "\u2713 ", opt);
+        return React.createElement("div", {key: i, style: {padding: "10px 14px", borderRadius: 12, border: "1.5px solid " + DARK, fontSize: 13, fontWeight: 700, color: DARK, background: spicy ? SPICY_CARD : CARD_BG}}, "\u2713 ", opt);
       })
     ),
     React.createElement("button", {
@@ -1698,7 +1704,7 @@ function CashFlow(_ref1) {
   }),
   isCurrent && !hasAnyData && cashSummary.inc === 0 && cashSummary.exp === 0 && !allocLoading && alloc.length === 0 && React.createElement("div", {
     className: "sl-card",
-    style: {background: spicy ? "#0a1f0d" : "#F0FAF4", border: "1.5px solid " + G, borderRadius: 20, padding: "16px", marginBottom: 14}
+    style: {background: spicy ? SPICY_CARD : SOFT_GREEN, border: "1.5px solid " + G, borderRadius: 20, padding: "16px", marginBottom: 14}
   },
     React.createElement("div", {style: {fontWeight: 900, fontSize: 15, color: DARK, marginBottom: 10}}, "\u0E40\u0E23\u0E34\u0E48\u0E21\u0E23\u0E39\u0E49\u0E08\u0E31\u0E01\u0E40\u0E18\u0E2D\u0E01\u0E48\u0E2D\u0E19\u0E19\u0E30 \uD83D\uDC4B"),
     React.createElement("div", {style: {fontSize: 13, color: spicy ? "#aaa" : MID, lineHeight: 1.6, marginBottom: 12}},
@@ -1723,7 +1729,7 @@ function CashFlow(_ref1) {
         cursor: "pointer", borderRadius: 99,
         border: period === id ? "1.5px solid " + G : "1.5px solid " + DARK + "20",
         transition: "all .15s",
-        background: period === id ? (spicy ? G + "33" : G + "28") : (spicy ? "#222" : "#fafaf8"),
+        background: period === id ? (spicy ? G + "33" : G + "28") : (spicy ? "#162a18" : CARD_BG),
         color: period === id ? DARK : (spicy ? "#aaa" : DARK + "88"),
         boxShadow: "none"
       }
@@ -1740,7 +1746,7 @@ function CashFlow(_ref1) {
     style: {
       width: 32, height: 32, borderRadius: 10,
       border: "2px solid " + DARK,
-      background: spicy ? "#222" : "#fff",
+      background: spicy ? "#162a18" : CARD_BG,
       cursor: "pointer", fontSize: 14,
       boxShadow: "2px 2px 0 " + DARK,
       fontWeight: 900, color: DARK
@@ -1757,7 +1763,7 @@ function CashFlow(_ref1) {
     style: {
       width: 32, height: 32, borderRadius: 10,
       border: "2px solid " + (isCurrent ? "#ddd" : DARK),
-      background: isCurrent ? "#f5f5f5" : (spicy ? "#222" : "#fff"),
+      background: isCurrent ? CARD_BG : (spicy ? "#162a18" : CARD_BG),
       cursor: isCurrent ? "default" : "pointer",
       fontSize: 14,
       boxShadow: isCurrent ? "none" : "2px 2px 0 " + DARK,
@@ -1815,7 +1821,7 @@ function CashFlow(_ref1) {
           style: { fontSize: 10, fontWeight: 700, color: spicy ? "#88aa88" : "#aaa", marginRight: 6 }
         }, pct + "%"),
         /*#__PURE__*/React.createElement("span", {
-          style: { fontSize: 12, fontWeight: 900, color: spicy ? "#FF9999" : "#E53E3E" }
+          style: { fontSize: 12, fontWeight: 900, color: spicy ? "#FF9999" : DANGER }
         }, "\u0E3F", c.val.toLocaleString())
       ),
       /*#__PURE__*/React.createElement(Bar, { pct: Math.min(100, pct), color: c.color })
@@ -1875,8 +1881,8 @@ function CashFlow(_ref1) {
     }, /*#__PURE__*/React.createElement("span", {
       style: {
         width: 36, height: 36, borderRadius: 12, flexShrink: 0,
-        background: t.amt > 0 ? G + "22" : "#FF5A5A22",
-        border: "1.5px solid " + (t.amt > 0 ? G + "55" : "#FF5A5A55"),
+        background: t.amt > 0 ? G + "22" : SOFT_DANGER_BG,
+        border: "1.5px solid " + (t.amt > 0 ? G + "55" : "#FFB0B0"),
         display: "flex", alignItems: "center", justifyContent: "center",
         fontSize: 18
       }
@@ -1903,7 +1909,7 @@ function CashFlow(_ref1) {
       style: {
         fontSize: 13,
         fontWeight: 900,
-        color: t.amt > 0 ? G : "#E53E3E",
+        color: t.amt > 0 ? G : DANGER,
         marginRight: 4,
         flexShrink: 0
       }
@@ -1953,7 +1959,7 @@ function CashFlow(_ref1) {
           }, row.label)
         ),
         /*#__PURE__*/React.createElement("span", {
-          style: { fontSize: 12, fontWeight: 900, color: row.amt > 0 ? G : spicy ? "#FF9999" : "#E53E3E" }
+          style: { fontSize: 12, fontWeight: 900, color: row.amt > 0 ? G : spicy ? "#FF9999" : DANGER }
         }, row.amt > 0 ? "+" : "-", "\u0E3F", Math.abs(row.amt).toLocaleString())
       ),
       /*#__PURE__*/React.createElement(Bar, {
@@ -1988,7 +1994,7 @@ function CashFlow(_ref1) {
       var topCat = expenses.reduce(function(a, b) { return Math.abs(a.amt) > Math.abs(b.amt) ? a : b; });
       if (!topCat || Math.abs(topCat.amt) < 100) return null;
       return React.createElement("div", {
-        style: {background: spicy ? "#1a2e1c" : "#fffff8", border: "1.5px dashed " + (spicy ? G + "44" : DARK + "30"), borderRadius: 14, padding: "10px 14px", marginTop: 10, fontSize: 12, lineHeight: 1.5}
+        style: {background: spicy ? SPICY_CARD : "#FFFBF0", border: "1.5px dashed " + (spicy ? G + "44" : DARK + "30"), borderRadius: 14, padding: "10px 14px", marginTop: 10, fontSize: 12, lineHeight: 1.5}
       },
         React.createElement("div", {style: {fontWeight: 900, color: spicy ? G : DARK, marginBottom: 2}},
           "\uD83D\uDCA1 \u0E40\u0E14\u0E37\u0E2D\u0E19\u0E19\u0E35\u0E49\u0E40\u0E07\u0E34\u0E19\u0E44\u0E2B\u0E25\u0E44\u0E1B\u0E17\u0E35\u0E48 " + topCat.icon + " " + topCat.label + " \u0E21\u0E32\u0E01\u0E2A\u0E38\u0E14 \u0E3F" + Math.abs(Math.round(topCat.amt)).toLocaleString()),
@@ -2250,7 +2256,7 @@ function Save(_ref18) {
       },
       style: {
         padding: "7px 12px",
-        background: dest === o.id ? G + "28" : "#fafaf8",
+        background: dest === o.id ? G + "28" : CARD_BG,
         color: DARK,
         border: "1.5px solid " + (dest === o.id ? G : DARK + "20"),
         borderRadius: 99,
@@ -2391,7 +2397,7 @@ function Save(_ref18) {
       key: k,
       style: {
         flex: 1,
-        background: "#f7f7f7",
+        background: CARD_BG,
         borderRadius: 10,
         border: "1.5px solid #e0e0e0",
         padding: "8px 10px"
@@ -2485,7 +2491,7 @@ function Save(_ref18) {
       width: "100%",
       marginTop: 4,
       padding: "10px 0",
-      background: "#f7f7f7",
+      background: CARD_BG,
       border: "2px dashed #ccc",
       borderRadius: 12,
       cursor: "pointer",
@@ -2836,7 +2842,7 @@ function Debt(_ref21) {
       },
       style: {
         padding: "7px 12px",
-        background: dType === t.id ? DARK : "#f5f5f5",
+        background: dType === t.id ? DARK : CARD_BG,
         color: dType === t.id ? "#fff" : DARK,
         border: "2px solid ".concat(dType === t.id ? DARK : "#ddd"),
         borderRadius: 99,
@@ -2941,7 +2947,7 @@ function Debt(_ref21) {
         fontWeight: 800,
         cursor: "pointer",
         borderRadius: 10,
-        background: payAmt === String(a) ? G + "28" : "#f5f5f5",
+        background: payAmt === String(a) ? G + "28" : CARD_BG,
         color: DARK,
         border: "1.5px solid ".concat(payAmt === String(a) ? G : "#ddd"),
         boxShadow: "none"
@@ -3147,7 +3153,7 @@ function Debt(_ref21) {
     }, "\u0E1B\u0E34\u0E14 ", t.freeDate)), /*#__PURE__*/React.createElement("div", {
       style: {
         height: 7,
-        background: spicy ? "#333" : "#e8e8e8",
+        background: spicy ? "#162a18" : "#e8e8e8",
         borderRadius: 99,
         overflow: "hidden"
       }
@@ -3180,7 +3186,7 @@ function Debt(_ref21) {
     style: {
       marginTop: 12,
       padding: 12,
-      background: spicy ? DARK : "#fff",
+      background: spicy ? DARK : CARD_BG,
       borderRadius: 12,
       border: "1.5px solid rgba(26,61,31,.12)"
     }
@@ -3289,7 +3295,7 @@ function Debt(_ref21) {
         padding: "6px 0",
         fontSize: 12,
         fontWeight: 800,
-        background: paidDone[d.name] ? "#f5f5f5" : "".concat(G, "22"),
+        background: paidDone[d.name] ? CARD_BG : "".concat(G, "22"),
         color: paidDone[d.name] ? "#aaa" : MID,
         border: "1.5px solid ".concat(paidDone[d.name] ? "#ddd" : G),
         borderRadius: 10,
@@ -4112,7 +4118,7 @@ function More(_ref23) {
 
   var comingSoonCard = React.createElement("div", {
     style: {
-      background: spicy ? "rgba(61,219,90,.04)" : "#FAFDF7",
+      background: spicy ? "rgba(61,219,90,.04)" : SOFT_GREEN,
       borderRadius: 20,
       border: "1.5px dashed " + (spicy ? "rgba(61,219,90,.2)" : "rgba(26,61,31,.12)"),
       padding: "14px 16px",
@@ -4885,7 +4891,7 @@ function SaveGoal(_ref24) {
       },
       style: {
         padding: "7px 12px",
-        background: dest === o.id ? G + "28" : "#fafaf8",
+        background: dest === o.id ? G + "28" : CARD_BG,
         color: DARK,
         border: "1.5px solid " + (dest === o.id ? G : DARK + "20"),
         borderRadius: 99,
@@ -5132,9 +5138,9 @@ function SaveGoal(_ref24) {
       padding: "9px 0",
       fontSize: 12,
       fontWeight: 800,
-      background: "#FFF0F0",
-      color: "#E53E3E",
-      border: "1.5px solid #FFD0D0",
+      background: SOFT_DANGER_BG,
+      color: DANGER,
+      border: "1.5px solid #FFB3B3",
       borderRadius: 99,
       cursor: "pointer"
     }
@@ -5198,7 +5204,7 @@ function SaveGoal(_ref24) {
     return /*#__PURE__*/React.createElement(Card, {
       key: g.id,
       style: {
-        background: isDone ? G + "14" : g.fi ? G + "18" : "#fafaf8",
+        background: isDone ? G + "14" : g.fi ? G + "18" : CARD_BG,
         padding: "10px 12px"
       }
     }, /*#__PURE__*/React.createElement("div", {
@@ -5337,7 +5343,7 @@ function SaveGoal(_ref24) {
         }, "+ \u0E40\u0E15\u0E34\u0E21\u0E01\u0E2D\u0E07"),
         /*#__PURE__*/React.createElement("button", {
           onClick: function(){ deleteCustomPot(pot.name); },
-          style:{flex:1,padding:"8px 0",fontSize:12,fontWeight:800,background:"#FFF0F0",color:"#E53E3E",border:"1.5px solid #FFD0D0",borderRadius:99,cursor:"pointer"}
+          style:{flex:1,padding:"8px 0",fontSize:12,fontWeight:800,background:SOFT_DANGER_BG,color:DANGER,border:"1.5px solid #FFB3B3",borderRadius:99,cursor:"pointer"}
         }, "\uD83D\uDDD1\uFE0F \u0E25\u0E1A")
       )
     );
