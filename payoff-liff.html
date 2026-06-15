@@ -3428,7 +3428,7 @@ function Goal(_ref22) {
         fi: false
       };
       setGoals(function (gs) {
-        return [].concat(_toConsumableArray(gs), [newGoal]);
+        return [newGoal].concat(_toConsumableArray(gs));
       });
       setAddDone(newGoal);
       setGName("");
@@ -4542,12 +4542,13 @@ function SaveGoal(_ref24) {
         fi: false
       };
       setGoals(function (gs) {
-        return [].concat(_toConsumableArray(gs), [newGoal]);
+        return [newGoal].concat(_toConsumableArray(gs));
       });
       setAddDone(newGoal);
       setGName("");
       setGTarget("");
       setGDeadline("");
+    setShowAllGoals(true);
     }).catch(function () {});
   }
   function submitFund() {
