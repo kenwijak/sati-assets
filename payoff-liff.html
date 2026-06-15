@@ -11,7 +11,7 @@
 <style>
   *{box-sizing:border-box;margin:0;padding:0}
   body,html{width:100%;height:100%;overflow-x:hidden}
-  body{font-family:'IBM Plex Sans Thai','Noto Sans Thai',system-ui,-apple-system,BlinkMacSystemFont,sans-serif;-webkit-font-smoothing:antialiased;background:radial-gradient(ellipse at 10% 5%,rgba(247,201,72,.13),transparent 35%),radial-gradient(ellipse at 90% 8%,rgba(61,219,90,.10),transparent 30%),#F5F0E8;line-height:1.5}
+  body{font-family:'IBM Plex Sans Thai','Noto Sans Thai',system-ui,-apple-system,BlinkMacSystemFont,sans-serif;-webkit-font-smoothing:antialiased;background:radial-gradient(ellipse at 10% 5%,rgba(247,201,72,.13),transparent 35%),radial-gradient(ellipse at 90% 8%,rgba(61,219,90,.04),transparent 30%),#F5F0E8;line-height:1.5}
   .sl-number,.sl-amount,.sl-hero-number{font-family:'Nunito','IBM Plex Sans Thai',system-ui,sans-serif}
   #root{display:flex;flex-direction:column;min-height:100vh;width:100%}
   ::-webkit-scrollbar{width:0}
@@ -38,7 +38,7 @@
 </head>
 <body>
 <div id="root">
-  <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;background:radial-gradient(circle at 20% 10%,rgba(247,201,72,.12),transparent 35%),radial-gradient(circle at 80% 85%,rgba(61,219,90,.10),transparent 30%),#F5F0E8;gap:18px">
+  <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;background:radial-gradient(circle at 20% 10%,rgba(247,201,72,.12),transparent 35%),radial-gradient(circle at 80% 85%,rgba(61,219,90,.04),transparent 30%),#F5F0E8;gap:18px">
     <img src="https://raw.githubusercontent.com/kenwijak/sati-assets/main/salung-happy.jpeg"
          width="84" height="84"
          style="object-fit:contain;width:84px;height:84px;border-radius:24px;animation:popIn .5s ease"
@@ -1034,7 +1034,7 @@ function HeroCard(props) {
   return React.createElement("div", {
     className: "sl-hero",
     style: {
-      background: spicy ? "linear-gradient(145deg, #0f2d12 0%, #0a2209 100%)" : accent + "18",
+      background: spicy ? "linear-gradient(145deg, #1e4d24 0%, #163219 100%)" : accent + "18",
       border: "1.5px solid rgba(26,61,31,.15)",
       borderRadius: 24,
       padding: "18px 16px 14px",
@@ -1127,7 +1127,7 @@ function SalungToday(props) {
   return React.createElement("div", {
     className: "sl-card",
     style: {
-      background: spicy ? "linear-gradient(135deg, #0f2d12 0%, #0a1f0d 100%)" : "linear-gradient(135deg, #FEFCF8 0%, #F8F4EC 100%)",
+      background: spicy ? "linear-gradient(135deg, #1e4d24 0%, #163219 100%)" : "linear-gradient(135deg, #FEFCF8 0%, #F8F4EC 100%)",
       border: "1.5px solid " + (spicy ? "rgba(61,219,90,.25)" : "rgba(26,61,31,.12)"),
       borderRadius: 22, padding: "14px 16px 12px", marginBottom: 14,
       position: "relative", overflow: "hidden",
@@ -1709,7 +1709,7 @@ function CashFlow(_ref1) {
   }),
   isCurrent && !hasAnyData && cashSummary.inc === 0 && cashSummary.exp === 0 && !allocLoading && alloc.length === 0 && React.createElement("div", {
     className: "sl-card",
-    style: {background: spicy ? SPICY_CARD : SOFT_GREEN, border: "1.5px solid " + G, borderRadius: 20, padding: "16px", marginBottom: 14}
+    style: {background: spicy ? SPICY_CARD : SOFT_GREEN, border: "1.5px solid rgba(61,219,90,.45)", borderRadius: 20, padding: "16px", marginBottom: 14}
   },
     React.createElement("div", {style: {fontWeight: 900, fontSize: 15, color: DARK, marginBottom: 10}}, "\u0E40\u0E23\u0E34\u0E48\u0E21\u0E23\u0E39\u0E49\u0E08\u0E31\u0E01\u0E40\u0E18\u0E2D\u0E01\u0E48\u0E2D\u0E19\u0E19\u0E30 \uD83D\uDC4B"),
     React.createElement("div", {style: {fontSize: 13, color: spicy ? "#aaa" : MID, lineHeight: 1.6, marginBottom: 12}},
@@ -5576,8 +5576,8 @@ function App() {
     });
   }, []);
   var bgColor = spicy
-    ? "radial-gradient(ellipse at 18% 8%, rgba(61,219,90,.09) 0%, transparent 38%), radial-gradient(ellipse at 82% 30%, rgba(61,219,90,.07) 0%, transparent 35%), radial-gradient(ellipse at 48% 88%, rgba(61,219,90,.05) 0%, transparent 30%), #0d1a0e"
-    : "radial-gradient(ellipse at 10% 4%, rgba(247,201,72,.15) 0%, transparent 34%), radial-gradient(ellipse at 88% 10%, rgba(61,219,90,.11) 0%, transparent 30%), radial-gradient(ellipse at 22% 92%, rgba(61,219,90,.09) 0%, transparent 36%), radial-gradient(ellipse at 80% 78%, rgba(247,201,72,.10) 0%, transparent 28%), #F0EBE1";
+    ? "radial-gradient(ellipse at 18% 8%, rgba(61,219,90,.09) 0%, transparent 38%), radial-gradient(ellipse at 82% 30%, rgba(61,219,90,.07) 0%, transparent 35%), radial-gradient(ellipse at 48% 88%, rgba(61,219,90,.05) 0%, transparent 30%), #142b18"
+    : "radial-gradient(ellipse at 10% 4%, rgba(247,201,72,.15) 0%, transparent 34%), radial-gradient(ellipse at 88% 10%, rgba(61,219,90,.04) 0%, transparent 30%), radial-gradient(ellipse at 22% 92%, rgba(61,219,90,.03) 0%, transparent 36%), radial-gradient(ellipse at 80% 78%, rgba(247,201,72,.10) 0%, transparent 28%), #F5F0E8";
   var screens = {
     cashflow: /*#__PURE__*/React.createElement(CashFlow, {
       spicy: spicy
@@ -5605,7 +5605,7 @@ function App() {
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      background: spicy ? "#0d1a0e" : CREAM,
+      background: spicy ? "#1a3a1f" : CREAM,
       height: "env(safe-area-inset-top, 0px)",
       minHeight: 0,
       transition: "background .3s"
@@ -5616,7 +5616,7 @@ function App() {
       display: "flex",
       justifyContent: "space-between",
       alignItems: "center",
-      background: spicy ? "#0d1a0e" : CREAM,
+      background: spicy ? "#1a3a1f" : CREAM,
       borderBottom: "1.5px solid rgba(26,61,31,.45)",
       boxShadow: "0 2px 10px rgba(26,61,31,.07)",
       transition: "background .3s"
@@ -5740,7 +5740,7 @@ function App() {
     }
   }, screens[tab]), /*#__PURE__*/React.createElement("div", {
     style: {
-      background: spicy ? "#0d1a0e" : CREAM,
+      background: spicy ? "#1a3a1f" : CREAM,
       borderTop: "1.5px solid rgba(26,61,31,.2)",
       borderRadius: "18px 18px 0 0",
       display: "grid",
