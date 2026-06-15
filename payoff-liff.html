@@ -83,6 +83,12 @@ var CARD_BG = "#FEFCF8",
   DANGER = "#D95555",
   SOFT_DANGER_BG = "#FFF2F2",
   SPICY_CARD = "#0d2a10";
+// Button style tokens — shared across all sections
+var BTN_PRI_BG     = "linear-gradient(180deg,#5CE876 0%,#36D154 100%)";
+var BTN_PRI_SHADOW = "0 2px 10px rgba(61,219,90,.22), inset 0 1px 0 rgba(255,255,255,.4)";
+var BTN_PRI_BORDER = "1px solid rgba(61,219,90,.35)";
+var CHIP_ON_BG     = "#E4F9EA";
+var CHIP_ON_BORDER = "1px solid rgba(61,219,90,.45)";
 // Category accent colors (warm, reference-matched)
 var FOOD_YELLOW = "#FFBB44",
   SHOP_PINK = "#F9A8D4",
@@ -477,11 +483,11 @@ function Success(_ref6) {
         padding: "13px 0",
         fontSize: 14,
         fontWeight: 900,
-        background: "#42D063",
+        background: BTN_PRI_BG,
         color: DARK,
-        border: "1px solid rgba(26,61,31,.16)",
+        border: BTN_PRI_BORDER,
         borderRadius: 99,
-        boxShadow: "0 3px 14px rgba(61,219,90,.22)",
+        boxShadow: BTN_PRI_SHADOW,
         cursor: "pointer",
         marginBottom: 10
       }
@@ -494,9 +500,9 @@ function Success(_ref6) {
         padding: "11px 0",
         fontSize: 13,
         fontWeight: 800,
-        background: "transparent",
-        color: DARK + "88",
-        border: "1.5px solid ".concat(DARK + "30"),
+        background: CARD_BG,
+        color: MID,
+        border: "1px solid rgba(26,61,31,.18)",
         borderRadius: 99,
         cursor: "pointer"
       }
@@ -509,11 +515,11 @@ function Success(_ref6) {
       padding: "13px 0",
       fontSize: 14,
       fontWeight: 900,
-      background: "#42D063",
+      background: BTN_PRI_BG,
       color: DARK,
-      border: "1px solid rgba(26,61,31,.18)",
+      border: BTN_PRI_BORDER,
       borderRadius: 99,
-      boxShadow: "0 2px 12px rgba(61,219,90,.2)",
+      boxShadow: BTN_PRI_SHADOW,
       cursor: "pointer"
     }
   }, "\u0E40\u0E22\u0E35\u0E48\u0E22\u0E21 \u0E1B\u0E34\u0E14\u0E44\u0E14\u0E49\u0E40\u0E25\u0E22"));
@@ -611,14 +617,14 @@ function ConfirmBtn(_ref9) {
       padding: "14px 0",
       fontSize: 15,
       fontWeight: 900,
-      background: disabled ? "#eee" : "#42D063",
+      background: disabled ? "#eee" : BTN_PRI_BG,
       color: disabled ? "#aaa" : DARK,
-      border: "1px solid " + (disabled ? "#ddd" : "rgba(26,61,31,.18)"),
+      border: disabled ? "1px solid #ddd" : BTN_PRI_BORDER,
       borderRadius: 99,
-      boxShadow: disabled ? "none" : "0 3px 14px rgba(61,219,90,.22)",
+      boxShadow: disabled ? "none" : BTN_PRI_SHADOW,
       cursor: disabled ? "default" : "pointer",
       letterSpacing: ".02em",
-      transition: "transform .1s"
+      transition: "transform .15s, box-shadow .15s"
     }
   }, label);
 }
@@ -730,14 +736,14 @@ function NBA(_ref0) {
     style: {
       flex: 1,
       padding: "9px 0",
-      background: "#42D063",
+      background: BTN_PRI_BG,
       color: DARK,
       fontWeight: 900,
       fontSize: 13,
-      border: "1px solid rgba(61,219,90,.3)",
+      border: BTN_PRI_BORDER,
       borderRadius: 99,
       cursor: "pointer",
-      boxShadow: "0 2px 10px rgba(61,219,90,.2)"
+      boxShadow: BTN_PRI_SHADOW
     }
   }, actionLabel), /*#__PURE__*/React.createElement("button", {
     onClick: function onClick() {
@@ -745,13 +751,13 @@ function NBA(_ref0) {
     },
     style: {
       padding: "9px 14px",
-      background: "#F8F4EE",
+      background: CARD_BG,
       fontWeight: 700,
       fontSize: 12,
-      border: "1px solid rgba(26,61,31,.12)",
+      border: "1px solid rgba(26,61,31,.16)",
       borderRadius: 99,
       cursor: "pointer",
-      color: "#AAA"
+      color: MID
     }
   }, "\u0E02\u0E49\u0E32\u0E21")));
 }
@@ -1207,10 +1213,10 @@ function SalungToday(props) {
     !loading && React.createElement("button", {
       onClick: ctaAction,
       style: {
-        background: state === "over" ? "#42D063" : accentColor, color: DARK,
-        border: "1px solid rgba(26,61,31,.15)",
+        background: state === "over" ? BTN_PRI_BG : accentColor, color: DARK,
+        border: BTN_PRI_BORDER,
         borderRadius: 99, padding: "5px 16px", fontSize: 12, fontWeight: 900,
-        cursor: "pointer", boxShadow: "0 2px 8px rgba(61,219,90,.18)", lineHeight: 1.4
+        cursor: "pointer", boxShadow: BTN_PRI_SHADOW, lineHeight: 1.4
       }
     }, ctaLabel)
   );
@@ -1656,12 +1662,12 @@ function CashFlow(_ref1) {
         padding: "11px 0",
         fontSize: 13,
         fontWeight: 900,
-        border: "1.5px solid " + (type === id ? G : DARK + "20"),
+        border: type === id ? CHIP_ON_BORDER : "1px solid rgba(26,61,31,.14)",
         borderRadius: 99,
         cursor: "pointer",
-        background: type === id ? G + "28" : CARD_BG,
-        color: type === id ? DARK : DARK + "55",
-        boxShadow: "none",
+        background: type === id ? CHIP_ON_BG : CARD_BG,
+        color: type === id ? DARK : DARK + "77",
+        boxShadow: type === id ? "0 1px 6px rgba(61,219,90,.15)" : "none",
         transition: "all .15s"
       }
     }, lbl);
@@ -1699,14 +1705,14 @@ function CashFlow(_ref1) {
       },
       style: {
         padding: "10px 0",
-        background: cat === c.id ? G + "28" : CREAM,
-        color: cat === c.id ? DARK : DARK + "99",
-        border: "1.5px solid " + (cat === c.id ? G : "transparent"),
+        background: cat === c.id ? CHIP_ON_BG : CREAM,
+        color: cat === c.id ? DARK : DARK + "88",
+        border: cat === c.id ? CHIP_ON_BORDER : "1px solid rgba(26,61,31,.08)",
         borderRadius: 99,
         cursor: "pointer",
         fontSize: 11,
         fontWeight: 800,
-        boxShadow: "none",
+        boxShadow: cat === c.id ? "0 1px 5px rgba(61,219,90,.14)" : "none",
         transition: "all .15s"
       }
     }, /*#__PURE__*/React.createElement("div", {
@@ -1748,7 +1754,7 @@ function CashFlow(_ref1) {
     ),
     React.createElement("button", {
       onClick: function() { setRecoverySheet(false); showToast("\u0E40\u0E23\u0E34\u0E48\u0E21\u0E41\u0E1C\u0E19\u0E27\u0E31\u0E19\u0E19\u0E35\u0E49\u0E41\u0E25\u0E49\u0E27 Salung \u0E08\u0E30\u0E0A\u0E48\u0E27\u0E22\u0E04\u0E38\u0E21\u0E43\u0E2B\u0E49\u0E19\u0E30 \uD83E\uDE99"); },
-      style: {width: "100%", padding: "12px", borderRadius: 99, background: "#42D063", color: DARK, border: "1px solid rgba(26,61,31,.18)", fontSize: 14, fontWeight: 900, cursor: "pointer", boxShadow: "0 2px 12px rgba(61,219,90,.22)", marginBottom: 10}
+      style: {width: "100%", padding: "12px", borderRadius: 99, background: BTN_PRI_BG, color: DARK, border: BTN_PRI_BORDER, fontSize: 14, fontWeight: 900, cursor: "pointer", boxShadow: BTN_PRI_SHADOW, marginBottom: 10}
     }, "\u0E40\u0E23\u0E34\u0E48\u0E21\u0E41\u0E1C\u0E19\u0E27\u0E31\u0E19\u0E19\u0E35\u0E49"),
     React.createElement("button", {
       onClick: function() { setRecoverySheet(false); setType("expense"); setSheet(true); },
@@ -1772,7 +1778,7 @@ function CashFlow(_ref1) {
       "\u0E1A\u0E31\u0E19\u0E17\u0E36\u0E01\u0E23\u0E32\u0E22\u0E23\u0E31\u0E1A\u0E40\u0E14\u0E37\u0E2D\u0E19\u0E19\u0E35\u0E49\u0E01\u0E48\u0E2D\u0E19 \u0E41\u0E25\u0E49\u0E27 Salung \u0E08\u0E30\u0E04\u0E33\u0E19\u0E27\u0E13\u0E07\u0E1A\u0E15\u0E48\u0E2D\u0E27\u0E31\u0E19\u0E43\u0E2B\u0E49\u0E40\u0E25\u0E22"),
     React.createElement("button", {
       onClick: function() { setType("income"); setSheet(true); },
-      style: {marginTop: 12, width: "100%", padding: "11px", borderRadius: 99, background: "#42D063", color: DARK, border: "1px solid rgba(26,61,31,.18)", fontSize: 13, fontWeight: 900, cursor: "pointer", boxShadow: "0 2px 12px rgba(61,219,90,.2)"}
+      style: {marginTop: 12, width: "100%", padding: "11px", borderRadius: 99, background: BTN_PRI_BG, color: DARK, border: BTN_PRI_BORDER, fontSize: 13, fontWeight: 900, cursor: "pointer", boxShadow: BTN_PRI_SHADOW}
     }, "\u0E40\u0E23\u0E34\u0E48\u0E21\u0E08\u0E32\u0E01\u0E23\u0E32\u0E22\u0E23\u0E31\u0E1A\u0E01\u0E48\u0E2D\u0E19 \u2192")
   ),
   null,
@@ -1788,11 +1794,11 @@ function CashFlow(_ref1) {
         flex: 1, padding: "10px 0",
         fontSize: 13, fontWeight: 900,
         cursor: "pointer", borderRadius: 99,
-        border: period === id ? "1.5px solid " + G : "1.5px solid " + DARK + "20",
+        border: period === id ? CHIP_ON_BORDER : "1px solid rgba(26,61,31,.14)",
         transition: "all .15s",
-        background: period === id ? (spicy ? G + "22" : G + "18") : (spicy ? "#162a18" : CARD_BG),
-        color: period === id ? DARK : (spicy ? "#aaa" : DARK + "88"),
-        boxShadow: "none"
+        background: period === id ? (spicy ? G + "22" : CHIP_ON_BG) : (spicy ? "#162a18" : CARD_BG),
+        color: period === id ? DARK : (spicy ? "#aaa" : DARK + "77"),
+        boxShadow: period === id ? "0 1px 6px rgba(61,219,90,.15)" : "none"
       }
     }, lbl);
   })),
@@ -1806,10 +1812,10 @@ function CashFlow(_ref1) {
     onClick: function onClick() { return setMonthOffset(function(o){ return o - 1; }); },
     style: {
       width: 32, height: 32, borderRadius: 10,
-      border: "1.5px solid rgba(26,61,31,.22)",
+      border: "1px solid rgba(26,61,31,.18)",
       background: spicy ? "#162a18" : CARD_BG,
       cursor: "pointer", fontSize: 14,
-      boxShadow: "1px 1px 0 rgba(26,61,31,.18)",
+      boxShadow: "0 1px 4px rgba(26,61,31,.08)",
       fontWeight: 900, color: DARK
     }
   }, "\u2039"),
@@ -1823,11 +1829,11 @@ function CashFlow(_ref1) {
     disabled: isCurrent,
     style: {
       width: 32, height: 32, borderRadius: 10,
-      border: "1.5px solid " + (isCurrent ? "rgba(26,61,31,.1)" : "rgba(26,61,31,.22)"),
+      border: "1px solid " + (isCurrent ? "rgba(26,61,31,.08)" : "rgba(26,61,31,.18)"),
       background: isCurrent ? CARD_BG : (spicy ? "#162a18" : CARD_BG),
       cursor: isCurrent ? "default" : "pointer",
       fontSize: 14,
-      boxShadow: isCurrent ? "none" : "1px 1px 0 rgba(26,61,31,.18)",
+      boxShadow: isCurrent ? "none" : "0 1px 4px rgba(26,61,31,.08)",
       fontWeight: 900, color: isCurrent ? "#ccc" : DARK
     }
   }, "\u203A")),
@@ -2253,12 +2259,13 @@ function Save(_ref18) {
     style: {
       background: GOLD,
       color: DARK,
-      border: "2px solid ".concat(DARK),
+      border: "1px solid rgba(255,208,21,.5)",
       borderRadius: 99,
       padding: "8px 24px",
       fontWeight: 900,
       fontSize: 13,
-      cursor: "pointer"
+      cursor: "pointer",
+      boxShadow: "0 2px 10px rgba(247,201,72,.3)"
     }
   }, "\u0E42\u0E2D\u0E40\u0E04 \u0E23\u0E31\u0E1A\u0E17\u0E23\u0E32\u0E1A"))), /*#__PURE__*/React.createElement(Sheet, {
     open: sheet,
@@ -2318,9 +2325,9 @@ function Save(_ref18) {
       },
       style: {
         padding: "7px 12px",
-        background: dest === o.id ? G + "28" : CARD_BG,
-        color: DARK,
-        border: "1.5px solid " + (dest === o.id ? G : DARK + "20"),
+        background: dest === o.id ? CHIP_ON_BG : CARD_BG,
+        color: dest === o.id ? DARK : DARK + "88",
+        border: dest === o.id ? CHIP_ON_BORDER : "1px solid rgba(26,61,31,.14)",
         borderRadius: 99,
         cursor: "pointer",
         fontSize: 12,
@@ -2328,7 +2335,7 @@ function Save(_ref18) {
         display: "flex",
         alignItems: "center",
         gap: 5,
-        boxShadow: "none"
+        boxShadow: dest === o.id ? "0 1px 5px rgba(61,219,90,.14)" : "none"
       }
     }, /*#__PURE__*/React.createElement("span", {
       style: {
@@ -2904,9 +2911,9 @@ function Debt(_ref21) {
       },
       style: {
         padding: "7px 12px",
-        background: dType === t.id ? DARK : CARD_BG,
-        color: dType === t.id ? "#fff" : DARK,
-        border: "2px solid ".concat(dType === t.id ? DARK : "#ddd"),
+        background: dType === t.id ? CHIP_ON_BG : CARD_BG,
+        color: dType === t.id ? DARK : DARK + "88",
+        border: dType === t.id ? CHIP_ON_BORDER : "1px solid rgba(26,61,31,.14)",
         borderRadius: 99,
         fontSize: 12,
         fontWeight: 800,
@@ -2914,7 +2921,7 @@ function Debt(_ref21) {
         display: "flex",
         alignItems: "center",
         gap: 5,
-        boxShadow: dType === t.id ? "0 2px 8px rgba(26,61,31,.15)" : "none"
+        boxShadow: dType === t.id ? "0 1px 5px rgba(61,219,90,.14)" : "none"
       }
     }, /*#__PURE__*/React.createElement("span", {
       style: {
@@ -3009,10 +3016,10 @@ function Debt(_ref21) {
         fontWeight: 800,
         cursor: "pointer",
         borderRadius: 10,
-        background: payAmt === String(a) ? G + "28" : CARD_BG,
-        color: DARK,
-        border: "1.5px solid ".concat(payAmt === String(a) ? G : "#ddd"),
-        boxShadow: "none"
+        background: payAmt === String(a) ? CHIP_ON_BG : CARD_BG,
+        color: payAmt === String(a) ? DARK : DARK + "99",
+        border: payAmt === String(a) ? CHIP_ON_BORDER : "1px solid #e8e4de",
+        boxShadow: payAmt === String(a) ? "0 1px 5px rgba(61,219,90,.14)" : "none"
       }
     }, "\u0E3F", a.toLocaleString(), a === payModal.min && /*#__PURE__*/React.createElement("div", {
       style: {
@@ -3063,7 +3070,7 @@ function Debt(_ref21) {
   spicy: spicy
 }), debtsLoaded && /*#__PURE__*/React.createElement("button", {
     onClick: function onClick() { return setAddDebtSheet(true); },
-    style: !debts.length ? { width: "100%", padding: "13px 0", fontSize: 13, fontWeight: 900, background: spicy ? G : "#42D063", color: DARK, border: "1px solid rgba(26,61,31,.18)", borderRadius: 99, boxShadow: "0 2px 12px rgba(61,219,90,.2)", cursor: "pointer", marginBottom: 10 } : { width: "100%", padding: "9px 0", fontSize: 12, fontWeight: 800, background: "none", color: MID, border: "1px solid rgba(61,219,90,.4)", borderRadius: 99, cursor: "pointer", marginBottom: 10 }
+    style: !debts.length ? { width: "100%", padding: "13px 0", fontSize: 13, fontWeight: 900, background: spicy ? G : BTN_PRI_BG, color: DARK, border: BTN_PRI_BORDER, borderRadius: 99, boxShadow: BTN_PRI_SHADOW, cursor: "pointer", marginBottom: 10 } : { width: "100%", padding: "9px 0", fontSize: 12, fontWeight: 800, background: CARD_BG, color: MID, border: "1px solid rgba(61,219,90,.35)", borderRadius: 99, cursor: "pointer", marginBottom: 10 }
   }, !debts.length ? "\uD83D\uDD13 \u0E40\u0E1E\u0E34\u0E48\u0E21\u0E2B\u0E19\u0E35\u0E49\u0E01\u0E49\u0E2D\u0E19\u0E41\u0E23\u0E01" : "+ \u0E40\u0E1E\u0E34\u0E48\u0E21\u0E2B\u0E19\u0E35\u0E49"),
 /*#__PURE__*/React.createElement(SectionHeader, { icon: "🗺️", text: "แผนปลดแอก", spicy: spicy }),
   /*#__PURE__*/React.createElement(NBA, {
@@ -3236,11 +3243,11 @@ function Debt(_ref21) {
       padding: "9px 0",
       fontSize: 12,
       fontWeight: 800,
-      background: spicy ? G : "#42D063",
+      background: spicy ? G : BTN_PRI_BG,
       color: DARK,
-      border: "1px solid rgba(26,61,31,.18)",
+      border: BTN_PRI_BORDER,
       borderRadius: 99,
-      boxShadow: "0 2px 12px rgba(61,219,90,.18)",
+      boxShadow: BTN_PRI_SHADOW,
       cursor: "pointer",
       marginTop: 8
     }
@@ -3357,11 +3364,12 @@ function Debt(_ref21) {
         padding: "6px 0",
         fontSize: 12,
         fontWeight: 800,
-        background: paidDone[d.name] ? CARD_BG : "".concat(G, "22"),
-        color: paidDone[d.name] ? "#aaa" : MID,
-        border: "1px solid " + (paidDone[d.name] ? "#e0e0e0" : "rgba(61,219,90,.4)"),
+        background: paidDone[d.name] ? CARD_BG : BTN_PRI_BG,
+        color: paidDone[d.name] ? "#aaa" : DARK,
+        border: paidDone[d.name] ? "1px solid #e0e0e0" : BTN_PRI_BORDER,
         borderRadius: 10,
-        cursor: "pointer"
+        boxShadow: paidDone[d.name] ? "none" : BTN_PRI_SHADOW,
+        cursor: paidDone[d.name] ? "default" : "pointer"
       }
     }, paidDone[d.name] ? "✓ ชำระแล้วเดือนนี้" : "💸 ชำระหนี้เลย"), /*#__PURE__*/React.createElement("button", {
       onClick: function onClick() {
@@ -3660,12 +3668,12 @@ function Goal(_ref22) {
       padding: "12px 0",
       fontSize: 13,
       fontWeight: 900,
-      background: spicy ? G : "#42D063",
+      background: spicy ? G : BTN_PRI_BG,
       color: DARK,
-      border: "1px solid rgba(26,61,31,.18)",
+      border: BTN_PRI_BORDER,
       borderRadius: 99,
       marginBottom: 10,
-      boxShadow: "0 2px 12px rgba(61,219,90,.2)",
+      boxShadow: BTN_PRI_SHADOW,
       cursor: "pointer"
     }
   }, "+ \u0E40\u0E1E\u0E34\u0E48\u0E21\u0E40\u0E1B\u0E49\u0E32\u0E2B\u0E21\u0E32\u0E22"), goals.filter(function (g) {
@@ -3764,11 +3772,11 @@ function Goal(_ref22) {
       padding: "12px 0",
       fontSize: 13,
       fontWeight: 900,
-      background: "#42D063",
+      background: BTN_PRI_BG,
       color: DARK,
-      border: "1px solid rgba(26,61,31,.18)",
+      border: BTN_PRI_BORDER,
       borderRadius: 99,
-      boxShadow: "0 2px 12px rgba(61,219,90,.2)",
+      boxShadow: BTN_PRI_SHADOW,
       cursor: "pointer"
     }
   }, "+ \u0E40\u0E1E\u0E34\u0E48\u0E21\u0E40\u0E1B\u0E49\u0E32\u0E2B\u0E21\u0E32\u0E22\u0E41\u0E23\u0E01")), goals.filter(function (g) {
@@ -3842,10 +3850,11 @@ function Goal(_ref22) {
         padding: "8px 0",
         fontSize: 12,
         fontWeight: 800,
-        background: "".concat(G, "22"),
-        color: MID,
-        border: "1px solid rgba(61,219,90,.4)",
+        background: BTN_PRI_BG,
+        color: DARK,
+        border: BTN_PRI_BORDER,
         borderRadius: 99,
+        boxShadow: BTN_PRI_SHADOW,
         cursor: "pointer"
       }
     }, "+ \u0E40\u0E1E\u0E34\u0E48\u0E21\u0E40\u0E07\u0E34\u0E19\u0E40\u0E02\u0E49\u0E32\u0E40\u0E1B\u0E49\u0E32"));
@@ -4793,12 +4802,13 @@ function SaveGoal(_ref24) {
     style: {
       background: GOLD,
       color: DARK,
-      border: "2px solid ".concat(DARK),
+      border: "1px solid rgba(255,208,21,.5)",
       borderRadius: 99,
       padding: "8px 24px",
       fontWeight: 900,
       fontSize: 13,
-      cursor: "pointer"
+      cursor: "pointer",
+      boxShadow: "0 2px 10px rgba(247,201,72,.3)"
     }
   }, "โอเค"))), /*#__PURE__*/React.createElement(Sheet, {
     open: withdrawSheet,
@@ -4880,9 +4890,9 @@ function SaveGoal(_ref24) {
         onClick: function() { setBucketLimitSheet(false); },
         style: {
           flex: 1, padding: "12px 0", fontSize: 13, fontWeight: 900,
-          background: "#42D063", color: DARK,
-          border: "1px solid rgba(26,61,31,.18)", borderRadius: 99,
-          boxShadow: "0 2px 12px rgba(61,219,90,.2)", cursor: "pointer"
+          background: BTN_PRI_BG, color: DARK,
+          border: BTN_PRI_BORDER, borderRadius: 99,
+          boxShadow: BTN_PRI_SHADOW, cursor: "pointer"
         }
       }, "\u0E08\u0E31\u0E14\u0E01\u0E32\u0E23\u0E01\u0E2D\u0E07"),
       /*#__PURE__*/React.createElement("button", {
@@ -4953,9 +4963,9 @@ function SaveGoal(_ref24) {
       },
       style: {
         padding: "7px 12px",
-        background: dest === o.id ? G + "28" : CARD_BG,
-        color: DARK,
-        border: "1.5px solid " + (dest === o.id ? G : DARK + "20"),
+        background: dest === o.id ? CHIP_ON_BG : CARD_BG,
+        color: dest === o.id ? DARK : DARK + "88",
+        border: dest === o.id ? CHIP_ON_BORDER : "1px solid rgba(26,61,31,.14)",
         borderRadius: 99,
         cursor: "pointer",
         fontSize: 12,
@@ -4963,7 +4973,7 @@ function SaveGoal(_ref24) {
         display: "flex",
         alignItems: "center",
         gap: 5,
-        boxShadow: "none"
+        boxShadow: dest === o.id ? "0 1px 5px rgba(61,219,90,.14)" : "none"
       }
     }, /*#__PURE__*/React.createElement("span", {
       style: {
@@ -5098,11 +5108,11 @@ function SaveGoal(_ref24) {
       padding: "14px 0",
       fontSize: 15,
       fontWeight: 900,
-      background: G,
+      background: BTN_PRI_BG,
       color: DARK,
-      border: "2px solid ".concat(DARK),
+      border: BTN_PRI_BORDER,
       borderRadius: 99,
-      boxShadow: "0 4px 16px rgba(26,61,31,.18)",
+      boxShadow: BTN_PRI_SHADOW,
       cursor: "pointer",
       marginBottom: 8,
       letterSpacing: ".01em"
@@ -5254,11 +5264,11 @@ function SaveGoal(_ref24) {
       padding: "10px 0",
       fontSize: 12,
       fontWeight: 900,
-      background: "#42D063",
+      background: BTN_PRI_BG,
       color: DARK,
-      border: "1px solid rgba(26,61,31,.18)",
+      border: BTN_PRI_BORDER,
       borderRadius: 99,
-      boxShadow: "0 2px 12px rgba(61,219,90,.2)",
+      boxShadow: BTN_PRI_SHADOW,
       cursor: "pointer"
     }
   }, "+ \u0E40\u0E1E\u0E34\u0E48\u0E21\u0E40\u0E1B\u0E49\u0E32\u0E2B\u0E21\u0E32\u0E22\u0E41\u0E23\u0E01")), (showAllGoals ? goals : goals.slice(0, 3)).map(function (g) {
