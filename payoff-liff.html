@@ -1085,26 +1085,29 @@ function HeroCard(props) {
 }
 
 function SalungToday(props) {
-  var inc = props.inc, exp = props.exp, net = props.net, spicy = props.spicy, loading = props.loading, onAdd = props.onAdd, onAddInc = props.onAddInc, onPlan = props.onPlan;
+  var inc = props.inc, exp = props.exp, net = props.net, spicy = props.spicy, loading = props.loading, onAdd = props.onAdd, onAddInc = props.onAddInc, onPlan = props.onPlan, hasAnyData = props.hasAnyData;
   var today = new Date();
   var daysInMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate();
   var daysLeft = Math.max(1, daysInMonth - today.getDate() + 1);
   var spendPct = inc > 0 ? Math.round((exp / inc) * 100) : 0;
   var dailyAllowance = (inc > 0 && net > 0) ? Math.round(net / daysLeft) : null;
-  var state = loading ? "loading" : inc === 0 && exp === 0 ? "empty" : inc === 0 ? "no_inc" : net < 0 ? "over" : spendPct > 80 ? "tight" : "ok";
+  var state = loading ? "loading" : hasAnyData && inc === 0 ? "returning_empty" : inc === 0 && exp === 0 ? "empty" : inc === 0 ? "no_inc" : net < 0 ? "over" : spendPct > 80 ? "tight" : "ok";
   var accentColor = state === "over" ? "#FF5A5A" : state === "tight" ? GOLD : G;
-  var ctaAction = (state === "empty" || state === "no_inc") ? onAddInc : (state === "over" || state === "tight") ? (onPlan || onAdd) : onAdd;
+  var ctaAction = (state === "empty" || state === "no_inc") ? onAddInc : state === "returning_empty" ? onAdd : (state === "over" || state === "tight") ? (onPlan || onAdd) : onAdd;
   var ctaLabel = (state === "over" || state === "tight") ? "\u0E27\u0E32\u0E07\u0E41\u0E1C\u0E19\u0E27\u0E31\u0E19\u0E19\u0E35\u0E49"
+    : state === "returning_empty" ? "+ \u0E1A\u0E31\u0E19\u0E17\u0E36\u0E01\u0E23\u0E32\u0E22\u0E01\u0E32\u0E23"
     : (state === "empty" || state === "no_inc") ? "+ \u0E40\u0E1E\u0E34\u0E48\u0E21\u0E23\u0E32\u0E22\u0E23\u0E31\u0E1A"
     : "\u0E1A\u0E31\u0E19\u0E17\u0E36\u0E01\u0E23\u0E32\u0E22\u0E08\u0E48\u0E32\u0E22";
   var headline = state === "loading"
     ? "\u0E42\u0E2B\u0E25\u0E14\u0E02\u0E49\u0E2D\u0E21\u0E39\u0E25\u2026"
+    : state === "returning_empty" ? "\u0E22\u0E31\u0E07\u0E44\u0E21\u0E48\u0E21\u0E35\u0E23\u0E32\u0E22\u0E01\u0E32\u0E23\u0E43\u0E19\u0E21\u0E38\u0E21\u0E21\u0E2D\u0E07\u0E19\u0E35\u0E49"
     : state === "empty" ? "\u0E22\u0E31\u0E07\u0E44\u0E21\u0E48\u0E23\u0E39\u0E49\u0E27\u0E31\u0E19\u0E19\u0E35\u0E49\u0E40\u0E2B\u0E25\u0E37\u0E2D\u0E43\u0E0A\u0E49\u0E40\u0E17\u0E48\u0E32\u0E44\u0E2B\u0E23\u0E48"
     : state === "no_inc" ? "\u0E22\u0E31\u0E07\u0E44\u0E21\u0E48\u0E23\u0E39\u0E49\u0E27\u0E31\u0E19\u0E19\u0E35\u0E49\u0E40\u0E2B\u0E25\u0E37\u0E2D\u0E43\u0E0A\u0E49\u0E40\u0E17\u0E48\u0E32\u0E44\u0E2B\u0E23\u0E48"
     : state === "over" ? "\u0E43\u0E0A\u0E49\u0E40\u0E01\u0E34\u0E19\u0E44\u0E1B\u0E41\u0E25\u0E49\u0E27 " + Math.abs(Math.round(net)).toLocaleString() + " \u0E1A\u0E32\u0E17"
     : state === "tight" ? "\u0E43\u0E0A\u0E49\u0E44\u0E1B " + spendPct + "% \u0E41\u0E25\u0E49\u0E27"
     : dailyAllowance ? "\u0E27\u0E31\u0E19\u0E19\u0E35\u0E49\u0E43\u0E0A\u0E49\u0E44\u0E14\u0E49 \u0E3F" + dailyAllowance.toLocaleString() : "\u0E22\u0E2D\u0E14\u0E40\u0E22\u0E35\u0E48\u0E22\u0E21";
   var subline = state === "loading" ? ""
+    : state === "returning_empty" ? "\u0E1A\u0E31\u0E19\u0E17\u0E36\u0E01\u0E23\u0E32\u0E22\u0E01\u0E32\u0E23\u0E41\u0E23\u0E01\u0E02\u0E2D\u0E07\u0E27\u0E31\u0E19\u0E19\u0E35\u0E49\u0E44\u0E14\u0E49\u0E40\u0E25\u0E22"
     : state === "empty" ? "\u0E40\u0E23\u0E34\u0E48\u0E21\u0E08\u0E32\u0E01\u0E1A\u0E31\u0E19\u0E17\u0E36\u0E01\u0E23\u0E32\u0E22\u0E23\u0E31\u0E1A\u0E01\u0E48\u0E2D\u0E19 \u0E41\u0E25\u0E49\u0E27 Salung \u0E08\u0E30\u0E0A\u0E48\u0E27\u0E22\u0E04\u0E33\u0E19\u0E27\u0E13\u0E07\u0E1A\u0E15\u0E48\u0E2D\u0E27\u0E31\u0E19\u0E43\u0E2B\u0E49"
     : state === "no_inc" ? "\u0E40\u0E23\u0E34\u0E48\u0E21\u0E08\u0E32\u0E01\u0E1A\u0E31\u0E19\u0E17\u0E36\u0E01\u0E23\u0E32\u0E22\u0E23\u0E31\u0E1A\u0E01\u0E48\u0E2D\u0E19 \u0E41\u0E25\u0E49\u0E27 Salung \u0E08\u0E30\u0E0A\u0E48\u0E27\u0E22\u0E04\u0E33\u0E19\u0E27\u0E13\u0E07\u0E1A\u0E15\u0E48\u0E2D\u0E27\u0E31\u0E19\u0E43\u0E2B\u0E49"
     : state === "over" ? "\u0E2D\u0E22\u0E48\u0E32\u0E43\u0E0A\u0E49\u0E40\u0E1E\u0E34\u0E48\u0E21\u0E43\u0E19\u0E0A\u0E48\u0E27\u0E07\u0E19\u0E35\u0E49 \u0E2B\u0E23\u0E37\u0E2D\u0E2B\u0E32\u0E23\u0E32\u0E22\u0E23\u0E31\u0E1A\u0E40\u0E1E\u0E34\u0E48\u0E21"
@@ -1685,6 +1688,7 @@ function CashFlow(_ref1) {
   isCurrent && React.createElement(SalungToday, {
     inc: cashSummary.inc, exp: cashSummary.exp, net: cashSummary.net,
     spicy: spicy, loading: allocLoading,
+    hasAnyData: cashSummary.inc > 0 || cashSummary.exp > 0 || txSummary.inc > 0 || txSummary.exp > 0 || txns.length > 0 || alloc.length > 0,
     onAdd: function() { setSheet(true); },
     onAddInc: function() { setType("income"); setSheet(true); },
     onPlan: function() { setRecoverySheet(true); }
