@@ -34,26 +34,12 @@
   .sl-press:active{transform:scale(.96);transition:transform .07s ease}
   @keyframes coinPop{0%{transform:scale(.35) rotate(-10deg);opacity:0}65%{transform:scale(1.18) rotate(4deg)}100%{transform:scale(1) rotate(0deg);opacity:1}}
   .sl-coin{animation:coinPop .5s cubic-bezier(.34,1.56,.64,1) both}
-  /* Suppress any LIFF SDK service-discovery / recently-used tooltip */
+  /* Suppress LIFF SDK injected overlays — any div sibling of #root gets hidden */
+  body > div:not(#root){display:none!important}
   [class*="liff-recently"],[class*="liff_recently"],[class*="service-discovery"],
   [class*="liff-browser-helper"],[class*="liff-shortlink"],[class*="liff-tooltip"],
   .liff-service-list,.__liff_service_list_wrapper{display:none!important}
 </style>
-<script>
-(function(){
-  function _hideLiffHint(){
-    var all=document.querySelectorAll('body > *:not(#root):not(script):not(style)');
-    all.forEach(function(el){
-      var t=(el.textContent||'').trim();
-      if(t&&(t.indexOf('recently used')>=0||t.indexOf('at a glance')>=0||t.indexOf('See recently')>=0)){
-        el.style.cssText='display:none!important';
-      }
-    });
-  }
-  _hideLiffHint();
-  new MutationObserver(_hideLiffHint).observe(document.body||document.documentElement,{childList:true,subtree:false});
-})();
-</script>
 </head>
 <body>
 <div id="root">
@@ -640,11 +626,12 @@ function ConfirmBtn(_ref9) {
 // ── Display label sanitizer ──────────────────────────────────────────────────
 function sanitizeTxNote(note) {
   if (!note) return note;
-  var r = note
-    .replace(/จ่ายหนี้\s+debt_id=\d+\s*/g, "จ่ายหนี้ ")
-    .replace(/\bdebt_id=\d+\b/g, "")
-    .trim();
-  return r || "จ่ายหนี้";
+  var s = String(note);
+  // Strip "debt_id=N" in any position, with any surrounding whitespace
+  s = s.replace(/[\s ]*debt_id\s*=\s*\d+[\s ]*/gi, " ").trim();
+  // Collapse multiple spaces
+  s = s.replace(/\s{2,}/g, " ").trim();
+  return s || "จ่ายหนี้";
 }
 
 // ── NBA card ──────────────────────────────────────────────────────────────────
@@ -5872,6 +5859,20 @@ window.addEventListener('load', function() {
   root.render(React.createElement(React.Fragment, null, React.createElement(ToastProvider, null), React.createElement(App)));
 });
 
+</script>
+<script>
+/* Suppress LIFF SDK injected "recently used services" tooltip/overlay */
+(function(){
+  function _hideExternalOverlays(){
+    document.querySelectorAll('body > div:not(#root)').forEach(function(el){
+      el.style.cssText='display:none!important;opacity:0!important;pointer-events:none!important';
+    });
+  }
+  _hideExternalOverlays();
+  new MutationObserver(_hideExternalOverlays).observe(document.body,{childList:true,subtree:false});
+  setTimeout(_hideExternalOverlays,500);
+  setTimeout(_hideExternalOverlays,2000);
+})();
 </script>
 </body>
 </html>
