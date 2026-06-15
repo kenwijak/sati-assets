@@ -606,11 +606,11 @@ function ConfirmBtn(_ref9) {
       padding: "14px 0",
       fontSize: 15,
       fontWeight: 900,
-      background: disabled ? "#eee" : G,
+      background: disabled ? "#eee" : "#42D063",
       color: disabled ? "#aaa" : DARK,
-      border: "2.5px solid " + (disabled ? "#ddd" : DARK),
+      border: "1px solid " + (disabled ? "#ddd" : "rgba(26,61,31,.18)"),
       borderRadius: 99,
-      boxShadow: disabled ? "none" : "0 4px 16px rgba(26,61,31,.18)",
+      boxShadow: disabled ? "none" : "0 3px 14px rgba(61,219,90,.22)",
       cursor: disabled ? "default" : "pointer",
       letterSpacing: ".02em",
       transition: "transform .1s"
@@ -621,10 +621,11 @@ function ConfirmBtn(_ref9) {
 // ── Display label sanitizer ──────────────────────────────────────────────────
 function sanitizeTxNote(note) {
   if (!note) return note;
-  return note.replace(/จ่ายหนี้\s+debt_id=\d+(\s+.*)?/, function(m, extra) {
-    var name = extra ? extra.trim() : "";
-    return name ? "จ่ายหนี้ " + name : "จ่ายหนี้";
-  });
+  var r = note
+    .replace(/จ่ายหนี้\s+debt_id=\d+\s*/g, "จ่ายหนี้ ")
+    .replace(/\bdebt_id=\d+\b/g, "")
+    .trim();
+  return r || "จ่ายหนี้";
 }
 
 // ── NBA card ──────────────────────────────────────────────────────────────────
@@ -666,9 +667,18 @@ function NBA(_ref0) {
       background: spicy ? "#0d2a10" : "#FEFCF8",
       border: "1px solid rgba(26,61,31,.09)",
       boxShadow: "0 2px 10px rgba(26,61,31,.05)",
-      marginBottom: 12
+      marginBottom: 12,
+      overflow: "hidden"
     }
-  }, /*#__PURE__*/React.createElement("div", {
+  },
+  !spicy && React.createElement("div", {
+    style: {
+      position: "absolute", top: 6, right: 10,
+      fontSize: 10, opacity: .16, pointerEvents: "none", userSelect: "none",
+      letterSpacing: "3px"
+    }
+  }, "✦ ✦"),
+  /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
       gap: 10,
@@ -1154,8 +1164,8 @@ function SalungToday(props) {
   return React.createElement("div", {
     className: "sl-card",
     style: {
-      background: spicy ? "linear-gradient(135deg, #1e4d24 0%, #163219 100%)" : "linear-gradient(135deg, #FEFCF8 0%, #F8F4EC 100%)",
-      border: "1.5px solid " + (spicy ? "rgba(61,219,90,.25)" : "rgba(26,61,31,.12)"),
+      background: spicy ? "linear-gradient(135deg, #1e4d24 0%, #163219 100%)" : "linear-gradient(135deg, #FEFCF8 0%, #F5F0E5 100%)",
+      border: "1px solid " + (spicy ? "rgba(61,219,90,.2)" : "rgba(61,219,90,.15)"),
       borderRadius: 22, padding: "14px 16px 12px", marginBottom: 14,
       position: "relative", overflow: "hidden",
       boxShadow: "inset 0 1px 0 rgba(255,255,255,.65), 0 4px 16px rgba(26,61,31,.06)"
@@ -1167,6 +1177,18 @@ function SalungToday(props) {
         borderRadius: "50%", background: accentColor, opacity: .06, pointerEvents: "none"
       }
     }),
+    !spicy && React.createElement("div", {
+      style: {
+        position: "absolute", bottom: 10, right: 16,
+        fontSize: 13, opacity: .18, pointerEvents: "none", userSelect: "none"
+      }
+    }, "🪙"),
+    !spicy && React.createElement("div", {
+      style: {
+        position: "absolute", top: 8, right: 48,
+        fontSize: 9, opacity: .2, pointerEvents: "none", userSelect: "none"
+      }
+    }, "✦"),
     React.createElement("div", {
       style: { fontSize: 10, fontWeight: 800, letterSpacing: ".08em", color: accentColor, marginBottom: 4, textTransform: "uppercase" }
     }, "Salung Check-in"),
@@ -1720,7 +1742,7 @@ function CashFlow(_ref1) {
     ),
     React.createElement("button", {
       onClick: function() { setRecoverySheet(false); showToast("\u0E40\u0E23\u0E34\u0E48\u0E21\u0E41\u0E1C\u0E19\u0E27\u0E31\u0E19\u0E19\u0E35\u0E49\u0E41\u0E25\u0E49\u0E27 Salung \u0E08\u0E30\u0E0A\u0E48\u0E27\u0E22\u0E04\u0E38\u0E21\u0E43\u0E2B\u0E49\u0E19\u0E30 \uD83E\uDE99"); },
-      style: {width: "100%", padding: "12px", borderRadius: 99, background: G, color: DARK, border: "2px solid " + DARK, fontSize: 14, fontWeight: 900, cursor: "pointer", boxShadow: "2px 2px 0 " + DARK, marginBottom: 10}
+      style: {width: "100%", padding: "12px", borderRadius: 99, background: "#42D063", color: DARK, border: "1px solid rgba(26,61,31,.18)", fontSize: 14, fontWeight: 900, cursor: "pointer", boxShadow: "0 2px 12px rgba(61,219,90,.22)", marginBottom: 10}
     }, "\u0E40\u0E23\u0E34\u0E48\u0E21\u0E41\u0E1C\u0E19\u0E27\u0E31\u0E19\u0E19\u0E35\u0E49"),
     React.createElement("button", {
       onClick: function() { setRecoverySheet(false); setType("expense"); setSheet(true); },
@@ -1744,7 +1766,7 @@ function CashFlow(_ref1) {
       "\u0E1A\u0E31\u0E19\u0E17\u0E36\u0E01\u0E23\u0E32\u0E22\u0E23\u0E31\u0E1A\u0E40\u0E14\u0E37\u0E2D\u0E19\u0E19\u0E35\u0E49\u0E01\u0E48\u0E2D\u0E19 \u0E41\u0E25\u0E49\u0E27 Salung \u0E08\u0E30\u0E04\u0E33\u0E19\u0E27\u0E13\u0E07\u0E1A\u0E15\u0E48\u0E2D\u0E27\u0E31\u0E19\u0E43\u0E2B\u0E49\u0E40\u0E25\u0E22"),
     React.createElement("button", {
       onClick: function() { setType("income"); setSheet(true); },
-      style: {marginTop: 12, width: "100%", padding: "11px", borderRadius: 99, background: G, color: DARK, border: "2px solid " + DARK, fontSize: 13, fontWeight: 900, cursor: "pointer", boxShadow: "2px 2px 0 " + DARK}
+      style: {marginTop: 12, width: "100%", padding: "11px", borderRadius: 99, background: "#42D063", color: DARK, border: "1px solid rgba(26,61,31,.18)", fontSize: 13, fontWeight: 900, cursor: "pointer", boxShadow: "0 2px 12px rgba(61,219,90,.2)"}
     }, "\u0E40\u0E23\u0E34\u0E48\u0E21\u0E08\u0E32\u0E01\u0E23\u0E32\u0E22\u0E23\u0E31\u0E1A\u0E01\u0E48\u0E2D\u0E19 \u2192")
   ),
   null,
@@ -1810,7 +1832,7 @@ function CashFlow(_ref1) {
     title: isReturningEmptyPeriod ? (period === "day" ? "\u0E27\u0E31\u0E19\u0E19\u0E35\u0E49\u0E22\u0E31\u0E07\u0E44\u0E21\u0E48\u0E21\u0E35\u0E23\u0E32\u0E22\u0E01\u0E32\u0E23" : "7 \u0E27\u0E31\u0E19\u0E19\u0E35\u0E49\u0E22\u0E31\u0E07\u0E44\u0E21\u0E48\u0E21\u0E35\u0E23\u0E32\u0E22\u0E01\u0E32\u0E23") : period === "day" ? "\u0E27\u0E31\u0E19\u0E19\u0E35\u0E49\u0E40\u0E2B\u0E25\u0E37\u0E2D\u0E43\u0E0A\u0E49" : period === "week" ? "\u0E2A\u0E31\u0E1B\u0E14\u0E32\u0E2B\u0E4C\u0E19\u0E35\u0E49\u0E2A\u0E16\u0E32\u0E19\u0E30\u0E40\u0E07\u0E34\u0E19" : "\u0E40\u0E14\u0E37\u0E2D\u0E19\u0E19\u0E35\u0E49\u0E22\u0E31\u0E07\u0E40\u0E2B\u0E25\u0E37\u0E2D\u0E43\u0E0A\u0E49\u0E44\u0E14\u0E49\u0E08\u0E23\u0E34\u0E07",
     bigNumber: isReturningEmptyPeriod ? "\u2014" : d.inc > 0 ? (d.net < 0 ? "-\u0E3F" : "\u0E3F") + Math.abs(Math.round(d.net)).toLocaleString() : "\u0E22\u0E31\u0E07\u0E44\u0E21\u0E48\u0E23\u0E39\u0E49",
     numberColor: d.net >= 0 ? DARK : "#E05858",
-    barPct: isReturningEmptyPeriod ? null : d.inc > 0 ? Math.min(100, Math.round(d.exp / d.inc * 100)) : 0,
+    barPct: isReturningEmptyPeriod ? null : d.inc > 0 ? Math.min(100, Math.round(d.exp / d.inc * 100)) : null,
     sub: isReturningEmptyPeriod ? (period === "day" ? "\u0E1A\u0E31\u0E19\u0E17\u0E36\u0E01\u0E23\u0E32\u0E22\u0E01\u0E32\u0E23\u0E41\u0E23\u0E01\u0E02\u0E2D\u0E07\u0E27\u0E31\u0E19\u0E19\u0E35\u0E49\u0E44\u0E14\u0E49\u0E40\u0E25\u0E22" : "\u0E1A\u0E31\u0E19\u0E17\u0E36\u0E01\u0E23\u0E32\u0E22\u0E01\u0E32\u0E23\u0E41\u0E23\u0E01\u0E02\u0E2D\u0E07\u0E2A\u0E31\u0E1B\u0E14\u0E32\u0E2B\u0E4C\u0E19\u0E35\u0E49\u0E44\u0E14\u0E49\u0E40\u0E25\u0E22") : d.inc > 0 ? "\u0E43\u0E0A\u0E49\u0E44\u0E1B\u0E41\u0E25\u0E49\u0E27 \u0E3F" + Math.round(d.exp).toLocaleString() + " \u0E08\u0E32\u0E01\u0E23\u0E32\u0E22\u0E23\u0E31\u0E1A \u0E3F" + Math.round(d.inc).toLocaleString() : "\u0E40\u0E1E\u0E34\u0E48\u0E21\u0E23\u0E32\u0E22\u0E23\u0E31\u0E1A\u0E01\u0E48\u0E2D\u0E19 \u0E41\u0E25\u0E49\u0E27 Salung \u0E08\u0E30\u0E04\u0E33\u0E19\u0E27\u0E13\u0E07\u0E1A\u0E15\u0E48\u0E2D\u0E27\u0E31\u0E19\u0E43\u0E2B\u0E49",
     salungText: isReturningEmptyPeriod ? "\u0E22\u0E31\u0E07\u0E42\u0E25\u0E48\u0E07\u0E2D\u0E22\u0E39\u0E48 \u0E40\u0E23\u0E34\u0E48\u0E21\u0E08\u0E14\u0E23\u0E32\u0E22\u0E01\u0E32\u0E23\u0E41\u0E23\u0E01\u0E44\u0E14\u0E49\u0E40\u0E25\u0E22\u0E19\u0E30" : d.inc === 0 ? "\u0E40\u0E23\u0E34\u0E48\u0E21\u0E08\u0E32\u0E01\u0E1A\u0E31\u0E19\u0E17\u0E36\u0E01\u0E23\u0E32\u0E22\u0E23\u0E31\u0E1A\u0E01\u0E48\u0E2D\u0E19 Salung \u0E08\u0E30\u0E0A\u0E48\u0E27\u0E22\u0E14\u0E39\u0E15\u0E48\u0E2D\u0E43\u0E2B\u0E49" : d.net >= 0 ? "\u0E22\u0E31\u0E07\u0E44\u0E2B\u0E27\u0E2D\u0E22\u0E39\u0E48 \u0E41\u0E15\u0E48\u0E2D\u0E22\u0E48\u0E32\u0E40\u0E1E\u0E34\u0E48\u0E07\u0E40\u0E1C\u0E25\u0E2D\u0E01\u0E14\u0E02\u0E2D\u0E07\u0E1F\u0E38\u0E48\u0E21\u0E40\u0E1F\u0E37\u0E2D\u0E22\u0E19\u0E30" : "\u0E15\u0E34\u0E14\u0E25\u0E1A\u0E41\u0E25\u0E49\u0E27 \u0E04\u0E48\u0E2D\u0E22 \u0E46 \u0E2B\u0E22\u0E38\u0E14\u0E40\u0E25\u0E37\u0E2D\u0E14\u0E01\u0E48\u0E2D\u0E19\u0E19\u0E30",
     accent: G,
@@ -1896,8 +1918,8 @@ function CashFlow(_ref1) {
       onClick: function() { setSheet(true); },
       style: {
         padding: "10px 24px", fontSize: 13, fontWeight: 900,
-        background: GOLD, color: DARK, border: "2px solid " + DARK,
-        borderRadius: 99, cursor: "pointer", boxShadow: "2px 2px 0 " + DARK
+        background: GOLD, color: DARK, border: "1px solid rgba(26,61,31,.18)",
+        borderRadius: 99, cursor: "pointer", boxShadow: "0 2px 10px rgba(247,201,72,.28)"
       }
     }, "+ \u0E1A\u0E31\u0E19\u0E17\u0E36\u0E01\u0E23\u0E32\u0E22\u0E01\u0E32\u0E23\u0E41\u0E23\u0E01")
   ),
