@@ -1034,8 +1034,8 @@ function HeroCard(props) {
   return React.createElement("div", {
     className: "sl-hero",
     style: {
-      background: spicy ? "linear-gradient(145deg, #1e4d24 0%, #163219 100%)" : accent + "18",
-      border: "1.5px solid rgba(26,61,31,.15)",
+      background: spicy ? "linear-gradient(145deg, #1e4d24 0%, #163219 100%)" : accent + "12",
+      border: "1.5px solid rgba(26,61,31,.12)",
       borderRadius: 24,
       padding: "18px 16px 14px",
       marginBottom: 14,
@@ -1131,7 +1131,7 @@ function SalungToday(props) {
       border: "1.5px solid " + (spicy ? "rgba(61,219,90,.25)" : "rgba(26,61,31,.12)"),
       borderRadius: 22, padding: "14px 16px 12px", marginBottom: 14,
       position: "relative", overflow: "hidden",
-      boxShadow: "inset 0 1px 0 rgba(255,255,255,.65), 2px 2px 0 rgba(26,61,31,.08), 0 4px 16px rgba(26,61,31,.05)"
+      boxShadow: "inset 0 1px 0 rgba(255,255,255,.65), 0 4px 16px rgba(26,61,31,.06)"
     }
   },
     React.createElement("div", {
@@ -1152,9 +1152,9 @@ function SalungToday(props) {
     !loading && React.createElement("button", {
       onClick: ctaAction,
       style: {
-        background: state === "over" ? G : accentColor, color: DARK, border: "2px solid " + DARK,
+        background: state === "over" ? G : accentColor, color: DARK, border: "1.5px solid rgba(26,61,31,.3)",
         borderRadius: 99, padding: "5px 16px", fontSize: 12, fontWeight: 900,
-        cursor: "pointer", boxShadow: "2px 2px 0 " + DARK, lineHeight: 1.4
+        cursor: "pointer", boxShadow: "1px 1px 0 rgba(26,61,31,.2)", lineHeight: 1.4
       }
     }, ctaLabel)
   );
@@ -1734,7 +1734,7 @@ function CashFlow(_ref1) {
         cursor: "pointer", borderRadius: 99,
         border: period === id ? "1.5px solid " + G : "1.5px solid " + DARK + "20",
         transition: "all .15s",
-        background: period === id ? (spicy ? G + "33" : G + "28") : (spicy ? "#162a18" : CARD_BG),
+        background: period === id ? (spicy ? G + "22" : G + "18") : (spicy ? "#162a18" : CARD_BG),
         color: period === id ? DARK : (spicy ? "#aaa" : DARK + "88"),
         boxShadow: "none"
       }
@@ -1750,10 +1750,10 @@ function CashFlow(_ref1) {
     onClick: function onClick() { return setMonthOffset(function(o){ return o - 1; }); },
     style: {
       width: 32, height: 32, borderRadius: 10,
-      border: "2px solid " + DARK,
+      border: "1.5px solid rgba(26,61,31,.22)",
       background: spicy ? "#162a18" : CARD_BG,
       cursor: "pointer", fontSize: 14,
-      boxShadow: "2px 2px 0 " + DARK,
+      boxShadow: "1px 1px 0 rgba(26,61,31,.18)",
       fontWeight: 900, color: DARK
     }
   }, "\u2039"),
@@ -1767,11 +1767,11 @@ function CashFlow(_ref1) {
     disabled: isCurrent,
     style: {
       width: 32, height: 32, borderRadius: 10,
-      border: "2px solid " + (isCurrent ? "#ddd" : DARK),
+      border: "1.5px solid " + (isCurrent ? "rgba(26,61,31,.1)" : "rgba(26,61,31,.22)"),
       background: isCurrent ? CARD_BG : (spicy ? "#162a18" : CARD_BG),
       cursor: isCurrent ? "default" : "pointer",
       fontSize: 14,
-      boxShadow: isCurrent ? "none" : "2px 2px 0 " + DARK,
+      boxShadow: isCurrent ? "none" : "1px 1px 0 rgba(26,61,31,.18)",
       fontWeight: 900, color: isCurrent ? "#ccc" : DARK
     }
   }, "\u203A")),
@@ -1886,8 +1886,8 @@ function CashFlow(_ref1) {
     }, /*#__PURE__*/React.createElement("span", {
       style: {
         width: 36, height: 36, borderRadius: 12, flexShrink: 0,
-        background: t.amt > 0 ? G + "22" : SOFT_DANGER_BG,
-        border: "1.5px solid " + (t.amt > 0 ? G + "55" : "#FFB0B0"),
+        background: t.amt > 0 ? G + "14" : SOFT_DANGER_BG,
+        border: "1.5px solid " + (t.amt > 0 ? "rgba(61,219,90,.28)" : "#FFB0B0"),
         display: "flex", alignItems: "center", justifyContent: "center",
         fontSize: 18
       }
