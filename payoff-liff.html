@@ -1356,6 +1356,8 @@ function CashFlow(_ref1) {
     }
   };
   var d = PDATA[period];
+  var hasAnyData = cashSummary.inc > 0 || cashSummary.exp > 0 || txSummary.inc > 0 || txSummary.exp > 0 || txns.length > 0 || alloc.length > 0;
+  var isReturningEmptyPeriod = hasAnyData && (period === "day" || period === "week") && d.inc === 0 && d.exp === 0;
   var CAT_MAP = {
     food: { label: "อาหาร", color: "#FF6B6B", icon: "🍚" },
     travel: { label: "เดินทาง", color: "#4ECDC4", icon: "🚆" },
@@ -1396,6 +1398,7 @@ function CashFlow(_ref1) {
 
   // NBA CashFlow — คำนวณจากข้อมูลจริง
   var nbaText = function () {
+    if (isReturningEmptyPeriod) return "\u0E40\u0E23\u0E34\u0E48\u0E21\u0E08\u0E32\u0E01\u0E1A\u0E31\u0E19\u0E17\u0E36\u0E01\u0E23\u0E32\u0E22\u0E01\u0E32\u0E23\u0E41\u0E23\u0E01 \u0E41\u0E25\u0E49\u0E27 Salung \u0E08\u0E30\u0E0A\u0E48\u0E27\u0E22\u0E15\u0E48\u0E2D\u0E43\u0E2B\u0E49";
     var net = txSummary.net;
     var exp = txSummary.exp;
     var inc = txSummary.inc;
@@ -1688,7 +1691,7 @@ function CashFlow(_ref1) {
   isCurrent && React.createElement(SalungToday, {
     inc: cashSummary.inc, exp: cashSummary.exp, net: cashSummary.net,
     spicy: spicy, loading: allocLoading,
-    hasAnyData: cashSummary.inc > 0 || cashSummary.exp > 0 || txSummary.inc > 0 || txSummary.exp > 0 || txns.length > 0 || alloc.length > 0,
+    hasAnyData: hasAnyData,
     onAdd: function() { setSheet(true); },
     onAddInc: function() { setType("income"); setSheet(true); },
     onPlan: function() { setRecoverySheet(true); }
@@ -1767,20 +1770,20 @@ function CashFlow(_ref1) {
   /*#__PURE__*/React.createElement(HeroCard, {
     mood: d.net >= 0 ? "happy" : "sad",
     mascotContext: "cashflowHero",
-    title: period === "day" ? "\u0E27\u0E31\u0E19\u0E19\u0E35\u0E49\u0E40\u0E2B\u0E25\u0E37\u0E2D\u0E43\u0E0A\u0E49" : period === "week" ? "\u0E2A\u0E31\u0E1B\u0E14\u0E32\u0E2B\u0E4C\u0E19\u0E35\u0E49\u0E2A\u0E16\u0E32\u0E19\u0E30\u0E40\u0E07\u0E34\u0E19" : "\u0E40\u0E14\u0E37\u0E2D\u0E19\u0E19\u0E35\u0E49\u0E22\u0E31\u0E07\u0E40\u0E2B\u0E25\u0E37\u0E2D\u0E43\u0E0A\u0E49\u0E44\u0E14\u0E49\u0E08\u0E23\u0E34\u0E07",
-    bigNumber: d.inc > 0 ? (d.net < 0 ? "-\u0E3F" : "\u0E3F") + Math.abs(Math.round(d.net)).toLocaleString() : "\u0E22\u0E31\u0E07\u0E44\u0E21\u0E48\u0E23\u0E39\u0E49",
+    title: isReturningEmptyPeriod ? (period === "day" ? "\u0E27\u0E31\u0E19\u0E19\u0E35\u0E49\u0E22\u0E31\u0E07\u0E44\u0E21\u0E48\u0E21\u0E35\u0E23\u0E32\u0E22\u0E01\u0E32\u0E23" : "7 \u0E27\u0E31\u0E19\u0E19\u0E35\u0E49\u0E22\u0E31\u0E07\u0E44\u0E21\u0E48\u0E21\u0E35\u0E23\u0E32\u0E22\u0E01\u0E32\u0E23") : period === "day" ? "\u0E27\u0E31\u0E19\u0E19\u0E35\u0E49\u0E40\u0E2B\u0E25\u0E37\u0E2D\u0E43\u0E0A\u0E49" : period === "week" ? "\u0E2A\u0E31\u0E1B\u0E14\u0E32\u0E2B\u0E4C\u0E19\u0E35\u0E49\u0E2A\u0E16\u0E32\u0E19\u0E30\u0E40\u0E07\u0E34\u0E19" : "\u0E40\u0E14\u0E37\u0E2D\u0E19\u0E19\u0E35\u0E49\u0E22\u0E31\u0E07\u0E40\u0E2B\u0E25\u0E37\u0E2D\u0E43\u0E0A\u0E49\u0E44\u0E14\u0E49\u0E08\u0E23\u0E34\u0E07",
+    bigNumber: isReturningEmptyPeriod ? "\u2014" : d.inc > 0 ? (d.net < 0 ? "-\u0E3F" : "\u0E3F") + Math.abs(Math.round(d.net)).toLocaleString() : "\u0E22\u0E31\u0E07\u0E44\u0E21\u0E48\u0E23\u0E39\u0E49",
     numberColor: d.net >= 0 ? G : "#FF6B6B",
-    barPct: d.inc > 0 ? Math.min(100, Math.round(d.exp / d.inc * 100)) : 0,
-    sub: d.inc > 0 ? "\u0E43\u0E0A\u0E49\u0E44\u0E1B\u0E41\u0E25\u0E49\u0E27 \u0E3F" + Math.round(d.exp).toLocaleString() + " \u0E08\u0E32\u0E01\u0E23\u0E32\u0E22\u0E23\u0E31\u0E1A \u0E3F" + Math.round(d.inc).toLocaleString() : "\u0E40\u0E1E\u0E34\u0E48\u0E21\u0E23\u0E32\u0E22\u0E23\u0E31\u0E1A\u0E01\u0E48\u0E2D\u0E19 \u0E41\u0E25\u0E49\u0E27 Salung \u0E08\u0E30\u0E04\u0E33\u0E19\u0E27\u0E13\u0E07\u0E1A\u0E15\u0E48\u0E2D\u0E27\u0E31\u0E19\u0E43\u0E2B\u0E49",
-    salungText: d.inc === 0 ? "\u0E40\u0E23\u0E34\u0E48\u0E21\u0E08\u0E32\u0E01\u0E1A\u0E31\u0E19\u0E17\u0E36\u0E01\u0E23\u0E32\u0E22\u0E23\u0E31\u0E1A\u0E01\u0E48\u0E2D\u0E19 Salung \u0E08\u0E30\u0E0A\u0E48\u0E27\u0E22\u0E14\u0E39\u0E15\u0E48\u0E2D\u0E43\u0E2B\u0E49" : d.net >= 0 ? "\u0E22\u0E31\u0E07\u0E44\u0E2B\u0E27\u0E2D\u0E22\u0E39\u0E48 \u0E41\u0E15\u0E48\u0E2D\u0E22\u0E48\u0E32\u0E40\u0E1E\u0E34\u0E48\u0E07\u0E40\u0E1C\u0E25\u0E2D\u0E01\u0E14\u0E02\u0E2D\u0E07\u0E1F\u0E38\u0E48\u0E21\u0E40\u0E1F\u0E37\u0E2D\u0E22\u0E19\u0E30" : "\u0E15\u0E34\u0E14\u0E25\u0E1A\u0E41\u0E25\u0E49\u0E27 \u0E04\u0E48\u0E2D\u0E22 \u0E46 \u0E2B\u0E22\u0E38\u0E14\u0E40\u0E25\u0E37\u0E2D\u0E14\u0E01\u0E48\u0E2D\u0E19\u0E19\u0E30",
+    barPct: isReturningEmptyPeriod ? null : d.inc > 0 ? Math.min(100, Math.round(d.exp / d.inc * 100)) : 0,
+    sub: isReturningEmptyPeriod ? (period === "day" ? "\u0E1A\u0E31\u0E19\u0E17\u0E36\u0E01\u0E23\u0E32\u0E22\u0E01\u0E32\u0E23\u0E41\u0E23\u0E01\u0E02\u0E2D\u0E07\u0E27\u0E31\u0E19\u0E19\u0E35\u0E49\u0E44\u0E14\u0E49\u0E40\u0E25\u0E22" : "\u0E1A\u0E31\u0E19\u0E17\u0E36\u0E01\u0E23\u0E32\u0E22\u0E01\u0E32\u0E23\u0E41\u0E23\u0E01\u0E02\u0E2D\u0E07\u0E2A\u0E31\u0E1B\u0E14\u0E32\u0E2B\u0E4C\u0E19\u0E35\u0E49\u0E44\u0E14\u0E49\u0E40\u0E25\u0E22") : d.inc > 0 ? "\u0E43\u0E0A\u0E49\u0E44\u0E1B\u0E41\u0E25\u0E49\u0E27 \u0E3F" + Math.round(d.exp).toLocaleString() + " \u0E08\u0E32\u0E01\u0E23\u0E32\u0E22\u0E23\u0E31\u0E1A \u0E3F" + Math.round(d.inc).toLocaleString() : "\u0E40\u0E1E\u0E34\u0E48\u0E21\u0E23\u0E32\u0E22\u0E23\u0E31\u0E1A\u0E01\u0E48\u0E2D\u0E19 \u0E41\u0E25\u0E49\u0E27 Salung \u0E08\u0E30\u0E04\u0E33\u0E19\u0E27\u0E13\u0E07\u0E1A\u0E15\u0E48\u0E2D\u0E27\u0E31\u0E19\u0E43\u0E2B\u0E49",
+    salungText: isReturningEmptyPeriod ? "\u0E22\u0E31\u0E07\u0E42\u0E25\u0E48\u0E07\u0E2D\u0E22\u0E39\u0E48 \u0E40\u0E23\u0E34\u0E48\u0E21\u0E08\u0E14\u0E23\u0E32\u0E22\u0E01\u0E32\u0E23\u0E41\u0E23\u0E01\u0E44\u0E14\u0E49\u0E40\u0E25\u0E22\u0E19\u0E30" : d.inc === 0 ? "\u0E40\u0E23\u0E34\u0E48\u0E21\u0E08\u0E32\u0E01\u0E1A\u0E31\u0E19\u0E17\u0E36\u0E01\u0E23\u0E32\u0E22\u0E23\u0E31\u0E1A\u0E01\u0E48\u0E2D\u0E19 Salung \u0E08\u0E30\u0E0A\u0E48\u0E27\u0E22\u0E14\u0E39\u0E15\u0E48\u0E2D\u0E43\u0E2B\u0E49" : d.net >= 0 ? "\u0E22\u0E31\u0E07\u0E44\u0E2B\u0E27\u0E2D\u0E22\u0E39\u0E48 \u0E41\u0E15\u0E48\u0E2D\u0E22\u0E48\u0E32\u0E40\u0E1E\u0E34\u0E48\u0E07\u0E40\u0E1C\u0E25\u0E2D\u0E01\u0E14\u0E02\u0E2D\u0E07\u0E1F\u0E38\u0E48\u0E21\u0E40\u0E1F\u0E37\u0E2D\u0E22\u0E19\u0E30" : "\u0E15\u0E34\u0E14\u0E25\u0E1A\u0E41\u0E25\u0E49\u0E27 \u0E04\u0E48\u0E2D\u0E22 \u0E46 \u0E2B\u0E22\u0E38\u0E14\u0E40\u0E25\u0E37\u0E2D\u0E14\u0E01\u0E48\u0E2D\u0E19\u0E19\u0E30",
     accent: G,
     spicy: spicy
   }),
   // ── NBA card
   /*#__PURE__*/React.createElement(NBA, {
     text: nbaText,
-    actionLabel: d.inc === 0 ? "+ \u0E40\u0E1E\u0E34\u0E48\u0E21\u0E23\u0E32\u0E22\u0E23\u0E31\u0E1A" : "+ \u0E1A\u0E31\u0E19\u0E17\u0E36\u0E01\u0E23\u0E32\u0E22\u0E01\u0E32\u0E23",
-    onAction: d.inc === 0 ? function() { setType("income"); setSheet(true); } : function() { return setSheet(true); },
+    actionLabel: isReturningEmptyPeriod ? "+ \u0E1A\u0E31\u0E19\u0E17\u0E36\u0E01\u0E23\u0E32\u0E22\u0E01\u0E32\u0E23" : d.inc === 0 ? "+ \u0E40\u0E1E\u0E34\u0E48\u0E21\u0E23\u0E32\u0E22\u0E23\u0E31\u0E1A" : "+ \u0E1A\u0E31\u0E19\u0E17\u0E36\u0E01\u0E23\u0E32\u0E22\u0E01\u0E32\u0E23",
+    onAction: isReturningEmptyPeriod ? function() { return setSheet(true); } : d.inc === 0 ? function() { setType("income"); setSheet(true); } : function() { return setSheet(true); },
     spicy: spicy,
     mood: period === "month" ? "thinking" : "tip"
   }),
