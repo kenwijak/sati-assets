@@ -34,7 +34,26 @@
   .sl-press:active{transform:scale(.96);transition:transform .07s ease}
   @keyframes coinPop{0%{transform:scale(.35) rotate(-10deg);opacity:0}65%{transform:scale(1.18) rotate(4deg)}100%{transform:scale(1) rotate(0deg);opacity:1}}
   .sl-coin{animation:coinPop .5s cubic-bezier(.34,1.56,.64,1) both}
+  /* Suppress any LIFF SDK service-discovery / recently-used tooltip */
+  [class*="liff-recently"],[class*="liff_recently"],[class*="service-discovery"],
+  [class*="liff-browser-helper"],[class*="liff-shortlink"],[class*="liff-tooltip"],
+  .liff-service-list,.__liff_service_list_wrapper{display:none!important}
 </style>
+<script>
+(function(){
+  function _hideLiffHint(){
+    var all=document.querySelectorAll('body > *:not(#root):not(script):not(style)');
+    all.forEach(function(el){
+      var t=(el.textContent||'').trim();
+      if(t&&(t.indexOf('recently used')>=0||t.indexOf('at a glance')>=0||t.indexOf('See recently')>=0)){
+        el.style.cssText='display:none!important';
+      }
+    });
+  }
+  _hideLiffHint();
+  new MutationObserver(_hideLiffHint).observe(document.body||document.documentElement,{childList:true,subtree:false});
+})();
+</script>
 </head>
 <body>
 <div id="root">
@@ -472,11 +491,11 @@ function Success(_ref6) {
         padding: "13px 0",
         fontSize: 14,
         fontWeight: 900,
-        background: G,
+        background: "#42D063",
         color: DARK,
-        border: "2px solid ".concat(DARK),
+        border: "1px solid rgba(26,61,31,.16)",
         borderRadius: 99,
-        boxShadow: "0 4px 16px rgba(26,61,31,.18)",
+        boxShadow: "0 3px 14px rgba(61,219,90,.22)",
         cursor: "pointer",
         marginBottom: 10
       }
@@ -1093,7 +1112,7 @@ function HeroCard(props) {
       }, title),
       bigNumber && React.createElement("div", {
         style: {
-          fontSize: 38, fontWeight: 900, color: numberColor,
+          fontSize: /\d/.test(bigNumber) ? 38 : 22, fontWeight: 900, color: numberColor,
           lineHeight: 1.1, letterSpacing: "-.02em", marginBottom: 4
         }
       }, bigNumber),
@@ -2067,10 +2086,10 @@ function CashFlow(_ref1) {
       width: 56, height: 56,
       borderRadius: 99,
       background: GOLD, color: DARK,
-      border: "3px solid " + DARK,
+      border: "1.5px solid rgba(26,61,31,.22)",
       fontSize: 24, fontWeight: 900,
       cursor: "pointer",
-      boxShadow: "inset 0 2px 0 rgba(255,255,255,.5), 3px 3px 0 rgba(26,61,31,.85), 0 8px 24px rgba(247,201,72,.4)",
+      boxShadow: "inset 0 2px 0 rgba(255,255,255,.55), 0 4px 20px rgba(247,201,72,.45)",
       zIndex: 50,
       display: fabVisible ? "flex" : "none", alignItems: "center", justifyContent: "center",
       lineHeight: 1
