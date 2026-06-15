@@ -3922,7 +3922,7 @@ function More(_ref23) {
         }, "ค่อย ๆ โตไปเรื่องเงินด้วยกันนะ")
       ),
       // Right side — mascot
-      React.createElement(MascotAsset, { context: "moreHero", variant: "inline" })
+      React.createElement("div", { style: { transform: "scale(1.2)", transformOrigin: "center center", flexShrink: 0 } }, React.createElement(MascotAsset, { context: "moreHero", variant: "inline" }))
     )
   );
 
@@ -3940,30 +3940,42 @@ function More(_ref23) {
 
   var tileBg   = spicy ? "rgba(61,219,90,.06)" : CREAM;
   var tileBdr  = "1.5px solid " + (spicy ? "rgba(61,219,90,.18)" : "rgba(26,61,31,.10)");
-  var tileBase = { flex: "1 1 calc(50% - 6px)", background: tileBg, borderRadius: 16, border: tileBdr, padding: "14px 12px", display: "flex", flexDirection: "column", gap: 6 };
+  var tileBase = { flex: "1 1 calc(50% - 6px)", background: tileBg, borderRadius: 16, border: tileBdr, padding: "10px 12px", display: "flex", flexDirection: "column", gap: 5, cursor: "pointer", boxShadow: spicy ? "none" : "inset 0 1px 0 rgba(255,255,255,.9), 1px 1px 0 rgba(26,61,31,.05)" };
 
   var quickGrid = React.createElement("div", {
     style: { display: "flex", flexWrap: "wrap", gap: 12, marginBottom: 14 }
   },
     React.createElement("div", { key: "tA", style: tileBase },
-      React.createElement("span", { style: { fontSize: 22 } }, "📂"),
+      React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "flex-start" } },
+        React.createElement("span", { style: { fontSize: 22 } }, "📂"),
+        React.createElement("span", { style: { fontSize: 12, color: spicy ? "rgba(255,255,255,.25)" : "rgba(26,61,31,.2)" } }, "›")
+      ),
       React.createElement("div", { style: { fontSize: 13, fontWeight: 900, color: spicy ? "#fff" : DARK } }, "หมวดหมู่"),
-      React.createElement("div", { style: { fontSize: 11, fontWeight: 600, color: spicy ? "rgba(255,255,255,.5)" : MID, lineHeight: 1.4 } }, "จัดการหมวดรายรับรายจ่าย")
+      React.createElement("div", { style: { fontSize: 11, fontWeight: 600, color: spicy ? "rgba(255,255,255,.7)" : MID, lineHeight: 1.4 } }, "จัดการหมวดรายรับรายจ่าย")
     ),
     React.createElement("div", { key: "tB", style: tileBase },
-      React.createElement("span", { style: { fontSize: 22 } }, "💵"),
+      React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "flex-start" } },
+        React.createElement("span", { style: { fontSize: 22 } }, "💵"),
+        React.createElement("span", { style: { fontSize: 12, color: spicy ? "rgba(255,255,255,.25)" : "rgba(26,61,31,.2)" } }, "›")
+      ),
       React.createElement("div", { style: { fontSize: 13, fontWeight: 900, color: spicy ? "#fff" : DARK } }, "งบประมาณ"),
-      React.createElement("div", { style: { fontSize: 11, fontWeight: 600, color: spicy ? "rgba(255,255,255,.5)" : MID, lineHeight: 1.4 } }, "ตั้งงบแต่ละหมวด")
+      React.createElement("div", { style: { fontSize: 11, fontWeight: 600, color: spicy ? "rgba(255,255,255,.7)" : MID, lineHeight: 1.4 } }, "ตั้งงบแต่ละหมวด")
     ),
     React.createElement("div", { key: "tC", style: tileBase },
-      React.createElement("span", { style: { fontSize: 22 } }, "🔔"),
+      React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "flex-start" } },
+        React.createElement("span", { style: { fontSize: 22 } }, "🔔"),
+        React.createElement("span", { style: { fontSize: 12, color: spicy ? "rgba(255,255,255,.25)" : "rgba(26,61,31,.2)" } }, "›")
+      ),
       React.createElement("div", { style: { fontSize: 13, fontWeight: 900, color: spicy ? "#fff" : DARK } }, "แจ้งเตือน"),
-      React.createElement("div", { style: { fontSize: 11, fontWeight: 600, color: spicy ? "rgba(255,255,255,.5)" : MID, lineHeight: 1.4 } }, "เตือนก่อนเงินไหล")
+      React.createElement("div", { style: { fontSize: 11, fontWeight: 600, color: spicy ? "rgba(255,255,255,.7)" : MID, lineHeight: 1.4 } }, "เตือนก่อนเงินไหล")
     ),
-    React.createElement("div", { key: "tD", style: Object.assign({}, tileBase, { cursor: "pointer" }), onClick: onSpicyConfirm },
-      React.createElement("span", { style: { fontSize: 22 } }, "🌶️"),
+    React.createElement("div", { key: "tD", style: tileBase, onClick: onSpicyConfirm },
+      React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "flex-start" } },
+        React.createElement("span", { style: { fontSize: 22 } }, "🌶️"),
+        React.createElement("span", { style: { fontSize: 12, color: spicy ? "rgba(255,255,255,.25)" : "rgba(26,61,31,.2)" } }, "›")
+      ),
       React.createElement("div", { style: { fontSize: 13, fontWeight: 900, color: spicy ? "#fff" : DARK } }, "Spicy Mode"),
-      React.createElement("div", { style: { fontSize: 11, fontWeight: 600, color: spicy ? "rgba(255,255,255,.5)" : MID, lineHeight: 1.4 } }, "โหมดแซะนิด ๆ ขำ ๆ")
+      React.createElement("div", { style: { fontSize: 11, fontWeight: 600, color: spicy ? "rgba(255,255,255,.7)" : MID, lineHeight: 1.4 } }, "โหมดแซะนิด ๆ ขำ ๆ")
     )
   );
 
@@ -4093,7 +4105,7 @@ function More(_ref23) {
     }
   }, "🌱 กำลังปั้นต่อ");
 
-  var soonBdr   = "1px solid " + (spicy ? "rgba(255,255,255,.06)" : "rgba(26,61,31,.07)");
+  var soonBdr   = "1px solid " + (spicy ? "rgba(255,255,255,.1)" : "rgba(26,61,31,.07)");
   var soonItems = [
     "📈 รายงานรายเดือน",
     "🏦 เชื่อมบัญชีในอนาคต",
@@ -4115,7 +4127,7 @@ function More(_ref23) {
         style: {
           fontSize: 12,
           fontWeight: 700,
-          color: spicy ? "rgba(255,255,255,.45)" : MID,
+          color: spicy ? "rgba(255,255,255,.65)" : MID,
           padding: "7px 0",
           borderBottom: i < soonItems.length - 1 ? soonBdr : "none",
           display: "flex",
@@ -4127,8 +4139,8 @@ function More(_ref23) {
           style: {
             fontSize: 10,
             fontWeight: 800,
-            color: spicy ? "rgba(61,219,90,.5)" : G,
-            background: spicy ? "rgba(61,219,90,.08)" : G + "15",
+            color: spicy ? "rgba(61,219,90,.75)" : G,
+            background: spicy ? "rgba(61,219,90,.12)" : G + "15",
             borderRadius: 99,
             padding: "1px 7px"
           }
