@@ -1844,7 +1844,7 @@ function CashFlow(_ref1) {
       ? "\u0E22\u0E48\u0E2D\u0E40\u0E2B\u0E25\u0E37\u0E2D 5 \u0E23\u0E32\u0E22\u0E01\u0E32\u0E23 \u25B2"
       : "\u0E14\u0E39\u0E17\u0E31\u0E49\u0E07\u0E2B\u0E21\u0E14 " + txns.length + " \u0E23\u0E32\u0E22\u0E01\u0E32\u0E23 \u25BC")
   ),
-  txns.length === 0 && /*#__PURE__*/React.createElement("div", {
+  txns.length === 0 && !isReturningEmptyPeriod && /*#__PURE__*/React.createElement("div", {
     style: { textAlign: "center", padding: "20px 16px 24px" }
   },
     /*#__PURE__*/React.createElement(MascotAsset, { context: "empty", variant: "card" }),
