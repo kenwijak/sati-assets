@@ -2692,11 +2692,12 @@ function Debt(_ref21) {
   var maxMonths = timeline.length ? Math.max.apply(Math, _toConsumableArray(timeline.map(function (t) {
     return t.months === 999 ? 360 : t.months;
   }))) : 0;
-  var freeDateObj = calcFreeDate(totalDebt, debts.reduce(function (s, d) {
-    return s + d.min;
-  }, 0), debts.length ? debts.reduce(function (s, d) {
-    return s + d.rate;
-  }, 0) / debts.length : 0);
+  var totalMin = debts.reduce(function (s, d) { return s + d.min; }, 0);
+  var avgRate = debts.length ? debts.reduce(function (s, d) { return s + d.rate; }, 0) / debts.length : 0;
+  var maxDebt = debts.length ? Math.max.apply(Math, debts.map(function(x) { return x.bal; })) : 1;
+  var freeDateObj = calcFreeDate(totalDebt, totalMin, avgRate);
+  var freeDate500Obj = calcFreeDate(totalDebt, totalMin + 500, avgRate);
+  var freeDate1000Obj = calcFreeDate(totalDebt, totalMin + 1000, avgRate);
   var freeDate = freeDateObj.label,
     monthsLeft = freeDateObj.months;
   function confirmPay(debt) {
@@ -2975,33 +2976,37 @@ function Debt(_ref21) {
       fontSize: 12,
       padding: 8
     }
-  }, "\u0E01\u0E33\u0E25\u0E31\u0E07\u0E42\u0E2B\u0E25\u0E14\u0E02\u0E49\u0E2D\u0E21\u0E39\u0E25\u0E2B\u0E19\u0E35\u0E49...")), /*#__PURE__*/React.createElement("button", {
+  }, "\u0E01\u0E33\u0E25\u0E31\u0E07\u0E42\u0E2B\u0E25\u0E14\u0E02\u0E49\u0E2D\u0E21\u0E39\u0E25\u0E2B\u0E19\u0E35\u0E49...")), /*#__PURE__*/(debtsLoaded && !debts.length) && /*#__PURE__*/React.createElement("button", {
     onClick: function onClick() {
       return setAddDebtSheet(true);
     },
     style: {
       width: "100%",
-      padding: "11px 0",
-      fontSize: 12,
+      padding: "13px 0",
+      fontSize: 13,
       fontWeight: 900,
-      background: spicy ? "#1a3a1f" : CREAM,
-      color: DARK,
+      background: spicy ? "#1a3a1f" : DARK,
+      color: "#fff",
       border: "2px solid ".concat(DARK),
-      borderRadius: 12,
+      borderRadius: 14,
       boxShadow: "2px 2px 0 ".concat(DARK),
       cursor: "pointer",
       marginBottom: 10
     }
-  }, "+ \u0E40\u0E1E\u0E34\u0E48\u0E21\u0E2B\u0E19\u0E35\u0E49\u0E17\u0E35\u0E48\u0E2D\u0E22\u0E32\u0E01\u0E40\u0E04\u0E25\u0E35\u0E22\u0E23\u0E4C"), /*#__PURE__*/React.createElement(HeroCard, {
+  }, "\uD83D\uDD13 \u0E40\u0E1E\u0E34\u0E48\u0E21\u0E2B\u0E19\u0E35\u0E49\u0E01\u0E49\u0E2D\u0E19\u0E41\u0E23\u0E01"), /*#__PURE__*/React.createElement(HeroCard, {
   mood: debts.length ? "detective" : "happy",
   mascotContext: "debtHero",
-  title: debts.length ? "\u0E27\u0E31\u0E19\u0E1B\u0E25\u0E14\u0E41\u0E2D\u0E01\u0E02\u0E2D\u0E07\u0E40\u0E18\u0E2D" : "\u0E44\u0E21\u0E48\u0E21\u0E35\u0E2B\u0E19\u0E35\u0E49\u0E40\u0E25\u0E22! \uD83C\uDF89",
+  title: debts.length ? "\u0E27\u0E31\u0E19\u0E1B\u0E25\u0E14\u0E41\u0E2D\u0E01\u0E02\u0E2D\u0E07\u0E40\u0E18\u0E2D" : "\u0E22\u0E31\u0E07\u0E44\u0E21\u0E48\u0E21\u0E35\u0E2B\u0E19\u0E35\u0E49\u0E17\u0E35\u0E48\u0E15\u0E49\u0E2D\u0E07\u0E08\u0E31\u0E14\u0E01\u0E32\u0E23",
   bigNumber: debts.length ? freeDate : "\u2014",
-  sub: debts.length ? "\u0E40\u0E2B\u0E25\u0E37\u0E2D\u0E2D\u0E35\u0E01 " + monthsLeft + " \u0E40\u0E14\u0E37\u0E2D\u0E19 \u00B7 \u0E2B\u0E19\u0E35\u0E49\u0E23\u0E27\u0E21 \u0E3F" + Math.round(totalDebt).toLocaleString() : "\u0E44\u0E21\u0E48\u0E21\u0E35\u0E2B\u0E19\u0E35\u0E49\u0E01\u0E47\u0E14\u0E35\u0E21\u0E32\u0E01 \u0E16\u0E49\u0E32\u0E21\u0E35 \u0E08\u0E14\u0E44\u0E27\u0E49\u0E01\u0E48\u0E2D\u0E19\u0E19\u0E30",
-  salungText: debts.length ? "Salung \u0E08\u0E30\u0E0A\u0E48\u0E27\u0E22\u0E27\u0E32\u0E07\u0E41\u0E1C\u0E19\u0E1B\u0E25\u0E14\u0E2B\u0E19\u0E35\u0E49 \u0E04\u0E48\u0E2D\u0E22\u0E46 \u0E17\u0E33\u0E17\u0E35\u0E25\u0E30\u0E02\u0E31\u0E49\u0E19 \u0E40\u0E23\u0E32\u0E17\u0E33\u0E44\u0E14\u0E49!" : "Salung \u0E08\u0E30\u0E0A\u0E48\u0E27\u0E22\u0E27\u0E32\u0E07\u0E41\u0E1C\u0E19\u0E43\u0E2B\u0E49\u0E16\u0E49\u0E32\u0E40\u0E18\u0E2D\u0E21\u0E35\u0E2B\u0E19\u0E35\u0E49 \uD83D\uDD13",
+  sub: debts.length ? "\u0E40\u0E2B\u0E25\u0E37\u0E2D\u0E2D\u0E35\u0E01 " + monthsLeft + " \u0E40\u0E14\u0E37\u0E2D\u0E19 \u00B7 \u0E2B\u0E19\u0E35\u0E49\u0E23\u0E27\u0E21 \u0E3F" + Math.round(totalDebt).toLocaleString() : "\u0E40\u0E1E\u0E34\u0E48\u0E21\u0E2B\u0E19\u0E35\u0E49\u0E01\u0E49\u0E2D\u0E19\u0E41\u0E23\u0E01 \u0E41\u0E25\u0E49\u0E27 Salung \u0E08\u0E30\u0E0A\u0E48\u0E27\u0E22\u0E27\u0E32\u0E07\u0E41\u0E1C\u0E19\u0E43\u0E2B\u0E49",
+  salungText: debts.length ? "\u0E04\u0E48\u0E2D\u0E22 \u0E46 \u0E1B\u0E25\u0E14\u0E41\u0E2D\u0E01\u0E44\u0E1B\u0E14\u0E49\u0E27\u0E22\u0E01\u0E31\u0E19 \u0E40\u0E23\u0E32\u0E17\u0E33\u0E44\u0E14\u0E49" : "\u0E40\u0E1E\u0E34\u0E48\u0E21\u0E2B\u0E19\u0E35\u0E49\u0E01\u0E49\u0E2D\u0E19\u0E41\u0E23\u0E01 \u0E41\u0E25\u0E49\u0E27 Salung \u0E08\u0E30\u0E0A\u0E48\u0E27\u0E22\u0E27\u0E32\u0E07\u0E41\u0E1C\u0E19\u0E43\u0E2B\u0E49 \uD83C\uDF31",
   accent: GOLD,
   spicy: spicy
-}), /*#__PURE__*/React.createElement(SectionHeader, { icon: "🗺️", text: "แผนปลดแอก", spicy: spicy }),
+}), debtsLoaded && debts.length > 0 && /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() { return setAddDebtSheet(true); },
+    style: { width: "100%", padding: "9px 0", fontSize: 12, fontWeight: 800, background: "none", color: MID, border: "1.5px solid ".concat(G), borderRadius: 12, cursor: "pointer", marginBottom: 10 }
+  }, "+ \u0E40\u0E1E\u0E34\u0E48\u0E21\u0E2B\u0E19\u0E35\u0E49"),
+/*#__PURE__*/React.createElement(SectionHeader, { icon: "🗺️", text: "แผนปลดแอก", spicy: spicy }),
   /*#__PURE__*/React.createElement(NBA, {
     mood: "thinking",
     spicy: spicy,
@@ -3013,9 +3018,9 @@ function Debt(_ref21) {
       var extra = 500;
       var savedMonths = top && top.rate > 0 ? Math.max(0, Math.round(top.bal * top.rate / 100 / 12 / (top.min + extra) * 2)) : 0;
       var interest = top && top.rate > 0 ? Math.round(top.bal * (top.rate / 100) / 12 * savedMonths) : 0;
-      if (!savedMonths || savedMonths <= 0 || isNaN(savedMonths) || !interest || interest <= 0 || isNaN(interest)) return "\u0E41\u0E1C\u0E19\u0E19\u0E35\u0E49\u0E22\u0E31\u0E07\u0E44\u0E21\u0E48\u0E17\u0E33\u0E43\u0E2B\u0E49\u0E1B\u0E34\u0E14\u0E40\u0E23\u0E47\u0E27\u0E02\u0E36\u0E49\u0E19 \u0E25\u0E2D\u0E07\u0E40\u0E1E\u0E34\u0E48\u0E21\u0E22\u0E2D\u0E14\u0E08\u0E48\u0E32\u0E22\u0E2D\u0E35\u0E01\u0E19\u0E34\u0E14";
+      if (!savedMonths || savedMonths <= 0 || isNaN(savedMonths) || !interest || interest <= 0 || isNaN(interest)) return "\u0E02\u0E49\u0E2D\u0E21\u0E39\u0E25\u0E22\u0E31\u0E07\u0E44\u0E21\u0E48\u0E1E\u0E2D \u0E25\u0E2D\u0E07\u0E40\u0E1E\u0E34\u0E48\u0E21\u0E14\u0E2D\u0E01\u0E40\u0E1A\u0E35\u0E49\u0E22\u0E2B\u0E23\u0E37\u0E2D\u0E22\u0E2D\u0E14\u0E08\u0E48\u0E32\u0E22\u0E02\u0E31\u0E49\u0E19\u0E15\u0E48\u0E33\u0E01\u0E48\u0E2D\u0E19\u0E19\u0E30";
       if (top && top.rate > 15) return spicy ? "".concat(top.name, " \u0E14\u0E2D\u0E01\u0E40\u0E1A\u0E35\u0E49\u0E22 ").concat(top.rate, "% \u0E41\u0E1E\u0E07\u0E21\u0E32\u0E01 \u0E08\u0E48\u0E32\u0E22\u0E40\u0E1E\u0E34\u0E48\u0E21 \u0E3F").concat(extra.toLocaleString(), " \u0E40\u0E14\u0E37\u0E2D\u0E19\u0E25\u0E30\u0E04\u0E23\u0E31\u0E49\u0E07\u0E1B\u0E34\u0E14\u0E40\u0E23\u0E47\u0E27\u0E02\u0E36\u0E49\u0E19 ").concat(savedMonths, " \u0E40\u0E14\u0E37\u0E2D\u0E19 Salung \u0E40\u0E2B\u0E47\u0E19\u0E2B\u0E21\u0E14\u0E19\u0E30") : "\u0E08\u0E48\u0E32\u0E22 ".concat(top.name, " \u0E40\u0E1E\u0E34\u0E48\u0E21 \u0E3F").concat(extra.toLocaleString(), "/\u0E40\u0E14\u0E37\u0E2D\u0E19 \u0E1B\u0E34\u0E14\u0E40\u0E23\u0E47\u0E27\u0E02\u0E36\u0E49\u0E19 ~").concat(savedMonths, " \u0E40\u0E14\u0E37\u0E2D\u0E19 \u0E1B\u0E23\u0E30\u0E2B\u0E22\u0E31\u0E14\u0E14\u0E2D\u0E01\u0E2F \u0E3F").concat(interest.toLocaleString());
-      return spicy ? "\u0E2B\u0E19\u0E35\u0E49\u0E23\u0E27\u0E21 \u0E3F".concat(Math.round(totalDebt).toLocaleString(), " \u0E17\u0E38\u0E01\u0E1A\u0E32\u0E17\u0E17\u0E35\u0E48\u0E08\u0E48\u0E32\u0E22\u0E40\u0E01\u0E34\u0E19\u0E02\u0E31\u0E49\u0E19\u0E15\u0E48\u0E33\u0E04\u0E37\u0E2D\u0E40\u0E07\u0E34\u0E19\u0E17\u0E35\u0E48\u0E44\u0E14\u0E49\u0E04\u0E37\u0E19\u0E21\u0E32") : "\u0E08\u0E48\u0E32\u0E22\u0E02\u0E31\u0E49\u0E19\u0E15\u0E48\u0E33\u0E2D\u0E22\u0E48\u0E32\u0E07\u0E40\u0E14\u0E35\u0E22\u0E27: \u0E2B\u0E21\u0E14\u0E1B\u0E23\u0E30\u0E21\u0E32\u0E13 " + freeDate + " \u00B7 \u0E08\u0E48\u0E32\u0E22\u0E40\u0E1E\u0E34\u0E48\u0E21\u0E19\u0E34\u0E14\u0E40\u0E14\u0E35\u0E22\u0E27\u0E01\u0E47\u0E0A\u0E48\u0E27\u0E22\u0E44\u0E14\u0E49\u0E21\u0E32\u0E01\u0E19\u0E30";
+      return spicy ? "\u0E2B\u0E19\u0E35\u0E49\u0E23\u0E27\u0E21 \u0E3F".concat(Math.round(totalDebt).toLocaleString(), " \u0E17\u0E38\u0E01\u0E1A\u0E32\u0E17\u0E17\u0E35\u0E48\u0E08\u0E48\u0E32\u0E22\u0E40\u0E01\u0E34\u0E19\u0E02\u0E31\u0E49\u0E19\u0E15\u0E48\u0E33\u0E04\u0E37\u0E2D\u0E40\u0E07\u0E34\u0E19\u0E17\u0E35\u0E48\u0E44\u0E14\u0E49\u0E04\u0E37\u0E19\u0E21\u0E32") : "\u0E40\u0E23\u0E34\u0E48\u0E21\u0E08\u0E32\u0E01\u0E2B\u0E19\u0E35\u0E49\u0E14\u0E2D\u0E01\u0E2A\u0E39\u0E07\u0E2A\u0E38\u0E14\u0E01\u0E48\u0E2D\u0E19 \u0E08\u0E30\u0E25\u0E14\u0E14\u0E2D\u0E01\u0E44\u0E14\u0E49\u0E44\u0E27\u0E2A\u0E38\u0E14 \u00B7 \u0E2B\u0E21\u0E14\u0E1B\u0E23\u0E30\u0E21\u0E32\u0E13 " + freeDate;
     }(),
     actionLabel: "\u0E0A\u0E33\u0E23\u0E30\u0E2B\u0E19\u0E35\u0E49\u0E40\u0E25\u0E22",
     onAction: function onAction() {
@@ -3023,7 +3028,7 @@ function Debt(_ref21) {
     }
   }), /*#__PURE__*/React.createElement(Card, {
     style: {
-      background: spicy ? DARK : "#FFF5F5"
+      background: spicy ? DARK : CREAM
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
@@ -3041,7 +3046,7 @@ function Debt(_ref21) {
     style: {
       fontSize: 24,
       fontWeight: 900,
-      color: "#E53E3E"
+      color: spicy ? "#FF9999" : DARK
     }
   }, "\u0E3F", Math.round(totalDebt).toLocaleString()), /*#__PURE__*/React.createElement("div", {
     style: {
@@ -3050,7 +3055,7 @@ function Debt(_ref21) {
       marginTop: 2,
       color: spicy ? "#FF9999" : "#888"
     }
-  }, spicy ? "฿81,400 ยังอยู่นะ แต่น้อยลงทุกเดือน ดีกว่าเพิ่ม" : "ลดลง ฿2,300 จากเดือนที่แล้ว เดินมาถูกทางแล้ว")), /*#__PURE__*/React.createElement(Face, {
+  }, "\u0E41\u0E15\u0E48\u0E25\u0E30\u0E1A\u0E32\u0E17\u0E17\u0E35\u0E48\u0E08\u0E48\u0E32\u0E22\u0E04\u0E37\u0E2D\u0E01\u0E49\u0E32\u0E27\u0E2A\u0E39\u0E48\u0E2D\u0E34\u0E2A\u0E23\u0E20\u0E32\u0E1E \uD83C\uDF31")), /*#__PURE__*/React.createElement(Face, {
     size: 42,
     variant: "card",
     mood: "thinking"
@@ -3189,16 +3194,16 @@ function Debt(_ref21) {
       border: "1.5px solid #ddd"
     }
   }, [{
-    label: "จ่ายขั้นต่ำอย่างเดียว",
-    date: "ก.ค. 2030",
-    color: "#FF6B6B"
+    label: "\u0E08\u0E48\u0E32\u0E22\u0E02\u0E31\u0E49\u0E19\u0E15\u0E48\u0E33\u0E2D\u0E22\u0E48\u0E32\u0E07\u0E40\u0E14\u0E35\u0E22\u0E27",
+    date: debts.length ? freeDateObj.label : "\u2014",
+    color: "#FF9999"
   }, {
-    label: "จ่ายเพิ่ม ฿500/เดือน",
-    date: "ก.พ. 2028",
+    label: "\u0E08\u0E48\u0E32\u0E22\u0E40\u0E1E\u0E34\u0E48\u0E21 \u0E3F500/\u0E40\u0E14\u0E37\u0E2D\u0E19",
+    date: debts.length ? freeDate500Obj.label : "\u2014",
     color: GOLD
   }, {
-    label: "จ่ายเพิ่ม ฿1,000/เดือน",
-    date: "ส.ค. 2027",
+    label: "\u0E08\u0E48\u0E32\u0E22\u0E40\u0E1E\u0E34\u0E48\u0E21 \u0E3F1,000/\u0E40\u0E14\u0E37\u0E2D\u0E19",
+    date: debts.length ? freeDate1000Obj.label : "\u2014",
     color: G
   }].map(function (row, i) {
     return /*#__PURE__*/React.createElement("div", {
@@ -3265,7 +3270,7 @@ function Debt(_ref21) {
       }
     }, d.name), d.priority && /*#__PURE__*/React.createElement(Tag, {
       color: "#FF6B6B"
-    }, "\u26A1 \u0E08\u0E48\u0E32\u0E22\u0E01\u0E48\u0E2D\u0E19"), paidDone[d.name] && /*#__PURE__*/React.createElement(Tag, {
+    }, "\u26A1 \u0E04\u0E27\u0E23\u0E08\u0E31\u0E14\u0E01\u0E48\u0E2D\u0E19"), paidDone[d.name] && /*#__PURE__*/React.createElement(Tag, {
       color: G
     }, "\u2713 \u0E3F", paidDone[d.name].toLocaleString())), /*#__PURE__*/React.createElement("div", {
       style: {
@@ -3279,7 +3284,7 @@ function Debt(_ref21) {
         color: DARK
       }
     }, "\u0E3F", d.bal.toLocaleString())), /*#__PURE__*/React.createElement(Bar, {
-      pct: d.bal / 50000 * 100,
+      pct: maxDebt > 0 ? d.bal / maxDebt * 100 : 50,
       color: d.color
     }), /*#__PURE__*/React.createElement("button", {
       onClick: function onClick() {
@@ -3298,7 +3303,7 @@ function Debt(_ref21) {
         borderRadius: 10,
         cursor: "pointer"
       }
-    }, paidDone[d.name] ? "✓ ชำระแล้วเดือนนี้" : "💸 ชำระหนี้งวดนี้"), /*#__PURE__*/React.createElement("button", {
+    }, paidDone[d.name] ? "✓ ชำระแล้วเดือนนี้" : "💸 ชำระหนี้เลย"), /*#__PURE__*/React.createElement("button", {
       onClick: function onClick() {
         return deleteDebt(d);
       },
