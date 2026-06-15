@@ -1696,7 +1696,7 @@ function CashFlow(_ref1) {
     onAddInc: function() { setType("income"); setSheet(true); },
     onPlan: function() { setRecoverySheet(true); }
   }),
-  isCurrent && cashSummary.inc === 0 && cashSummary.exp === 0 && !allocLoading && alloc.length === 0 && React.createElement("div", {
+  isCurrent && !hasAnyData && cashSummary.inc === 0 && cashSummary.exp === 0 && !allocLoading && alloc.length === 0 && React.createElement("div", {
     className: "sl-card",
     style: {background: spicy ? "#0a1f0d" : "#F0FAF4", border: "1.5px solid " + G, borderRadius: 20, padding: "16px", marginBottom: 14}
   },
@@ -1708,9 +1708,7 @@ function CashFlow(_ref1) {
       style: {marginTop: 12, width: "100%", padding: "11px", borderRadius: 99, background: G, color: DARK, border: "2px solid " + DARK, fontSize: 13, fontWeight: 900, cursor: "pointer", boxShadow: "2px 2px 0 " + DARK}
     }, "\u0E40\u0E23\u0E34\u0E48\u0E21\u0E08\u0E32\u0E01\u0E23\u0E32\u0E22\u0E23\u0E31\u0E1A\u0E01\u0E48\u0E2D\u0E19 \u2192")
   ),
-  isCurrent && cashSummary.inc === 0 && cashSummary.exp === 0 && !allocLoading && alloc.length > 0 && /*#__PURE__*/React.createElement("div", {
-    style: {background: "#fafaf8", borderRadius: 16, padding: "12px 16px", marginBottom: 14, textAlign: "center"}
-  }, /*#__PURE__*/React.createElement("div", {style: {fontSize: 13, fontWeight: 700, color: DARK, marginBottom: 4}}, "\u0E22\u0E31\u0E07\u0E44\u0E21\u0E48\u0E21\u0E35\u0E23\u0E32\u0E22\u0E01\u0E32\u0E23\u0E40\u0E14\u0E37\u0E2D\u0E19\u0E19\u0E35\u0E49"), /*#__PURE__*/React.createElement("div", {style: {fontSize: 11, color: "#aaa"}}, "\u0E40\u0E1E\u0E34\u0E48\u0E21\u0E23\u0E32\u0E22\u0E01\u0E32\u0E23\u0E41\u0E23\u0E01\u0E44\u0E14\u0E49\u0E40\u0E25\u0E22")),
+  null,
   // ── Period switcher (top, sticker chips)
   /*#__PURE__*/React.createElement("div", {
     style: { display: "flex", gap: 6, marginBottom: 8 }
@@ -3017,7 +3015,7 @@ function Debt(_ref21) {
     }(),
     actionLabel: "\u0E0A\u0E33\u0E23\u0E30\u0E2B\u0E19\u0E35\u0E49\u0E40\u0E25\u0E22",
     onAction: function onAction() {
-      return setPayModal(debts[0]);
+      return setPayModal(debts.find(function(d){ return d.priority; }) || debts[0]);
     }
   }), /*#__PURE__*/React.createElement(Card, {
     style: {
@@ -3084,7 +3082,7 @@ function Debt(_ref21) {
       color: "#888",
       marginTop: 2
     }
-  }, monthsLeft > 0 ? "\u0E2D\u0E35\u0E01 " + monthsLeft + " \u0E40\u0E14\u0E37\u0E2D\u0E19" + (Math.floor(monthsLeft / 12) > 0    ? " \xB7 " + Math.floor(monthsLeft / 12) + " \u0E1B\u0E35"      + (monthsLeft % 12 > 0 ? " " + (monthsLeft % 12) + " \u0E40\u0E14\u0E37\u0E2D\u0E19" : "")    : "") : "\u2014"), /*#__PURE__*/React.createElement("div", {
+  }, monthsLeft >= 360 ? "\u0E22\u0E31\u0E07\u0E19\u0E32\u0E19\u0E21\u0E32\u0E01 \u2014 \u0E25\u0E2D\u0E07\u0E40\u0E1E\u0E34\u0E48\u0E21\u0E22\u0E2D\u0E14\u0E08\u0E48\u0E32\u0E22" : monthsLeft > 0 ? "\u0E2D\u0E35\u0E01 " + monthsLeft + " \u0E40\u0E14\u0E37\u0E2D\u0E19" + (Math.floor(monthsLeft / 12) > 0    ? " \xB7 " + Math.floor(monthsLeft / 12) + " \u0E1B\u0E35"      + (monthsLeft % 12 > 0 ? " " + (monthsLeft % 12) + " \u0E40\u0E14\u0E37\u0E2D\u0E19" : "")    : "") : "\u2014"), /*#__PURE__*/React.createElement("div", {
     style: {
       fontSize: 11,
       fontWeight: 700,
@@ -3092,7 +3090,7 @@ function Debt(_ref21) {
       color: spicy ? G : MID
     }
   }, spicy ? "28 เดือน แค่นั้นเอง เธอทำได้แน่นอน" : "วันที่เงินเดือนออกมาแล้วไม่ต้องแบ่งให้ใครเลย"),
-    !spicy && debts.length > 0 && freeDate !== "—" && /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, color: "#888", marginTop: 7, lineHeight: 1.4 } }, "\u0E16\u0E49\u0E32\u0E08\u0E48\u0E32\u0E22\u0E02\u0E31\u0E49\u0E19\u0E15\u0E48\u0E33\u0E2D\u0E22\u0E48\u0E32\u0E07\u0E40\u0E14\u0E35\u0E22\u0E27 \u0E08\u0E30\u0E2B\u0E21\u0E14\u0E1B\u0E23\u0E30\u0E21\u0E32\u0E13 " + freeDate),
+    !spicy && debts.length > 0 && freeDate !== "—" && monthsLeft < 360 && /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, color: "#888", marginTop: 7, lineHeight: 1.4 } }, "\u0E16\u0E49\u0E32\u0E08\u0E48\u0E32\u0E22\u0E02\u0E31\u0E49\u0E19\u0E15\u0E48\u0E33\u0E2D\u0E22\u0E48\u0E32\u0E07\u0E40\u0E14\u0E35\u0E22\u0E27 \u0E08\u0E30\u0E2B\u0E21\u0E14\u0E1B\u0E23\u0E30\u0E21\u0E32\u0E13 " + freeDate),
     !spicy && /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: MID, marginTop: 2 } }, "Salung \u0E41\u0E19\u0E30\u0E19\u0E33\u0E43\u0E2B\u0E49\u0E40\u0E23\u0E34\u0E48\u0E21\u0E08\u0E32\u0E01\u0E2B\u0E19\u0E35\u0E49\u0E14\u0E2D\u0E01\u0E2A\u0E39\u0E07\u0E2A\u0E38\u0E14\u0E01\u0E48\u0E2D\u0E19")
   ), /*#__PURE__*/React.createElement("div", {
     style: {
@@ -3114,13 +3112,13 @@ function Debt(_ref21) {
       fontWeight: 900,
       color: G
     }
-  }, "\u0E01.\u0E1E. 2028"), /*#__PURE__*/React.createElement("div", {
+  }, freeDate500Obj.label), /*#__PURE__*/React.createElement("div", {
     style: {
       fontSize: 9,
       color: G,
       fontWeight: 700
     }
-  }, "\u0E40\u0E23\u0E47\u0E27\u0E02\u0E36\u0E49\u0E19 8 \u0E40\u0E14\u0E37\u0E2D\u0E19"))),
+  }, (freeDateObj.months < 360 && freeDate500Obj.months < freeDateObj.months) ? "\u0E40\u0E23\u0E47\u0E27\u0E02\u0E36\u0E49\u0E19 " + (freeDateObj.months - freeDate500Obj.months) + " \u0E40\u0E14\u0E37\u0E2D\u0E19" : "\u0E25\u0E2D\u0E07\u0E40\u0E1E\u0E34\u0E48\u0E21\u0E22\u0E2D\u0E14\u0E08\u0E48\u0E32\u0E22\u0E40\u0E1E\u0E37\u0E48\u0E2D\u0E14\u0E39\u0E1C\u0E25"))),
   /*#__PURE__*/React.createElement(SectionHeader, { icon: "💳", text: "รายการหนี้ทั้งหมด", spicy: spicy }),
   timeline.slice().sort(function(a,b){return (b.rate||0)-(a.rate||0);}).slice(0,3).map(function (t, i) {
     return /*#__PURE__*/React.createElement("div", {
@@ -3173,7 +3171,7 @@ function Debt(_ref21) {
       background: spicy ? G : DARK,
       color: spicy ? DARK : "#fff",
       border: "2px solid ".concat(DARK),
-      borderRadius: 11,
+      borderRadius: 99,
       boxShadow: "2px 2px 0 ".concat(DARK),
       cursor: "pointer",
       marginTop: 8
@@ -4323,7 +4321,7 @@ function SaveGoal(_ref24) {
         showToast("ถอนไม่สำเร็จ ลองใหม่นะ 🪙");
         return;
       }
-      setWithdrawDone(true);
+      setWithdrawDone(Number(withdrawAmt));
       setSaveSummary(function (s) {
         return _objectSpread(_objectSpread({}, s), {}, {
           emergency: Math.max(0, s.emergency - Number(withdrawAmt)),
@@ -4742,7 +4740,7 @@ function SaveGoal(_ref24) {
     }
   }, withdrawDone ? /*#__PURE__*/React.createElement(Success, {
     icon: "\uD83D\uDCB8",
-    title: "\u0E16\u0E2D\u0E19\u0E2D\u0E2D\u0E01 \u0E3F".concat(Number(withdrawAmt) || 0..toLocaleString()),
+    title: "\u0E16\u0E2D\u0E19\u0E2D\u0E2D\u0E01 \u0E3F".concat(withdrawDone.toLocaleString()),
     sub: "\u0E1A\u0E31\u0E19\u0E17\u0E36\u0E01\u0E41\u0E25\u0E49\u0E27 \u0E01\u0E2D\u0E07\u0E17\u0E38\u0E19\u0E09\u0E38\u0E01\u0E40\u0E09\u0E34\u0E19\u0E2D\u0E31\u0E1B\u0E40\u0E14\u0E15\u0E41\u0E25\u0E49\u0E27",
     onClose: function onClose() {
       setWithdrawSheet(false);
