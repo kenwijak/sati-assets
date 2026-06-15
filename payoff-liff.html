@@ -325,7 +325,7 @@ function Tag(_ref3) {
       fontWeight: 900,
       padding: "3px 10px",
       borderRadius: 99,
-      border: "1.5px solid " + DARK,
+      border: "1px solid rgba(26,61,31,.18)",
       letterSpacing: ".03em",
       display: "inline-block"
     }
@@ -400,9 +400,9 @@ function Sheet(_ref5) {
       bottom: 0,
       background: CREAM,
       borderRadius: "32px 32px 0 0",
-      border: "2px solid " + DARK,
+      border: "1px solid rgba(26,61,31,.13)",
       borderBottom: "none",
-      boxShadow: "0 -4px 0 " + DARK + ", 0 -16px 48px rgba(26,61,31,.12)",
+      boxShadow: "0 -8px 40px rgba(26,61,31,.10), 0 -1px 0 rgba(26,61,31,.07)",
       padding: "0 0 40px",
       zIndex: 99,
       overflowY: "auto",
@@ -509,11 +509,11 @@ function Success(_ref6) {
       padding: "13px 0",
       fontSize: 14,
       fontWeight: 900,
-      background: DARK,
-      color: "#fff",
-      border: "2px solid ".concat(DARK),
+      background: "#42D063",
+      color: DARK,
+      border: "1px solid rgba(26,61,31,.18)",
       borderRadius: 99,
-      boxShadow: "2px 2px 0 ".concat(DARK),
+      boxShadow: "0 2px 12px rgba(61,219,90,.2)",
       cursor: "pointer"
     }
   }, "\u0E40\u0E22\u0E35\u0E48\u0E22\u0E21 \u0E1B\u0E34\u0E14\u0E44\u0E14\u0E49\u0E40\u0E25\u0E22"));
@@ -2362,7 +2362,7 @@ function Save(_ref18) {
     }
   }), /*#__PURE__*/React.createElement(Card, {
     style: {
-      background: spicy ? DARK : "".concat(G, "12")
+      background: spicy ? DARK : "linear-gradient(145deg,#E8F6EC 0%,#F5F0E8 55%,#EFF8F1 100%)"
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
@@ -2409,7 +2409,7 @@ function Save(_ref18) {
     }
   }, "\u0E01\u0E2D\u0E07\u0E17\u0E38\u0E19\u0E09\u0E38\u0E01\u0E40\u0E09\u0E34\u0E19"), /*#__PURE__*/React.createElement("div", {
     style: {
-      background: "".concat(G, "12"),
+      background: SOFT_GREEN,
       borderRadius: 12,
       padding: 12,
       marginBottom: 8
@@ -2914,7 +2914,7 @@ function Debt(_ref21) {
         display: "flex",
         alignItems: "center",
         gap: 5,
-        boxShadow: dType === t.id ? "2px 2px 0 ".concat(DARK) : "none"
+        boxShadow: dType === t.id ? "0 2px 8px rgba(26,61,31,.15)" : "none"
       }
     }, /*#__PURE__*/React.createElement("span", {
       style: {
@@ -3063,7 +3063,7 @@ function Debt(_ref21) {
   spicy: spicy
 }), debtsLoaded && /*#__PURE__*/React.createElement("button", {
     onClick: function onClick() { return setAddDebtSheet(true); },
-    style: !debts.length ? { width: "100%", padding: "13px 0", fontSize: 13, fontWeight: 900, background: spicy ? "#1a3a1f" : DARK, color: "#fff", border: "2px solid ".concat(DARK), borderRadius: 99, boxShadow: "2px 2px 0 ".concat(DARK), cursor: "pointer", marginBottom: 10 } : { width: "100%", padding: "9px 0", fontSize: 12, fontWeight: 800, background: "none", color: MID, border: "1.5px solid ".concat(G), borderRadius: 99, cursor: "pointer", marginBottom: 10 }
+    style: !debts.length ? { width: "100%", padding: "13px 0", fontSize: 13, fontWeight: 900, background: spicy ? G : "#42D063", color: DARK, border: "1px solid rgba(26,61,31,.18)", borderRadius: 99, boxShadow: "0 2px 12px rgba(61,219,90,.2)", cursor: "pointer", marginBottom: 10 } : { width: "100%", padding: "9px 0", fontSize: 12, fontWeight: 800, background: "none", color: MID, border: "1px solid rgba(61,219,90,.4)", borderRadius: 99, cursor: "pointer", marginBottom: 10 }
   }, !debts.length ? "\uD83D\uDD13 \u0E40\u0E1E\u0E34\u0E48\u0E21\u0E2B\u0E19\u0E35\u0E49\u0E01\u0E49\u0E2D\u0E19\u0E41\u0E23\u0E01" : "+ \u0E40\u0E1E\u0E34\u0E48\u0E21\u0E2B\u0E19\u0E35\u0E49"),
 /*#__PURE__*/React.createElement(SectionHeader, { icon: "🗺️", text: "แผนปลดแอก", spicy: spicy }),
   /*#__PURE__*/React.createElement(NBA, {
@@ -3120,8 +3120,8 @@ function Debt(_ref21) {
     mood: "thinking"
   }))), /*#__PURE__*/React.createElement(Card, {
     style: {
-      background: spicy ? DARK : "".concat(G, "10"),
-      border: "2px solid ".concat(spicy ? G : MID)
+      background: spicy ? DARK : SOFT_GREEN,
+      border: "1px solid " + (spicy ? "rgba(61,219,90,.25)" : "rgba(61,219,90,.2)")
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
@@ -3163,10 +3163,10 @@ function Debt(_ref21) {
   ), /*#__PURE__*/React.createElement("div", {
     style: {
       textAlign: "center",
-      background: spicy ? G + "22" : "".concat(G, "25"),
+      background: spicy ? G + "22" : "#E8F6EC",
       borderRadius: 12,
       padding: "8px 12px",
-      border: "1.5px solid ".concat(MID)
+      border: "1px solid " + (spicy ? "rgba(61,219,90,.3)" : "rgba(61,219,90,.18)")
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
@@ -3236,11 +3236,11 @@ function Debt(_ref21) {
       padding: "9px 0",
       fontSize: 12,
       fontWeight: 800,
-      background: spicy ? G : DARK,
-      color: spicy ? DARK : "#fff",
-      border: "2px solid ".concat(DARK),
+      background: spicy ? G : "#42D063",
+      color: DARK,
+      border: "1px solid rgba(26,61,31,.18)",
       borderRadius: 99,
-      boxShadow: "2px 2px 0 ".concat(DARK),
+      boxShadow: "0 2px 12px rgba(61,219,90,.18)",
       cursor: "pointer",
       marginTop: 8
     }
@@ -3359,7 +3359,7 @@ function Debt(_ref21) {
         fontWeight: 800,
         background: paidDone[d.name] ? CARD_BG : "".concat(G, "22"),
         color: paidDone[d.name] ? "#aaa" : MID,
-        border: "1.5px solid ".concat(paidDone[d.name] ? "#ddd" : G),
+        border: "1px solid " + (paidDone[d.name] ? "#e0e0e0" : "rgba(61,219,90,.4)"),
         borderRadius: 10,
         cursor: "pointer"
       }
@@ -3660,12 +3660,12 @@ function Goal(_ref22) {
       padding: "12px 0",
       fontSize: 13,
       fontWeight: 900,
-      background: spicy ? G : DARK,
-      color: spicy ? DARK : "#fff",
-      border: "2px solid ".concat(DARK),
+      background: spicy ? G : "#42D063",
+      color: DARK,
+      border: "1px solid rgba(26,61,31,.18)",
       borderRadius: 99,
       marginBottom: 10,
-      boxShadow: "2px 2px 0 ".concat(DARK),
+      boxShadow: "0 2px 12px rgba(61,219,90,.2)",
       cursor: "pointer"
     }
   }, "+ \u0E40\u0E1E\u0E34\u0E48\u0E21\u0E40\u0E1B\u0E49\u0E32\u0E2B\u0E21\u0E32\u0E22"), goals.filter(function (g) {
@@ -3675,7 +3675,7 @@ function Goal(_ref22) {
       key: g.id,
       style: {
         background: spicy ? DARK : "".concat(GOLD, "18"),
-        border: "2px solid ".concat(DARK)
+        border: "1px solid rgba(255,208,21,.35)"
       }
     }, /*#__PURE__*/React.createElement("div", {
       style: {
@@ -3764,11 +3764,11 @@ function Goal(_ref22) {
       padding: "12px 0",
       fontSize: 13,
       fontWeight: 900,
-      background: DARK,
-      color: "#fff",
-      border: "2px solid ".concat(DARK),
+      background: "#42D063",
+      color: DARK,
+      border: "1px solid rgba(26,61,31,.18)",
       borderRadius: 99,
-      boxShadow: "2px 2px 0 ".concat(DARK),
+      boxShadow: "0 2px 12px rgba(61,219,90,.2)",
       cursor: "pointer"
     }
   }, "+ \u0E40\u0E1E\u0E34\u0E48\u0E21\u0E40\u0E1B\u0E49\u0E32\u0E2B\u0E21\u0E32\u0E22\u0E41\u0E23\u0E01")), goals.filter(function (g) {
@@ -3844,7 +3844,7 @@ function Goal(_ref22) {
         fontWeight: 800,
         background: "".concat(G, "22"),
         color: MID,
-        border: "1.5px solid ".concat(G),
+        border: "1px solid rgba(61,219,90,.4)",
         borderRadius: 99,
         cursor: "pointer"
       }
@@ -3954,7 +3954,7 @@ function More(_ref23) {
             style: {
               background: GOLD,
               color: DARK,
-              border: "1.5px solid " + DARK,
+              border: "1.5px solid rgba(26,61,31,.22)",
               borderRadius: 99,
               padding: "2px 8px",
               fontSize: 10,
@@ -4050,7 +4050,7 @@ function More(_ref23) {
     style: {
       background: spicy
         ? "linear-gradient(135deg,#0f2d12 0%,#0a1f0d 100%)"
-        : "#fff",
+        : CARD_BG,
       borderRadius: 20,
       border: "1.5px solid rgba(26,61,31,.12)",
       padding: "14px 16px",
@@ -4131,7 +4131,7 @@ function More(_ref23) {
     style: {
       background: spicy
         ? "linear-gradient(135deg,#0f2d12 0%,#0a1f0d 100%)"
-        : "#fff",
+        : CARD_BG,
       borderRadius: 20,
       border: "1.5px solid rgba(26,61,31,.12)",
       padding: "2px 16px 4px",
@@ -4880,9 +4880,9 @@ function SaveGoal(_ref24) {
         onClick: function() { setBucketLimitSheet(false); },
         style: {
           flex: 1, padding: "12px 0", fontSize: 13, fontWeight: 900,
-          background: DARK, color: "#fff",
-          border: "2px solid ".concat(DARK), borderRadius: 99,
-          boxShadow: "2px 2px 0 ".concat(DARK), cursor: "pointer"
+          background: "#42D063", color: DARK,
+          border: "1px solid rgba(26,61,31,.18)", borderRadius: 99,
+          boxShadow: "0 2px 12px rgba(61,219,90,.2)", cursor: "pointer"
         }
       }, "\u0E08\u0E31\u0E14\u0E01\u0E32\u0E23\u0E01\u0E2D\u0E07"),
       /*#__PURE__*/React.createElement("button", {
@@ -4890,8 +4890,8 @@ function SaveGoal(_ref24) {
         style: {
           flex: 1, padding: "12px 0", fontSize: 13, fontWeight: 900,
           background: GOLD, color: DARK,
-          border: "2px solid ".concat(DARK), borderRadius: 99,
-          boxShadow: "2px 2px 0 ".concat(DARK), cursor: "pointer"
+          border: "1px solid rgba(255,208,21,.4)", borderRadius: 99,
+          boxShadow: "0 2px 12px rgba(247,201,72,.3)", cursor: "pointer"
         }
       }, "\u0E14\u0E39 Premium \u2728")
     )
@@ -5254,11 +5254,11 @@ function SaveGoal(_ref24) {
       padding: "10px 0",
       fontSize: 12,
       fontWeight: 900,
-      background: G,
+      background: "#42D063",
       color: DARK,
-      border: "2px solid ".concat(DARK),
+      border: "1px solid rgba(26,61,31,.18)",
       borderRadius: 99,
-      boxShadow: "2px 2px 0 ".concat(DARK),
+      boxShadow: "0 2px 12px rgba(61,219,90,.2)",
       cursor: "pointer"
     }
   }, "+ \u0E40\u0E1E\u0E34\u0E48\u0E21\u0E40\u0E1B\u0E49\u0E32\u0E2B\u0E21\u0E32\u0E22\u0E41\u0E23\u0E01")), (showAllGoals ? goals : goals.slice(0, 3)).map(function (g) {
