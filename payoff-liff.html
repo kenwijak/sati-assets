@@ -4047,6 +4047,10 @@ function SaveGoal(_ref24) {
     _useStateBLSArr = _slicedToArray(_useStateBLS, 2),
     bucketLimitSheet = _useStateBLSArr[0],
     setBucketLimitSheet = _useStateBLSArr[1];
+  var _useStateSAS = useState(false),
+    _useStateSASArr = _slicedToArray(_useStateSAS, 2),
+    showAllSavings = _useStateSASArr[0],
+    setShowAllSavings = _useStateSASArr[1];
   function submitWithdraw() {
     var uid = liffUid || getLiffUid();
     if (!uid) {
@@ -4758,7 +4762,6 @@ function SaveGoal(_ref24) {
   mascotContext: "saveHero",
   title: "\u0E40\u0E07\u0E34\u0E19\u0E2D\u0E2D\u0E21\u0E17\u0E31\u0E49\u0E07\u0E2B\u0E21\u0E14",
   bigNumber: "\u0E3F" + Math.round(saveSummary.total).toLocaleString(),
-  barPct: saveSummary.emergencyPct,
   sub: "\u0E40\u0E14\u0E37\u0E2D\u0E19\u0E19\u0E35\u0E49\u0E2D\u0E2D\u0E21\u0E41\u0E25\u0E49\u0E27 \u0E3F" + Math.round(saveSummary.thisMonth).toLocaleString(),
   salungText: saveSummary.total > 0 ? "\u0E40\u0E25\u0E47\u0E01\u0E41\u0E04\u0E48\u0E44\u0E2B\u0E19\u0E01\u0E47\u0E19\u0E31\u0E1A\u0E27\u0E48\u0E32\u0E42\u0E15\u0E02\u0E36\u0E49\u0E19\u0E19\u0E30 \uD83C\uDF31" : "\u0E40\u0E23\u0E34\u0E48\u0E21\u0E27\u0E31\u0E19\u0E19\u0E35\u0E49\u0E01\u0E47\u0E44\u0E14\u0E49 \u0E17\u0E38\u0E01\u0E1A\u0E32\u0E17\u0E19\u0E31\u0E1A \uD83C\uDF31",
   accent: G,
@@ -4798,9 +4801,9 @@ function SaveGoal(_ref24) {
       padding: "10px 0",
       fontSize: 13,
       fontWeight: 800,
-      background: "transparent",
-      color: DARK + "99",
-      border: "1.5px solid ".concat(DARK + "30"),
+      background: "#fff",
+      color: DARK,
+      border: "1.5px solid ".concat(G),
       borderRadius: 99,
       cursor: "pointer"
     }
@@ -4888,174 +4891,7 @@ function SaveGoal(_ref24) {
       borderRadius: 10,
       cursor: "pointer"
     }
-  }, "\uD83D\uDCB8 \u0E16\u0E2D\u0E19"))), customPots.length > 0 && customPots.map(function(pot) {
-    return /*#__PURE__*/React.createElement(Card, {key: pot.name, style:{marginBottom:10}},
-      /*#__PURE__*/React.createElement("div", {style:{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:8}},
-        /*#__PURE__*/React.createElement("div", {style:{display:"flex",alignItems:"center",gap:8}},
-          /*#__PURE__*/React.createElement("span", {style:{fontSize:20}}, pot.icon),
-          /*#__PURE__*/React.createElement("div", null,
-            /*#__PURE__*/React.createElement("div", {style:{fontSize:12,fontWeight:800,color:DARK}}, pot.name),
-            /*#__PURE__*/React.createElement("div", {style:{fontSize:10,color:"#888"}}, "\u0E2D\u0E2D\u0E21\u0E2A\u0E30\u0E2A\u0E21")
-          )
-        ),
-        /*#__PURE__*/React.createElement("div", {style:{fontSize:16,fontWeight:900,color:DARK}}, "\u0E3F", pot.total_thb.toLocaleString())
-      ),
-      /*#__PURE__*/React.createElement("div", {style:{display:"flex",gap:8}},
-        /*#__PURE__*/React.createElement("button", {
-          onClick: function(){ setDest("custom_pot"); setPotName(pot.name); setSaveSheet(true); },
-          style:{flex:2,padding:"8px 0",fontSize:12,fontWeight:800,background:G+"22",color:MID,border:"1.5px solid "+G,borderRadius:10,cursor:"pointer"}
-        }, "+ \u0E40\u0E15\u0E34\u0E21\u0E01\u0E2D\u0E07"),
-        /*#__PURE__*/React.createElement("button", {
-          onClick: function(){ deleteCustomPot(pot.name); },
-          style:{flex:1,padding:"8px 0",fontSize:12,fontWeight:800,background:"#FFF0F0",color:"#E53E3E",border:"1.5px solid #FFD0D0",borderRadius:10,cursor:"pointer"}
-        }, "\uD83D\uDDD1\uFE0F \u0E25\u0E1A")
-      )
-    );
-  }), savingsTxns.length > 0 && /*#__PURE__*/React.createElement(Card, {
-    style: {
-      marginBottom: 10
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 12,
-      fontWeight: 800,
-      color: DARK,
-      marginBottom: 10
-    }
-  }, "\uD83D\uDC9A \u0E23\u0E32\u0E22\u0E01\u0E32\u0E23\u0E2D\u0E2D\u0E21\u0E25\u0E48\u0E32\u0E2A\u0E38\u0E14"), savingsTxns.map(function (t, i) {
-    var SAVE_CATS = {
-      "[emergency]": {
-        label: "กองทุนฉุกเฉิน",
-        icon: "🛡️",
-        color: "#4ECDC4"
-      },
-      "[goal]": {
-        label: "เป้าหมาย",
-        icon: "🎯",
-        color: GOLD
-      },
-      "เที่ยว": {
-        label: "เที่ยว",
-        icon: "✈️",
-        color: "#74B9FF"
-      },
-      "ของขวัญ": {
-        label: "ของขวัญ",
-        icon: "🎁",
-        color: "#FD79A8"
-      }
-    };
-    var raw = t.note || "";
-    var cat = {
-      label: "ออมทั่วไป",
-      icon: "🌱",
-      color: G
-    };
-    for (var _i = 0, _Object$entries = Object.entries(SAVE_CATS); _i < _Object$entries.length; _i++) {
-      var _Object$entries$_i = _slicedToArray(_Object$entries[_i], 2),
-        k = _Object$entries$_i[0],
-        v = _Object$entries$_i[1];
-      if (raw.includes(k)) {
-        cat = v;
-        break;
-      }
-    }
-    return /*#__PURE__*/React.createElement("div", {
-      key: i,
-      style: {
-        display: "flex",
-        alignItems: "center",
-        gap: 10,
-        padding: "9px 0",
-        borderBottom: i < savingsTxns.length - 1 ? "1px solid #f0f0f0" : "none"
-      }
-    }, /*#__PURE__*/React.createElement("div", {
-      style: {
-        width: 34,
-        height: 34,
-        borderRadius: "50%",
-        background: cat.color + "22",
-        border: "1.5px solid ".concat(cat.color),
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        fontSize: 16,
-        flexShrink: 0
-      }
-    }, cat.icon), /*#__PURE__*/React.createElement("div", {
-      style: {
-        flex: 1
-      }
-    }, /*#__PURE__*/React.createElement("div", {
-      style: {
-        display: "flex",
-        alignItems: "center",
-        gap: 6
-      }
-    }, /*#__PURE__*/React.createElement("span", {
-      style: {
-        fontSize: 12,
-        fontWeight: 800,
-        color: DARK
-      }
-    }, cat.label), raw && !["[emergency]", "[goal]"].some(function (k) {
-      return raw.includes(k);
-    }) && raw.replace(/\[.*?\]\s*/g, "").trim() && raw !== cat.label && /*#__PURE__*/React.createElement("span", {
-      style: {
-        fontSize: 10,
-        color: "#aaa"
-      }
-    }, raw.replace(/\[.*?\]\s*/g, "").trim())), /*#__PURE__*/React.createElement("div", {
-      style: {
-        fontSize: 10,
-        color: "#aaa",
-        marginTop: 1
-      }
-    }, t.time)), /*#__PURE__*/React.createElement("span", {
-      style: {
-        fontSize: 14,
-        fontWeight: 900,
-        color: MID,
-        marginRight: 4
-      }
-    }, "+\u0E3F", Math.abs(t.amt).toLocaleString()), /*#__PURE__*/React.createElement("button", {
-      onClick: function onClick() {
-        return deleteSaving(t, i);
-      },
-      style: {
-        background: "none",
-        border: "none",
-        cursor: "pointer",
-        fontSize: 15,
-        color: "#ccc",
-        padding: "2px 4px",
-        flexShrink: 0
-      }
-    }, "\u2715"));
-  }), /*#__PURE__*/React.createElement("div", {
-    style: {
-      borderTop: "2px dashed #eee",
-      marginTop: 8,
-      paddingTop: 8,
-      display: "flex",
-      justifyContent: "space-between",
-      alignItems: "center"
-    }
-  }, /*#__PURE__*/React.createElement("span", {
-    style: {
-      fontSize: 11,
-      fontWeight: 700,
-      color: "#888"
-    }
-  }, "\u0E23\u0E27\u0E21\u0E2D\u0E2D\u0E21\u0E40\u0E14\u0E37\u0E2D\u0E19\u0E19\u0E35\u0E49"), /*#__PURE__*/React.createElement("span", {
-    style: {
-      fontSize: 14,
-      fontWeight: 900,
-      color: G
-    }
-  }, "+\u0E3F", savingsTxns.reduce(function (s, t) {
-    return s + Math.abs(t.amt);
-  }, 0).toLocaleString()))), /*#__PURE__*/React.createElement("div", {
+  }, "\uD83D\uDCB8 \u0E16\u0E2D\u0E19"))), /*#__PURE__*/React.createElement("div", {
     style: {
       fontSize: 12,
       fontWeight: 900,
@@ -5208,7 +5044,191 @@ function SaveGoal(_ref24) {
         cursor: "pointer"
       }
     }, "\uD83D\uDDD1\uFE0F")));
-  }), /*#__PURE__*/React.createElement("div", {
+  }), customPots.length > 0 && customPots.map(function(pot) {
+    return /*#__PURE__*/React.createElement(Card, {key: pot.name, style:{marginBottom:10}},
+      /*#__PURE__*/React.createElement("div", {style:{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:8}},
+        /*#__PURE__*/React.createElement("div", {style:{display:"flex",alignItems:"center",gap:8}},
+          /*#__PURE__*/React.createElement("span", {style:{fontSize:20}}, pot.icon),
+          /*#__PURE__*/React.createElement("div", null,
+            /*#__PURE__*/React.createElement("div", {style:{fontSize:12,fontWeight:800,color:DARK}}, pot.name),
+            /*#__PURE__*/React.createElement("div", {style:{fontSize:10,color:"#888"}}, "\u0E2D\u0E2D\u0E21\u0E2A\u0E30\u0E2A\u0E21")
+          )
+        ),
+        /*#__PURE__*/React.createElement("div", {style:{fontSize:16,fontWeight:900,color:DARK}}, "\u0E3F", pot.total_thb.toLocaleString())
+      ),
+      /*#__PURE__*/React.createElement("div", {style:{display:"flex",gap:8}},
+        /*#__PURE__*/React.createElement("button", {
+          onClick: function(){ setDest("custom_pot"); setPotName(pot.name); setSaveSheet(true); },
+          style:{flex:2,padding:"8px 0",fontSize:12,fontWeight:800,background:G+"22",color:MID,border:"1.5px solid "+G,borderRadius:10,cursor:"pointer"}
+        }, "+ \u0E40\u0E15\u0E34\u0E21\u0E01\u0E2D\u0E07"),
+        /*#__PURE__*/React.createElement("button", {
+          onClick: function(){ deleteCustomPot(pot.name); },
+          style:{flex:1,padding:"8px 0",fontSize:12,fontWeight:800,background:"#FFF0F0",color:"#E53E3E",border:"1.5px solid #FFD0D0",borderRadius:10,cursor:"pointer"}
+        }, "\uD83D\uDDD1\uFE0F \u0E25\u0E1A")
+      )
+    );
+  }), savingsTxns.length > 0 && /*#__PURE__*/React.createElement(Card, {
+    style: {
+      marginBottom: 10
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 12,
+      fontWeight: 800,
+      color: DARK,
+      marginBottom: 10
+    }
+  }, "\uD83D\uDC9A \u0E23\u0E32\u0E22\u0E01\u0E32\u0E23\u0E2D\u0E2D\u0E21\u0E25\u0E48\u0E32\u0E2A\u0E38\u0E14"), savingsTxns.slice(0, showAllSavings ? savingsTxns.length : 5).map(function (t, i) {
+    var SAVE_CATS = {
+      "[emergency]": {
+        label: "กองทุนฉุกเฉิน",
+        icon: "🛡️",
+        color: "#4ECDC4"
+      },
+      "[goal]": {
+        label: "เป้าหมาย",
+        icon: "🎯",
+        color: GOLD
+      },
+      "เที่ยว": {
+        label: "เที่ยว",
+        icon: "✈️",
+        color: "#74B9FF"
+      },
+      "ของขวัญ": {
+        label: "ของขวัญ",
+        icon: "🎁",
+        color: "#FD79A8"
+      }
+    };
+    var raw = t.note || "";
+    var cat = {
+      label: "ออมทั่วไป",
+      icon: "🌱",
+      color: G
+    };
+    for (var _i = 0, _Object$entries = Object.entries(SAVE_CATS); _i < _Object$entries.length; _i++) {
+      var _Object$entries$_i = _slicedToArray(_Object$entries[_i], 2),
+        k = _Object$entries$_i[0],
+        v = _Object$entries$_i[1];
+      if (raw.includes(k)) {
+        cat = v;
+        break;
+      }
+    }
+    return /*#__PURE__*/React.createElement("div", {
+      key: i,
+      style: {
+        display: "flex",
+        alignItems: "center",
+        gap: 10,
+        padding: "9px 0",
+        borderBottom: i < savingsTxns.length - 1 ? "1px solid #f0f0f0" : "none"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        width: 34,
+        height: 34,
+        borderRadius: "50%",
+        background: cat.color + "22",
+        border: "1.5px solid ".concat(cat.color),
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        fontSize: 16,
+        flexShrink: 0
+      }
+    }, cat.icon), /*#__PURE__*/React.createElement("div", {
+      style: {
+        flex: 1
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        alignItems: "center",
+        gap: 6
+      }
+    }, /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 12,
+        fontWeight: 800,
+        color: DARK
+      }
+    }, cat.label), raw && !["[emergency]", "[goal]"].some(function (k) {
+      return raw.includes(k);
+    }) && raw.replace(/\[.*?\]\s*/g, "").trim() && raw !== cat.label && /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 10,
+        color: "#aaa"
+      }
+    }, raw.replace(/\[.*?\]\s*/g, "").trim())), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 10,
+        color: "#aaa",
+        marginTop: 1
+      }
+    }, t.time)), /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 14,
+        fontWeight: 900,
+        color: MID,
+        marginRight: 4
+      }
+    }, "+\u0E3F", Math.abs(t.amt).toLocaleString()), /*#__PURE__*/React.createElement("button", {
+      onClick: function onClick() {
+        return deleteSaving(t, i);
+      },
+      style: {
+        background: "none",
+        border: "none",
+        cursor: "pointer",
+        fontSize: 15,
+        color: "#ccc",
+        padding: "2px 4px",
+        flexShrink: 0
+      }
+    }, "\u2715"));
+  }), savingsTxns.length > 5 && /*#__PURE__*/React.createElement("div", {
+    style: {
+      textAlign: "center",
+      padding: "4px 0 2px"
+    }
+  }, /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return setShowAllSavings(!showAllSavings);
+    },
+    style: {
+      background: "none",
+      border: "none",
+      cursor: "pointer",
+      fontSize: 11,
+      fontWeight: 800,
+      color: MID
+    }
+  }, showAllSavings ? "\u0E14\u0E39\u0E19\u0E49\u0E2D\u0E22\u0E25\u0E07" : "\u0E14\u0E39\u0E17\u0E31\u0E49\u0E07\u0E2B\u0E21\u0E14 (" + savingsTxns.length + " \u0E23\u0E32\u0E22\u0E01\u0E32\u0E23)")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      borderTop: "2px dashed #eee",
+      marginTop: 8,
+      paddingTop: 8,
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "center"
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 11,
+      fontWeight: 700,
+      color: "#888"
+    }
+  }, "\u0E23\u0E27\u0E21\u0E2D\u0E2D\u0E21\u0E40\u0E14\u0E37\u0E2D\u0E19\u0E19\u0E35\u0E49"), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 14,
+      fontWeight: 900,
+      color: G
+    }
+  }, "+\u0E3F", savingsTxns.reduce(function (s, t) {
+    return s + Math.abs(t.amt);
+  }, 0).toLocaleString()))), /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
       alignItems: "center",
