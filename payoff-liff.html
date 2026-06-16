@@ -11,7 +11,7 @@
 <style>
   *{box-sizing:border-box;margin:0;padding:0}
   body,html{width:100%;height:100%;overflow-x:hidden}
-  body{font-family:'IBM Plex Sans Thai','Noto Sans Thai',system-ui,-apple-system,BlinkMacSystemFont,sans-serif;-webkit-font-smoothing:antialiased;background:radial-gradient(ellipse at 10% 5%,rgba(255,209,92,.13),transparent 35%),radial-gradient(ellipse at 90% 8%,rgba(99,200,95,.04),transparent 30%),#F8EBCD;line-height:1.5}
+  body{font-family:'IBM Plex Sans Thai','Noto Sans Thai',system-ui,-apple-system,BlinkMacSystemFont,sans-serif;-webkit-font-smoothing:antialiased;background:#F3E7C9;background-image:radial-gradient(rgba(126,109,69,.09) 1px,transparent 1px);background-size:14px 14px;line-height:1.5}
   .sl-number,.sl-amount,.sl-hero-number{font-family:'Nunito','IBM Plex Sans Thai',system-ui,sans-serif}
   #root{display:flex;flex-direction:column;min-height:100vh;width:100%}
   ::-webkit-scrollbar{width:0}
@@ -31,26 +31,27 @@
   .sl-hero{animation:slideUp .25s cubic-bezier(.34,1.56,.64,1) both}
   @keyframes skpulse{0%,100%{opacity:.55}50%{opacity:.2}}
   .sl-ph{border-radius:inherit;animation:skpulse 1.4s ease-in-out infinite}
-  .sl-press:active{transform:scale(.96);transition:transform .07s ease}
+  .sl-press:active{transform:translateY(2px) scale(.98);transition:transform .07s ease}
   @keyframes coinPop{0%{transform:scale(.35) rotate(-10deg);opacity:0}65%{transform:scale(1.18) rotate(4deg)}100%{transform:scale(1) rotate(0deg);opacity:1}}
   .sl-coin{animation:coinPop .5s cubic-bezier(.34,1.56,.64,1) both}
-  /* Suppress LIFF SDK injected overlays — any div sibling of #root gets hidden */
-  body > div:not(#root){display:none!important}
+  /* Suppress LIFF SDK injected overlays — any sibling of #root gets hidden */
+  body > :not(#root):not(script):not(style){display:none!important;pointer-events:none!important;opacity:0!important}
   [class*="liff-recently"],[class*="liff_recently"],[class*="service-discovery"],
   [class*="liff-browser-helper"],[class*="liff-shortlink"],[class*="liff-tooltip"],
   [class*="liff-discovery"],[class*="liff-bubble"],[class*="liff-hint"],
+  [class*="liff-onboard"],[class*="liff-guide"],[class*="liff-tip"],
   .liff-service-list,.__liff_service_list_wrapper,
-  body > div:not(#root) > *{display:none!important}
+  body > :not(#root) > *{display:none!important;pointer-events:none!important;opacity:0!important}
 </style>
 </head>
 <body>
 <div id="root">
-  <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;background:radial-gradient(circle at 20% 10%,rgba(255,209,92,.12),transparent 35%),radial-gradient(circle at 80% 85%,rgba(99,200,95,.04),transparent 30%),#F8EBCD;gap:18px">
+  <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;background:#F3E7C9;gap:18px">
     <img src="https://raw.githubusercontent.com/kenwijak/sati-assets/main/salung-happy.jpeg"
          width="84" height="84"
          style="object-fit:contain;width:84px;height:84px;border-radius:24px;animation:popIn .5s ease"
          alt="">
-    <div style="width:36px;height:36px;border:3px solid rgba(99,200,95,.2);border-top-color:#7BCB6B;border-radius:50%;animation:spin .9s linear infinite"></div>
+    <div style="width:36px;height:36px;border:3px solid rgba(70,201,95,.2);border-top-color:#46C95F;border-radius:50%;animation:spin .9s linear infinite"></div>
     <div style="font-size:12px;color:#6B8F72;font-family:'IBM Plex Sans Thai',sans-serif;font-weight:600;letter-spacing:.02em">กำลังโหลด Salung</div>
   </div>
 </div>
@@ -74,29 +75,31 @@ function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
 var _React = React,
   useState = _React.useState,
   _useEffect = _React.useEffect;
-var G = "#63C85F",
-  GOLD = "#FFD15C",
-  CREAM = "#F8EBCD",
+var G = "#46C95F",
+  GOLD = "#FFCE4A",
+  CREAM = "#F3E7C9",
   DARK = "#23452C",
-  MID = "#5E7B62";
+  MID = "#6B8A6F";
 // Color tokens
 var CARD_BG = "#FFF8EA",
-  SOFT_GREEN = "#E8F8E2",
-  SOFT_CARD = "#FFF2D8",
+  CARD_BG_LIGHT = "#FFFCF4",
+  SOFT_GREEN = "#DCF2D2",
+  SOFT_CARD = "#FFE9A6",
   GOLD_SOFT = "#FFE9A6",
   DANGER = "#D95555",
   SOFT_DANGER_BG = "#FFF2F2",
   SPICY_CARD = "#123A1F";
 // Button style tokens — shared across all sections
-var BTN_PRI_BG     = "linear-gradient(180deg,#82E070 0%,#4DC05B 100%)";
-var BTN_PRI_SHADOW = "0 3px 12px rgba(77,192,91,.28), inset 0 1px 0 rgba(255,255,255,.50)";
-var BTN_PRI_BORDER = "1px solid rgba(77,192,91,.45)";
-var CHIP_ON_BG     = "#D6F5CE";
-var CHIP_ON_BORDER = "1px solid rgba(77,192,91,.50)";
-// Category accent colors (pastel, reference-matched)
+var BTN_PRI_BG     = "linear-gradient(180deg,#55D965 0%,#35B84B 100%)";
+var BTN_PRI_COLOR  = "#173D22";
+var BTN_PRI_SHADOW = "inset 0 1px 0 rgba(255,255,255,.50), 0 4px 0 rgba(35,69,44,.26), 0 12px 22px rgba(70,201,95,.24)";
+var BTN_PRI_BORDER = "2px solid #23452C";
+var CHIP_ON_BG     = "#DCF2D2";
+var CHIP_ON_BORDER = "1.5px solid #46C95F";
+// Category accent colors (reference-matched)
 var FOOD_YELLOW = "#F6C85F",
-  SHOP_PINK = "#F29AB2",
-  ENTERTAIN_PURPLE = "#A995E8",
+  SHOP_PINK = "#FF9FB0",
+  ENTERTAIN_PURPLE = "#B49CE8",
   NEUTRAL_TAUPE = "#BDB09C";
 
 // ── LIFF userId + token helpers ───────────────────────────────────────────────
@@ -211,22 +214,26 @@ var TABS = [{
   id: "cashflow",
   icon: "💸",
   label: "Cash Flow",
-  thai: "รายรับ-จ่าย"
+  thai: "รายรับ-จ่าย",
+  iconKey: "coin"
 }, {
   id: "savegoal",
   icon: "🌱",
   label: "Save & Goal",
-  thai: "ออม & เป้า"
+  thai: "ออม & เป้า",
+  iconKey: "goal"
 }, {
   id: "debt",
   icon: "🔓",
   label: "Debt",
-  thai: "หนี้"
+  thai: "หนี้",
+  iconKey: "debt"
 }, {
   id: "more",
   icon: "⚙️",
   label: "More",
-  thai: "เพิ่มเติม"
+  thai: "เพิ่มเติม",
+  iconKey: "settings"
 }];
 var CATS = [{
   id: "food",
@@ -291,6 +298,49 @@ var MASCOT_BY_CONTEXT = {
   sleeping: MASCOT_ASSETS.sleeping
 };
 
+// ── Icon asset maps ───────────────────────────────────────────────────────────
+var ICON_BASE = "https://raw.githubusercontent.com/kenwijak/sati-assets/assets/icon-pack/assets/icons";
+var ICON_ASSETS = {
+  food: ICON_BASE + "/icon-food.png",
+  transport: ICON_BASE + "/icon-transport.png",
+  shopping: ICON_BASE + "/icon-shopping.png",
+  entertainment: ICON_BASE + "/icon-entertainment.png",
+  saving: ICON_BASE + "/icon-saving.png",
+  debt: ICON_BASE + "/icon-debt.png",
+  education: ICON_BASE + "/icon-education.png",
+  income: ICON_BASE + "/icon-income.png",
+  other: ICON_BASE + "/icon-other.png",
+  receipt: ICON_BASE + "/icon-receipt.png",
+  coin: ICON_BASE + "/icon-coin.png",
+  goal: ICON_BASE + "/icon-goal.png",
+  settings: ICON_BASE + "/icon-settings.png",
+  profile: ICON_BASE + "/icon-profile.png"
+};
+var CAT_TO_ICON = {
+  food:"food", travel:"transport", shop:"shopping", entertain:"entertainment",
+  health:"other", bill:"receipt", income:"income", other:"other",
+  transport:"transport", shopping:"shopping", entertainment:"entertainment",
+  saving:"saving", emergency:"saving", debt:"debt", credit:"debt", education:"education",
+  "🍚":"food","🚗":"transport","🛒":"shopping",
+  "🎬":"entertainment","💊":"other","📋":"receipt",
+  "💰":"income","📦":"other","🌱":"saving","🔓":"debt"
+};
+function AssetIcon(p) {
+  var sz = p.size || 24;
+  return React.createElement("img", {
+    src: p.src, alt: p.alt || "", width: sz, height: sz,
+    style: { width: sz, height: sz, objectFit: "contain", display: "block", flexShrink: 0 },
+    loading: p.eager ? undefined : "lazy"
+  });
+}
+function CategoryIcon(p) {
+  var key = CAT_TO_ICON[p.catKey] || "other";
+  var src = ICON_ASSETS[key];
+  var sz = p.size || 24;
+  if (!src) return React.createElement("span", { style: { fontSize: sz * 0.75 } }, p.fallback || p.catKey || "");
+  return React.createElement(AssetIcon, { src: src, alt: key, size: sz, eager: p.eager });
+}
+
 // ── primitives ────────────────────────────────────────────────────────────────
 function Face(_ref) {
   var _ref$size = _ref.size,
@@ -314,10 +364,10 @@ function Card(_ref2) {
     className: "sl-card",
     style: _objectSpread({
       background: CARD_BG,
-      borderRadius: 22,
-      border: "1px solid rgba(35,69,44,.10)",
+      borderRadius: 24,
+      border: "1.5px solid rgba(126,109,69,.30)",
       padding: 16,
-      boxShadow: "0 2px 12px rgba(35,69,44,.06), inset 0 1px 0 rgba(255,255,255,.95)",
+      boxShadow: "0 10px 24px rgba(95,78,34,.12), inset 0 1px 0 rgba(255,255,255,.72)",
       marginBottom: 12,
       cursor: onClick ? "pointer" : "default"
     }, style)
@@ -349,7 +399,7 @@ function SectionHeader(props) {
     style: {
       display: "flex", alignItems: "center", gap: 6,
       fontSize: 11, fontWeight: 900,
-      color: spicy ? "#8EAB90" : MID,
+      color: spicy ? "#8EAB90" : DARK,
       letterSpacing: ".06em", textTransform: "uppercase",
       marginBottom: 10, marginTop: 14
     }
@@ -357,7 +407,7 @@ function SectionHeader(props) {
   icon && React.createElement("span", { style: { fontSize: 13 } }, icon),
   React.createElement("span", null, text),
   React.createElement("div", {
-    style: { flex: 1, height: 1, background: spicy ? MID : DARK + "22", marginLeft: 4 }
+    style: { flex: 1, height: 1, background: spicy ? MID : "rgba(126,109,69,.32)", marginLeft: 4 }
   })
   );
 }
@@ -370,9 +420,10 @@ function Bar(_ref4) {
   return /*#__PURE__*/React.createElement("div", {
     style: {
       height: height,
-      background: "#E8E0D0",
+      background: "#E7DEC8",
       borderRadius: 99,
-      border: "1.5px solid rgba(35,69,44,.2)",
+      border: "1px solid rgba(126,109,69,.30)",
+      boxShadow: "inset 0 1px 2px rgba(35,69,44,.14)",
       overflow: "hidden"
     }
   }, /*#__PURE__*/React.createElement("div", {
@@ -381,7 +432,8 @@ function Bar(_ref4) {
       height: "100%",
       background: pct > 100 ? "#FF6B6B" : color,
       borderRadius: 99,
-      transition: "width .8s cubic-bezier(.34,1.56,.64,1)"
+      transition: "width .8s cubic-bezier(.34,1.56,.64,1)",
+      boxShadow: "inset 0 1px 0 rgba(255,255,255,.36)"
     }
   }));
 }
@@ -408,11 +460,11 @@ function Sheet(_ref5) {
       left: 0,
       right: 0,
       bottom: 0,
-      background: CREAM,
+      background: CARD_BG,
       borderRadius: "32px 32px 0 0",
-      border: "1px solid rgba(35,69,44,.13)",
+      border: "1.5px solid rgba(126,109,69,.22)",
       borderBottom: "none",
-      boxShadow: "0 -8px 40px rgba(35,69,44,.10), 0 -1px 0 rgba(95,78,34,.10)",
+      boxShadow: "0 -8px 40px rgba(95,78,34,.10), 0 -1px 0 rgba(95,78,34,.10)",
       padding: "0 0 40px",
       zIndex: 99,
       overflowY: "auto",
@@ -504,11 +556,12 @@ function Success(_ref6) {
         padding: "11px 0",
         fontSize: 13,
         fontWeight: 800,
-        background: CARD_BG,
-        color: MID,
-        border: "1px solid rgba(126,109,69,.23)",
+        background: CARD_BG_LIGHT,
+        color: DARK,
+        border: "1.5px solid rgba(35,69,44,.34)",
         borderRadius: 99,
-        cursor: "pointer"
+        cursor: "pointer",
+        boxShadow: "inset 0 1px 0 rgba(255,255,255,.65)"
       }
     }, "\u0E23\u0E32\u0E22\u0E01\u0E32\u0E23\u0E17\u0E31\u0E49\u0E07\u0E2B\u0E21\u0E14")
   ) : /*#__PURE__*/React.createElement("button", {
@@ -621,9 +674,9 @@ function ConfirmBtn(_ref9) {
       padding: "14px 0",
       fontSize: 15,
       fontWeight: 900,
-      background: disabled ? "#eee" : BTN_PRI_BG,
-      color: disabled ? "#aaa" : DARK,
-      border: disabled ? "1px solid #ddd" : BTN_PRI_BORDER,
+      background: disabled ? CARD_BG : BTN_PRI_BG,
+      color: disabled ? MID : BTN_PRI_COLOR,
+      border: disabled ? "1.5px solid rgba(126,109,69,.22)" : BTN_PRI_BORDER,
       borderRadius: 99,
       boxShadow: disabled ? "none" : BTN_PRI_SHADOW,
       cursor: disabled ? "default" : "pointer",
@@ -681,8 +734,8 @@ function NBA(_ref0) {
   return /*#__PURE__*/React.createElement(Card, {
     style: {
       background: spicy ? SPICY_CARD : "linear-gradient(135deg,#FFFDF5 0%,#FEF9E8 100%)",
-      border: spicy ? "1px solid rgba(126,109,69,.17)" : "1px solid rgba(255,209,92,.22)",
-      boxShadow: spicy ? "0 2px 10px rgba(95,78,34,.08)" : "0 2px 12px rgba(255,209,92,.07), 0 1px 4px rgba(35,69,44,.04)",
+      border: spicy ? "1px solid rgba(126,109,69,.17)" : "1.5px solid rgba(255,206,74,.55)",
+      boxShadow: spicy ? "0 2px 10px rgba(95,78,34,.08)" : "0 10px 24px rgba(240,180,41,.12), inset 0 1px 0 rgba(255,255,255,.72)",
       marginBottom: 12,
       overflow: "hidden"
     }
@@ -713,8 +766,9 @@ function NBA(_ref0) {
     React.createElement("span", {
       style: {
         display: "inline-block",
-        background: spicy ? G + "33" : "rgba(255,209,92,.22)",
-        color: spicy ? G : "#8A6A00",
+        background: spicy ? G + "33" : GOLD_SOFT,
+        border: spicy ? "none" : "1px solid rgba(240,180,41,.40)",
+        color: spicy ? G : "#7A5A12",
         fontWeight: 900,
         fontSize: 9,
         letterSpacing: ".06em",
@@ -758,10 +812,10 @@ function NBA(_ref0) {
       background: CARD_BG,
       fontWeight: 700,
       fontSize: 12,
-      border: "1px solid rgba(35,69,44,.16)",
+      border: "1.5px solid rgba(35,69,44,.28)",
       borderRadius: 99,
       cursor: "pointer",
-      color: MID
+      color: DARK
     }
   }, "\u0E02\u0E49\u0E32\u0E21")));
 }
@@ -895,7 +949,7 @@ function removeMascotBg(src, cb) {
       var d = id.data;
 
       // Background pixel: very light, low colour saturation
-      // Covers white (#fff) and cream (#F8EBCD) without touching
+      // Covers white (#fff) and cream (#F3E7C9) without touching
       // the green mascot body, yellow coins, or dark outlines
       function isBg(i) {
         var r = d[i], g = d[i+1], b = d[i+2];
@@ -1069,12 +1123,12 @@ function HeroCard(props) {
   return React.createElement("div", {
     className: "sl-hero",
     style: {
-      background: spicy ? "linear-gradient(145deg, #1A3D22 0%, #0D2F18 100%)" : "linear-gradient(145deg, #FFF8EA 0%, #FFF8EA 62%, #E8F8E2 100%)",
-      border: "1px solid rgba(99,200,95,.16)",
-      borderRadius: 24,
+      background: spicy ? "linear-gradient(145deg, #1A3D22 0%, #0D2F18 100%)" : "radial-gradient(circle at 86% 18%, rgba(220,242,210,.95) 0 80px, transparent 82px), linear-gradient(135deg, #DFF4D2 0%, #F3FFE3 55%, #FFF1D2 100%)",
+      border: spicy ? "1.5px solid rgba(70,201,95,.18)" : "2px solid rgba(35,69,44,.75)",
+      borderRadius: 26,
       padding: "18px 16px 14px",
       marginBottom: 14,
-      boxShadow: "0 4px 24px rgba(99,200,95,.07), inset 0 2px 0 rgba(255,255,255,.9)",
+      boxShadow: "0 12px 28px rgba(95,78,34,.14), inset 0 2px 0 rgba(255,255,255,.9)",
       overflow: "hidden",
       position: "relative"
     }
@@ -1082,7 +1136,7 @@ function HeroCard(props) {
   React.createElement("div", {
     style: {
       position: "absolute", top: -28, right: -16, width: 96, height: 96,
-      borderRadius: "50%", background: spicy ? "rgba(99,200,95,.06)" : "rgba(99,200,95,.07)", pointerEvents: "none"
+      borderRadius: "50%", background: spicy ? "rgba(70,201,95,.06)" : "rgba(70,201,95,.07)", pointerEvents: "none"
     }
   }),
   !spicy && React.createElement("div", {
@@ -1109,7 +1163,7 @@ function HeroCard(props) {
       React.createElement("div", {
         style: {
           fontSize: bigNumber ? 13 : 16, fontWeight: 900,
-          color: spicy ? "#DEF0E3" : MID,
+          color: spicy ? "#DEF0E3" : DARK,
           lineHeight: 1.3, marginBottom: bigNumber ? 2 : 0,
           letterSpacing: ".01em"
         }
@@ -1122,8 +1176,8 @@ function HeroCard(props) {
       }, bigNumber),
       sub && React.createElement("div", {
         style: {
-          fontSize: 11, fontWeight: 700,
-          color: spicy ? "#8EAB90" : MID,
+          fontSize: 11, fontWeight: 800,
+          color: spicy ? "#8EAB90" : DARK + "99",
           marginTop: bigNumber ? 0 : 5, lineHeight: 1.5
         }
       }, sub),
@@ -1134,20 +1188,21 @@ function HeroCard(props) {
           }, barPct + "%")
         ),
         React.createElement("div", {
-          style: { background: spicy ? "#1A3D22" : DARK + "15", borderRadius: 99, height: 10, overflow: "hidden", border: "1px solid " + DARK + "18" }
+          style: { background: spicy ? "#1A3D22" : "#E7DEC8", borderRadius: 99, height: 10, overflow: "hidden", border: "1.5px solid rgba(126,109,69,.24)" }
         }, React.createElement("div", {
-          style: { width: Math.min(100, Math.max(0, barPct)) + "%", height: "100%", background: barPct > 85 ? "#FF6B6B" : accent, borderRadius: 99, transition: "width .5s" }
+          style: { width: Math.min(100, Math.max(0, barPct)) + "%", height: "100%", background: barPct > 85 ? "#FF6B6B" : accent, borderRadius: 99, transition: "width .5s", boxShadow: "inset 0 1px 0 rgba(255,255,255,.30)" }
         }))
       ),
       salungText && React.createElement("div", { style: { marginTop: 10, position: "relative" } },
         React.createElement("div", {
           style: {
             padding: "6px 11px",
-            background: spicy ? SPICY_CARD : "rgba(255,255,255,.80)",
-            border: "1px solid " + (spicy ? G + "33" : "rgba(99,200,95,.2)"),
-            borderRadius: 12,
+            background: spicy ? SPICY_CARD : CARD_BG_LIGHT,
+            border: "1.5px solid " + (spicy ? G + "33" : "rgba(35,69,44,.30)"),
+            borderRadius: 18,
+            boxShadow: "0 4px 12px rgba(95,78,34,.08)",
             fontSize: 11, fontWeight: 700, lineHeight: 1.5,
-            color: spicy ? G + "cc" : DARK + "88"
+            color: spicy ? G + "cc" : DARK + "bb"
           }
         }, "💬 " + salungText),
         React.createElement("div", { style: {
@@ -1155,7 +1210,7 @@ function HeroCard(props) {
           width: 0, height: 0,
           borderTop: "5px solid transparent",
           borderBottom: "5px solid transparent",
-          borderLeft: "7px solid " + (spicy ? SPICY_CARD : "rgba(255,255,255,.80)")
+          borderLeft: "7px solid " + (spicy ? SPICY_CARD : CARD_BG_LIGHT)
         }})
       )
     ),
@@ -1196,9 +1251,9 @@ function SalungToday(props) {
   return React.createElement("div", {
     className: "sl-card",
     style: {
-      background: spicy ? "linear-gradient(135deg, #1A3D22 0%, #0D2F18 100%)" : "linear-gradient(135deg, #FFF8EA 0%, #FBF6E9 100%)",
-      border: "1px solid " + (spicy ? "rgba(99,200,95,.2)" : "rgba(255,209,92,.25)"),
-      borderRadius: 22, padding: "14px 16px 12px", marginBottom: 14,
+      background: spicy ? "linear-gradient(135deg, #1A3D22 0%, #0D2F18 100%)" : "linear-gradient(135deg, #FFFCF4 0%, #FBF6E9 100%)",
+      border: "1.5px solid " + (spicy ? "rgba(70,201,95,.20)" : "rgba(255,206,74,.30)"),
+      borderRadius: 24, padding: "14px 16px 12px", marginBottom: 14,
       position: "relative", overflow: "hidden",
       boxShadow: "inset 0 1px 0 rgba(255,255,255,.70), 0 4px 16px rgba(95,78,34,.08)"
     }
@@ -1206,7 +1261,7 @@ function SalungToday(props) {
     React.createElement("div", {
       style: {
         position: "absolute", left: 0, top: 0, bottom: 0, width: 3,
-        background: spicy ? "rgba(99,200,95,.4)" : "linear-gradient(180deg," + GOLD + " 0%,rgba(255,209,92,.35) 100%)",
+        background: spicy ? "rgba(70,201,95,.4)" : "linear-gradient(180deg," + GOLD + " 0%,rgba(255,206,74,.35) 100%)",
         borderRadius: "22px 0 0 22px", pointerEvents: "none"
       }
     }),
@@ -1346,27 +1401,27 @@ function CashFlow(_ref1) {
           label: "รายรับ",
           amt: cs.income_thb || 0,
           color: G,
-          icon: "💰"
+          icon: "💰", iconKey: "income"
         }, {
           label: "ผ่อนหนี้",
           amt: -(cs.debt_payment_thb || 0),
           color: "#FF6B6B",
-          icon: "🔓"
+          icon: "🔓", iconKey: "debt"
         }, {
           label: "ออมเงิน",
           amt: -(cs.savings_thb || 0),
           color: "#7ECFD3",
-          icon: "🌱"
+          icon: "🌱", iconKey: "saving"
         }, {
           label: "ค่าคงที่",
           amt: -(cs.fixed_thb || 0),
           color: GOLD,
-          icon: "📋"
+          icon: "📋", iconKey: "receipt"
         }, {
           label: "ค่าใช้จ่ายอื่นๆ",
           amt: -(cs.expense_thb || 0),
           color: "#aaa",
-          icon: "🛒"
+          icon: "🛒", iconKey: "other"
         }].filter(function (r) {
           return r.amt !== 0;
         }) : [];
@@ -1460,8 +1515,8 @@ function CashFlow(_ref1) {
   var isReturningEmptyPeriod = hasAnyData && (period === "day" || period === "week") && d.inc === 0 && d.exp === 0;
   var CAT_MAP = {
     food: { label: "อาหาร", color: FOOD_YELLOW, icon: "🍚" },
-    travel: { label: "เดินทาง", color: "#7ECFD3", icon: "🚆" },
-    transport: { label: "เดินทาง", color: "#7ECFD3", icon: "🚆" },
+    travel: { label: "เดินทาง", color: "#74C5E0", icon: "🚆" },
+    transport: { label: "เดินทาง", color: "#74C5E0", icon: "🚆" },
     shop: { label: "ช้อปปิ้ง", color: SHOP_PINK, icon: "🛍️" },
     shopping: { label: "ช้อปปิ้ง", color: SHOP_PINK, icon: "🛍️" },
     entertain: { label: "บันเทิง", color: ENTERTAIN_PURPLE, icon: "🎮" },
@@ -1475,8 +1530,8 @@ function CashFlow(_ref1) {
     debt_auto: { label: "ผ่อนรถ", color: "#F6C85F", icon: "🚗" },
     auto_debt: { label: "ผ่อนรถ", color: "#F6C85F", icon: "🚗" },
     car_loan: { label: "ผ่อนรถ", color: "#F6C85F", icon: "🚗" },
-    debt_card: { label: "บัตรเครดิต", color: "#F08A8A", icon: "💳" },
-    credit_card: { label: "บัตรเครดิต", color: "#F08A8A", icon: "💳" },
+    debt_card: { label: "บัตรเครดิต", color: "#EC5F5A", icon: "💳" },
+    credit_card: { label: "บัตรเครดิต", color: "#EC5F5A", icon: "💳" },
     income: { label: "รายรับ", color: G, icon: "💰" },
     other: { label: "อื่น ๆ", color: NEUTRAL_TAUPE, icon: "📦" }
   };
@@ -1744,10 +1799,9 @@ function CashFlow(_ref1) {
       }
     }, /*#__PURE__*/React.createElement("div", {
       style: {
-        fontSize: 16,
-        marginBottom: 2
+        marginBottom: 2, display: "flex", justifyContent: "center"
       }
-    }, c.icon), c.label);
+    }, React.createElement(CategoryIcon, { catKey: c.id, fallback: c.icon, size: 22 })), c.label);
   }))), /*#__PURE__*/React.createElement(TextInput, {
     value: note,
     onChange: setNote,
@@ -1798,7 +1852,7 @@ function CashFlow(_ref1) {
   }),
   isCurrent && !hasAnyData && cashSummary.inc === 0 && cashSummary.exp === 0 && !allocLoading && alloc.length === 0 && React.createElement("div", {
     className: "sl-card",
-    style: {background: spicy ? SPICY_CARD : CARD_BG, border: "1.5px solid rgba(99,200,95,.35)", borderRadius: 20, padding: "16px", marginBottom: 14}
+    style: {background: spicy ? SPICY_CARD : CARD_BG, border: "1.5px solid rgba(126,109,69,.22)", borderRadius: 24, padding: "16px", marginBottom: 14}
   },
     React.createElement("div", {style: {fontWeight: 900, fontSize: 15, color: DARK, marginBottom: 10}}, "\u0E40\u0E23\u0E34\u0E48\u0E21\u0E23\u0E39\u0E49\u0E08\u0E31\u0E01\u0E40\u0E18\u0E2D\u0E01\u0E48\u0E2D\u0E19\u0E19\u0E30 \uD83D\uDC4B"),
     React.createElement("div", {style: {fontSize: 13, color: spicy ? "#aaa" : MID, lineHeight: 1.6, marginBottom: 12}},
@@ -1818,14 +1872,14 @@ function CashFlow(_ref1) {
       key: id,
       onClick: function onClick() { return setPeriod(id); },
       style: {
-        flex: 1, padding: "10px 0",
-        fontSize: 13, fontWeight: 900,
+        flex: 1, padding: "14px 0",
+        fontSize: 13, fontWeight: period === id ? 900 : 800,
         cursor: "pointer", borderRadius: 99,
-        border: period === id ? CHIP_ON_BORDER : "1px solid rgba(126,109,69,.19)",
+        border: period === id ? CHIP_ON_BORDER : "1.5px solid rgba(126,109,69,.24)",
         transition: "all .15s",
-        background: period === id ? (spicy ? G + "22" : CHIP_ON_BG) : (spicy ? "#173B20" : CARD_BG),
-        color: period === id ? DARK : (spicy ? "#aaa" : DARK + "77"),
-        boxShadow: period === id ? "0 1px 6px rgba(99,200,95,.15)" : "none"
+        background: period === id ? (spicy ? G + "22" : CHIP_ON_BG) : (spicy ? "#173B20" : CARD_BG_LIGHT),
+        color: period === id ? DARK : (spicy ? "#aaa" : MID),
+        boxShadow: period === id ? "0 2px 8px rgba(70,201,95,.18), inset 0 1px 0 rgba(255,255,255,.55)" : "inset 0 1px 0 rgba(255,255,255,.55)"
       }
     }, lbl);
   })),
@@ -1886,8 +1940,8 @@ function CashFlow(_ref1) {
     mood: period === "month" ? "thinking" : "tip"
   }),
   // ── Category section
-  /*#__PURE__*/React.createElement(SectionHeader, { icon: "\uD83D\uDCB8", text: "\u0E40\u0E07\u0E34\u0E19\u0E44\u0E2B\u0E25\u0E44\u0E1B\u0E17\u0E32\u0E07\u0E44\u0E2B\u0E19 \u2728", spicy: spicy }),
-  /*#__PURE__*/React.createElement(Card, { style: { background: "#FFF8EA", boxShadow: "0 2px 12px rgba(95,78,34,.08)", border: "1px solid rgba(126,109,69,.13)" } },
+  /*#__PURE__*/React.createElement(SectionHeader, { icon: React.createElement(AssetIcon, { src: ICON_ASSETS.receipt, alt: "receipt", size: 16, eager: true }), text: "\u0E40\u0E07\u0E34\u0E19\u0E44\u0E2B\u0E25\u0E44\u0E1B\u0E17\u0E32\u0E07\u0E44\u0E2B\u0E19 \u2728", spicy: spicy }),
+  /*#__PURE__*/React.createElement(Card, { style: { background: CARD_BG } },
     cats.length === 0 ? /*#__PURE__*/React.createElement("div", {
     style: { textAlign: "center", padding: "8px 8px 6px" }
   },
@@ -1907,12 +1961,12 @@ function CashFlow(_ref1) {
       /*#__PURE__*/React.createElement("div", {
         style: { display: "flex", alignItems: "center", gap: 6, marginBottom: 3 }
       },
-        /*#__PURE__*/React.createElement("span", { style: { width: 32, height: 32, borderRadius: 12, background: (c.color || G) + "1A", border: "1px solid " + (c.color || G) + "44", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 17, flexShrink: 0 } }, c.icon),
+        /*#__PURE__*/React.createElement("span", { style: { width: 32, height: 32, borderRadius: 12, background: (c.color || G) + "1A", border: "1px solid " + (c.color || G) + "44", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, overflow: "hidden" } }, React.createElement(CategoryIcon, { catKey: c.id, fallback: c.icon, size: 22 })),
         /*#__PURE__*/React.createElement("span", {
           style: { flex: 1, fontSize: 12, fontWeight: 700, color: spicy ? "#ccc" : DARK }
         }, c.label),
         /*#__PURE__*/React.createElement("span", {
-          style: { fontSize: 10, fontWeight: 700, color: spicy ? "#8EAB90" : "#aaa", marginRight: 6 }
+          style: { fontSize: 10, fontWeight: 700, color: spicy ? "#8EAB90" : "rgba(35,69,44,.45)", marginRight: 6 }
         }, pct + "%"),
         /*#__PURE__*/React.createElement("span", {
           style: { fontSize: 12, fontWeight: 900, color: spicy ? "#FF9999" : DANGER }
@@ -1925,15 +1979,14 @@ function CashFlow(_ref1) {
   // ── Transaction list
   /*#__PURE__*/React.createElement(Card, {
     style: {
-      background: "#FFF8EA", padding: "10px 12px 112px",
-      boxShadow: "0 2px 12px rgba(95,78,34,.08)", border: "1px solid rgba(126,109,69,.13)"
+      background: CARD_BG, padding: "10px 12px 10px", marginBottom: 0
     }
   },
   React.createElement("div", {
     style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8, marginTop: 4 }
   },
     React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 6, flex: 1, minWidth: 0, overflow: "hidden" } },
-      React.createElement("span", { style: { fontSize: 13 } }, "\uD83D\uDCCB"),
+      React.createElement("span", { style: { display: "flex", alignItems: "center" } }, React.createElement(AssetIcon, { src: ICON_ASSETS.receipt, alt: "receipt", size: 16, eager: true })),
       React.createElement("span", { style: { fontSize: 11, fontWeight: 900, color: spicy ? "#8EAB90" : MID, letterSpacing: ".06em", textTransform: "uppercase" } }, "\u0E23\u0E32\u0E22\u0E01\u0E32\u0E23\u0E25\u0E48\u0E32\u0E2A\u0E38\u0E14")
     ),
     txns.length > 5 && React.createElement("button", {
@@ -1971,17 +2024,16 @@ function CashFlow(_ref1) {
         alignItems: "center",
         gap: 9,
         padding: "7px 0",
-        borderBottom: i < listLen - 1 ? "1px solid rgba(35,69,44,.06)" : "none"
+        borderBottom: i < listLen - 1 ? "1px solid rgba(126,109,69,.18)" : "none"
       }
     }, /*#__PURE__*/React.createElement("span", {
       style: {
         width: 36, height: 36, borderRadius: 14, flexShrink: 0,
-        background: t.amt > 0 ? "#E8FAE8" : "#FFF2F2",
-        border: "1px solid " + (t.amt > 0 ? "rgba(99,200,95,.2)" : "rgba(210,90,90,.2)"),
-        display: "flex", alignItems: "center", justifyContent: "center",
-        fontSize: 18
+        background: t.amt > 0 ? SOFT_GREEN : SOFT_DANGER_BG,
+        border: "1px solid " + (t.amt > 0 ? "rgba(70,201,95,.28)" : "rgba(210,90,90,.22)"),
+        display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden"
       }
-    }, t.amt > 0 ? "\uD83D\uDCB0" : t.cat), /*#__PURE__*/React.createElement("div", {
+    }, React.createElement(CategoryIcon, { catKey: t.amt > 0 ? "income" : (t.category_id || t.cat), fallback: t.amt > 0 ? "\uD83D\uDCB0" : t.cat, size: 22 })), /*#__PURE__*/React.createElement("div", {
       style: {
         flex: 1,
         minWidth: 0
@@ -1998,13 +2050,13 @@ function CashFlow(_ref1) {
     }, sanitizeTxNote(t.note)), /*#__PURE__*/React.createElement("div", {
       style: {
         fontSize: 10,
-        color: "#aaa"
+        color: MID + "99"
       }
     }, t.time)), /*#__PURE__*/React.createElement("span", {
       style: {
         fontSize: 13,
         fontWeight: 900,
-        color: t.amt > 0 ? "#38C050" : "#D05555",
+        color: t.amt > 0 ? G : "#EC5F5A",
         marginRight: 4,
         flexShrink: 0
       }
@@ -2017,7 +2069,7 @@ function CashFlow(_ref1) {
         border: "none",
         cursor: "pointer",
         fontSize: 14,
-        color: "#ccc",
+        color: "rgba(126,109,69,.45)",
         padding: "2px 4px",
         flexShrink: 0
       }
@@ -2026,7 +2078,7 @@ function CashFlow(_ref1) {
   ),
   // ── Monthly breakdown (at bottom)
   period === "month" && /*#__PURE__*/React.createElement(React.Fragment, null,
-    /*#__PURE__*/React.createElement(SectionHeader, { icon: "\uD83D\uDCB0", text: "\u0E40\u0E07\u0E34\u0E19\u0E40\u0E14\u0E37\u0E2D\u0E19\u0E19\u0E35\u0E49\u0E44\u0E1B\u0E44\u0E2B\u0E19\u0E1A\u0E49\u0E32\u0E07?", spicy: spicy }),
+    /*#__PURE__*/React.createElement(SectionHeader, { icon: React.createElement(AssetIcon, { src: ICON_ASSETS.coin, alt: "coin", size: 16, eager: true }), text: "\u0E40\u0E07\u0E34\u0E19\u0E40\u0E14\u0E37\u0E2D\u0E19\u0E19\u0E35\u0E49\u0E44\u0E1B\u0E44\u0E2B\u0E19\u0E1A\u0E49\u0E32\u0E07?", spicy: spicy }),
     /*#__PURE__*/React.createElement(Card, {
       style: { background: spicy ? DARK : CARD_BG }
     },
@@ -2048,7 +2100,7 @@ function CashFlow(_ref1) {
         /*#__PURE__*/React.createElement("div", {
           style: { display: "flex", gap: 6, alignItems: "center" }
         },
-          /*#__PURE__*/React.createElement("span", { style: { fontSize: 13 } }, row.icon),
+          React.createElement("span", { style: { display: "flex", alignItems: "center" } }, row.iconKey ? React.createElement(AssetIcon, { src: ICON_ASSETS[row.iconKey], alt: row.iconKey, size: 18 }) : React.createElement("span", { style: { fontSize: 13 } }, row.icon)),
           /*#__PURE__*/React.createElement("span", {
             style: { fontSize: 12, fontWeight: 700, color: spicy ? "#ccc" : DARK }
           }, row.label)
@@ -2065,7 +2117,7 @@ function CashFlow(_ref1) {
   }),
   /*#__PURE__*/React.createElement("div", {
     style: {
-      borderTop: "2px dashed " + (spicy ? "#444" : "#ccc"),
+      borderTop: "1.5px dashed " + (spicy ? "rgba(255,255,255,.12)" : "rgba(126,109,69,.28)"),
       marginTop: 10, paddingTop: 10,
       display: "flex", justifyContent: "space-between", alignItems: "center"
     }
@@ -2089,7 +2141,7 @@ function CashFlow(_ref1) {
       var topCat = expenses.reduce(function(a, b) { return Math.abs(a.amt) > Math.abs(b.amt) ? a : b; });
       if (!topCat || Math.abs(topCat.amt) < 100) return null;
       return React.createElement("div", {
-        style: {background: spicy ? SPICY_CARD : "#FFFBF0", border: "1.5px dashed " + (spicy ? G + "44" : DARK + "18"), borderRadius: 14, padding: "10px 14px", marginTop: 10, fontSize: 12, lineHeight: 1.5}
+        style: {background: spicy ? SPICY_CARD : CARD_BG_LIGHT, border: "1.5px dashed " + (spicy ? G + "44" : "rgba(126,109,69,.28)"), borderRadius: 14, padding: "10px 14px", marginTop: 10, fontSize: 12, lineHeight: 1.5}
       },
         React.createElement("div", {style: {fontWeight: 900, color: spicy ? G : DARK, marginBottom: 2}},
           "\uD83D\uDCA1 \u0E40\u0E14\u0E37\u0E2D\u0E19\u0E19\u0E35\u0E49\u0E40\u0E07\u0E34\u0E19\u0E44\u0E2B\u0E25\u0E44\u0E1B\u0E17\u0E35\u0E48 " + topCat.icon + " " + topCat.label + " \u0E21\u0E32\u0E01\u0E2A\u0E38\u0E14 \u0E3F" + Math.abs(Math.round(topCat.amt)).toLocaleString()),
@@ -2396,7 +2448,7 @@ function Save(_ref18) {
     }
   }), /*#__PURE__*/React.createElement(Card, {
     style: {
-      background: spicy ? DARK : "linear-gradient(145deg,#E8F8E2 0%,#F8EBCD 55%,#EFF8F1 100%)"
+      background: spicy ? DARK : "linear-gradient(145deg," + SOFT_GREEN + " 0%," + CREAM + " 55%," + CREAM + " 100%)"
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
@@ -2532,10 +2584,10 @@ function Save(_ref18) {
       display: "flex",
       alignItems: "center",
       gap: 4,
-      background: "#f0f0f0",
+      background: CREAM,
       borderRadius: 20,
       padding: "3px 10px",
-      border: "1.5px solid #ccc"
+      border: "1.5px solid rgba(126,109,69,.28)"
     }
   }, /*#__PURE__*/React.createElement("span", {
     style: {
@@ -2588,7 +2640,7 @@ function Save(_ref18) {
       marginTop: 4,
       padding: "10px 0",
       background: CARD_BG,
-      border: "2px dashed #ccc",
+      border: "1.5px dashed rgba(126,109,69,.28)",
       borderRadius: 12,
       cursor: "pointer",
       display: "flex",
@@ -3197,10 +3249,10 @@ function Debt(_ref21) {
   ), /*#__PURE__*/React.createElement("div", {
     style: {
       textAlign: "center",
-      background: spicy ? G + "22" : "#E8F8E2",
+      background: spicy ? G + "22" : SOFT_GREEN,
       borderRadius: 12,
       padding: "8px 12px",
-      border: "1px solid " + (spicy ? "rgba(99,200,95,.3)" : "rgba(99,200,95,.18)")
+      border: "1px solid " + (spicy ? "rgba(70,201,95,.30)" : "rgba(70,201,95,.18)")
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
@@ -3949,7 +4001,7 @@ function More(_ref23) {
       overflow: "hidden",
       background: spicy
         ? "linear-gradient(135deg,#0f2d12 0%,#0a1f0d 100%)"
-        : "linear-gradient(135deg,#FFF8EA 0%,#E8F8E2 100%)",
+        : "linear-gradient(135deg," + CARD_BG + " 0%," + SOFT_GREEN + " 100%)",
       padding: "16px 16px"
     }
   },
@@ -4040,8 +4092,8 @@ function More(_ref23) {
     }
   }, "ตั้งค่าเร็ว");
 
-  var tileBg   = spicy ? "rgba(99,200,95,.06)" : CREAM;
-  var tileBdr  = "1.5px solid " + (spicy ? "rgba(99,200,95,.18)" : "rgba(35,69,44,.10)");
+  var tileBg   = spicy ? "rgba(70,201,95,.06)" : CARD_BG;
+  var tileBdr  = "1.5px solid " + (spicy ? "rgba(70,201,95,.18)" : "rgba(126,109,69,.22)");
   var tileBase = { flex: "1 1 calc(50% - 6px)", background: tileBg, borderRadius: 16, border: tileBdr, padding: "10px 12px", display: "flex", flexDirection: "column", gap: 5, cursor: "pointer", boxShadow: spicy ? "none" : "inset 0 1px 0 rgba(255,255,255,.9), 1px 1px 0 rgba(95,78,34,.08)" };
 
   var quickGrid = React.createElement("div", {
@@ -4106,7 +4158,7 @@ function More(_ref23) {
           fontSize: 11,
           fontWeight: 800,
           cursor: "default",
-          border: "1.5px solid " + (spicy ? "rgba(255,255,255,.15)" : "rgba(35,69,44,.15)"),
+          border: "1.5px solid " + (spicy ? "rgba(255,255,255,.15)" : "rgba(126,109,69,.28)"),
           background: !spicy ? DARK : "transparent",
           color: !spicy ? "#fff" : (spicy ? "rgba(255,255,255,.5)" : MID)
         }
@@ -4120,7 +4172,7 @@ function More(_ref23) {
           fontSize: 11,
           fontWeight: 800,
           cursor: "default",
-          border: "1.5px solid " + (spicy ? "rgba(255,255,255,.15)" : "rgba(35,69,44,.15)"),
+          border: "1.5px solid " + (spicy ? "rgba(255,255,255,.15)" : "rgba(126,109,69,.28)"),
           background: "transparent",
           color: spicy ? "rgba(255,255,255,.5)" : MID
         }
@@ -4155,7 +4207,7 @@ function More(_ref23) {
     }
   }, "💡 ตั้งค่าเงินส่วนตัว");
 
-  var rowBdr  = "1px solid " + (spicy ? "rgba(255,255,255,.07)" : "rgba(35,69,44,.06)");
+  var rowBdr  = "1px solid " + (spicy ? "rgba(255,255,255,.07)" : "rgba(126,109,69,.16)");
   var rowLabels = [
     "💸 รายรับประจำ",
     "📅 วันเงินเดือน",
@@ -4218,7 +4270,7 @@ function More(_ref23) {
     style: {
       background: spicy ? "rgba(99,200,95,.04)" : SOFT_GREEN,
       borderRadius: 20,
-      border: "1.5px dashed " + (spicy ? "rgba(99,200,95,.2)" : "rgba(126,109,69,.17)"),
+      border: "1.5px dashed " + (spicy ? "rgba(70,201,95,.20)" : "rgba(126,109,69,.26)"),
       padding: "14px 16px",
       marginBottom: 14
     }
@@ -5586,7 +5638,7 @@ function SaveGoal(_ref24) {
     }
   }, showAllSavings ? "\u0E14\u0E39\u0E19\u0E49\u0E2D\u0E22\u0E25\u0E07" : "\u0E14\u0E39\u0E17\u0E31\u0E49\u0E07\u0E2B\u0E21\u0E14 (" + savingsTxns.length + " \u0E23\u0E32\u0E22\u0E01\u0E32\u0E23)")), /*#__PURE__*/React.createElement("div", {
     style: {
-      borderTop: "2px dashed #eee",
+      borderTop: "1.5px dashed rgba(126,109,69,.22)",
       marginTop: 8,
       paddingTop: 8,
       display: "flex",
@@ -5670,8 +5722,8 @@ function App() {
     });
   }, []);
   var bgColor = spicy
-    ? "radial-gradient(ellipse at 18% 8%, rgba(99,200,95,.09) 0%, transparent 38%), radial-gradient(ellipse at 82% 30%, rgba(99,200,95,.07) 0%, transparent 35%), radial-gradient(ellipse at 48% 88%, rgba(99,200,95,.05) 0%, transparent 30%), #0D2F18"
-    : "radial-gradient(ellipse at 10% 4%, rgba(255,209,92,.15) 0%, transparent 34%), radial-gradient(ellipse at 88% 10%, rgba(99,200,95,.04) 0%, transparent 30%), radial-gradient(ellipse at 22% 92%, rgba(99,200,95,.03) 0%, transparent 36%), radial-gradient(ellipse at 80% 78%, rgba(255,209,92,.10) 0%, transparent 28%), #F8EBCD";
+    ? "radial-gradient(ellipse at 18% 8%, rgba(70,201,95,.09) 0%, transparent 38%), radial-gradient(ellipse at 82% 30%, rgba(70,201,95,.07) 0%, transparent 35%), radial-gradient(ellipse at 48% 88%, rgba(70,201,95,.05) 0%, transparent 30%), #0D2F18"
+    : "radial-gradient(rgba(126,109,69,.08) 1px,transparent 1px) center center / 14px 14px, #F3E7C9";
   var screens = {
     cashflow: /*#__PURE__*/React.createElement(CashFlow, {
       spicy: spicy
@@ -5699,7 +5751,7 @@ function App() {
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      background: spicy ? "#1a3a1f" : CREAM,
+      background: spicy ? "#1a3a1f" : CARD_BG,
       height: "env(safe-area-inset-top, 0px)",
       minHeight: 0,
       transition: "background .3s"
@@ -5710,8 +5762,8 @@ function App() {
       display: "flex",
       justifyContent: "space-between",
       alignItems: "center",
-      background: spicy ? "#1a3a1f" : CREAM,
-      borderBottom: "1.5px solid rgba(35,69,44,.45)",
+      background: spicy ? "#1a3a1f" : CARD_BG,
+      borderBottom: "1.5px solid rgba(126,109,69,.24)",
       boxShadow: "0 2px 10px rgba(95,78,34,.10)",
       transition: "background .3s"
     }
@@ -5781,7 +5833,7 @@ function App() {
   }, spicy ? "ปิด Spicy Mode?" : "เปิด Spicy Mode?"), /*#__PURE__*/React.createElement("div", {
     style: {
       fontSize: 12,
-      color: "#666",
+      color: MID,
       textAlign: "center",
       lineHeight: 1.6,
       marginBottom: 16
@@ -5800,11 +5852,12 @@ function App() {
       padding: "11px 0",
       fontSize: 13,
       fontWeight: 800,
-      background: "transparent",
-      color: MID,
-      border: "1.5px solid rgba(35,69,44,.15)",
+      background: CARD_BG_LIGHT,
+      color: DARK,
+      border: "1.5px solid rgba(35,69,44,.34)",
       borderRadius: 99,
-      cursor: "pointer"
+      cursor: "pointer",
+      boxShadow: "inset 0 1px 0 rgba(255,255,255,.65)"
     }
   }, "\u0E22\u0E01\u0E40\u0E25\u0E34\u0E01"), /*#__PURE__*/React.createElement("button", {
     onClick: function onClick() {
@@ -5829,18 +5882,20 @@ function App() {
     id: "main-scroll",
     style: {
       flex: 1,
-      padding: "12px 16px 176px",
+      padding: "12px 16px calc(80px + env(safe-area-inset-bottom, 20px))",
       overflowY: "auto"
     }
   }, screens[tab]), /*#__PURE__*/React.createElement("div", {
     style: {
-      background: spicy ? "#1a3a1f" : CREAM,
-      borderTop: "1.5px solid rgba(35,69,44,.2)",
-      borderRadius: "18px 18px 0 0",
+      background: spicy ? "#1a3a1f" : "rgba(255,252,244,.96)",
+      borderTop: "1.5px solid rgba(126,109,69,.28)",
+      borderRadius: "24px 24px 0 0",
       display: "grid",
       gridTemplateColumns: "repeat(4,1fr)",
-      padding: "4px 8px calc(5px + env(safe-area-inset-bottom, 0px))",
-      boxShadow: "0 -6px 24px rgba(126,109,69,.13)",
+      padding: "4px 8px calc(12px + env(safe-area-inset-bottom, 20px))",
+      boxShadow: "0 -8px 24px rgba(95,78,34,.12)",
+      backdropFilter: "blur(14px)",
+      WebkitBackdropFilter: "blur(14px)",
 
       transition: "background .3s"
     }
@@ -5867,23 +5922,22 @@ function App() {
         minWidth: isActive ? 48 : 36,
         height: 32,
         borderRadius: 99,
-        background: isActive ? (spicy ? "#1A3D22" : G + "28") : "transparent",
-        border: isActive ? "1.5px solid " + (spicy ? G + "55" : G + "55") : "1.5px solid transparent",
+        background: isActive ? (spicy ? "#1A3D22" : GOLD_SOFT) : "transparent",
+        border: isActive ? "1.5px solid " + (spicy ? G + "55" : "rgba(240,180,41,.55)") : "1.5px solid transparent",
         boxShadow: "none",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        fontSize: isActive ? 20 : 18,
         transform: isActive ? "scale(1.08)" : "scale(1)",
         transition: "all .2s cubic-bezier(.34,1.56,.64,1)"
       }
-    }, t.icon),
+    }, t.iconKey ? React.createElement(AssetIcon, { src: ICON_ASSETS[t.iconKey], alt: t.label, size: isActive ? 22 : 20, eager: true }) : t.icon),
     /*#__PURE__*/React.createElement("span", {
       style: {
         fontSize: 9,
-        fontWeight: isActive ? 900 : 600,
+        fontWeight: isActive ? 900 : 700,
         textAlign: "center",
-        color: isActive ? (spicy ? G : DARK) : "#c0c0c0",
+        color: isActive ? (spicy ? G : DARK) : "rgba(94,123,98,.60)",
         transition: "color .2s"
       }
     }, isActive ? t.label : t.label));
@@ -5900,17 +5954,34 @@ window.addEventListener('load', function() {
 <script>
 /* Suppress LIFF SDK injected "recently used services" tooltip/overlay */
 (function(){
+  var KILL_TEXT = 'recently used services';
+  function _hideEl(el){
+    if(!el||el===document.body||el===document.documentElement) return;
+    el.style.setProperty('display','none','important');
+    el.style.setProperty('opacity','0','important');
+    el.style.setProperty('pointer-events','none','important');
+    el.style.setProperty('visibility','hidden','important');
+  }
   function _hideExternalOverlays(){
-    document.querySelectorAll('body > div:not(#root)').forEach(function(el){
-      el.style.cssText='display:none!important;opacity:0!important;pointer-events:none!important';
-    });
+    // 1. Kill all body-level siblings of #root
+    document.querySelectorAll('body > *:not(#root):not(script):not(style)').forEach(_hideEl);
+    // 2. Kill by text content — catch shadow DOM hosts and inline injections
+    var walker = document.createTreeWalker(document.body, 4 /* NodeFilter.SHOW_TEXT */, null, false);
+    var node;
+    while((node = walker.nextNode())){
+      if(node.nodeValue && node.nodeValue.indexOf(KILL_TEXT) >= 0){
+        var el = node.parentElement;
+        // Walk up until we hit a direct body child and kill it
+        while(el && el.parentElement && el.parentElement !== document.body) el = el.parentElement;
+        _hideEl(el);
+      }
+    }
+    // 3. Kill by known LIFF class patterns anywhere in tree
+    document.querySelectorAll('[class*="liff-discovery"],[class*="liff-recently"],[class*="service-discovery"],[class*="liff-shortlink"],[class*="liff-tip"]').forEach(_hideEl);
   }
   _hideExternalOverlays();
-  new MutationObserver(_hideExternalOverlays).observe(document.body,{childList:true,subtree:true});
-  setTimeout(_hideExternalOverlays,300);
-  setTimeout(_hideExternalOverlays,800);
-  setTimeout(_hideExternalOverlays,2000);
-  setTimeout(_hideExternalOverlays,4000);
+  new MutationObserver(function(){ _hideExternalOverlays(); }).observe(document.body,{childList:true,subtree:true,characterData:true});
+  [300,800,1500,3000,6000].forEach(function(t){ setTimeout(_hideExternalOverlays,t); });
 })();
 </script>
 </body>
