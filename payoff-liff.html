@@ -11,7 +11,7 @@
 <style>
   *{box-sizing:border-box;margin:0;padding:0}
   body,html{width:100%;height:100%;overflow-x:hidden}
-  body{font-family:'IBM Plex Sans Thai','Noto Sans Thai',system-ui,-apple-system,BlinkMacSystemFont,sans-serif;-webkit-font-smoothing:antialiased;background:#F3E7C9;line-height:1.5}
+  body{font-family:'IBM Plex Sans Thai','Noto Sans Thai',system-ui,-apple-system,BlinkMacSystemFont,sans-serif;-webkit-font-smoothing:antialiased;background:#F3E7C9;background-image:radial-gradient(rgba(126,109,69,.09) 1px,transparent 1px);background-size:14px 14px;line-height:1.5}
   .sl-number,.sl-amount,.sl-hero-number{font-family:'Nunito','IBM Plex Sans Thai',system-ui,sans-serif}
   #root{display:flex;flex-direction:column;min-height:100vh;width:100%}
   ::-webkit-scrollbar{width:0}
@@ -31,7 +31,7 @@
   .sl-hero{animation:slideUp .25s cubic-bezier(.34,1.56,.64,1) both}
   @keyframes skpulse{0%,100%{opacity:.55}50%{opacity:.2}}
   .sl-ph{border-radius:inherit;animation:skpulse 1.4s ease-in-out infinite}
-  .sl-press:active{transform:scale(.96);transition:transform .07s ease}
+  .sl-press:active{transform:translateY(2px) scale(.98);transition:transform .07s ease}
   @keyframes coinPop{0%{transform:scale(.35) rotate(-10deg);opacity:0}65%{transform:scale(1.18) rotate(4deg)}100%{transform:scale(1) rotate(0deg);opacity:1}}
   .sl-coin{animation:coinPop .5s cubic-bezier(.34,1.56,.64,1) both}
   /* Suppress LIFF SDK injected overlays — any div sibling of #root gets hidden */
@@ -80,7 +80,8 @@ var G = "#46C95F",
   DARK = "#23452C",
   MID = "#6B8A6F";
 // Color tokens
-var CARD_BG = "#FFFCF4",
+var CARD_BG = "#FFF8EA",
+  CARD_BG_LIGHT = "#FFFCF4",
   SOFT_GREEN = "#DCF2D2",
   SOFT_CARD = "#FFE9A6",
   GOLD_SOFT = "#FFE9A6",
@@ -89,14 +90,15 @@ var CARD_BG = "#FFFCF4",
   SPICY_CARD = "#123A1F";
 // Button style tokens — shared across all sections
 var BTN_PRI_BG     = "linear-gradient(180deg,#4FD35F 0%,#35B84B 100%)";
-var BTN_PRI_SHADOW = "inset 0 1px 0 rgba(255,255,255,.45), 0 4px 0 rgba(35,69,44,.22), 0 10px 20px rgba(70,201,95,.18)";
+var BTN_PRI_COLOR  = "#173D22";
+var BTN_PRI_SHADOW = "inset 0 1px 0 rgba(255,255,255,.45), 0 4px 0 rgba(35,69,44,.24), 0 10px 20px rgba(70,201,95,.20)";
 var BTN_PRI_BORDER = "2px solid #23452C";
 var CHIP_ON_BG     = "#DCF2D2";
 var CHIP_ON_BORDER = "1.5px solid #46C95F";
-// Category accent colors (pastel, reference-matched)
+// Category accent colors (reference-matched)
 var FOOD_YELLOW = "#F6C85F",
-  SHOP_PINK = "#F29AB2",
-  ENTERTAIN_PURPLE = "#A995E8",
+  SHOP_PINK = "#FF9FB0",
+  ENTERTAIN_PURPLE = "#B49CE8",
   NEUTRAL_TAUPE = "#BDB09C";
 
 // ── LIFF userId + token helpers ───────────────────────────────────────────────
@@ -315,9 +317,9 @@ function Card(_ref2) {
     style: _objectSpread({
       background: CARD_BG,
       borderRadius: 24,
-      border: "1.5px solid rgba(126,109,69,.22)",
+      border: "1.5px solid rgba(126,109,69,.28)",
       padding: 16,
-      boxShadow: "0 8px 24px rgba(95,78,34,.08), inset 0 1px 0 rgba(255,255,255,.65)",
+      boxShadow: "0 8px 22px rgba(95,78,34,.10), inset 0 1px 0 rgba(255,255,255,.72)",
       marginBottom: 12,
       cursor: onClick ? "pointer" : "default"
     }, style)
@@ -349,7 +351,7 @@ function SectionHeader(props) {
     style: {
       display: "flex", alignItems: "center", gap: 6,
       fontSize: 11, fontWeight: 900,
-      color: spicy ? "#8EAB90" : MID,
+      color: spicy ? "#8EAB90" : DARK,
       letterSpacing: ".06em", textTransform: "uppercase",
       marginBottom: 10, marginTop: 14
     }
@@ -357,7 +359,7 @@ function SectionHeader(props) {
   icon && React.createElement("span", { style: { fontSize: 13 } }, icon),
   React.createElement("span", null, text),
   React.createElement("div", {
-    style: { flex: 1, height: 1, background: spicy ? MID : "rgba(126,109,69,.22)", marginLeft: 4 }
+    style: { flex: 1, height: 1, background: spicy ? MID : "rgba(126,109,69,.28)", marginLeft: 4 }
   })
   );
 }
@@ -372,7 +374,8 @@ function Bar(_ref4) {
       height: height,
       background: "#E7DEC8",
       borderRadius: 99,
-      border: "1.5px solid rgba(126,109,69,.24)",
+      border: "1px solid rgba(126,109,69,.30)",
+      boxShadow: "inset 0 1px 2px rgba(35,69,44,.14)",
       overflow: "hidden"
     }
   }, /*#__PURE__*/React.createElement("div", {
@@ -382,7 +385,7 @@ function Bar(_ref4) {
       background: pct > 100 ? "#FF6B6B" : color,
       borderRadius: 99,
       transition: "width .8s cubic-bezier(.34,1.56,.64,1)",
-      boxShadow: "inset 0 1px 0 rgba(255,255,255,.30)"
+      boxShadow: "inset 0 1px 0 rgba(255,255,255,.36)"
     }
   }));
 }
@@ -1144,12 +1147,12 @@ function HeroCard(props) {
         React.createElement("div", {
           style: {
             padding: "6px 11px",
-            background: spicy ? SPICY_CARD : CARD_BG,
-            border: "1.5px solid " + (spicy ? G + "33" : "rgba(35,69,44,.22)"),
+            background: spicy ? SPICY_CARD : CARD_BG_LIGHT,
+            border: "1.5px solid " + (spicy ? G + "33" : "rgba(35,69,44,.30)"),
             borderRadius: 18,
-            boxShadow: "0 2px 8px rgba(95,78,34,.08)",
+            boxShadow: "0 4px 12px rgba(95,78,34,.08)",
             fontSize: 11, fontWeight: 700, lineHeight: 1.5,
-            color: spicy ? G + "cc" : DARK + "88"
+            color: spicy ? G + "cc" : DARK + "bb"
           }
         }, "💬 " + salungText),
         React.createElement("div", { style: {
@@ -1157,7 +1160,7 @@ function HeroCard(props) {
           width: 0, height: 0,
           borderTop: "5px solid transparent",
           borderBottom: "5px solid transparent",
-          borderLeft: "7px solid " + (spicy ? SPICY_CARD : CARD_BG)
+          borderLeft: "7px solid " + (spicy ? SPICY_CARD : CARD_BG_LIGHT)
         }})
       )
     ),
@@ -1820,14 +1823,14 @@ function CashFlow(_ref1) {
       key: id,
       onClick: function onClick() { return setPeriod(id); },
       style: {
-        flex: 1, padding: "10px 0",
-        fontSize: 13, fontWeight: 900,
+        flex: 1, padding: "12px 0",
+        fontSize: 13, fontWeight: period === id ? 900 : 800,
         cursor: "pointer", borderRadius: 99,
-        border: period === id ? CHIP_ON_BORDER : "1.5px solid rgba(126,109,69,.18)",
+        border: period === id ? CHIP_ON_BORDER : "1.5px solid rgba(126,109,69,.20)",
         transition: "all .15s",
-        background: period === id ? (spicy ? G + "22" : CHIP_ON_BG) : (spicy ? "#173B20" : CARD_BG),
+        background: period === id ? (spicy ? G + "22" : CHIP_ON_BG) : (spicy ? "#173B20" : CARD_BG_LIGHT),
         color: period === id ? DARK : (spicy ? "#aaa" : MID),
-        boxShadow: period === id ? "0 1px 6px rgba(70,201,95,.15)" : "none"
+        boxShadow: period === id ? "0 2px 8px rgba(70,201,95,.18), inset 0 1px 0 rgba(255,255,255,.55)" : "inset 0 1px 0 rgba(255,255,255,.55)"
       }
     }, lbl);
   })),
@@ -1972,7 +1975,7 @@ function CashFlow(_ref1) {
         alignItems: "center",
         gap: 9,
         padding: "7px 0",
-        borderBottom: i < listLen - 1 ? "1px solid rgba(126,109,69,.22)" : "none"
+        borderBottom: i < listLen - 1 ? "1px solid rgba(126,109,69,.18)" : "none"
       }
     }, /*#__PURE__*/React.createElement("span", {
       style: {
@@ -5672,7 +5675,7 @@ function App() {
   }, []);
   var bgColor = spicy
     ? "radial-gradient(ellipse at 18% 8%, rgba(70,201,95,.09) 0%, transparent 38%), radial-gradient(ellipse at 82% 30%, rgba(70,201,95,.07) 0%, transparent 35%), radial-gradient(ellipse at 48% 88%, rgba(70,201,95,.05) 0%, transparent 30%), #0D2F18"
-    : "#F3E7C9";
+    : "radial-gradient(rgba(126,109,69,.08) 1px,transparent 1px) center center / 14px 14px, #F3E7C9";
   var screens = {
     cashflow: /*#__PURE__*/React.createElement(CashFlow, {
       spicy: spicy
@@ -5700,7 +5703,7 @@ function App() {
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      background: spicy ? "#1a3a1f" : CREAM,
+      background: spicy ? "#1a3a1f" : CARD_BG,
       height: "env(safe-area-inset-top, 0px)",
       minHeight: 0,
       transition: "background .3s"
@@ -5711,8 +5714,8 @@ function App() {
       display: "flex",
       justifyContent: "space-between",
       alignItems: "center",
-      background: spicy ? "#1a3a1f" : CREAM,
-      borderBottom: "1.5px solid rgba(35,69,44,.45)",
+      background: spicy ? "#1a3a1f" : CARD_BG,
+      borderBottom: "1.5px solid rgba(126,109,69,.24)",
       boxShadow: "0 2px 10px rgba(95,78,34,.10)",
       transition: "background .3s"
     }
@@ -5835,13 +5838,15 @@ function App() {
     }
   }, screens[tab]), /*#__PURE__*/React.createElement("div", {
     style: {
-      background: spicy ? "#1a3a1f" : "rgba(255,252,244,.94)",
-      borderTop: "1.5px solid rgba(126,109,69,.22)",
+      background: spicy ? "#1a3a1f" : "rgba(255,252,244,.96)",
+      borderTop: "1.5px solid rgba(126,109,69,.28)",
       borderRadius: "24px 24px 0 0",
       display: "grid",
       gridTemplateColumns: "repeat(4,1fr)",
       padding: "4px 8px calc(5px + env(safe-area-inset-bottom, 0px))",
-      boxShadow: "0 -8px 24px rgba(95,78,34,.10)",
+      boxShadow: "0 -8px 24px rgba(95,78,34,.12)",
+      backdropFilter: "blur(14px)",
+      WebkitBackdropFilter: "blur(14px)",
 
       transition: "background .3s"
     }
@@ -5869,7 +5874,7 @@ function App() {
         height: 32,
         borderRadius: 99,
         background: isActive ? (spicy ? "#1A3D22" : GOLD_SOFT) : "transparent",
-        border: isActive ? "1.5px solid " + (spicy ? G + "55" : "rgba(255,206,74,.60)") : "1.5px solid transparent",
+        border: isActive ? "1.5px solid " + (spicy ? G + "55" : "rgba(240,180,41,.55)") : "1.5px solid transparent",
         boxShadow: "none",
         display: "flex",
         alignItems: "center",
@@ -5882,9 +5887,9 @@ function App() {
     /*#__PURE__*/React.createElement("span", {
       style: {
         fontSize: 9,
-        fontWeight: isActive ? 900 : 600,
+        fontWeight: isActive ? 900 : 700,
         textAlign: "center",
-        color: isActive ? (spicy ? G : DARK) : "#c0c0c0",
+        color: isActive ? (spicy ? G : DARK) : "rgba(94,123,98,.60)",
         transition: "color .2s"
       }
     }, isActive ? t.label : t.label));
