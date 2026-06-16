@@ -320,10 +320,14 @@ var CAT_TO_ICON = {
   food:"food", travel:"transport", shop:"shopping", entertain:"entertainment",
   health:"other", bill:"receipt", income:"income", other:"other",
   transport:"transport", shopping:"shopping", entertainment:"entertainment",
-  saving:"saving", emergency:"saving", debt:"debt", credit:"debt", education:"education",
+  saving:"saving", savings:"saving", emergency:"saving",
+  debt:"debt", credit:"debt", debt_card:"debt", debt_auto:"debt",
+  debt_student:"education", debt_informal:"debt", debt_payoff:"debt",
+  education:"education", utilities:"receipt",
   "🍚":"food","🚗":"transport","🛒":"shopping",
   "🎬":"entertainment","💊":"other","📋":"receipt",
-  "💰":"income","📦":"other","🌱":"saving","🔓":"debt"
+  "💰":"income","📦":"other","🌱":"saving","🔓":"debt",
+  "💳":"debt","🎓":"education","⚠️":"other","📚":"education"
 };
 function AssetIcon(p) {
   var sz = p.size || 24;
