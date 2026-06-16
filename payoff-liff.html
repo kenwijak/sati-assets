@@ -1865,7 +1865,7 @@ function CashFlow(_ref1) {
     mood: d.net >= 0 ? "happy" : "sad",
     mascotContext: "cashflowHero",
     title: isReturningEmptyPeriod ? (period === "day" ? "\u0E27\u0E31\u0E19\u0E19\u0E35\u0E49\u0E22\u0E31\u0E07\u0E44\u0E21\u0E48\u0E21\u0E35\u0E23\u0E32\u0E22\u0E01\u0E32\u0E23" : "7 \u0E27\u0E31\u0E19\u0E19\u0E35\u0E49\u0E22\u0E31\u0E07\u0E44\u0E21\u0E48\u0E21\u0E35\u0E23\u0E32\u0E22\u0E01\u0E32\u0E23") : period === "day" ? "\u0E27\u0E31\u0E19\u0E19\u0E35\u0E49\u0E40\u0E2B\u0E25\u0E37\u0E2D\u0E43\u0E0A\u0E49" : period === "week" ? "\u0E2A\u0E31\u0E1B\u0E14\u0E32\u0E2B\u0E4C\u0E19\u0E35\u0E49\u0E2A\u0E16\u0E32\u0E19\u0E30\u0E40\u0E07\u0E34\u0E19" : "\u0E40\u0E14\u0E37\u0E2D\u0E19\u0E19\u0E35\u0E49\u0E22\u0E31\u0E07\u0E40\u0E2B\u0E25\u0E37\u0E2D\u0E43\u0E0A\u0E49\u0E44\u0E14\u0E49\u0E08\u0E23\u0E34\u0E07",
-    bigNumber: isReturningEmptyPeriod ? "\u2014" : d.inc > 0 ? (d.net < 0 ? "-\u0E3F" : "\u0E3F") + Math.abs(Math.round(d.net)).toLocaleString() : "\u0E22\u0E31\u0E07\u0E44\u0E21\u0E48\u0E23\u0E39\u0E49",
+    bigNumber: isReturningEmptyPeriod ? "\u0E22\u0E31\u0E07\u0E42\u0E25\u0E48\u0E07\u0E2D\u0E22\u0E39\u0E48" : d.inc > 0 ? (d.net < 0 ? "-\u0E3F" : "\u0E3F") + Math.abs(Math.round(d.net)).toLocaleString() : "\u0E22\u0E31\u0E07\u0E44\u0E21\u0E48\u0E23\u0E39\u0E49",
     numberColor: d.net >= 0 ? DARK : "#E05858",
     barPct: isReturningEmptyPeriod ? null : d.inc > 0 ? Math.min(100, Math.round(d.exp / d.inc * 100)) : null,
     sub: isReturningEmptyPeriod ? (period === "day" ? "\u0E1A\u0E31\u0E19\u0E17\u0E36\u0E01\u0E23\u0E32\u0E22\u0E01\u0E32\u0E23\u0E41\u0E23\u0E01\u0E02\u0E2D\u0E07\u0E27\u0E31\u0E19\u0E19\u0E35\u0E49\u0E44\u0E14\u0E49\u0E40\u0E25\u0E22" : "\u0E1A\u0E31\u0E19\u0E17\u0E36\u0E01\u0E23\u0E32\u0E22\u0E01\u0E32\u0E23\u0E41\u0E23\u0E01\u0E02\u0E2D\u0E07\u0E2A\u0E31\u0E1B\u0E14\u0E32\u0E2B\u0E4C\u0E19\u0E35\u0E49\u0E44\u0E14\u0E49\u0E40\u0E25\u0E22") : d.inc > 0 ? "\u0E43\u0E0A\u0E49\u0E44\u0E1B\u0E41\u0E25\u0E49\u0E27 \u0E3F" + Math.round(d.exp).toLocaleString() + " \u0E08\u0E32\u0E01\u0E23\u0E32\u0E22\u0E23\u0E31\u0E1A \u0E3F" + Math.round(d.inc).toLocaleString() : "\u0E40\u0E1E\u0E34\u0E48\u0E21\u0E23\u0E32\u0E22\u0E23\u0E31\u0E1A\u0E01\u0E48\u0E2D\u0E19 \u0E41\u0E25\u0E49\u0E27 Salung \u0E08\u0E30\u0E04\u0E33\u0E19\u0E27\u0E13\u0E07\u0E1A\u0E15\u0E48\u0E2D\u0E27\u0E31\u0E19\u0E43\u0E2B\u0E49",
@@ -1885,15 +1885,15 @@ function CashFlow(_ref1) {
   /*#__PURE__*/React.createElement(SectionHeader, { icon: "\uD83D\uDCB8", text: "\u0E40\u0E07\u0E34\u0E19\u0E44\u0E2B\u0E25\u0E44\u0E1B\u0E17\u0E32\u0E07\u0E44\u0E2B\u0E19 \u2728", spicy: spicy }),
   /*#__PURE__*/React.createElement(Card, { style: { background: "#FEFCF8", boxShadow: "0 2px 12px rgba(26,61,31,.05)", border: "1px solid rgba(26,61,31,.08)" } },
     cats.length === 0 ? /*#__PURE__*/React.createElement("div", {
-    style: { textAlign: "center", padding: "14px 8px" }
+    style: { textAlign: "center", padding: "8px 8px 6px" }
   },
-  /*#__PURE__*/React.createElement(MascotAsset, { context: "empty", variant: "inline" }),
+  /*#__PURE__*/React.createElement("div", { style: { fontSize: 22, marginBottom: 4, lineHeight: 1 } }, "\uD83E\uDDFE"),
   /*#__PURE__*/React.createElement("div", {
-    style: { fontSize: 12, fontWeight: 900, color: DARK, marginTop: 8, marginBottom: 3 }
+    style: { fontSize: 12, fontWeight: 900, color: spicy ? "#ccc" : DARK, marginBottom: 2 }
   }, "\u0E22\u0E31\u0E07\u0E44\u0E21\u0E48\u0E21\u0E35\u0E23\u0E32\u0E22\u0E08\u0E48\u0E32\u0E22\u0E41\u0E22\u0E01\u0E2B\u0E21\u0E27\u0E14"),
   /*#__PURE__*/React.createElement("div", {
-    style: { fontSize: 11, color: MID, fontWeight: 700, lineHeight: 1.5 }
-  }, "\u0E1A\u0E31\u0E19\u0E17\u0E36\u0E01\u0E04\u0E48\u0E32\u0E43\u0E0A\u0E49\u0E08\u0E48\u0E32\u0E22\u0E2A\u0E31\u0E01\u0E23\u0E32\u0E22\u0E01\u0E48\u0E2D\u0E19\u0E19\u0E30 Salung \u0E08\u0E30\u0E41\u0E22\u0E01\u0E2B\u0E21\u0E27\u0E14\u0E43\u0E2B\u0E49\u0E40\u0E2D\u0E07 \uD83E\uDDFE")
+    style: { fontSize: 11, color: spicy ? "#88aa88" : MID, fontWeight: 700, lineHeight: 1.5 }
+  }, "\u0E1A\u0E31\u0E19\u0E17\u0E36\u0E01\u0E04\u0E48\u0E32\u0E43\u0E0A\u0E49\u0E08\u0E48\u0E32\u0E22\u0E2A\u0E31\u0E01\u0E23\u0E32\u0E22\u0E01\u0E48\u0E2D\u0E19\u0E19\u0E30 Salung \u0E08\u0E30\u0E41\u0E22\u0E01\u0E2B\u0E21\u0E27\u0E14\u0E43\u0E2B\u0E49\u0E40\u0E2D\u0E07")
 ) : cats.map(function (c) {
     var pct = c.max > 0 ? Math.round(c.val / c.max * 100) : 0;
     return /*#__PURE__*/React.createElement("div", {
@@ -1940,21 +1940,21 @@ function CashFlow(_ref1) {
       : "\u0E14\u0E39\u0E17\u0E31\u0E49\u0E07\u0E2B\u0E21\u0E14 " + txns.length + " \u0E23\u0E32\u0E22\u0E01\u0E32\u0E23 \u25BC")
   ),
   txns.length === 0 && !isReturningEmptyPeriod && /*#__PURE__*/React.createElement("div", {
-    style: { textAlign: "center", padding: "20px 16px 24px" }
+    style: { textAlign: "center", padding: "14px 16px 16px" }
   },
-    /*#__PURE__*/React.createElement(MascotAsset, { context: "empty", variant: "card" }),
+    /*#__PURE__*/React.createElement(MascotAsset, { context: "empty", variant: "inline" }),
     /*#__PURE__*/React.createElement("div", {
-      style: { fontSize: 13, fontWeight: 900, color: DARK, marginTop: 10, marginBottom: 4 }
+      style: { fontSize: 13, fontWeight: 900, color: spicy ? "#ccc" : DARK, marginTop: 8, marginBottom: 3 }
     }, period === "day" ? "\u0E22\u0E31\u0E07\u0E44\u0E21\u0E48\u0E21\u0E35\u0E23\u0E32\u0E22\u0E01\u0E32\u0E23\u0E27\u0E31\u0E19\u0E19\u0E35\u0E49" : period === "week" ? "\u0E22\u0E31\u0E07\u0E44\u0E21\u0E48\u0E21\u0E35\u0E23\u0E32\u0E22\u0E01\u0E32\u0E23\u0E43\u0E19 7 \u0E27\u0E31\u0E19\u0E19\u0E35\u0E49" : "\u0E22\u0E31\u0E07\u0E44\u0E21\u0E48\u0E21\u0E35\u0E23\u0E32\u0E22\u0E01\u0E32\u0E23\u0E40\u0E14\u0E37\u0E2D\u0E19\u0E19\u0E35\u0E49"),
     /*#__PURE__*/React.createElement("div", {
-      style: { fontSize: 11, color: MID, fontWeight: 700, lineHeight: 1.6, marginBottom: 12 }
+      style: { fontSize: 11, color: spicy ? "#88aa88" : MID, fontWeight: 700, lineHeight: 1.6, marginBottom: 10 }
     }, "\u0E40\u0E23\u0E34\u0E48\u0E21\u0E08\u0E32\u0E01\u0E01\u0E32\u0E41\u0E1F\u0E41\u0E01\u0E49\u0E27\u0E41\u0E23\u0E01\u0E01\u0E47\u0E44\u0E14\u0E49 Salung \u0E08\u0E30\u0E08\u0E33\u0E43\u0E2B\u0E49\u0E40\u0E2D\u0E07 \u2615"),
     /*#__PURE__*/React.createElement("button", {
       onClick: function() { setSheet(true); },
       style: {
-        padding: "10px 24px", fontSize: 13, fontWeight: 900,
-        background: GOLD, color: DARK, border: "1px solid rgba(26,61,31,.18)",
-        borderRadius: 99, cursor: "pointer", boxShadow: "0 2px 10px rgba(247,201,72,.28)"
+        padding: "9px 22px", fontSize: 13, fontWeight: 900,
+        background: BTN_PRI_BG, color: DARK, border: BTN_PRI_BORDER,
+        borderRadius: 99, cursor: "pointer", boxShadow: BTN_PRI_SHADOW
       }
     }, "+ \u0E1A\u0E31\u0E19\u0E17\u0E36\u0E01\u0E23\u0E32\u0E22\u0E01\u0E32\u0E23\u0E41\u0E23\u0E01")
   ),
