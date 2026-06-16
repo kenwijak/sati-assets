@@ -1933,7 +1933,7 @@ function CashFlow(_ref1) {
   // ── Transaction list
   /*#__PURE__*/React.createElement(Card, {
     style: {
-      background: CARD_BG, padding: "10px 12px 16px"
+      background: CARD_BG, padding: "10px 12px 10px", marginBottom: 0
     }
   },
   React.createElement("div", {
@@ -5837,7 +5837,7 @@ function App() {
     id: "main-scroll",
     style: {
       flex: 1,
-      padding: "12px 16px calc(90px + env(safe-area-inset-bottom, 0px))",
+      padding: "12px 16px calc(80px + env(safe-area-inset-bottom, 20px))",
       overflowY: "auto"
     }
   }, screens[tab]), /*#__PURE__*/React.createElement("div", {
@@ -5847,7 +5847,7 @@ function App() {
       borderRadius: "24px 24px 0 0",
       display: "grid",
       gridTemplateColumns: "repeat(4,1fr)",
-      padding: "4px 8px calc(10px + env(safe-area-inset-bottom, 0px))",
+      padding: "4px 8px calc(12px + env(safe-area-inset-bottom, 20px))",
       boxShadow: "0 -8px 24px rgba(95,78,34,.12)",
       backdropFilter: "blur(14px)",
       WebkitBackdropFilter: "blur(14px)",
@@ -5910,17 +5910,34 @@ window.addEventListener('load', function() {
 <script>
 /* Suppress LIFF SDK injected "recently used services" tooltip/overlay */
 (function(){
+  var KILL_TEXT = 'recently used services';
+  function _hideEl(el){
+    if(!el||el===document.body||el===document.documentElement) return;
+    el.style.setProperty('display','none','important');
+    el.style.setProperty('opacity','0','important');
+    el.style.setProperty('pointer-events','none','important');
+    el.style.setProperty('visibility','hidden','important');
+  }
   function _hideExternalOverlays(){
-    document.querySelectorAll('body > *:not(#root):not(script):not(style)').forEach(function(el){
-      el.style.cssText='display:none!important;opacity:0!important;pointer-events:none!important';
-    });
+    // 1. Kill all body-level siblings of #root
+    document.querySelectorAll('body > *:not(#root):not(script):not(style)').forEach(_hideEl);
+    // 2. Kill by text content — catch shadow DOM hosts and inline injections
+    var walker = document.createTreeWalker(document.body, 4 /* NodeFilter.SHOW_TEXT */, null, false);
+    var node;
+    while((node = walker.nextNode())){
+      if(node.nodeValue && node.nodeValue.indexOf(KILL_TEXT) >= 0){
+        var el = node.parentElement;
+        // Walk up until we hit a direct body child and kill it
+        while(el && el.parentElement && el.parentElement !== document.body) el = el.parentElement;
+        _hideEl(el);
+      }
+    }
+    // 3. Kill by known LIFF class patterns anywhere in tree
+    document.querySelectorAll('[class*="liff-discovery"],[class*="liff-recently"],[class*="service-discovery"],[class*="liff-shortlink"],[class*="liff-tip"]').forEach(_hideEl);
   }
   _hideExternalOverlays();
-  new MutationObserver(_hideExternalOverlays).observe(document.body,{childList:true,subtree:true});
-  setTimeout(_hideExternalOverlays,300);
-  setTimeout(_hideExternalOverlays,800);
-  setTimeout(_hideExternalOverlays,2000);
-  setTimeout(_hideExternalOverlays,4000);
+  new MutationObserver(function(){ _hideExternalOverlays(); }).observe(document.body,{childList:true,subtree:true,characterData:true});
+  [300,800,1500,3000,6000].forEach(function(t){ setTimeout(_hideExternalOverlays,t); });
 })();
 </script>
 </body>
