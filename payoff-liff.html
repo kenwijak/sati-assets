@@ -214,22 +214,26 @@ var TABS = [{
   id: "cashflow",
   icon: "💸",
   label: "Cash Flow",
-  thai: "รายรับ-จ่าย"
+  thai: "รายรับ-จ่าย",
+  iconKey: "coin"
 }, {
   id: "savegoal",
   icon: "🌱",
   label: "Save & Goal",
-  thai: "ออม & เป้า"
+  thai: "ออม & เป้า",
+  iconKey: "goal"
 }, {
   id: "debt",
   icon: "🔓",
   label: "Debt",
-  thai: "หนี้"
+  thai: "หนี้",
+  iconKey: "debt"
 }, {
   id: "more",
   icon: "⚙️",
   label: "More",
-  thai: "เพิ่มเติม"
+  thai: "เพิ่มเติม",
+  iconKey: "settings"
 }];
 var CATS = [{
   id: "food",
@@ -293,6 +297,49 @@ var MASCOT_BY_CONTEXT = {
   spicy: MASCOT_ASSETS.cool,
   sleeping: MASCOT_ASSETS.sleeping
 };
+
+// ── Icon asset maps ───────────────────────────────────────────────────────────
+var ICON_BASE = ASSET_BASE + "/assets/icons";
+var ICON_ASSETS = {
+  food: ICON_BASE + "/icon-food.png",
+  transport: ICON_BASE + "/icon-transport.png",
+  shopping: ICON_BASE + "/icon-shopping.png",
+  entertainment: ICON_BASE + "/icon-entertainment.png",
+  saving: ICON_BASE + "/icon-saving.png",
+  debt: ICON_BASE + "/icon-debt.png",
+  education: ICON_BASE + "/icon-education.png",
+  income: ICON_BASE + "/icon-income.png",
+  other: ICON_BASE + "/icon-other.png",
+  receipt: ICON_BASE + "/icon-receipt.png",
+  coin: ICON_BASE + "/icon-coin.png",
+  goal: ICON_BASE + "/icon-goal.png",
+  settings: ICON_BASE + "/icon-settings.png",
+  profile: ICON_BASE + "/icon-profile.png"
+};
+var CAT_TO_ICON = {
+  food:"food", travel:"transport", shop:"shopping", entertain:"entertainment",
+  health:"other", bill:"receipt", income:"income", other:"other",
+  transport:"transport", shopping:"shopping", entertainment:"entertainment",
+  saving:"saving", emergency:"saving", debt:"debt", credit:"debt", education:"education",
+  "🍚":"food","🚗":"transport","🛒":"shopping",
+  "🎬":"entertainment","💊":"other","📋":"receipt",
+  "💰":"income","📦":"other","🌱":"saving","🔓":"debt"
+};
+function AssetIcon(p) {
+  var sz = p.size || 24;
+  return React.createElement("img", {
+    src: p.src, alt: p.alt || "", width: sz, height: sz,
+    style: { width: sz, height: sz, objectFit: "contain", display: "block", flexShrink: 0 },
+    loading: p.eager ? undefined : "lazy"
+  });
+}
+function CategoryIcon(p) {
+  var key = CAT_TO_ICON[p.catKey] || "other";
+  var src = ICON_ASSETS[key];
+  var sz = p.size || 24;
+  if (!src) return React.createElement("span", { style: { fontSize: sz * 0.75 } }, p.fallback || p.catKey || "");
+  return React.createElement(AssetIcon, { src: src, alt: key, size: sz, eager: p.eager });
+}
 
 // ── primitives ────────────────────────────────────────────────────────────────
 function Face(_ref) {
@@ -1354,27 +1401,27 @@ function CashFlow(_ref1) {
           label: "รายรับ",
           amt: cs.income_thb || 0,
           color: G,
-          icon: "💰"
+          icon: "💰", iconKey: "income"
         }, {
           label: "ผ่อนหนี้",
           amt: -(cs.debt_payment_thb || 0),
           color: "#FF6B6B",
-          icon: "🔓"
+          icon: "🔓", iconKey: "debt"
         }, {
           label: "ออมเงิน",
           amt: -(cs.savings_thb || 0),
           color: "#7ECFD3",
-          icon: "🌱"
+          icon: "🌱", iconKey: "saving"
         }, {
           label: "ค่าคงที่",
           amt: -(cs.fixed_thb || 0),
           color: GOLD,
-          icon: "📋"
+          icon: "📋", iconKey: "receipt"
         }, {
           label: "ค่าใช้จ่ายอื่นๆ",
           amt: -(cs.expense_thb || 0),
           color: "#aaa",
-          icon: "🛒"
+          icon: "🛒", iconKey: "other"
         }].filter(function (r) {
           return r.amt !== 0;
         }) : [];
@@ -1752,10 +1799,9 @@ function CashFlow(_ref1) {
       }
     }, /*#__PURE__*/React.createElement("div", {
       style: {
-        fontSize: 16,
-        marginBottom: 2
+        marginBottom: 2, display: "flex", justifyContent: "center"
       }
-    }, c.icon), c.label);
+    }, React.createElement(CategoryIcon, { catKey: c.id, fallback: c.icon, size: 22 })), c.label);
   }))), /*#__PURE__*/React.createElement(TextInput, {
     value: note,
     onChange: setNote,
@@ -1894,7 +1940,7 @@ function CashFlow(_ref1) {
     mood: period === "month" ? "thinking" : "tip"
   }),
   // ── Category section
-  /*#__PURE__*/React.createElement(SectionHeader, { icon: "\uD83D\uDCB8", text: "\u0E40\u0E07\u0E34\u0E19\u0E44\u0E2B\u0E25\u0E44\u0E1B\u0E17\u0E32\u0E07\u0E44\u0E2B\u0E19 \u2728", spicy: spicy }),
+  /*#__PURE__*/React.createElement(SectionHeader, { icon: React.createElement(AssetIcon, { src: ICON_ASSETS.receipt, alt: "receipt", size: 16, eager: true }), text: "\u0E40\u0E07\u0E34\u0E19\u0E44\u0E2B\u0E25\u0E44\u0E1B\u0E17\u0E32\u0E07\u0E44\u0E2B\u0E19 \u2728", spicy: spicy }),
   /*#__PURE__*/React.createElement(Card, { style: { background: CARD_BG } },
     cats.length === 0 ? /*#__PURE__*/React.createElement("div", {
     style: { textAlign: "center", padding: "8px 8px 6px" }
@@ -1915,7 +1961,7 @@ function CashFlow(_ref1) {
       /*#__PURE__*/React.createElement("div", {
         style: { display: "flex", alignItems: "center", gap: 6, marginBottom: 3 }
       },
-        /*#__PURE__*/React.createElement("span", { style: { width: 32, height: 32, borderRadius: 12, background: (c.color || G) + "1A", border: "1px solid " + (c.color || G) + "44", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 17, flexShrink: 0 } }, c.icon),
+        /*#__PURE__*/React.createElement("span", { style: { width: 32, height: 32, borderRadius: 12, background: (c.color || G) + "1A", border: "1px solid " + (c.color || G) + "44", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, overflow: "hidden" } }, React.createElement(CategoryIcon, { catKey: c.id, fallback: c.icon, size: 22 })),
         /*#__PURE__*/React.createElement("span", {
           style: { flex: 1, fontSize: 12, fontWeight: 700, color: spicy ? "#ccc" : DARK }
         }, c.label),
@@ -1940,7 +1986,7 @@ function CashFlow(_ref1) {
     style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8, marginTop: 4 }
   },
     React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 6, flex: 1, minWidth: 0, overflow: "hidden" } },
-      React.createElement("span", { style: { fontSize: 13 } }, "\uD83D\uDCCB"),
+      React.createElement("span", { style: { display: "flex", alignItems: "center" } }, React.createElement(AssetIcon, { src: ICON_ASSETS.receipt, alt: "receipt", size: 16, eager: true })),
       React.createElement("span", { style: { fontSize: 11, fontWeight: 900, color: spicy ? "#8EAB90" : MID, letterSpacing: ".06em", textTransform: "uppercase" } }, "\u0E23\u0E32\u0E22\u0E01\u0E32\u0E23\u0E25\u0E48\u0E32\u0E2A\u0E38\u0E14")
     ),
     txns.length > 5 && React.createElement("button", {
@@ -1985,10 +2031,9 @@ function CashFlow(_ref1) {
         width: 36, height: 36, borderRadius: 14, flexShrink: 0,
         background: t.amt > 0 ? SOFT_GREEN : SOFT_DANGER_BG,
         border: "1px solid " + (t.amt > 0 ? "rgba(70,201,95,.28)" : "rgba(210,90,90,.22)"),
-        display: "flex", alignItems: "center", justifyContent: "center",
-        fontSize: 18
+        display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden"
       }
-    }, t.amt > 0 ? "\uD83D\uDCB0" : t.cat), /*#__PURE__*/React.createElement("div", {
+    }, React.createElement(CategoryIcon, { catKey: t.amt > 0 ? "income" : (t.category_id || t.cat), fallback: t.amt > 0 ? "\uD83D\uDCB0" : t.cat, size: 22 })), /*#__PURE__*/React.createElement("div", {
       style: {
         flex: 1,
         minWidth: 0
@@ -2033,7 +2078,7 @@ function CashFlow(_ref1) {
   ),
   // ── Monthly breakdown (at bottom)
   period === "month" && /*#__PURE__*/React.createElement(React.Fragment, null,
-    /*#__PURE__*/React.createElement(SectionHeader, { icon: "\uD83D\uDCB0", text: "\u0E40\u0E07\u0E34\u0E19\u0E40\u0E14\u0E37\u0E2D\u0E19\u0E19\u0E35\u0E49\u0E44\u0E1B\u0E44\u0E2B\u0E19\u0E1A\u0E49\u0E32\u0E07?", spicy: spicy }),
+    /*#__PURE__*/React.createElement(SectionHeader, { icon: React.createElement(AssetIcon, { src: ICON_ASSETS.coin, alt: "coin", size: 16, eager: true }), text: "\u0E40\u0E07\u0E34\u0E19\u0E40\u0E14\u0E37\u0E2D\u0E19\u0E19\u0E35\u0E49\u0E44\u0E1B\u0E44\u0E2B\u0E19\u0E1A\u0E49\u0E32\u0E07?", spicy: spicy }),
     /*#__PURE__*/React.createElement(Card, {
       style: { background: spicy ? DARK : CARD_BG }
     },
@@ -2055,7 +2100,7 @@ function CashFlow(_ref1) {
         /*#__PURE__*/React.createElement("div", {
           style: { display: "flex", gap: 6, alignItems: "center" }
         },
-          /*#__PURE__*/React.createElement("span", { style: { fontSize: 13 } }, row.icon),
+          React.createElement("span", { style: { display: "flex", alignItems: "center" } }, row.iconKey ? React.createElement(AssetIcon, { src: ICON_ASSETS[row.iconKey], alt: row.iconKey, size: 18 }) : React.createElement("span", { style: { fontSize: 13 } }, row.icon)),
           /*#__PURE__*/React.createElement("span", {
             style: { fontSize: 12, fontWeight: 700, color: spicy ? "#ccc" : DARK }
           }, row.label)
@@ -5883,11 +5928,10 @@ function App() {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        fontSize: isActive ? 20 : 18,
         transform: isActive ? "scale(1.08)" : "scale(1)",
         transition: "all .2s cubic-bezier(.34,1.56,.64,1)"
       }
-    }, t.icon),
+    }, t.iconKey ? React.createElement(AssetIcon, { src: ICON_ASSETS[t.iconKey], alt: t.label, size: isActive ? 22 : 20, eager: true }) : t.icon),
     /*#__PURE__*/React.createElement("span", {
       style: {
         fontSize: 9,
