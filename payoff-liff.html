@@ -508,11 +508,12 @@ function Success(_ref6) {
         padding: "11px 0",
         fontSize: 13,
         fontWeight: 800,
-        background: CARD_BG,
-        color: MID,
-        border: "1px solid rgba(126,109,69,.23)",
+        background: CARD_BG_LIGHT,
+        color: DARK,
+        border: "1.5px solid rgba(35,69,44,.34)",
         borderRadius: 99,
-        cursor: "pointer"
+        cursor: "pointer",
+        boxShadow: "inset 0 1px 0 rgba(255,255,255,.65)"
       }
     }, "\u0E23\u0E32\u0E22\u0E01\u0E32\u0E23\u0E17\u0E31\u0E49\u0E07\u0E2B\u0E21\u0E14")
   ) : /*#__PURE__*/React.createElement("button", {
@@ -625,9 +626,9 @@ function ConfirmBtn(_ref9) {
       padding: "14px 0",
       fontSize: 15,
       fontWeight: 900,
-      background: disabled ? "#eee" : BTN_PRI_BG,
-      color: disabled ? "#aaa" : DARK,
-      border: disabled ? "1px solid #ddd" : BTN_PRI_BORDER,
+      background: disabled ? CARD_BG : BTN_PRI_BG,
+      color: disabled ? MID : BTN_PRI_COLOR,
+      border: disabled ? "1.5px solid rgba(126,109,69,.22)" : BTN_PRI_BORDER,
       borderRadius: 99,
       boxShadow: disabled ? "none" : BTN_PRI_SHADOW,
       cursor: disabled ? "default" : "pointer",
@@ -718,7 +719,8 @@ function NBA(_ref0) {
       style: {
         display: "inline-block",
         background: spicy ? G + "33" : GOLD_SOFT,
-        color: spicy ? G : DARK,
+        border: spicy ? "none" : "1px solid rgba(240,180,41,.40)",
+        color: spicy ? G : "#7A5A12",
         fontWeight: 900,
         fontSize: 9,
         letterSpacing: ".06em",
@@ -1465,8 +1467,8 @@ function CashFlow(_ref1) {
   var isReturningEmptyPeriod = hasAnyData && (period === "day" || period === "week") && d.inc === 0 && d.exp === 0;
   var CAT_MAP = {
     food: { label: "อาหาร", color: FOOD_YELLOW, icon: "🍚" },
-    travel: { label: "เดินทาง", color: "#7ECFD3", icon: "🚆" },
-    transport: { label: "เดินทาง", color: "#7ECFD3", icon: "🚆" },
+    travel: { label: "เดินทาง", color: "#74C5E0", icon: "🚆" },
+    transport: { label: "เดินทาง", color: "#74C5E0", icon: "🚆" },
     shop: { label: "ช้อปปิ้ง", color: SHOP_PINK, icon: "🛍️" },
     shopping: { label: "ช้อปปิ้ง", color: SHOP_PINK, icon: "🛍️" },
     entertain: { label: "บันเทิง", color: ENTERTAIN_PURPLE, icon: "🎮" },
@@ -1480,8 +1482,8 @@ function CashFlow(_ref1) {
     debt_auto: { label: "ผ่อนรถ", color: "#F6C85F", icon: "🚗" },
     auto_debt: { label: "ผ่อนรถ", color: "#F6C85F", icon: "🚗" },
     car_loan: { label: "ผ่อนรถ", color: "#F6C85F", icon: "🚗" },
-    debt_card: { label: "บัตรเครดิต", color: "#F08A8A", icon: "💳" },
-    credit_card: { label: "บัตรเครดิต", color: "#F08A8A", icon: "💳" },
+    debt_card: { label: "บัตรเครดิต", color: "#EC5F5A", icon: "💳" },
+    credit_card: { label: "บัตรเครดิต", color: "#EC5F5A", icon: "💳" },
     income: { label: "รายรับ", color: G, icon: "💰" },
     other: { label: "อื่น ๆ", color: NEUTRAL_TAUPE, icon: "📦" }
   };
@@ -2002,13 +2004,13 @@ function CashFlow(_ref1) {
     }, sanitizeTxNote(t.note)), /*#__PURE__*/React.createElement("div", {
       style: {
         fontSize: 10,
-        color: "#aaa"
+        color: MID + "99"
       }
     }, t.time)), /*#__PURE__*/React.createElement("span", {
       style: {
         fontSize: 13,
         fontWeight: 900,
-        color: t.amt > 0 ? "#38C050" : "#D05555",
+        color: t.amt > 0 ? G : "#EC5F5A",
         marginRight: 4,
         flexShrink: 0
       }
@@ -2400,7 +2402,7 @@ function Save(_ref18) {
     }
   }), /*#__PURE__*/React.createElement(Card, {
     style: {
-      background: spicy ? DARK : "linear-gradient(145deg," + SOFT_GREEN + " 0%," + CREAM + " 55%,#EFF8F1 100%)"
+      background: spicy ? DARK : "linear-gradient(145deg," + SOFT_GREEN + " 0%," + CREAM + " 55%," + CREAM + " 100%)"
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
@@ -4044,8 +4046,8 @@ function More(_ref23) {
     }
   }, "ตั้งค่าเร็ว");
 
-  var tileBg   = spicy ? "rgba(99,200,95,.06)" : CREAM;
-  var tileBdr  = "1.5px solid " + (spicy ? "rgba(99,200,95,.18)" : "rgba(35,69,44,.10)");
+  var tileBg   = spicy ? "rgba(70,201,95,.06)" : CARD_BG;
+  var tileBdr  = "1.5px solid " + (spicy ? "rgba(70,201,95,.18)" : "rgba(126,109,69,.22)");
   var tileBase = { flex: "1 1 calc(50% - 6px)", background: tileBg, borderRadius: 16, border: tileBdr, padding: "10px 12px", display: "flex", flexDirection: "column", gap: 5, cursor: "pointer", boxShadow: spicy ? "none" : "inset 0 1px 0 rgba(255,255,255,.9), 1px 1px 0 rgba(95,78,34,.08)" };
 
   var quickGrid = React.createElement("div", {
@@ -4110,7 +4112,7 @@ function More(_ref23) {
           fontSize: 11,
           fontWeight: 800,
           cursor: "default",
-          border: "1.5px solid " + (spicy ? "rgba(255,255,255,.15)" : "rgba(35,69,44,.15)"),
+          border: "1.5px solid " + (spicy ? "rgba(255,255,255,.15)" : "rgba(126,109,69,.28)"),
           background: !spicy ? DARK : "transparent",
           color: !spicy ? "#fff" : (spicy ? "rgba(255,255,255,.5)" : MID)
         }
@@ -4124,7 +4126,7 @@ function More(_ref23) {
           fontSize: 11,
           fontWeight: 800,
           cursor: "default",
-          border: "1.5px solid " + (spicy ? "rgba(255,255,255,.15)" : "rgba(35,69,44,.15)"),
+          border: "1.5px solid " + (spicy ? "rgba(255,255,255,.15)" : "rgba(126,109,69,.28)"),
           background: "transparent",
           color: spicy ? "rgba(255,255,255,.5)" : MID
         }
@@ -4159,7 +4161,7 @@ function More(_ref23) {
     }
   }, "💡 ตั้งค่าเงินส่วนตัว");
 
-  var rowBdr  = "1px solid " + (spicy ? "rgba(255,255,255,.07)" : "rgba(35,69,44,.06)");
+  var rowBdr  = "1px solid " + (spicy ? "rgba(255,255,255,.07)" : "rgba(126,109,69,.16)");
   var rowLabels = [
     "💸 รายรับประจำ",
     "📅 วันเงินเดือน",
@@ -5785,7 +5787,7 @@ function App() {
   }, spicy ? "ปิด Spicy Mode?" : "เปิด Spicy Mode?"), /*#__PURE__*/React.createElement("div", {
     style: {
       fontSize: 12,
-      color: "#666",
+      color: MID,
       textAlign: "center",
       lineHeight: 1.6,
       marginBottom: 16
@@ -5804,11 +5806,12 @@ function App() {
       padding: "11px 0",
       fontSize: 13,
       fontWeight: 800,
-      background: "transparent",
-      color: MID,
-      border: "1.5px solid rgba(35,69,44,.15)",
+      background: CARD_BG_LIGHT,
+      color: DARK,
+      border: "1.5px solid rgba(35,69,44,.34)",
       borderRadius: 99,
-      cursor: "pointer"
+      cursor: "pointer",
+      boxShadow: "inset 0 1px 0 rgba(255,255,255,.65)"
     }
   }, "\u0E22\u0E01\u0E40\u0E25\u0E34\u0E01"), /*#__PURE__*/React.createElement("button", {
     onClick: function onClick() {
