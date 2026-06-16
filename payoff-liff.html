@@ -321,7 +321,7 @@ var CAT_TO_ICON = {
   health:"other", bill:"receipt", income:"income", other:"other",
   transport:"transport", shopping:"shopping", entertainment:"entertainment",
   saving:"saving", savings:"saving", emergency:"saving",
-  debt:"debt", credit:"debt", debt_card:"debt", debt_auto:"debt",
+  debt:"debt", credit:"debt", debt_card:"debt", debt_auto:"transport", auto_debt:"transport", car_loan:"transport",
   debt_student:"education", debt_informal:"debt", debt_payoff:"debt",
   education:"education", utilities:"receipt",
   "🍚":"food","🚗":"transport","🛒":"shopping",
@@ -1549,7 +1549,7 @@ function CashFlow(_ref1) {
     return catTotals[k] > 0;
   }).map(function(k) {
     var info = CAT_MAP[k] || { label: k, color: NEUTRAL_TAUPE, icon: "📦" };
-    return { id: k, label: info.label, val: catTotals[k], color: info.color, icon: info.icon || "📦", max: d.exp || 1 };
+    return { label: info.label, val: catTotals[k], color: info.color, icon: info.icon || "📦", max: d.exp || 1 };
   }).sort(function(a, b) { return b.val - a.val; }).slice(0, 5);
 
   // txns มาจาก state ด้านบน
@@ -2081,7 +2081,7 @@ function CashFlow(_ref1) {
   ),
   // ── Monthly breakdown (at bottom)
   period === "month" && /*#__PURE__*/React.createElement(React.Fragment, null,
-    /*#__PURE__*/React.createElement(SectionHeader, { icon: React.createElement(AssetIcon, { src: ICON_ASSETS.coin, alt: "coin", size: 16, eager: true }), text: "\u0E40\u0E07\u0E34\u0E19\u0E40\u0E14\u0E37\u0E2D\u0E19\u0E19\u0E35\u0E49\u0E44\u0E1B\u0E44\u0E2B\u0E19\u0E1A\u0E49\u0E32\u0E07?", spicy: spicy }),
+    /*#__PURE__*/React.createElement(SectionHeader, { icon: React.createElement(AssetIcon, { src: ICON_ASSETS.income, alt: "income", size: 16, eager: true }), text: "\u0E40\u0E07\u0E34\u0E19\u0E40\u0E14\u0E37\u0E2D\u0E19\u0E19\u0E35\u0E49\u0E44\u0E1B\u0E44\u0E2B\u0E19\u0E1A\u0E49\u0E32\u0E07?", spicy: spicy }),
     /*#__PURE__*/React.createElement(Card, {
       style: { background: spicy ? DARK : CARD_BG }
     },
@@ -2128,7 +2128,7 @@ function CashFlow(_ref1) {
     /*#__PURE__*/React.createElement("div", null,
       /*#__PURE__*/React.createElement("div", {
         style: { fontSize: 12, fontWeight: 800, color: spicy ? "#aaa" : "#666" }
-      }, "\uD83D\uDCB8 \u0E43\u0E0A\u0E49\u0E08\u0E48\u0E32\u0E22\u0E44\u0E14\u0E49\u0E08\u0E23\u0E34\u0E07"),
+      }, React.createElement("span", { style: { display: "flex", alignItems: "center", gap: 4 } }, React.createElement(AssetIcon, { src: ICON_ASSETS.coin, alt: "coin", size: 16, eager: true }), "\u0E43\u0E0A\u0E49\u0E08\u0E48\u0E32\u0E22\u0E44\u0E14\u0E49\u0E08\u0E23\u0E34\u0E07")),
       /*#__PURE__*/React.createElement("div", {
         style: { fontSize: 10, color: "#aaa" }
       }, "\u0E43\u0E0A\u0E49\u0E41\u0E25\u0E49\u0E27 \u0E3F", d.exp.toLocaleString(), " \xB7 \u0E40\u0E2B\u0E25\u0E37\u0E2D \u0E3F", Math.max(0, d.net).toLocaleString())
