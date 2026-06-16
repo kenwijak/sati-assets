@@ -329,8 +329,7 @@ function AssetIcon(p) {
   var sz = p.size || 24;
   return React.createElement("img", {
     src: p.src, alt: p.alt || "", width: sz, height: sz,
-    style: { width: sz, height: sz, objectFit: "contain", display: "block", flexShrink: 0 },
-    loading: p.eager ? undefined : "lazy"
+    style: { width: sz, height: sz, objectFit: "contain", display: "block", flexShrink: 0 }
   });
 }
 function CategoryIcon(p) {
