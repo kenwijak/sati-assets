@@ -1549,7 +1549,7 @@ function CashFlow(_ref1) {
     return catTotals[k] > 0;
   }).map(function(k) {
     var info = CAT_MAP[k] || { label: k, color: NEUTRAL_TAUPE, icon: "📦" };
-    return { label: info.label, val: catTotals[k], color: info.color, icon: info.icon || "📦", max: d.exp || 1 };
+    return { id: k, label: info.label, val: catTotals[k], color: info.color, icon: info.icon || "📦", max: d.exp || 1 };
   }).sort(function(a, b) { return b.val - a.val; }).slice(0, 5);
 
   // txns มาจาก state ด้านบน
