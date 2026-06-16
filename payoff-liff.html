@@ -89,9 +89,9 @@ var CARD_BG = "#FFF8EA",
   SOFT_DANGER_BG = "#FFF2F2",
   SPICY_CARD = "#123A1F";
 // Button style tokens — shared across all sections
-var BTN_PRI_BG     = "linear-gradient(180deg,#4FD35F 0%,#35B84B 100%)";
+var BTN_PRI_BG     = "linear-gradient(180deg,#55D965 0%,#35B84B 100%)";
 var BTN_PRI_COLOR  = "#173D22";
-var BTN_PRI_SHADOW = "inset 0 1px 0 rgba(255,255,255,.45), 0 4px 0 rgba(35,69,44,.24), 0 10px 20px rgba(70,201,95,.20)";
+var BTN_PRI_SHADOW = "inset 0 1px 0 rgba(255,255,255,.50), 0 4px 0 rgba(35,69,44,.26), 0 12px 22px rgba(70,201,95,.24)";
 var BTN_PRI_BORDER = "2px solid #23452C";
 var CHIP_ON_BG     = "#DCF2D2";
 var CHIP_ON_BORDER = "1.5px solid #46C95F";
@@ -317,9 +317,9 @@ function Card(_ref2) {
     style: _objectSpread({
       background: CARD_BG,
       borderRadius: 24,
-      border: "1.5px solid rgba(126,109,69,.28)",
+      border: "1.5px solid rgba(126,109,69,.30)",
       padding: 16,
-      boxShadow: "0 8px 22px rgba(95,78,34,.10), inset 0 1px 0 rgba(255,255,255,.72)",
+      boxShadow: "0 10px 24px rgba(95,78,34,.12), inset 0 1px 0 rgba(255,255,255,.72)",
       marginBottom: 12,
       cursor: onClick ? "pointer" : "default"
     }, style)
@@ -359,7 +359,7 @@ function SectionHeader(props) {
   icon && React.createElement("span", { style: { fontSize: 13 } }, icon),
   React.createElement("span", null, text),
   React.createElement("div", {
-    style: { flex: 1, height: 1, background: spicy ? MID : "rgba(126,109,69,.28)", marginLeft: 4 }
+    style: { flex: 1, height: 1, background: spicy ? MID : "rgba(126,109,69,.32)", marginLeft: 4 }
   })
   );
 }
@@ -686,8 +686,8 @@ function NBA(_ref0) {
   return /*#__PURE__*/React.createElement(Card, {
     style: {
       background: spicy ? SPICY_CARD : "linear-gradient(135deg,#FFFDF5 0%,#FEF9E8 100%)",
-      border: spicy ? "1px solid rgba(126,109,69,.17)" : "1.5px solid rgba(255,206,74,.30)",
-      boxShadow: spicy ? "0 2px 10px rgba(95,78,34,.08)" : "0 4px 16px rgba(95,78,34,.08), inset 0 1px 0 rgba(255,255,255,.65)",
+      border: spicy ? "1px solid rgba(126,109,69,.17)" : "1.5px solid rgba(255,206,74,.55)",
+      boxShadow: spicy ? "0 2px 10px rgba(95,78,34,.08)" : "0 10px 24px rgba(240,180,41,.12), inset 0 1px 0 rgba(255,255,255,.72)",
       marginBottom: 12,
       overflow: "hidden"
     }
@@ -1075,12 +1075,12 @@ function HeroCard(props) {
   return React.createElement("div", {
     className: "sl-hero",
     style: {
-      background: spicy ? "linear-gradient(145deg, #1A3D22 0%, #0D2F18 100%)" : "radial-gradient(circle at 86% 18%, rgba(220,242,210,.85) 0 70px, transparent 72px), linear-gradient(135deg, #E9F8DF 0%, #F7FFE9 58%, #FFF6E5 100%)",
-      border: spicy ? "1.5px solid rgba(70,201,95,.18)" : "2px solid #23452C",
+      background: spicy ? "linear-gradient(145deg, #1A3D22 0%, #0D2F18 100%)" : "radial-gradient(circle at 86% 18%, rgba(220,242,210,.95) 0 80px, transparent 82px), linear-gradient(135deg, #DFF4D2 0%, #F3FFE3 55%, #FFF1D2 100%)",
+      border: spicy ? "1.5px solid rgba(70,201,95,.18)" : "2px solid rgba(35,69,44,.75)",
       borderRadius: 26,
       padding: "18px 16px 14px",
       marginBottom: 14,
-      boxShadow: "0 4px 24px rgba(95,78,34,.10), inset 0 2px 0 rgba(255,255,255,.9)",
+      boxShadow: "0 12px 28px rgba(95,78,34,.14), inset 0 2px 0 rgba(255,255,255,.9)",
       overflow: "hidden",
       position: "relative"
     }
@@ -1825,10 +1825,10 @@ function CashFlow(_ref1) {
       key: id,
       onClick: function onClick() { return setPeriod(id); },
       style: {
-        flex: 1, padding: "12px 0",
+        flex: 1, padding: "14px 0",
         fontSize: 13, fontWeight: period === id ? 900 : 800,
         cursor: "pointer", borderRadius: 99,
-        border: period === id ? CHIP_ON_BORDER : "1.5px solid rgba(126,109,69,.20)",
+        border: period === id ? CHIP_ON_BORDER : "1.5px solid rgba(126,109,69,.24)",
         transition: "all .15s",
         background: period === id ? (spicy ? G + "22" : CHIP_ON_BG) : (spicy ? "#173B20" : CARD_BG_LIGHT),
         color: period === id ? DARK : (spicy ? "#aaa" : MID),
@@ -1919,7 +1919,7 @@ function CashFlow(_ref1) {
           style: { flex: 1, fontSize: 12, fontWeight: 700, color: spicy ? "#ccc" : DARK }
         }, c.label),
         /*#__PURE__*/React.createElement("span", {
-          style: { fontSize: 10, fontWeight: 700, color: spicy ? "#8EAB90" : "#aaa", marginRight: 6 }
+          style: { fontSize: 10, fontWeight: 700, color: spicy ? "#8EAB90" : "rgba(35,69,44,.45)", marginRight: 6 }
         }, pct + "%"),
         /*#__PURE__*/React.createElement("span", {
           style: { fontSize: 12, fontWeight: 900, color: spicy ? "#FF9999" : DANGER }
@@ -1982,8 +1982,8 @@ function CashFlow(_ref1) {
     }, /*#__PURE__*/React.createElement("span", {
       style: {
         width: 36, height: 36, borderRadius: 14, flexShrink: 0,
-        background: t.amt > 0 ? "#E8FAE8" : "#FFF2F2",
-        border: "1px solid " + (t.amt > 0 ? "rgba(70,201,95,.20)" : "rgba(210,90,90,.2)"),
+        background: t.amt > 0 ? SOFT_GREEN : SOFT_DANGER_BG,
+        border: "1px solid " + (t.amt > 0 ? "rgba(70,201,95,.28)" : "rgba(210,90,90,.22)"),
         display: "flex", alignItems: "center", justifyContent: "center",
         fontSize: 18
       }
@@ -2023,7 +2023,7 @@ function CashFlow(_ref1) {
         border: "none",
         cursor: "pointer",
         fontSize: 14,
-        color: "#ccc",
+        color: "rgba(126,109,69,.45)",
         padding: "2px 4px",
         flexShrink: 0
       }
@@ -2071,7 +2071,7 @@ function CashFlow(_ref1) {
   }),
   /*#__PURE__*/React.createElement("div", {
     style: {
-      borderTop: "2px dashed " + (spicy ? "#444" : "#ccc"),
+      borderTop: "1.5px dashed " + (spicy ? "rgba(255,255,255,.12)" : "rgba(126,109,69,.28)"),
       marginTop: 10, paddingTop: 10,
       display: "flex", justifyContent: "space-between", alignItems: "center"
     }
@@ -2095,7 +2095,7 @@ function CashFlow(_ref1) {
       var topCat = expenses.reduce(function(a, b) { return Math.abs(a.amt) > Math.abs(b.amt) ? a : b; });
       if (!topCat || Math.abs(topCat.amt) < 100) return null;
       return React.createElement("div", {
-        style: {background: spicy ? SPICY_CARD : "#FFFBF0", border: "1.5px dashed " + (spicy ? G + "44" : DARK + "18"), borderRadius: 14, padding: "10px 14px", marginTop: 10, fontSize: 12, lineHeight: 1.5}
+        style: {background: spicy ? SPICY_CARD : CARD_BG_LIGHT, border: "1.5px dashed " + (spicy ? G + "44" : "rgba(126,109,69,.28)"), borderRadius: 14, padding: "10px 14px", marginTop: 10, fontSize: 12, lineHeight: 1.5}
       },
         React.createElement("div", {style: {fontWeight: 900, color: spicy ? G : DARK, marginBottom: 2}},
           "\uD83D\uDCA1 \u0E40\u0E14\u0E37\u0E2D\u0E19\u0E19\u0E35\u0E49\u0E40\u0E07\u0E34\u0E19\u0E44\u0E2B\u0E25\u0E44\u0E1B\u0E17\u0E35\u0E48 " + topCat.icon + " " + topCat.label + " \u0E21\u0E32\u0E01\u0E2A\u0E38\u0E14 \u0E3F" + Math.abs(Math.round(topCat.amt)).toLocaleString()),
@@ -2538,10 +2538,10 @@ function Save(_ref18) {
       display: "flex",
       alignItems: "center",
       gap: 4,
-      background: "#f0f0f0",
+      background: CREAM,
       borderRadius: 20,
       padding: "3px 10px",
-      border: "1.5px solid #ccc"
+      border: "1.5px solid rgba(126,109,69,.28)"
     }
   }, /*#__PURE__*/React.createElement("span", {
     style: {
@@ -2594,7 +2594,7 @@ function Save(_ref18) {
       marginTop: 4,
       padding: "10px 0",
       background: CARD_BG,
-      border: "2px dashed #ccc",
+      border: "1.5px dashed rgba(126,109,69,.28)",
       borderRadius: 12,
       cursor: "pointer",
       display: "flex",
@@ -4224,7 +4224,7 @@ function More(_ref23) {
     style: {
       background: spicy ? "rgba(99,200,95,.04)" : SOFT_GREEN,
       borderRadius: 20,
-      border: "1.5px dashed " + (spicy ? "rgba(99,200,95,.2)" : "rgba(126,109,69,.17)"),
+      border: "1.5px dashed " + (spicy ? "rgba(70,201,95,.20)" : "rgba(126,109,69,.26)"),
       padding: "14px 16px",
       marginBottom: 14
     }
@@ -5592,7 +5592,7 @@ function SaveGoal(_ref24) {
     }
   }, showAllSavings ? "\u0E14\u0E39\u0E19\u0E49\u0E2D\u0E22\u0E25\u0E07" : "\u0E14\u0E39\u0E17\u0E31\u0E49\u0E07\u0E2B\u0E21\u0E14 (" + savingsTxns.length + " \u0E23\u0E32\u0E22\u0E01\u0E32\u0E23)")), /*#__PURE__*/React.createElement("div", {
     style: {
-      borderTop: "2px dashed #eee",
+      borderTop: "1.5px dashed rgba(126,109,69,.22)",
       marginTop: 8,
       paddingTop: 8,
       display: "flex",
