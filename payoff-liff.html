@@ -5837,7 +5837,7 @@ function App() {
     id: "main-scroll",
     style: {
       flex: 1,
-      padding: "12px 16px 176px",
+      padding: "12px 16px calc(90px + env(safe-area-inset-bottom, 0px))",
       overflowY: "auto"
     }
   }, screens[tab]), /*#__PURE__*/React.createElement("div", {
@@ -5847,7 +5847,7 @@ function App() {
       borderRadius: "24px 24px 0 0",
       display: "grid",
       gridTemplateColumns: "repeat(4,1fr)",
-      padding: "4px 8px calc(5px + env(safe-area-inset-bottom, 0px))",
+      padding: "4px 8px calc(10px + env(safe-area-inset-bottom, 0px))",
       boxShadow: "0 -8px 24px rgba(95,78,34,.12)",
       backdropFilter: "blur(14px)",
       WebkitBackdropFilter: "blur(14px)",
