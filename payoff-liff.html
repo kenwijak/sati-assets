@@ -5941,7 +5941,7 @@ function App() {
         transform: isActive ? "scale(1.08)" : "scale(1)",
         transition: "all .2s cubic-bezier(.34,1.56,.64,1)"
       }
-    }, t.iconKey ? React.createElement(AssetIcon, { src: ICON_ASSETS[t.iconKey], alt: t.label, size: isActive ? 36 : 32, eager: true }) : t.icon),
+    }, t.iconKey ? React.createElement("img", { src: ICON_ASSETS[t.iconKey], alt: t.label, width: isActive ? 36 : 32, height: isActive ? 36 : 32, style: { width: isActive ? 36 : 32, height: isActive ? 36 : 32, objectFit: "contain", display: "block", flexShrink: 0, filter: isActive ? (spicy ? "brightness(0) saturate(100%) invert(80%) sepia(40%) saturate(500%) hue-rotate(80deg) brightness(110%)" : "brightness(0) saturate(100%) invert(52%) sepia(100%) hue-rotate(94deg) saturate(206%) brightness(89%)") : "opacity(0.45)" } }) : t.icon),
     /*#__PURE__*/React.createElement("span", {
       style: {
         fontSize: 9,
