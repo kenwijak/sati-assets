@@ -3426,28 +3426,14 @@ function Debt(_ref21) {
         marginBottom: 6,
         gap: 10
       }
-    }, (function(){
-      var META = {
-        credit_card:   { emoji: "💳", bg: "#FFE8E8", color: "#E05252" },
-        credit:        { emoji: "💳", bg: "#FFE8E8", color: "#E05252" },
-        personal_loan: { emoji: "📄", bg: "#E0F7F2", color: "#2BAE8E" },
-        loan:          { emoji: "📄", bg: "#E0F7F2", color: "#2BAE8E" },
-        auto:          { emoji: "🚗", bg: "#E3EEFF", color: "#4A80E4" },
-        auto_loan:     { emoji: "🚗", bg: "#E3EEFF", color: "#4A80E4" },
-        car_loan:      { emoji: "🚗", bg: "#E3EEFF", color: "#4A80E4" },
-        mortgage:      { emoji: "🏠", bg: "#E8F5E3", color: "#4CA64C" },
-        informal:      { emoji: "🤝", bg: "#F3EEFF", color: "#8B5CF6" },
-        other:         { emoji: "📦", bg: "#FFF0E0", color: "#E07A30" },
-      };
-      var m = META[d.type] || { emoji: "💰", bg: "#F0F0F0", color: "#888" };
-      return React.createElement("div", {
-        style: {
-          width: 48, height: 48, borderRadius: 14, flexShrink: 0, alignSelf: "center",
-          background: m.bg, display: "flex", alignItems: "center", justifyContent: "center",
-          fontSize: 24, border: "1.5px solid " + m.color + "33"
-        }
-      }, m.emoji);
-    })(), /*#__PURE__*/React.createElement("div", {
+    }, DEBT_TYPE_ICONS[d.type] && React.createElement("div", {
+      style: { width: 44, height: 44, borderRadius: 12, overflow: "hidden", flexShrink: 0, alignSelf: "center" }
+    }, React.createElement("img", {
+      src: DEBT_TYPE_ICONS[d.type],
+      alt: d.label,
+      width: 44, height: 44,
+      style: { width: 44, height: 44, objectFit: "cover", display: "block" }
+    })), /*#__PURE__*/React.createElement("div", {
       style: {
         flex: 1
       }
