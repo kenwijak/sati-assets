@@ -3025,11 +3025,12 @@ function Debt(_ref21) {
         gap: 5,
         boxShadow: dType === t.id ? "0 1px 5px rgba(99,200,95,.14)" : "none"
       }
-    }, /*#__PURE__*/React.createElement("span", {
-      style: {
-        fontSize: 14
-      }
-    }, t.icon), t.label);
+    }, DEBT_TYPE_ICONS[t.id] ? React.createElement("img", {
+      src: DEBT_TYPE_ICONS[t.id],
+      alt: t.label,
+      width: 20, height: 20,
+      style: { width: 20, height: 20, objectFit: "contain", flexShrink: 0 }
+    }) : React.createElement("span", { style: { fontSize: 14 } }, t.icon), t.label);
   })), /*#__PURE__*/React.createElement("div", {
     style: {
       fontSize: 11,
