@@ -809,13 +809,13 @@ function NBA(_ref0) {
         style: { width: 1, background: spicy ? "rgba(255,255,255,.08)" : "rgba(240,180,41,.30)", margin: "10px 0" }
       }),
       /*#__PURE__*/React.createElement("div", {
-        style: { padding: "14px 12px", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", minWidth: 108 }
+        style: { padding: "12px 10px", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", minWidth: 90, maxWidth: 100 }
       },
         /*#__PURE__*/React.createElement("div", {
           style: { fontSize: 9, fontWeight: 700, color: "#888", letterSpacing: ".04em", marginBottom: 3, textAlign: "center" }
         }, "หนี้รวมทั้งหมด"),
         /*#__PURE__*/React.createElement("div", {
-          style: { fontSize: 20, fontWeight: 900, color: spicy ? "#FF9999" : DARK, lineHeight: 1.1, textAlign: "center" }
+          style: { fontSize: 18, fontWeight: 900, color: spicy ? "#FF9999" : DARK, lineHeight: 1.1, textAlign: "center" }
         }, "฿", Math.round(totalDebt).toLocaleString()),
         /*#__PURE__*/React.createElement("div", {
           style: { fontSize: 9, fontWeight: 600, color: spicy ? "#FF9999" : "#aaa", marginTop: 4, textAlign: "center", lineHeight: 1.4 }
@@ -1218,18 +1218,21 @@ function HeroCard(props) {
         }})
       )
     ),
-    React.createElement("div", {
-      style: {
-        alignSelf: "flex-end",
-        marginBottom: mascotContext === "debtHero" ? -18 : 0,
-        marginRight: mascotContext === "debtHero" ? -8 : 0,
-        flexShrink: 0
-      }
-    }, React.createElement(MascotAsset, {
-      context: mascotContext, mood: mood,
-      variant: mascotContext === "debtHero" ? null : "hero",
-      size: mascotContext === "debtHero" ? 148 : 80
-    }))
+    mascotContext === "debtHero"
+      ? React.createElement("img", {
+          src: MASCOT_CHECK_ICON,
+          alt: "salung detective",
+          style: {
+            width: 148, height: 148,
+            objectFit: "contain",
+            alignSelf: "flex-end",
+            marginBottom: -18, marginRight: -8,
+            flexShrink: 0, pointerEvents: "none"
+          }
+        })
+      : React.createElement("div", {
+          style: { flexShrink: 0 }
+        }, React.createElement(MascotAsset, { context: mascotContext, mood: mood, variant: "hero" }))
   )
   );
 }
@@ -3394,23 +3397,22 @@ function Debt(_ref21) {
         flex: 1
       }
     }, /*#__PURE__*/React.createElement("div", {
-      style: {
-        display: "flex",
-        alignItems: "center",
-        gap: 6,
-        marginBottom: 2
-      }
-    }, /*#__PURE__*/React.createElement("div", {
-      style: {
-        fontSize: 12,
-        fontWeight: 800,
-        color: DARK
-      }
-    }, d.name), d.priority && /*#__PURE__*/React.createElement(Tag, {
-      color: "#FF6B6B"
-    }, "\u26A1 \u0E04\u0E27\u0E23\u0E08\u0E31\u0E14\u0E01\u0E48\u0E2D\u0E19"), paidDone[d.name] && /*#__PURE__*/React.createElement(Tag, {
-      color: G
-    }, "\u2713 \u0E3F", paidDone[d.name].toLocaleString())), /*#__PURE__*/React.createElement("div", {
+      style: { marginBottom: 2 }
+    },
+      /*#__PURE__*/React.createElement("div", {
+        style: { display: "flex", alignItems: "center", gap: 5 }
+      },
+        /*#__PURE__*/React.createElement("div", {
+          style: { fontSize: 12, fontWeight: 800, color: DARK }
+        }, d.name),
+        paidDone[d.name] && /*#__PURE__*/React.createElement(Tag, {
+          color: G
+        }, "\u2713 \u0E3F", paidDone[d.name].toLocaleString())
+      ),
+      d.priority && /*#__PURE__*/React.createElement("div", {
+        style: { fontSize: 9, fontWeight: 800, color: "#E85858", marginTop: 2, letterSpacing: ".02em" }
+      }, "\u26A1 \u0E04\u0E27\u0E23\u0E08\u0E31\u0E14\u0E01\u0E48\u0E2D\u0E19")
+    ), /*#__PURE__*/React.createElement("div", {
       style: {
         fontSize: 10,
         color: "#888"
@@ -3427,10 +3429,10 @@ function Debt(_ref21) {
         onClick: function onClick() { setPayModal(d); setPayAmt(String(d.min)); },
         style: {
           padding: "5px 10px", fontSize: 11, fontWeight: 800,
-          background: paidDone[d.name] ? CARD_BG : BTN_PRI_BG,
-          color: paidDone[d.name] ? "#aaa" : DARK,
-          border: paidDone[d.name] ? "1px solid #e0e0e0" : BTN_PRI_BORDER,
-          borderRadius: 99, boxShadow: paidDone[d.name] ? "none" : BTN_PRI_SHADOW,
+          background: paidDone[d.name] ? CARD_BG : d.priority ? BTN_PRI_BG : "transparent",
+          color: paidDone[d.name] ? "#aaa" : d.priority ? DARK : G,
+          border: paidDone[d.name] ? "1px solid #e0e0e0" : d.priority ? BTN_PRI_BORDER : "1.5px solid " + G,
+          borderRadius: 99, boxShadow: paidDone[d.name] ? "none" : d.priority ? BTN_PRI_SHADOW : "none",
           cursor: paidDone[d.name] ? "default" : "pointer", whiteSpace: "nowrap"
         }
       }, paidDone[d.name] ? "\u2713 \u0E0A\u0E33\u0E23\u0E30\u0E41\u0E25\u0E49\u0E27" : React.createElement(React.Fragment, null, React.createElement("img", { src: DEBT_PAY_ICON, alt: "pay", width: 14, height: 14, style: { width: 14, height: 14, verticalAlign: "middle", marginRight: 3, marginBottom: 1 } }), "\u0E0A\u0E33\u0E23\u0E30\u0E2B\u0E19\u0E35\u0E49\u0E40\u0E25\u0E22"))
@@ -3452,7 +3454,7 @@ function Debt(_ref21) {
         color: "#ccc",
         padding: "2px 4px"
       }
-    }, React.createElement("img", { src: DEBT_DEL_ICON, alt: "delete", width: 20, height: 20, style: { width: 20, height: 20, opacity: 0.80, marginTop: 6 } })));
+    }, React.createElement("img", { src: DEBT_DEL_ICON, alt: "delete", width: 16, height: 16, style: { width: 16, height: 16, opacity: 0.45, marginTop: 4 } })));
   }));
 }
 
