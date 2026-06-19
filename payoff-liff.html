@@ -761,21 +761,26 @@ function NBA(_ref0) {
   },
   /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "stretch" } },
     /*#__PURE__*/React.createElement("div", { style: { flex: 1, padding: "14px 12px" } },
-      /*#__PURE__*/React.createElement("div", { style: { marginBottom: 6 } },
-        React.createElement("span", {
-          style: {
-            display: "inline-block",
-            background: spicy ? G + "33" : GOLD_SOFT,
-            border: spicy ? "none" : "1px solid rgba(240,180,41,.40)",
-            color: spicy ? G : "#7A5A12",
-            fontWeight: 900, fontSize: 9, letterSpacing: ".06em",
-            padding: "2px 7px", borderRadius: 99
-          }
-        }, "✦ NEXT BEST ACTION")
+      /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "flex-start", gap: 8 } },
+        /*#__PURE__*/React.createElement(Face, { size: 34, variant: "inline", mood: mood }),
+        /*#__PURE__*/React.createElement("div", { style: { flex: 1 } },
+          /*#__PURE__*/React.createElement("div", { style: { marginBottom: 5 } },
+            React.createElement("span", {
+              style: {
+                display: "inline-block",
+                background: spicy ? G + "33" : GOLD_SOFT,
+                border: spicy ? "none" : "1px solid rgba(240,180,41,.40)",
+                color: spicy ? G : "#7A5A12",
+                fontWeight: 900, fontSize: 9, letterSpacing: ".06em",
+                padding: "2px 7px", borderRadius: 99
+              }
+            }, "✦ NEXT BEST ACTION")
+          ),
+          /*#__PURE__*/React.createElement("div", {
+            style: { fontSize: 13, fontWeight: 700, color: spicy ? "#ddd" : DARK, lineHeight: 1.5, marginBottom: 10 }
+          }, text)
+        )
       ),
-      /*#__PURE__*/React.createElement("div", {
-        style: { fontSize: 13, fontWeight: 700, color: spicy ? "#ddd" : DARK, lineHeight: 1.5, marginBottom: 10 }
-      }, text),
       onAction && /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 6 } },
         /*#__PURE__*/React.createElement("button", {
           className: "sl-press",
@@ -1129,7 +1134,6 @@ function HeroCard(props) {
       padding: "18px 16px 14px",
       marginBottom: 14,
       boxShadow: "0 12px 28px rgba(95,78,34,.14), inset 0 2px 0 rgba(255,255,255,.9)",
-      overflow: "hidden",
       position: "relative"
     }
   },
@@ -1214,7 +1218,18 @@ function HeroCard(props) {
         }})
       )
     ),
-    React.createElement(MascotAsset, { context: mascotContext, mood: mood, variant: "hero" })
+    React.createElement("div", {
+      style: {
+        alignSelf: "flex-end",
+        marginBottom: mascotContext === "debtHero" ? -18 : 0,
+        marginRight: mascotContext === "debtHero" ? -8 : 0,
+        flexShrink: 0
+      }
+    }, React.createElement(MascotAsset, {
+      context: mascotContext, mood: mood,
+      variant: mascotContext === "debtHero" ? null : "hero",
+      size: mascotContext === "debtHero" ? 148 : 80
+    }))
   )
   );
 }
@@ -3357,7 +3372,7 @@ function Debt(_ref21) {
       key: i,
       style: {
         opacity: paidDone[d.name] ? .7 : 1,
-        padding: "10px 12px"
+        padding: "8px 10px"
       }
     }, /*#__PURE__*/React.createElement("div", {
       style: {
