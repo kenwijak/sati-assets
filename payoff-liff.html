@@ -819,7 +819,6 @@ function NBA(_ref0) {
     )
   ));
 }
-}
 
 // ══════════════════════════════════════════════════════════════════════════════
 // CASH FLOW
@@ -3174,7 +3173,7 @@ function Debt(_ref21) {
     onAction: function onAction() {
       return setPayModal(debts.find(function(d){ return d.priority; }) || debts[0]);
     }
-  ), /*#__PURE__*/React.createElement(Card, {
+  }), /*#__PURE__*/React.createElement(Card, {
     style: {
       background: spicy ? DARK : SOFT_GREEN,
       border: "1px solid " + (spicy ? "rgba(99,200,95,.25)" : "rgba(99,200,95,.2)")
@@ -3420,7 +3419,7 @@ function Debt(_ref21) {
           cursor: paidDone[d.name] ? "default" : "pointer", whiteSpace: "nowrap"
         }
       }, paidDone[d.name] ? "\u2713 \u0E0A\u0E33\u0E23\u0E30\u0E41\u0E25\u0E49\u0E27" : React.createElement(React.Fragment, null, React.createElement("img", { src: DEBT_PAY_ICON, alt: "pay", width: 14, height: 14, style: { width: 14, height: 14, verticalAlign: "middle", marginRight: 3, marginBottom: 1 } }), "\u0E0A\u0E33\u0E23\u0E30\u0E2B\u0E19\u0E35\u0E49\u0E40\u0E25\u0E22"))
-    ), /*#__PURE__*/React.createElement(Bar, {
+    )), /*#__PURE__*/React.createElement(Bar, {
       pct: maxDebt > 0 ? d.bal / maxDebt * 100 : 50,
       color: d.color
     }), /*#__PURE__*/React.createElement("button", {
